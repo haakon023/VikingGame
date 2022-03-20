@@ -1,11 +1,11 @@
-package group22.viking.game.states;
+package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class ProfileSettingsState extends State{
+public class LeaderboardState extends State{
     private Texture muteSoundBtn;
-    public ProfileSettingsState(GameStateManager gsm) {
+    public LeaderboardState(GameStateManager gsm) {
         super(gsm);
     }
 
