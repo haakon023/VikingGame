@@ -1,8 +1,9 @@
-package group22.viking.game.states;
+package group22.viking.game.controller.states;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+
+import group22.viking.game.controller.GameStateManager;
 
 public abstract class State {
     //protected OrthographicCamera cam; Do we want this?
