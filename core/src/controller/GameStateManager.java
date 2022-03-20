@@ -1,8 +1,10 @@
-package controller.states;
+package controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
+
+import controller.states.State;
 
 public class GameStateManager {
 

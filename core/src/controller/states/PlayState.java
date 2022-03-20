@@ -3,6 +3,8 @@ package controller.states;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import controller.GameStateManager;
+
 public class PlayState extends State{
     private Texture muteSoundBtn;
     public PlayState(GameStateManager gsm) {

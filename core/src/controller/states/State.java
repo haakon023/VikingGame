@@ -3,6 +3,8 @@ package controller.states;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
+import controller.GameStateManager;
+
 public abstract class State {
     //protected OrthographicCamera cam; Do we want this?
     protected Vector3 mouse;
