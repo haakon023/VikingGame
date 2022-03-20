@@ -1,10 +1,10 @@
-package controller;
+package group22.viking.game.controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
-import controller.states.State;
+import group22.viking.game.controller.states.State;
 
 public class GameStateManager {
 

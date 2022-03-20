@@ -1,11 +1,11 @@
-package controller;
+package group22.viking.game.controller;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import controller.states.MenuState;
+import group22.viking.game.controller.states.MenuState;
 
 public class VikingGame extends ApplicationAdapter {
 	private SpriteBatch batch;

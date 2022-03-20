@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import controller.VikingGame;
+import group22.viking.game.controller.VikingGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
