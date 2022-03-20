@@ -1,7 +1,9 @@
-package group22.viking.game.states;
+package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import group22.viking.game.controller.GameStateManager;
 
 public class MenuState extends State {
     private Texture background;

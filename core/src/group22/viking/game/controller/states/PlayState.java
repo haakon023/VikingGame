@@ -1,11 +1,13 @@
-package group22.viking.game.states;
+package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class LobbyState extends State{
+import group22.viking.game.controller.GameStateManager;
+
+public class PlayState extends State{
     private Texture muteSoundBtn;
-    public LobbyState(GameStateManager gsm) {
+    public PlayState(GameStateManager gsm) {
         super(gsm);
     }
 
