@@ -2,5 +2,4 @@
 <resources>
     <string name="app_name">VikingGame</string>
     <string name="menu_multiplayer">Flerspiller</string>
-    <string name="menu_multiplayer">F</string>
 </resources>
