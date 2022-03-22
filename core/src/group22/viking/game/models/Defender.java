@@ -1,5 +1,5 @@
 package group22.viking.game.models;
 
-public class Defender implements Entity{
+public class Defender extends Entity {
     
 }
