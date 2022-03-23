@@ -95,11 +95,9 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'group22.viking.game/group22.viking.game.AndroidLauncher'
 }
 
-eclipse.project.name = appName + "-android"
-
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:29.2.1')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-firestore'
+    //// ONLY FOR TUTORIAL
+    implementation 'com.google.firebase:firebase-database:20.0.4'
 }
+
+eclipse.project.name = appName + "-android"
