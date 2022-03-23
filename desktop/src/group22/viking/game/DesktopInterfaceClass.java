@@ -5,22 +5,18 @@ import group22.viking.game.controller.firebase.FirebaseInterface;
 public class DesktopInterfaceClass implements FirebaseInterface {
 
     @Override
-    public void someFunction() {
-        System.out.println("DESKTOP");
-    }
-
-    @Override
-    public void FirstFireBaseTest() {
+    public void createGame(Integer p1_health, Boolean p1_wins, Integer p2_health, Boolean p2_wins, Boolean playing) {
 
     }
 
     @Override
-    public void SetOnValueChangedListener() {
+    public void getGame() {
 
     }
 
     @Override
-    public void SetValueInDb(String target, String value) {
+    public void setOnValueChangedGameListener(String game_id) {
 
     }
+
 }

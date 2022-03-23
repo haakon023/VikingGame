@@ -7,12 +7,13 @@ package group22.viking.game.controller.firebase;
 
 public interface FirebaseInterface {
 
-    public void someFunction();
+    public void createGame(Integer p1_health,
+                           Boolean p1_wins,
+                           Integer p2_health,
+                           Boolean p2_wins,
+                           Boolean playing);
 
-    public void FirstFireBaseTest();
+    public void getGame();
 
-    public void SetOnValueChangedListener();
-
-    public void SetValueInDb(String target, String value);
-
+    public void setOnValueChangedGameListener(String game_id);
 }

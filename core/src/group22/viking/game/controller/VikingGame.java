@@ -2,7 +2,6 @@ package group22.viking.game.controller;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.I18NBundle;
@@ -26,12 +25,10 @@ public class VikingGame extends ApplicationAdapter {
 		gsm = new GameStateManager();
 		gsm.push(new MenuState(gsm));
 
-		// test Firebase:
-		_FBIC.someFunction();
-		_FBIC.FirstFireBaseTest();
-		_FBIC.SetOnValueChangedListener();
-		_FBIC.SetValueInDb("message", "this is new text");
-		_FBIC.SetValueInDb("message2", "wow, create a new one");
+		// test Firestore:
+		_FBIC.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
+		_FBIC.createGame(100, false, 94, false, true);
+		_FBIC.getGame();
 
 		// create language bundle
 		// Locale locale = new Locale(Locale.getDefault().getLanguage() , Locale.getDefault().getCountry());
