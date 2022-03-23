@@ -35,54 +35,9 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void createGame(Integer p1_health, Boolean p1_wins, Integer p2_health, Boolean p2_wins, Boolean playing) {
-        // Create a new user with a first and last name
-        Map<String, Object> game = new HashMap<>();
-        game.put("player1_life", p1_health);
-        game.put("player1_wins", p1_wins);
-        game.put("player2_life", p2_health);
-        game.put("player2_wins", p2_wins);
-        game.put("playing", playing);
-
-        // Add a new document with a generated ID
-        db.collection(GAMES_COLLECTION_PATH)
-            .add(game)
-            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error adding document", e);
-                }
-            });
-    }
-
-    @Override
-    public void getGame() {
-        db.collection(GAMES_COLLECTION_PATH)
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                        }
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.getException());
-                    }
-                }
-            });
-    }
-
-    @Override
-    public void setOnValueChangedGameListener(String game_id) {
-        final DocumentReference docRef = db.collection(GAMES_COLLECTION_PATH).document(game_id);
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+    public void setOnValueChangedListener(String collection, String document_id) {
+        DocumentReference documentReference = db.collection(collection).document(document_id);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -103,6 +58,79 @@ public class AndroidInterfaceClass implements FirebaseInterface {
         });
     }
 
+    @Override
+    public void addDocument(String collection, String document_id, Map<String, Object> values) {
+        // TODO make sure, that document does not exist already!!!
 
+        if (document_id == null) {
+            this.addDocumentWithGeneratedId(collection, values);
+        }
+        db.collection(collection)
+            .document(document_id)
+            .set(values)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + document_id);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error adding document", e);
+                }
+            });
+    }
 
+    public void addDocumentWithGeneratedId(String collection, Map<String, Object> values) {
+        db.collection(collection)
+            .add(values)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error adding document", e);
+                }
+            });
+    }
+
+    @Override
+    public void update(String collection, String document_id, Map<String, Object> values) {
+
+    }
+
+    @Override
+    public void get(String collection, String document_id) {
+        db.collection(collection)
+            .document(document_id)
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    // TODO
+                }
+            });
+    }
+
+    public void getAll(String collection) {
+        db.collection(collection)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                }
+            });
+    }
 }

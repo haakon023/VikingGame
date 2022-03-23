@@ -5,15 +5,17 @@ package group22.viking.game.controller.firebase;
 *
  */
 
+import java.util.Map;
+
 public interface FirebaseInterface {
 
-    public void createGame(Integer p1_health,
-                           Boolean p1_wins,
-                           Integer p2_health,
-                           Boolean p2_wins,
-                           Boolean playing);
+    public void setOnValueChangedListener(String collection, String document_id);
 
-    public void getGame();
+    public void addDocument(String collection, String document_id, Map<String, Object> values);
 
-    public void setOnValueChangedGameListener(String game_id);
+    public void update(String collection, String document_id, Map<String, Object> values);
+
+    public void get(String collection, String document_id);
+
+    public void getAll(String collection);
 }
