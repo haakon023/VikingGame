@@ -52,6 +52,6 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      */
     public Profile readProfile(String profileId) {
 
-        return new Profile(null, null, 0, 0, 0);;
+        return new Profile(null, null, 0, 0, 0);
     }
 }

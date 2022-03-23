@@ -8,27 +8,39 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
+import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
+import group22.viking.game.controller.firebase.FirebaseProfileCollection;
 import group22.viking.game.controller.states.MenuState;
 
 public class VikingGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private GameStateManager gsm;
 	private I18NBundle language;
-	FirebaseInterface _FBIC;
 
-	public VikingGame(FirebaseInterface FBIC) { _FBIC = FBIC; }
+	private FirebaseProfileCollection firebaseProfileCollection;
+	private FirebaseGameCollection firebaseGameCollection;
+	// TODO more collections
+
+	public VikingGame(FirebaseInterface firebaseInterface) {
+		this.firebaseGameCollection = new FirebaseGameCollection(firebaseInterface);
+		this.firebaseProfileCollection = new FirebaseProfileCollection(firebaseInterface);
+		// TODO more collections
+	}
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		gsm.push(new MenuState(gsm));
+		gsm.push(new MenuState(gsm,
+				firebaseProfileCollection,
+				firebaseGameCollection));
 
-		// test Firestore:
-		_FBIC.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
-		_FBIC.createGame(100, false, 94, false, true);
-		_FBIC.getGame();
+		// onlye for testing
+		new MenuState(gsm,
+				firebaseProfileCollection,
+				firebaseGameCollection).testFirestore();
+
 
 		// create language bundle
 		// Locale locale = new Locale(Locale.getDefault().getLanguage() , Locale.getDefault().getCountry());

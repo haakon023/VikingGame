@@ -22,6 +22,10 @@ public class GameStateManager {
         states.pop();
     }
 
+    public State get(){
+        return states.peek();
+    }
+
     public void set(State state){
         states.pop();
         states.push(state);

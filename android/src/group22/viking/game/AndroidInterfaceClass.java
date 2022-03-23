@@ -61,9 +61,9 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     @Override
     public void addDocument(String collection, String document_id, Map<String, Object> values) {
         // TODO make sure, that document does not exist already!!!
-
-        if (document_id == null) {
+        if (document_id == null || document_id.isEmpty() || document_id.trim().isEmpty()) {
             this.addDocumentWithGeneratedId(collection, values);
+            return;
         }
         db.collection(collection)
             .document(document_id)
