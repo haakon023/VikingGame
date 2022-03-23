@@ -29,6 +29,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // fix as indicated here: https://stackoverflow.com/questions/49891730/invoke-customs-are-only-supported-starting-with-android-0-min-api-26
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8     //added as a fix //REVIEW: correct Java version?
         targetCompatibility JavaVersion.VERSION_1_8     //added as a fix //REVIEW: correct Java version?
