@@ -45,3 +45,7 @@ task dist(type: Jar) {
 dist.dependsOn classes
 
 eclipse.project.name = appName + "-desktop"
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+}
