@@ -1,14 +1,14 @@
 package group22.viking.game.controller.firebase;
 
-public class FirebaseProfileCollection {
+public class FirebaseProfileCollection extends FirebaseCollection{
 
-    private FirebaseInterface firebaseInterface;
 
     private final static String COLUMN_LOST_GAMES = "lost_games";
     private final static String COLUMN_WON_GAMES = "won_games";
 
     public FirebaseProfileCollection(FirebaseInterface firebaseInterface) {
-        this.firebaseInterface = firebaseInterface;
+        super(firebaseInterface);
+        super.name = "profile";
     }
 
     /**
