@@ -17,6 +17,7 @@ public class VikingGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		gsm.push(new MenuState(gsm));
+		Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
 	}
 
 	@Override
