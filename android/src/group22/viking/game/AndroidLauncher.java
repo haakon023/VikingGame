@@ -12,7 +12,5 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new VikingGame(), config);
-
-		System.out.println(getString(R.string.app_name));
 	}
 }
