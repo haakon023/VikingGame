@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "768887698117",
+    "firebase_url": "https://vikinggame-14d76-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "vikinggame-14d76",
+    "storage_bucket": "vikinggame-14d76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768887698117:android:aecb737c538998ec1036ac",
+        "android_client_info": {
+          "package_name": "group22.viking.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768887698117-hcl9mjruhr7n56rdq8pa9ltft62j2kie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "group22.viking.game",
+            "certificate_hash": "3e5bfac8d575396936f4b0a7d1a34202a996839a"
+          }
+        },
+        {
+          "client_id": "768887698117-h3rpd3et4ahue5smjlrr32qcm97oim6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJQ0jPe4-cWIbpeSDkcVQRpxwJe8H4sco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768887698117-h3rpd3et4ahue5smjlrr32qcm97oim6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

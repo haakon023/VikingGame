@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import group22.viking.game.controller.GameStateManager;
+import group22.viking.game.controller.firebase.FirebaseGameCollection;
+import group22.viking.game.controller.firebase.FirebaseProfileCollection;
 
 public class MenuState extends State {
     private Texture background;
@@ -11,8 +13,16 @@ public class MenuState extends State {
     private Texture multiplayerPlayBtn;
     private Texture leaderboardBtn;
     private Texture muteSoundBtn;
-    public MenuState(GameStateManager gsm) {
+
+    private FirebaseProfileCollection firebaseProfileCollection;
+    private FirebaseGameCollection firebaseGameCollection;
+
+    public MenuState(GameStateManager gsm,
+                     FirebaseProfileCollection firebaseProfileCollection,
+                     FirebaseGameCollection firebaseGameCollection) {
         super(gsm);
+        this.firebaseProfileCollection = firebaseProfileCollection;
+        this.firebaseGameCollection = firebaseGameCollection;
     }
 
     @Override
@@ -39,5 +49,12 @@ public class MenuState extends State {
         multiplayerPlayBtn.dispose();
         leaderboardBtn.dispose();
         muteSoundBtn.dispose();
+    }
+
+    public void testFirestore() {
+        // test Firestore:
+        //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
+        firebaseGameCollection.startGame(0, 0);
+        //firebaseGameCollection.getGame();
     }
 }
