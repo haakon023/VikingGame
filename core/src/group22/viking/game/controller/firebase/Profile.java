@@ -10,7 +10,7 @@ public class Profile {
     public final static String KEY_GAMES_LOST = "games_lost";
     public final static String KEY_AVATAR_ID = "avatar_id";
 
-    private String id;
+    private final String id;
     private String name;
     private int avatarId;
     private int wonGames;

@@ -27,8 +27,7 @@ import java.util.Map;
 
 public class AndroidInterfaceClass implements FirebaseInterface {
 
-    FirebaseFirestore db;
-    final String GAMES_COLLECTION_PATH = "games_test";
+    private FirebaseFirestore db;
 
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
@@ -37,23 +36,20 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     @Override
     public void setOnValueChangedListener(String collection, String document_id) {
         DocumentReference documentReference = db.collection(collection).document(document_id);
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
+        documentReference.addSnapshotListener((@Nullable DocumentSnapshot snapshot,
+                                               @Nullable FirebaseFirestoreException e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
 
-                String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
-                        ? "Local" : "Server";
+            String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+                ? "Local" : "Server";
 
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, source + " data: " + snapshot.getData());
-                } else {
-                    Log.d(TAG, source + " data: null");
-                }
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, source + " data: " + snapshot.getData());
+            } else {
+                Log.d(TAG, source + " data: null");
             }
         });
     }
@@ -68,34 +64,22 @@ public class AndroidInterfaceClass implements FirebaseInterface {
         db.collection(collection)
             .document(document_id)
             .set(values)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.d(TAG, "DocumentSnapshot added with ID: " + document_id);
-                }
+            .addOnSuccessListener((Void unused) -> {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + document_id);
             })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error adding document", e);
-                }
+            .addOnFailureListener((@NonNull Exception e) -> {
+                Log.w(TAG, "Error adding document", e);
             });
     }
 
     public void addDocumentWithGeneratedId(String collection, Map<String, Object> values) {
         db.collection(collection)
             .add(values)
-            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                }
+            .addOnSuccessListener((DocumentReference documentReference) -> {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
             })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error adding document", e);
-                }
+            .addOnFailureListener((@NonNull Exception e) -> {
+                Log.w(TAG, "Error adding document", e);
             });
     }
 
@@ -109,27 +93,21 @@ public class AndroidInterfaceClass implements FirebaseInterface {
         db.collection(collection)
             .document(document_id)
             .get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    firebaseCollection.update(document_id, documentSnapshot.getData());
-                }
+            .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
+                firebaseCollection.update(document_id, documentSnapshot.getData());
             });
     }
 
     public void getAll(String collection) {
         db.collection(collection)
             .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                        }
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.getException());
+            .addOnCompleteListener((@NonNull Task<QuerySnapshot> task) -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
                     }
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
                 }
             });
     }

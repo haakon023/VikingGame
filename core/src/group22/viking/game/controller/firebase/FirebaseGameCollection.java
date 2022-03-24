@@ -19,7 +19,7 @@ public class FirebaseGameCollection extends FirebaseCollection{
     }
 
     public void startGame(int winsPlayer1, int winsPlayer2) {       // REVIEW: Why are there parameters for winning?
-        Map<String, Object> game = new HashMap<String, Object>();
+        Map<String, Object> game = new HashMap<>();
         game.put(KEY_HOST_HEALTH,  MAX_HEALTH);
         game.put(KEY_GUEST_HEALTH, MAX_HEALTH);
         game.put(KEY_HOST_WINS,    winsPlayer1);
@@ -33,7 +33,7 @@ public class FirebaseGameCollection extends FirebaseCollection{
 
     }
 
-    public void setOnValueChangedGameListener(String game_id) {
+    public void setOnValueChangedGameListener(String gameId) {
 
     }
 }

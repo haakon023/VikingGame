@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class FirebaseProfileCollection extends FirebaseCollection{
 
-    private Map<String, Profile> profiles;
+    private final Map<String, Profile> profiles;
 
     private String hostId;
     private String guestId;
@@ -13,16 +13,17 @@ public class FirebaseProfileCollection extends FirebaseCollection{
     public FirebaseProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface);
         super.name = "profile";
+        this.profiles = new HashMap<>();
     }
 
     /**
      * Creates profile entry in database and returns unique profile-id
      *
-     * @param {String} name
-     * @param {int} avatarId
+     * @param name {String}
+     * @param avatarId {int}
      */
     public void createProfile(String name, int avatarId) {
-        Map<String, Object> profileValues = new HashMap<String, Object>();
+        Map<String, Object> profileValues = new HashMap<>();
 
         profileValues.put(Profile.KEY_NAME, name);
         profileValues.put(Profile.KEY_GAMES_WON, 0);
@@ -35,18 +36,18 @@ public class FirebaseProfileCollection extends FirebaseCollection{
     /**
      * Increases the win or lost_game-field in the database by one.
      *
-     * @param {Profile} Profile_profile
-     * @param {boolean} win                 false if lost game
+     * @param profile {Profile}
+     * @param win {boolean}                 false if lost game
      */
     public void addWonLostGameStats(Profile profile, boolean win) {
-        int newCountSum = 0;
+        int newCountSum;
         try {
             newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
         } catch (NotLoadedException e) {
             e.printStackTrace();
             return;
         }
-        Map<String, Object> profileValues = new HashMap<String, Object>();
+        Map<String, Object> profileValues = new HashMap<>();
         profileValues.put(win ? Profile.KEY_GAMES_WON : Profile.KEY_GAMES_LOST, newCountSum);
         this.firebaseInterface.update(this.name, profile.getId(), profileValues);
     }
@@ -54,7 +55,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
     /**
      * Read profile values from Database.
      *
-     * @param {Profile} profileId
+     * @param profileId {String}
      */
     public void readProfile(String profileId) {
         // add profile with unloaded status if profile is not existing yet
@@ -67,6 +68,12 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         this.firebaseInterface.get(this.name, profileId, this);
     }
 
+    /**
+     * Updates local Profile list with loaded data.
+     *
+     * @param documentId {String}
+     * @param data {Map}
+     */
     public void update(String documentId, Map<String, Object> data) {
         Profile profile = this.profiles.get(documentId);
 
