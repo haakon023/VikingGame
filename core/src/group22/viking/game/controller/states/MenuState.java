@@ -16,11 +16,17 @@ import group22.viking.game.controller.GameStateManager;
 
 public class MenuState extends State {
 
+    // TODO: 3/24/2022  replace with singleton
     private float screenWidth = Gdx.graphics.getWidth();
     private float screenHeight = Gdx.graphics.getHeight();
 
-    private Vector2 waveDarkVel;
+    //header
+    private Texture vikingHeader;
+    private Texture stopHeader;
+    private float counter = 0;
+    private boolean toBeStamped = false;
 
+    //for background scene
     private Texture waveDark;
     private Texture waveMedium;
     private Texture waveLight;
@@ -42,7 +48,7 @@ public class MenuState extends State {
     private boolean movingUp = true;
 
 
-    int counter = 0;
+
 
     private Texture title;
 
@@ -62,6 +68,10 @@ public class MenuState extends State {
     public MenuState(GameStateManager gsm) {
         super(gsm);
 
+        //header
+        vikingHeader = new Texture("vikingHeader.png");
+        stopHeader = new Texture("stopHeader.png");
+
         //background
         waveDark = new Texture("waveDark.png");
         castle = new Texture("castle.png");
@@ -70,16 +80,17 @@ public class MenuState extends State {
         waveLight = new Texture("waveLight.png");
         waveVeryLight = new Texture("waveVeryLight.png");
 
-        //buttons
+        //main buttons
         tutorialBtn = new Texture("button.png");
         practiceBtn = new Texture("button.png");
         hostBtn = new Texture("button.png");
         joinBtn = new Texture("button.png");
         profileBtn = new Texture("button.png");
 
-
-
-
+        //small buttons
+        leaderboardBtn = new Texture("leaderboardButton.png");
+        unmutedBtn = new Texture("unmutedButton.png");
+        mutedBtn = new Texture("mutedButton.png");
 
 
 
@@ -105,6 +116,10 @@ public class MenuState extends State {
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.begin(); //Rendering goes below here
 
+
+
+
+        //draw scene
         spriteBatch.draw(waveDark,-600 +(x1/3),0);
         spriteBatch.draw(castle,1500,290+(y4/10),600,500);
         spriteBatch.draw(waveMedium,-300+(x2/3),0);
@@ -115,8 +130,7 @@ public class MenuState extends State {
         x2 += 2;
         if((x1/3) % 296 == 0){x1 = 0;}
         if((x2/3) % 296 == 0){x2 = 0;}
-
-
+        //rock ship
         if(movingRight){
             x3++;
             y3++;
@@ -130,7 +144,7 @@ public class MenuState extends State {
                 movingRight = true;
             }
         }
-
+        //move island
         if(movingUp){
 
             y4++;
@@ -138,20 +152,35 @@ public class MenuState extends State {
                 movingUp = false;
             }
         }else{
-
             y4--;
             if(x3 == -7){
                 movingUp = true;
             }
         }
 
-        //buttons
-        spriteBatch.draw(tutorialBtn,150,screenHeight/2+80,700,150);
-        spriteBatch.draw(practiceBtn,150,screenHeight/2-80-150,700,150);
-        spriteBatch.draw(practiceBtn,screenWidth/2-150,screenHeight/2-150,300,300);
-        spriteBatch.draw(joinBtn,screenWidth/2+(screenWidth/2-700-150),screenHeight/2+80,700,150);
-        spriteBatch.draw(hostBtn,screenWidth/2+(screenWidth/2-700-150),screenHeight/2-80-150,700,150);
 
+        //draw header
+        spriteBatch.draw(vikingHeader,screenWidth/2-430,screenHeight -250,660,200);
+        if (counter == 120) {
+            toBeStamped = true;
+        }
+        if(toBeStamped){
+            spriteBatch.draw(stopHeader,screenWidth/2,screenHeight -380,430,300);
+        }
+        counter++;
+
+
+        //main buttons
+        spriteBatch.draw(tutorialBtn,150,screenHeight/2+80-50,700,150);
+        spriteBatch.draw(practiceBtn,150,screenHeight/2-80-150-50,700,150);
+        spriteBatch.draw(profileBtn,screenWidth/2-150,screenHeight/2-150-50,300,300);
+        spriteBatch.draw(joinBtn,screenWidth/2+(screenWidth/2-700-150),screenHeight/2+80-50,700,150);
+        spriteBatch.draw(hostBtn,screenWidth/2+(screenWidth/2-700-150),screenHeight/2-80-150-50,700,150);
+
+
+        //mini buttons
+        spriteBatch.draw(leaderboardBtn,screenWidth-120-60-120-60,50,120,120);
+        spriteBatch.draw(unmutedBtn,screenWidth-120-60,50,120,120);
 
 
 
