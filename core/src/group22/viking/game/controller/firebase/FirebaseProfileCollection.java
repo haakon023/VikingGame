@@ -10,8 +10,6 @@ public class FirebaseProfileCollection extends FirebaseCollection{
     private String hostId;
     private String guestId;
 
-    boolean loading = false;
-
     public FirebaseProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface);
         super.name = "profile";
@@ -24,7 +22,6 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      * @param {int} avatarId
      */
     public void createProfile(String name, int avatarId) {
-
         Map<String, Object> profileValues = new HashMap<String, Object>();
 
         profileValues.put(Profile.KEY_NAME, name);
@@ -33,9 +30,6 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_AVATAR_ID, avatarId);
 
         this.firebaseInterface.addDocumentWithGeneratedId(this.name, profileValues);
-
-        // return profile
-        //return new Profile(null, null, 0, 0, 0);
     }
 
     /**
@@ -45,9 +39,13 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      * @param {boolean} win                 false if lost game
      */
     public void addWonLostGameStats(Profile profile, boolean win) {
-
-        int newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
-
+        int newCountSum = 0;
+        try {
+            newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
+        } catch (NotLoadedException e) {
+            e.printStackTrace();
+            return;
+        }
         Map<String, Object> profileValues = new HashMap<String, Object>();
         profileValues.put(win ? Profile.KEY_GAMES_WON : Profile.KEY_GAMES_LOST, newCountSum);
         this.firebaseInterface.update(this.name, profile.getId(), profileValues);
@@ -58,9 +56,15 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      *
      * @param {Profile} profileId
      */
-    public void readProfile(Profile profile) {
-        this.loading = true;
-        this.firebaseInterface.get(this.name, profile.getId(), this);
+    public void readProfile(String profileId) {
+        // add profile with unloaded status if profile is not existing yet
+        if(!profiles.containsKey(profileId)) {
+            this.profiles.put(profileId, new Profile(profileId));
+        } else {
+            this.profiles.get(profileId).setIsLoading(true);
+        }
+
+        this.firebaseInterface.get(this.name, profileId, this);
     }
 
     public void update(String documentId, Map<String, Object> data) {
@@ -73,7 +77,23 @@ public class FirebaseProfileCollection extends FirebaseCollection{
                 exception.printStackTrace();
             }
         }
-        
-        this.loading = false;
+
+        profile.setIsLoading(false);
+    }
+
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
+    }
+
+    public void setGuestId(String guestId) {
+        this.guestId = guestId;
+    }
+
+    public Profile getHostProfile() {
+        return this.profiles.get(hostId);
+    }
+
+    public Profile getGuestProfile() {
+        return this.profiles.get(guestId);
     }
 }

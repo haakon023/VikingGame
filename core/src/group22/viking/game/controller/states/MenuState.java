@@ -57,6 +57,6 @@ public class MenuState extends State {
         //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
         firebaseGameCollection.startGame(0, 0);
         //firebaseGameCollection.getGame();
-        firebaseProfileCollection.readProfile(new Profile("hud1tfhZY3WkUIkl7GnC", null, 0 ,0 ,0 ));
+        firebaseProfileCollection.readProfile("hud1tfhZY3WkUIkl7GnC");
     }
 }

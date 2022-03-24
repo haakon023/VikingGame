@@ -37,7 +37,7 @@ public class VikingGame extends ApplicationAdapter {
 				firebaseGameCollection));
 
 		// Test Firestore:
-		// new MenuState(gsm, firebaseProfileCollection, firebaseGameCollection).testFirestore();
+		new MenuState(gsm, firebaseProfileCollection, firebaseGameCollection).testFirestore();
 
 		// create language bundle
 		// Locale locale = new Locale(Locale.getDefault().getLanguage() , Locale.getDefault().getCountry());
