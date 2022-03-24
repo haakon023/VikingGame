@@ -28,8 +28,16 @@ public class GameMap {
         this.attackers = attackers;
     }
 
-    public void addAttackers(Attacker attacker) {
+    public void addAttacker(Attacker attacker) {
         this.attackers.add(attacker);
+    }
+
+    public void removeAttacker(Attacker attacker){
+        for(int i = 0; i < attackers.size(); i++){
+            if(attacker == attackers.get(i)){
+                attackers.remove(i);
+            }
+        }
     }
 
     public ArrayList<PowerUp> getPowerUps() {
@@ -40,8 +48,16 @@ public class GameMap {
         this.powerUps = powerUps;
     }
 
-    public void addPowerUps(PowerUp powerUp) {
+    public void addPowerUp(PowerUp powerUp) {
         this.powerUps.add(powerUp);
+    }
+
+    public void removePowerUp(PowerUp pu){
+        for(int i = 0; i < powerUps.size(); i++){
+            if(pu == powerUps.get(i)){
+                powerUps.remove(i);
+            }
+        }
     }
 
     public ArrayList<Bullet> getBullets() {
@@ -52,7 +68,7 @@ public class GameMap {
         this.bullets = bullets;
     }
 
-    public void addBullets(Bullet bullets) {
+    public void addBullet(Bullet bullets) {
         this.bullets.add(bullets);
     }
 
