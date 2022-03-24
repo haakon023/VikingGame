@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.Profile;
 
 public class MenuState extends State {
     private Texture background;
@@ -56,5 +57,6 @@ public class MenuState extends State {
         //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
         firebaseGameCollection.startGame(0, 0);
         //firebaseGameCollection.getGame();
+        firebaseProfileCollection.readProfile(new Profile("hud1tfhZY3WkUIkl7GnC", null, 0 ,0 ,0 ));
     }
 }

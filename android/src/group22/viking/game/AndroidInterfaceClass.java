@@ -16,13 +16,13 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import group22.viking.game.controller.firebase.FirebaseCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class AndroidInterfaceClass implements FirebaseInterface {
@@ -105,14 +105,14 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void get(String collection, String document_id) {
+    public void get(String collection, String document_id, FirebaseCollection firebaseCollection) {
         db.collection(collection)
             .document(document_id)
             .get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    // TODO
+                    firebaseCollection.update(document_id, documentSnapshot.getData());
                 }
             });
     }

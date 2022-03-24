@@ -5,6 +5,11 @@ package group22.viking.game.controller.firebase;
  */
 public class Profile {
 
+    public final static String KEY_NAME = "name";
+    public final static String KEY_GAMES_WON = "games_won";
+    public final static String KEY_GAMES_LOST = "games_lost";
+    public final static String KEY_AVATAR_ID = "avatar_id";
+
     private String id;
     private String name;
     private int avatarId;
@@ -42,5 +47,24 @@ public class Profile {
     public double getScore() {
         // TODO invent a more elaborated formula :)
         return wonGames - lostGames;
+    }
+
+    public void set(String key, Object value) throws Exception {
+        switch (key) {
+            case KEY_NAME:
+                this.name = (String) value;
+                break;
+            case KEY_GAMES_WON:
+                this.wonGames = ((Integer) value).intValue();
+                break;
+            case KEY_GAMES_LOST:
+                this.lostGames = ((Integer) value).intValue();
+                break;
+            case KEY_AVATAR_ID:
+                this.avatarId = ((Integer) value).intValue();
+                break;
+            default:
+                throw new Exception("Key in database unknown");
+        }
     }
 }

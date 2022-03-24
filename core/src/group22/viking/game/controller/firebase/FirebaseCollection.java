@@ -1,5 +1,7 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.Map;
+
 public abstract class FirebaseCollection {
 
     FirebaseInterface firebaseInterface;
@@ -7,5 +9,9 @@ public abstract class FirebaseCollection {
 
     public FirebaseCollection(FirebaseInterface firebaseInterface) {
         this.firebaseInterface = firebaseInterface;
+    }
+
+    public void update(String documentId, Map<String, Object> data) {
+
     }
 }

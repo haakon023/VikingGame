@@ -1,10 +1,16 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FirebaseProfileCollection extends FirebaseCollection{
 
+    private Map<String, Profile> profiles;
 
-    private final static String COLUMN_LOST_GAMES = "lost_games";
-    private final static String COLUMN_WON_GAMES = "won_games";
+    private String hostId;
+    private String guestId;
+
+    boolean loading = false;
 
     public FirebaseProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface);
@@ -16,15 +22,20 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      *
      * @param {String} name
      * @param {int} avatarId
-     *
-     * @return {Profile} new profile
      */
-    public Profile createProfile(String name, int avatarId) {
+    public void createProfile(String name, int avatarId) {
 
-        // TODO
+        Map<String, Object> profileValues = new HashMap<String, Object>();
+
+        profileValues.put(Profile.KEY_NAME, name);
+        profileValues.put(Profile.KEY_GAMES_WON, 0);
+        profileValues.put(Profile.KEY_GAMES_LOST, 0);
+        profileValues.put(Profile.KEY_AVATAR_ID, avatarId);
+
+        this.firebaseInterface.addDocumentWithGeneratedId(this.name, profileValues);
 
         // return profile
-        return new Profile(null, null, 0, 0, 0);
+        //return new Profile(null, null, 0, 0, 0);
     }
 
     /**
@@ -32,26 +43,37 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      *
      * @param {Profile} Profile_profile
      * @param {boolean} win                 false if lost game
-     *
-     * @return {Profile} updated profile
      */
-    public Profile addWonLostGameStats(Profile profile, boolean win) { // TODO use Profile-class later
-        String fieldId = win ? COLUMN_WON_GAMES : COLUMN_LOST_GAMES;
+    public void addWonLostGameStats(Profile profile, boolean win) {
 
-        // TODO
+        int newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
 
-        // return updated profile
-        return new Profile(null, null, 0, 0, 0);
+        Map<String, Object> profileValues = new HashMap<String, Object>();
+        profileValues.put(win ? Profile.KEY_GAMES_WON : Profile.KEY_GAMES_LOST, newCountSum);
+        this.firebaseInterface.update(this.name, profile.getId(), profileValues);
     }
 
     /**
      * Read profile values from Database.
      *
-     * @param profileId
-     * @return {Profile} profile
+     * @param {Profile} profileId
      */
-    public Profile readProfile(String profileId) {
+    public void readProfile(Profile profile) {
+        this.loading = true;
+        this.firebaseInterface.get(this.name, profile.getId(), this);
+    }
 
-        return new Profile(null, null, 0, 0, 0);
+    public void update(String documentId, Map<String, Object> data) {
+        Profile profile = this.profiles.get(documentId);
+
+        for(Map.Entry<String, Object> e : data.entrySet()) {
+            try {
+                profile.set(e.getKey(), e.getValue());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        
+        this.loading = false;
     }
 }
