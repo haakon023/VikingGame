@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class FirebaseGameCollection extends FirebaseCollection{
 
-    private final int MAX_HEALTH = 100;
+    private final int MAX_HEALTH = 100;     // We won't have permanent powerups, right?
 
     private final static String KEY_HOST_HEALTH = "health_host";
     private final static String KEY_GUEST_HEALTH = "health_guest";
@@ -18,8 +18,7 @@ public class FirebaseGameCollection extends FirebaseCollection{
         super.name = "game";
     }
 
-    public void startGame(int winsPlayer1, int winsPlayer2) {
-
+    public void startGame(int winsPlayer1, int winsPlayer2) {       // REVIEW: Why are there parameters for winning?
         Map<String, Object> game = new HashMap<String, Object>();
         game.put(KEY_HOST_HEALTH,  MAX_HEALTH);
         game.put(KEY_GUEST_HEALTH, MAX_HEALTH);
