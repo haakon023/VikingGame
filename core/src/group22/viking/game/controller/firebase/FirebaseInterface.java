@@ -14,11 +14,13 @@ public interface FirebaseInterface {
 
     void addDocumentWithGeneratedId(String collection,
                                     Map<String, Object> values,
-                                    OnGetDataListener listener);
+                                    OnPostDataListener listener);
 
     void update(String collection, String document_id, Map<String, Object> values);
 
-    void get(String collection, String document_id, FirebaseCollection firebaseCollection);
+    void get(String collection,
+             String documentId,
+             OnGetDataListener listener);
 
     void getAll(String collection);
 }

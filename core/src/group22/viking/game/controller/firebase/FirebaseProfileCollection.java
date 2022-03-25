@@ -36,16 +36,18 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         this.firebaseInterface.addDocumentWithGeneratedId(
                 this.name,
                 profileValues,
-                new OnGetDataListener() {
+                new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
                         Profile profile = new Profile(documentId);
                         that.profiles.put(documentId, new Profile(documentId));
-                        listener.onSuccess(profile);
+                        that.hostId = documentId;
+                        System.out.println("Host is: " + documentId);
+                        that.readProfile(documentId, listener);
                     }
                     @Override
                     public void onFailure() {
-                        System.out.println("Failure.");
+                        System.out.println("Saving profile failed.");
                         listener.onFailure();
                     }
                 });
@@ -58,13 +60,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      * @param win {boolean}                 false if lost game
      */
     public void addWonLostGameStats(Profile profile, boolean win) {
-        int newCountSum;
-        try {
-            newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
-        } catch (NotLoadedException e) {
-            e.printStackTrace();
-            return;
-        }
+        long newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
         Map<String, Object> profileValues = new HashMap<>();
         profileValues.put(win ? Profile.KEY_GAMES_WON : Profile.KEY_GAMES_LOST, newCountSum);
         this.firebaseInterface.update(this.name, profile.getId(), profileValues);
@@ -75,36 +71,41 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      *
      * @param profileId {String}
      */
-    public void readProfile(String profileId) {
+    public void readProfile(String profileId, final OnCollectionUpdatedListener listener) {
         // add profile with unloaded status if profile is not existing yet
         if(!profiles.containsKey(profileId)) {
             this.profiles.put(profileId, new Profile(profileId));
         } else {
-            this.profiles.get(profileId).setIsLoading(true);
+            this.profiles.get(profileId).setIsLoaded(false);
         }
 
-        this.firebaseInterface.get(this.name, profileId, this);
-    }
+        final FirebaseProfileCollection that = this;
 
-    /**
-     * Updates local Profile list with loaded data.
-     *
-     * @param documentId {String}
-     * @param data {Map}
-     */
-    public void update(String documentId, Map<String, Object> data) {
-        Profile profile = this.profiles.get(documentId);
+        this.firebaseInterface.get(
+                this.name,
+                this.hostId,
+                new OnGetDataListener() {
+                    @Override
+                    public void onSuccess(String documentId, Map<String, Object> data) {
+                        Profile profile = that.profiles.get(documentId);
+                        for(Map.Entry<String, Object> e : data.entrySet()) {
+                            try {
+                                profile.set(e.getKey(), e.getValue());
+                            } catch (FieldKeyUnknownException exception) {
+                                exception.printStackTrace();
+                            }
+                        }
+                        profile.setIsLoaded(true);
+                        listener.onSuccess(profile);
+                    }
 
-        for(Map.Entry<String, Object> e : data.entrySet()) {
-            try {
-                profile.set(e.getKey(), e.getValue());
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
-
-        profile.setIsLoading(false);
-        // TODO notify some thread to continue...
+                    @Override
+                    public void onFailure() {
+                        System.out.println("Loading profile failed.");
+                        listener.onFailure();
+                    }
+                }
+        );
     }
 
     public void setHostId(String hostId) {
@@ -115,12 +116,19 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         this.guestId = guestId;
     }
 
+    public Profile getProfileById(String id) {
+        if (!profiles.containsKey(id)) {
+            return null;
+        }
+        return profiles.get(id);
+    }
+
     public Profile getHostProfile() {
-        return this.profiles.get(hostId);
+        return getProfileById(hostId);
     }
 
     public Profile getGuestProfile() {
-        return this.profiles.get(guestId);
+        return getProfileById(guestId);
     }
 
 }

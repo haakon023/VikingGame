@@ -3,95 +3,73 @@ package group22.viking.game.controller.firebase;
 /**
  * Refers to data in database.
  */
-public class Profile {
+public class Profile extends FirebaseDocument{
 
     public final static String KEY_NAME = "name";
     public final static String KEY_GAMES_WON = "games_won";
     public final static String KEY_GAMES_LOST = "games_lost";
     public final static String KEY_AVATAR_ID = "avatar_id";
 
-    private final String id;
     private String name;
-    private int avatarId;
-    private int wonGames;
-    private int lostGames;
+    private long avatarId;
+    private long wonGames;
+    private long lostGames;
 
-    private boolean isLoading;
-
-    public Profile(String id, String name, int avatarId, int wonGames, int lostGames) {
-        this.id = id;
+    public Profile(String id, String name, long avatarId, long wonGames, long lostGames) {
+        super(id);
         this.name = name;
         this.avatarId = avatarId;
         this.wonGames = wonGames;
         this.lostGames = lostGames;
-
-        this.isLoading = false;
     }
 
     public Profile(String id) {
-        this.id = id;
+        super(id);
         this.name = null;
-        this.avatarId = 0;
-        this.wonGames = 0;
-        this.lostGames = 0;
+        this.avatarId = -1;
+        this.wonGames = -1;
+        this.lostGames = -1;
 
-        this.isLoading = true;
+        this.isLoaded = false;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() throws NotLoadedException {
-        if(this.isLoading) throw new NotLoadedException();
+    public String getName() {
         return name;
     }
 
-    public int getAvatarId() throws NotLoadedException {
-        if(this.isLoading) throw new NotLoadedException();
+    public long getAvatarId() {
         return avatarId;
     }
 
-    public int getWonGames() throws NotLoadedException {
-        if(this.isLoading) throw new NotLoadedException();
+    public long getWonGames() {
         return wonGames;
     }
 
-    public int getLostGames() throws NotLoadedException {
-        if(this.isLoading) throw new NotLoadedException();
+    public long getLostGames() {
         return lostGames;
     }
 
-    public double getScore() throws NotLoadedException {
-        if(this.isLoading) throw new NotLoadedException();
+    public double getScore() {
         // TODO invent a more elaborated formula :)
         return wonGames - lostGames;
     }
 
-    public void set(String key, Object value) throws Exception {
+    public void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
             case KEY_NAME:
                 this.name = (String) value;
                 break;
             case KEY_GAMES_WON:
-                this.wonGames = (Integer) value;
+                this.wonGames = (Long) value;
                 break;
             case KEY_GAMES_LOST:
-                this.lostGames = (Integer) value;
+                this.lostGames = (Long) value;
                 break;
             case KEY_AVATAR_ID:
-                this.avatarId = (Integer) value;
+                this.avatarId = (Long) value;
                 break;
             default:
                 throw new FieldKeyUnknownException();
         }
-    }
-
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-    public void setIsLoading(boolean isLoading) {
-        this.isLoading = isLoading;
     }
 }

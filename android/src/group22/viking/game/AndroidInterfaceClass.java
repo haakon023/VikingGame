@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import group22.viking.game.controller.firebase.FirebaseCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.OnGetDataListener;
+import group22.viking.game.controller.firebase.OnPostDataListener;
 
 import static android.content.ContentValues.TAG;
 
@@ -72,19 +73,16 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     @Override
     public void addDocumentWithGeneratedId(String collection,
                                            Map<String, Object> values,
-                                           OnGetDataListener listener) {
+                                           OnPostDataListener listener) {
         db.collection(collection)
-            .add(values)
+                .add(values)
                 .addOnSuccessListener((DocumentReference) -> {
                     listener.onSuccess(DocumentReference.getId());
+                })
+                .addOnFailureListener((@NonNull Exception e) -> {
+                    Log.w(TAG, "Error loading document", e);
+                    listener.onFailure();
                 });
-            /*.addOnSuccessListener((DocumentReference documentReference) -> {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                firebaseCollection.addEntryById(documentReference.getId(), requestId);
-            })
-            .addOnFailureListener((@NonNull Exception e) -> {
-                Log.w(TAG, "Error adding document", e);
-            });*/
     }
 
     @Override
@@ -93,12 +91,12 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void get(String collection, String document_id, FirebaseCollection firebaseCollection) {
+    public void get(String collection, String documentId, OnGetDataListener listener) {
         db.collection(collection)
-            .document(document_id)
+            .document(documentId)
             .get()
             .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
-                firebaseCollection.update(document_id, documentSnapshot.getData());
+                listener.onSuccess(documentId, documentSnapshot.getData());
             });
     }
 

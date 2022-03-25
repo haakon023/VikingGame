@@ -4,6 +4,8 @@ import java.util.Map;
 
 import group22.viking.game.controller.firebase.FirebaseCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
+import group22.viking.game.controller.firebase.OnGetDataListener;
+import group22.viking.game.controller.firebase.OnPostDataListener;
 
 public class DesktopInterfaceClass implements FirebaseInterface {
 
@@ -19,7 +21,7 @@ public class DesktopInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void addDocumentWithGeneratedId(String collection, Map<String, Object> values) {
+    public void addDocumentWithGeneratedId(String collection, Map<String, Object> values, OnPostDataListener listener) {
 
     }
 
@@ -29,7 +31,7 @@ public class DesktopInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void get(String collection, String document_id, FirebaseCollection firebaseCollection) {
+    public void get(String collection, String documentId, OnGetDataListener listener) {
 
     }
 
