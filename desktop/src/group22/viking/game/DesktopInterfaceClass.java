@@ -11,12 +11,12 @@ public class DesktopInterfaceClass implements FirebaseInterface {
 
 
     @Override
-    public void setOnValueChangedListener(String collection, String document_id) {
+    public void setOnValueChangedListener(String collection, String document_id, OnGetDataListener listener) {
 
     }
 
     @Override
-    public void addDocument(String collection, String document_id, Map<String, Object> values) {
+    public void addDocument(String collection, String document_id, Map<String, Object> values, OnPostDataListener listener) {
 
     }
 
@@ -26,7 +26,7 @@ public class DesktopInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void update(String collection, String document_id, Map<String, Object> values) {
+    public void update(String collection, String document_id, Map<String, Object> values, OnPostDataListener listener) {
 
     }
 
@@ -36,7 +36,7 @@ public class DesktopInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void getAll(String collection) {
+    public void getAll(String collection, OnGetDataListener listener) {
 
     }
 }
