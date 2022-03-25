@@ -32,7 +32,10 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void setOnValueChangedListener(String collection, String document_id) {
+    public void setOnValueChangedListener(String collection,
+                                          String document_id,
+                                          OnGetDataListener listener) {
+
         DocumentReference documentReference = db.collection(collection).document(document_id);
         documentReference.addSnapshotListener((@Nullable DocumentSnapshot snapshot,
                                                @Nullable FirebaseFirestoreException e) -> {
@@ -53,7 +56,10 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void addDocument(String collection, String document_id, Map<String, Object> values) {
+    public void addDocument(String collection,
+                            String document_id,
+                            Map<String, Object> values,
+                            OnPostDataListener listener) {
         // TODO make sure, that document does not exist already!!!
         if (document_id == null || document_id.isEmpty() || document_id.trim().isEmpty()) {
             //this.addDocumentWithGeneratedId(collection, values); //TODO
@@ -86,7 +92,10 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void update(String collection, String document_id, Map<String, Object> values) {
+    public void update(String collection,
+                       String document_id,
+                       Map<String, Object> values,
+                       OnPostDataListener listener) {
 
     }
 
@@ -100,7 +109,8 @@ public class AndroidInterfaceClass implements FirebaseInterface {
             });
     }
 
-    public void getAll(String collection) {
+    @Override
+    public void getAll(String collection, OnGetDataListener listener) {
         db.collection(collection)
             .get()
             .addOnCompleteListener((@NonNull Task<QuerySnapshot> task) -> {

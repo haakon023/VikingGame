@@ -8,19 +8,28 @@ import java.util.Map;
 
 public interface FirebaseInterface {
 
-    void setOnValueChangedListener(String collection, String document_id);
+    void setOnValueChangedListener(String collection,
+                                   String document_id,
+                                   OnGetDataListener listener);
 
-    void addDocument(String collection, String document_id, Map<String, Object> values);
+    void addDocument(String collection,
+                     String document_id,
+                     Map<String, Object> values,
+                     OnPostDataListener listener);
 
     void addDocumentWithGeneratedId(String collection,
                                     Map<String, Object> values,
                                     OnPostDataListener listener);
 
-    void update(String collection, String document_id, Map<String, Object> values);
+    void update(String collection,
+                String document_id,
+                Map<String, Object> values,
+                OnPostDataListener listener);
 
     void get(String collection,
              String documentId,
              OnGetDataListener listener);
 
-    void getAll(String collection);
+    void getAll(String collection,
+                OnGetDataListener listener);
 }
