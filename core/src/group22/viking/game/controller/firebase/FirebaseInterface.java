@@ -12,7 +12,9 @@ public interface FirebaseInterface {
 
     void addDocument(String collection, String document_id, Map<String, Object> values);
 
-    void addDocumentWithGeneratedId(String collection, Map<String, Object> values);
+    void addDocumentWithGeneratedId(String collection,
+                                    Map<String, Object> values,
+                                    OnGetDataListener listener);
 
     void update(String collection, String document_id, Map<String, Object> values);
 

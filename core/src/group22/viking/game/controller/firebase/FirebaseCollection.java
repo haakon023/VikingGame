@@ -14,4 +14,8 @@ public abstract class FirebaseCollection {
     public void update(String documentId, Map<String, Object> data) {
 
     }
+
+    public void addEntryById(String documentId, int requestId) {
+
+    }
 }

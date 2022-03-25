@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
+import group22.viking.game.controller.firebase.OnGetDataListener;
 import group22.viking.game.controller.firebase.Profile;
 
 public class MenuState extends State {
@@ -55,8 +57,44 @@ public class MenuState extends State {
     public void testFirestore() {
         // test Firestore:
         //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
-        firebaseGameCollection.startGame(0, 0);
+        //firebaseGameCollection.startGame(0, 0);
         //firebaseGameCollection.getGame();
-        firebaseProfileCollection.readProfile("hud1tfhZY3WkUIkl7GnC");
+        //firebaseProfileCollection.readProfile("hud1tfhZY3WkUIkl7GnC");
+        userSubmitsCreateProfile("Olaf der Tester", 4);
+    }
+
+    private void userSubmitsCreateProfile(String name, int avatarId) {
+
+        firebaseProfileCollection.createProfile(name, avatarId, new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(Profile profile) {
+                System.out.println("Profile created: " + profile.getId());
+            }
+            @Override
+            public void onFailure() {
+                System.out.println("Failure.");
+            }
+        });
+
+        /*final MenuState that = this;
+        Object notifiable = new Object();
+        synchronized (this) {
+            that.setLoading(true);
+            System.out.println("Creating Profile...");
+            firebaseProfileCollection.createProfile(name, avatarId, this);
+
+            this.wait();
+            System.out.println("Successfully created Profile");
+
+            that.setLoading(false);
+        }*/
+    }
+
+    private void updateOwnAvatar(int avatarId) {
+
+    }
+    
+    public void setLoading(boolean isLoading){
+        
     }
 }

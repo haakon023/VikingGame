@@ -2,15 +2,11 @@ package group22.viking.game;
 
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -18,6 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import group22.viking.game.controller.firebase.FirebaseCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
+import group22.viking.game.controller.firebase.OnGetDataListener;
 
 import static android.content.ContentValues.TAG;
 
@@ -58,7 +55,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     public void addDocument(String collection, String document_id, Map<String, Object> values) {
         // TODO make sure, that document does not exist already!!!
         if (document_id == null || document_id.isEmpty() || document_id.trim().isEmpty()) {
-            this.addDocumentWithGeneratedId(collection, values);
+            //this.addDocumentWithGeneratedId(collection, values); //TODO
             return;
         }
         db.collection(collection)
@@ -72,15 +69,22 @@ public class AndroidInterfaceClass implements FirebaseInterface {
             });
     }
 
-    public void addDocumentWithGeneratedId(String collection, Map<String, Object> values) {
+    @Override
+    public void addDocumentWithGeneratedId(String collection,
+                                           Map<String, Object> values,
+                                           OnGetDataListener listener) {
         db.collection(collection)
             .add(values)
-            .addOnSuccessListener((DocumentReference documentReference) -> {
+                .addOnSuccessListener((DocumentReference) -> {
+                    listener.onSuccess(DocumentReference.getId());
+                });
+            /*.addOnSuccessListener((DocumentReference documentReference) -> {
                 Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                firebaseCollection.addEntryById(documentReference.getId(), requestId);
             })
             .addOnFailureListener((@NonNull Exception e) -> {
                 Log.w(TAG, "Error adding document", e);
-            });
+            });*/
     }
 
     @Override

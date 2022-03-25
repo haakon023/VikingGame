@@ -1,5 +1,6 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      * @param name {String}
      * @param avatarId {int}
      */
-    public void createProfile(String name, int avatarId) {
+    public void createProfile(String name, int avatarId, final OnCollectionUpdatedListener listener) {
         Map<String, Object> profileValues = new HashMap<>();
 
         profileValues.put(Profile.KEY_NAME, name);
@@ -30,7 +31,24 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_GAMES_LOST, 0);
         profileValues.put(Profile.KEY_AVATAR_ID, avatarId);
 
-        this.firebaseInterface.addDocumentWithGeneratedId(this.name, profileValues);
+        final FirebaseProfileCollection that = this;
+
+        this.firebaseInterface.addDocumentWithGeneratedId(
+                this.name,
+                profileValues,
+                new OnGetDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        Profile profile = new Profile(documentId);
+                        that.profiles.put(documentId, new Profile(documentId));
+                        listener.onSuccess(profile);
+                    }
+                    @Override
+                    public void onFailure() {
+                        System.out.println("Failure.");
+                        listener.onFailure();
+                    }
+                });
     }
 
     /**
@@ -86,6 +104,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         }
 
         profile.setIsLoading(false);
+        // TODO notify some thread to continue...
     }
 
     public void setHostId(String hostId) {
@@ -103,4 +122,5 @@ public class FirebaseProfileCollection extends FirebaseCollection{
     public Profile getGuestProfile() {
         return this.profiles.get(guestId);
     }
+
 }
