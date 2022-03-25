@@ -33,14 +33,15 @@ public class AndroidInterfaceClass implements FirebaseInterface {
 
     @Override
     public void setOnValueChangedListener(String collection,
-                                          String document_id,
+                                          String documentId,
                                           OnGetDataListener listener) {
 
-        DocumentReference documentReference = db.collection(collection).document(document_id);
+        DocumentReference documentReference = db.collection(collection).document(documentId);
         documentReference.addSnapshotListener((@Nullable DocumentSnapshot snapshot,
                                                @Nullable FirebaseFirestoreException e) -> {
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e);
+                listener.onFailure();
                 return;
             }
 
@@ -49,30 +50,34 @@ public class AndroidInterfaceClass implements FirebaseInterface {
 
             if (snapshot != null && snapshot.exists()) {
                 Log.d(TAG, source + " data: " + snapshot.getData());
+                listener.onSuccess(documentId, snapshot.getData());
             } else {
                 Log.d(TAG, source + " data: null");
+                listener.onFailure(); // TODO @Sacha right? Is this a failure
             }
         });
     }
 
     @Override
     public void addDocument(String collection,
-                            String document_id,
+                            String documentId,
                             Map<String, Object> values,
                             OnPostDataListener listener) {
         // TODO make sure, that document does not exist already!!!
-        if (document_id == null || document_id.isEmpty() || document_id.trim().isEmpty()) {
-            //this.addDocumentWithGeneratedId(collection, values); //TODO
+        // comment: If this function is used at all...?
+        if (documentId == null || documentId.isEmpty() || documentId.trim().isEmpty()) {
+            this.addDocumentWithGeneratedId(collection, values, listener);
             return;
         }
         db.collection(collection)
-            .document(document_id)
+            .document(documentId)
             .set(values)
             .addOnSuccessListener((Void unused) -> {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + document_id);
+                listener.onSuccess(documentId);
             })
             .addOnFailureListener((@NonNull Exception e) -> {
                 Log.w(TAG, "Error adding document", e);
+                listener.onFailure();
             });
     }
 
@@ -82,8 +87,8 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                                            OnPostDataListener listener) {
         db.collection(collection)
                 .add(values)
-                .addOnSuccessListener((DocumentReference) -> {
-                    listener.onSuccess(DocumentReference.getId());
+                .addOnSuccessListener((DocumentReference documentReference) -> {
+                    listener.onSuccess(documentReference.getId());
                 })
                 .addOnFailureListener((@NonNull Exception e) -> {
                     Log.w(TAG, "Error loading document", e);
@@ -96,7 +101,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                        String document_id,
                        Map<String, Object> values,
                        OnPostDataListener listener) {
-
+        //TODO
     }
 
     @Override
@@ -117,9 +122,11 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
+                        listener.onSuccess(document.getId(), document.getData()); // TODO check how to handle multiple documents
                     }
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());
+                    listener.onFailure();
                 }
             });
     }
