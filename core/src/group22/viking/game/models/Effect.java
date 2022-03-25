@@ -13,8 +13,6 @@ public class Effect {
         return shootingFrequencyEffect;
     }
 
-    
-
     public float getDuration() {
         return duration;
     }

@@ -3,14 +3,7 @@ package group22.viking.game.models;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
-public class Entity {
-    public String getName() {
-        return name;
-    }
-
-    protected void setName(String name) {
-        this.name = name;
-    }
+public abstract class Entity {
 
     String name;
     Sprite sprite;
@@ -22,4 +15,12 @@ public class Entity {
     
     Vector3 position;
     Vector3 direction;
+
+    public String getName() {
+        return name;
+    }
+
+    protected void setName(String name) {
+        this.name = name;
+    }
 }
