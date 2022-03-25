@@ -59,11 +59,30 @@ public class FirebaseProfileCollection extends FirebaseCollection{
      * @param profile {Profile}
      * @param win {boolean}                 false if lost game
      */
-    public void addWonLostGameStats(Profile profile, boolean win) {
-        long newCountSum = win ? profile.getWonGames() + 1: profile.getLostGames() + 1;
+    public void addFinishedGame(Profile profile,
+                                boolean win,
+                                final OnCollectionUpdatedListener listener)
+    {
+        profile.setIsLoaded(false);
+        profile.addFinishedGame(win);
+
         Map<String, Object> profileValues = new HashMap<>();
-        profileValues.put(win ? Profile.KEY_GAMES_WON : Profile.KEY_GAMES_LOST, newCountSum);
-        this.firebaseInterface.update(this.name, profile.getId(), profileValues);
+        profileValues.put(Profile.KEY_GAMES_WON, profile.getWonGames());
+        profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
+
+        final FirebaseProfileCollection that = this;
+
+        this.firebaseInterface.update(this.name, profile.getId(), profileValues, new OnPostDataListener() {
+            @Override
+            public void onSuccess(String documentId) {
+                that.readProfile(documentId, listener);
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
+        });
     }
 
     /**

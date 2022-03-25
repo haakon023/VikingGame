@@ -72,4 +72,12 @@ public class Profile extends FirebaseDocument{
                 throw new FieldKeyUnknownException();
         }
     }
+
+    public void addFinishedGame(boolean win) {
+        if(win) {
+            wonGames++;
+        } else {
+            lostGames++;
+        }
+    }
 }

@@ -26,7 +26,17 @@ public class FirebaseGameCollection extends FirebaseCollection{
         game.put(KEY_GUEST_WINS,   winsPlayer2);
         game.put(KEY_PLAYING,   true);
 
-        firebaseInterface.addDocument(name, null, game);
+        firebaseInterface.addDocument(name, null, game, new OnPostDataListener() {
+            @Override
+            public void onSuccess(String documentId) {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
     public void getGame() {
