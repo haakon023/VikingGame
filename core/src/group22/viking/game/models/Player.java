@@ -2,11 +2,11 @@ package group22.viking.game.models;
 
 public class Player {
     private String name;
-    private Integer avatarId;
-    private Integer health;
+    private int avatarId;
+    private int health;
     private boolean isLocal;
 
-    public Player(String name, Integer avatarId) {
+    public Player(String name, int avatarId) {
         this.name = name;
         this.avatarId = avatarId;
     }
@@ -14,25 +14,20 @@ public class Player {
     public String getName() {
         return name;
     }
-
-    /* Not sure if it is necessary to be able to change you name.
-    public void setName(String name) {
-        this.name = name;
-    }
-    */
-    public Integer getAvatarId() {
+    
+    public int getAvatarId() {
         return avatarId;
     }
 
-    public void setAvatarId(Integer avatarId) {
+    public void setAvatarId(int avatarId) {
         this.avatarId = avatarId;
     }
 
-    public Integer getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public void setHealth(Integer health) {
+    public void setHealth(int health) {
         this.health = health;
     }
 

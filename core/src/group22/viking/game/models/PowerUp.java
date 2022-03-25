@@ -2,7 +2,7 @@ package group22.viking.game.models;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class PowerUp {
+public class PowerUp extends Entity{
     private Vector2 position;
     private Vector2 velocity;
     private float duration;
