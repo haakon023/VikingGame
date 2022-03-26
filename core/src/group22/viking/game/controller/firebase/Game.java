@@ -15,6 +15,7 @@ public class Game extends FirebaseDocument{
     public final static String KEY_GUEST_HEALTH = "guest_health";
 
     private boolean isRunning;
+    private boolean isHost;
     private long wonGamesHost;
     private long wonGamesGuest;
     private long healthHost;
@@ -28,40 +29,29 @@ public class Game extends FirebaseDocument{
     }
 
     /**
-     * New game, where the won/lost stats are known.
-     *
-     * @param host {Profile}
-     * @param guest {Profile}
-     * @param wonGamesHost {long}
-     * @param wonGamesGuest {long}
-     */
-    public Game(Profile host, Profile guest, long wonGamesHost, long wonGamesGuest) {
-        super(host.getId() + ID_SEPARATOR + guest.getId());
-        this.isRunning = true;
-        this.wonGamesHost = wonGamesHost;
-        this.wonGamesGuest = wonGamesGuest;
-        this.healthHost = INITIAL_HEALTH;
-        this.healthGuest = INITIAL_HEALTH;
-    }
-
-    /**
      * New game, where players never played against each other. (With this host)
      *
      * @param host {Profile}
      * @param guest {Profile}
      */
-    public Game(Profile host, Profile guest) {
+    public Game(Profile host, Profile guest, boolean isHost) {
         super(host.getId() + ID_SEPARATOR + guest.getId());
+        super.isLoaded = false;
+
         this.isRunning = true;
-        this.wonGamesHost = 0;
-        this.wonGamesGuest = 0;
+        this.isHost = isHost;
+        this.wonGamesHost = -1;
+        this.wonGamesGuest = -1;
         this.healthHost = INITIAL_HEALTH;
         this.healthGuest = INITIAL_HEALTH;
     }
 
-
     public boolean isRunning() {
         return isRunning;
+    }
+
+    public boolean isHost() {
+        return isHost;
     }
 
     public long getWonGamesHost() {
@@ -78,6 +68,21 @@ public class Game extends FirebaseDocument{
 
     public long getHealthHost() {
         return healthHost;
+    }
+
+    void setWonGamesGuest(long wonGamesGuest) {
+        this.wonGamesGuest = wonGamesGuest;
+    }
+
+    void setWonGamesHost(long wonGamesHost) {
+        this.wonGamesHost = wonGamesHost;
+    }
+
+    synchronized long reduceOwnHealth(long damage) {
+        if(isHost) {
+            return healthHost -= damage;
+        }
+        return healthGuest -= damage;
     }
 
     public void set(String key, Object value) throws FieldKeyUnknownException {

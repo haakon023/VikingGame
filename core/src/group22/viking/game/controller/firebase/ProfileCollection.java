@@ -3,12 +3,14 @@ package group22.viking.game.controller.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The ProfileCollection follows the concept: First write data in the database, and save it to the
+ * local collection AFTER a confirmation of the server.
+ */
 public class ProfileCollection extends FirebaseCollection{
 
     private String hostId;
     private String guestId;
-
-
 
     public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null));
@@ -70,7 +72,7 @@ public class ProfileCollection extends FirebaseCollection{
 
         final ProfileCollection that = this;
 
-        this.firebaseInterface.update(this.name, profile.getId(), profileValues, new OnPostDataListener() {
+        this.firebaseInterface.addOrUpdateDocument(this.name, profile.getId(), profileValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
                 that.readProfile(documentId, listener);

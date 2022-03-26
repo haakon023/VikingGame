@@ -1,6 +1,5 @@
 package group22.viking.game.controller.firebase;
 
-
 public class Profile extends FirebaseDocument{
 
     public final static String KEY_NAME = "name";

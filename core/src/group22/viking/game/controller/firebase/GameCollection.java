@@ -3,6 +3,10 @@ package group22.viking.game.controller.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The GameCollection follows the concept: First update the collection locally, and THEN send it
+ * to the server.
+ */
 public class GameCollection extends FirebaseCollection{
 
     private final static String KEY_HOST_HEALTH = "health_host";
@@ -18,30 +22,45 @@ public class GameCollection extends FirebaseCollection{
         super.name = "game";
     }
 
-    public void startGame(Profile host, Profile guest) {       // REVIEW: Why are there parameters for winning?
-        final Game game = new Game(host, guest);
-        // 1) Get game data
+    /**
+     * Only call as a host (???).
+     *
+     * @param host
+     * @param guest
+     */
+    public void startGame(Profile host, Profile guest, final OnCollectionUpdatedListener listener) {
+        // 1) Create game
+        final Game game = new Game(host, guest, true);
+        this.add(game.getId(), game);
+
+        // 2) Get server data
+        final GameCollection that = this;
         firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
             @Override
             public void onSuccess(String documentId, Map<String, Object> data) {
                 System.out.println("Game exists!");
-                try {
-                    game.set(Game.KEY_HOST_WON, data.get(Game.KEY_HOST_WON));
-                    game.set(Game.KEY_GUEST_WON, data.get(Game.KEY_GUEST_WON));
-                } catch (FieldKeyUnknownException exception) {
-                    // Should never be the case, as the keys are explicitly mentioned.
-                }
-                // TODO continue with other stuff
+                game.setWonGamesHost((Long) data.get(Game.KEY_HOST_WON));
+                game.setWonGamesGuest((Long) data.get(Game.KEY_GUEST_WON));
+                game.setIsLoaded(true);
+
+                // 3a) Save to database
+                that.writeGameToServer(game, listener);
             }
 
             @Override
             public void onFailure() {
                 System.out.println("Game does not exist yet.");
-                // TODO continue with other stuff
+                game.setWonGamesHost(0);
+                game.setWonGamesGuest(0);
+                game.setIsLoaded(true);
+
+                // 3b) Save to database
+                that.writeGameToServer(game, listener);
             }
         });
-        
-        // 3) Save to database
+    }
+
+    private void writeGameToServer(final Game game, final OnCollectionUpdatedListener listener) {
         Map<String, Object> gameValues = new HashMap<>();
         gameValues.put(KEY_HOST_HEALTH,  game.getHealthHost());
         gameValues.put(KEY_GUEST_HEALTH, game.getHealthGuest());
@@ -49,26 +68,67 @@ public class GameCollection extends FirebaseCollection{
         gameValues.put(KEY_GUEST_WINS,   game.getWonGamesGuest());
         gameValues.put(KEY_PLAYING,      game.isRunning());
 
-        firebaseInterface.addOrUpdateDocument(name, game.getId(), gameValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
+        firebaseInterface.addOrUpdateDocument(
+                name,
+                game.getId(),
+                gameValues,
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        System.out.println("Wrote game to server: " + documentId);
+                        listener.onSuccess(game);
+                    }
 
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
+                    @Override
+                    public void onFailure() {
+                        System.out.println("Error while writing game to server.");
+                        listener.onFailure();
+                    }
+                });
     }
 
-    
+    /**
+     * Update own health, load to server and return new value.
+     *
+     * NOTE: Does not wait for server success.
+     *
+     * @param damage {long}
+     * @return {long} new health
+     */
+    public long reduceOwnHealth(long damage) {
+        Game game = getGame();
+        long health = game.reduceOwnHealth(damage);
+
+        Map<String, Object> gameValues = new HashMap<>();
+        gameValues.put(
+                game.isHost() ? KEY_HOST_HEALTH : KEY_GUEST_HEALTH,
+                game.isHost() ? game.getHealthHost() : game.getHealthGuest()
+        );
+
+        firebaseInterface.addOrUpdateDocument(
+                name,
+                game.getId(),
+                null,
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        System.out.println("Health updated.");
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        System.out.println("Failed updating health!");
+                    }
+                });
+
+        return health;
+    }
     
     public Game getGame() {
         return (Game) get(currentGameId);
     }
 
-    public void setOnValueChangedGameListener(String gameId) {
-
+    public void activateCurrentGameListener() {
+        // TODO Only listen to other players health
     }
 }
