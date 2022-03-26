@@ -5,15 +5,14 @@ import java.util.Map;
 
 public class ProfileCollection extends FirebaseCollection{
 
-    private final Map<String, Profile> profiles;
-
     private String hostId;
     private String guestId;
 
+
+
     public ProfileCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface);
+        super(firebaseInterface, new Profile(null));
         super.name = "profile";
-        this.profiles = new HashMap<>();
     }
 
     /**
@@ -39,7 +38,7 @@ public class ProfileCollection extends FirebaseCollection{
                     @Override
                     public void onSuccess(String documentId) {
                         Profile profile = new Profile(documentId);
-                        that.profiles.put(documentId, new Profile(documentId));
+                        that.add(documentId, new Profile(documentId));
                         that.hostId = documentId;
                         System.out.println("Host is: " + documentId);
                         that.readProfile(documentId, listener);
@@ -91,10 +90,10 @@ public class ProfileCollection extends FirebaseCollection{
      */
     public void readProfile(String profileId, final OnCollectionUpdatedListener listener) {
         // add profile with unloaded status if profile is not existing yet
-        if(!profiles.containsKey(profileId)) {
-            this.profiles.put(profileId, new Profile(profileId));
+        if(!isKeyLocallyExisting(profileId)) {
+            this.add(profileId, new Profile(profileId));
         } else {
-            this.profiles.get(profileId).setIsLoaded(false);
+            this.get(profileId).setIsLoaded(false);
         }
 
         final ProfileCollection that = this;
@@ -105,7 +104,7 @@ public class ProfileCollection extends FirebaseCollection{
                 new OnGetDataListener() {
                     @Override
                     public void onSuccess(String documentId, Map<String, Object> data) {
-                        Profile profile = that.profiles.get(documentId);
+                        Profile profile = (Profile) that.get(documentId);
                         for(Map.Entry<String, Object> e : data.entrySet()) {
                             try {
                                 profile.set(e.getKey(), e.getValue());
@@ -135,10 +134,10 @@ public class ProfileCollection extends FirebaseCollection{
     }
 
     public Profile getProfileById(String id) {
-        if (!profiles.containsKey(id)) {
+        if (!isKeyLocallyExisting(id)) {
             return null;
         }
-        return profiles.get(id);
+        return (Profile) get(id);
     }
 
     public Profile getHostProfile() {

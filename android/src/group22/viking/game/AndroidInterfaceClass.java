@@ -59,12 +59,11 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void addDocument(String collection,
+    public void addOrUpdateDocument(String collection,
                             String documentId,
                             Map<String, Object> values,
                             OnPostDataListener listener) {
-        // TODO make sure, that document does not exist already!!!
-        // comment: If this function is used at all...?
+
         if (documentId == null || documentId.isEmpty() || documentId.trim().isEmpty()) {
             this.addDocumentWithGeneratedId(collection, values, listener);
             return;
@@ -76,7 +75,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                 listener.onSuccess(documentId);
             })
             .addOnFailureListener((@NonNull Exception e) -> {
-                Log.w(TAG, "Error adding document", e);
+                Log.w(TAG, "Error adding/editing document", e);
                 listener.onFailure();
             });
     }
@@ -96,13 +95,6 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                 });
     }
 
-    @Override
-    public void update(String collection,
-                       String document_id,
-                       Map<String, Object> values,
-                       OnPostDataListener listener) {
-        //TODO
-    }
 
     @Override
     public void get(String collection, String documentId, OnGetDataListener listener) {

@@ -25,4 +25,8 @@ public abstract class FirebaseDocument {
     public void setIsLoaded(boolean isLoaded) {
         this.isLoaded = isLoaded;
     }
+
+    public void set(String key, Object value) throws FieldKeyUnknownException {
+        throw new FieldKeyUnknownException(key);
+    }
 }

@@ -67,7 +67,7 @@ public class Profile extends FirebaseDocument{
                 this.avatarId = (Long) value;
                 break;
             default:
-                throw new FieldKeyUnknownException();
+                throw new FieldKeyUnknownException(key);
         }
     }
 

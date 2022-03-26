@@ -5,28 +5,51 @@ import java.util.Map;
 
 public class GameCollection extends FirebaseCollection{
 
-    private final int MAX_HEALTH = 100;     // We won't have permanent powerups, right?
-
     private final static String KEY_HOST_HEALTH = "health_host";
     private final static String KEY_GUEST_HEALTH = "health_guest";
     private final static String KEY_HOST_WINS = "wins_host";
     private final static String KEY_GUEST_WINS = "wins_guest";
     private final static String KEY_PLAYING = "playing";
 
+    private String currentGameId;
+    
     public GameCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface);
+        super(firebaseInterface, new Game());
         super.name = "game";
     }
 
-    public void startGame(int winsPlayer1, int winsPlayer2) {       // REVIEW: Why are there parameters for winning?
-        Map<String, Object> game = new HashMap<>();
-        game.put(KEY_HOST_HEALTH,  MAX_HEALTH);
-        game.put(KEY_GUEST_HEALTH, MAX_HEALTH);
-        game.put(KEY_HOST_WINS,    winsPlayer1);
-        game.put(KEY_GUEST_WINS,   winsPlayer2);
-        game.put(KEY_PLAYING,   true);
+    public void startGame(Profile host, Profile guest) {       // REVIEW: Why are there parameters for winning?
+        final Game game = new Game(host, guest);
+        // 1) Get game data
+        firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
+            @Override
+            public void onSuccess(String documentId, Map<String, Object> data) {
+                System.out.println("Game exists!");
+                try {
+                    game.set(Game.KEY_HOST_WON, data.get(Game.KEY_HOST_WON));
+                    game.set(Game.KEY_GUEST_WON, data.get(Game.KEY_GUEST_WON));
+                } catch (FieldKeyUnknownException exception) {
+                    // Should never be the case, as the keys are explicitly mentioned.
+                }
+                // TODO continue with other stuff
+            }
 
-        firebaseInterface.addDocument(name, null, game, new OnPostDataListener() {
+            @Override
+            public void onFailure() {
+                System.out.println("Game does not exist yet.");
+                // TODO continue with other stuff
+            }
+        });
+        
+        // 3) Save to database
+        Map<String, Object> gameValues = new HashMap<>();
+        gameValues.put(KEY_HOST_HEALTH,  game.getHealthHost());
+        gameValues.put(KEY_GUEST_HEALTH, game.getHealthGuest());
+        gameValues.put(KEY_HOST_WINS,    game.getWonGamesHost());
+        gameValues.put(KEY_GUEST_WINS,   game.getWonGamesGuest());
+        gameValues.put(KEY_PLAYING,      game.isRunning());
+
+        firebaseInterface.addOrUpdateDocument(name, game.getId(), gameValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
 
@@ -39,8 +62,10 @@ public class GameCollection extends FirebaseCollection{
         });
     }
 
-    public void getGame() {
-
+    
+    
+    public Game getGame() {
+        return (Game) get(currentGameId);
     }
 
     public void setOnValueChangedGameListener(String gameId) {

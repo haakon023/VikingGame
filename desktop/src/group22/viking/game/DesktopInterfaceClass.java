@@ -16,17 +16,12 @@ public class DesktopInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void addDocument(String collection, String document_id, Map<String, Object> values, OnPostDataListener listener) {
+    public void addOrUpdateDocument(String collection, String document_id, Map<String, Object> values, OnPostDataListener listener) {
 
     }
 
     @Override
     public void addDocumentWithGeneratedId(String collection, Map<String, Object> values, OnPostDataListener listener) {
-
-    }
-
-    @Override
-    public void update(String collection, String document_id, Map<String, Object> values, OnPostDataListener listener) {
 
     }
 

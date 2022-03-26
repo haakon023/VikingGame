@@ -12,7 +12,7 @@ public interface FirebaseInterface {
                                    String document_id,
                                    OnGetDataListener listener);
 
-    void addDocument(String collection,
+    void addOrUpdateDocument(String collection,
                      String document_id,
                      Map<String, Object> values,
                      OnPostDataListener listener);
@@ -20,11 +20,6 @@ public interface FirebaseInterface {
     void addDocumentWithGeneratedId(String collection,
                                     Map<String, Object> values,
                                     OnPostDataListener listener);
-
-    void update(String collection,
-                String document_id,
-                Map<String, Object> values,
-                OnPostDataListener listener);
 
     void get(String collection,
              String documentId,
