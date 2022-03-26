@@ -1,5 +1,8 @@
 package group22.viking.game.controller.firebase;
 
+/**
+ * Refers to data in database.
+ */
 public abstract class FirebaseDocument {
 
     private final String id;

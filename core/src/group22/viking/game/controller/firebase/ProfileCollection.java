@@ -1,17 +1,16 @@
 package group22.viking.game.controller.firebase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FirebaseProfileCollection extends FirebaseCollection{
+public class ProfileCollection extends FirebaseCollection{
 
     private final Map<String, Profile> profiles;
 
     private String hostId;
     private String guestId;
 
-    public FirebaseProfileCollection(FirebaseInterface firebaseInterface) {
+    public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface);
         super.name = "profile";
         this.profiles = new HashMap<>();
@@ -31,7 +30,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_GAMES_LOST, 0);
         profileValues.put(Profile.KEY_AVATAR_ID, avatarId);
 
-        final FirebaseProfileCollection that = this;
+        final ProfileCollection that = this;
 
         this.firebaseInterface.addDocumentWithGeneratedId(
                 this.name,
@@ -70,7 +69,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_GAMES_WON, profile.getWonGames());
         profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
 
-        final FirebaseProfileCollection that = this;
+        final ProfileCollection that = this;
 
         this.firebaseInterface.update(this.name, profile.getId(), profileValues, new OnPostDataListener() {
             @Override
@@ -98,7 +97,7 @@ public class FirebaseProfileCollection extends FirebaseCollection{
             this.profiles.get(profileId).setIsLoaded(false);
         }
 
-        final FirebaseProfileCollection that = this;
+        final ProfileCollection that = this;
 
         this.firebaseInterface.get(
                 this.name,

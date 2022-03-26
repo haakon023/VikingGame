@@ -8,9 +8,9 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
-import group22.viking.game.controller.firebase.FirebaseGameCollection;
+import group22.viking.game.controller.firebase.GameCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
-import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.controller.states.MenuState;
 
 public class VikingGame extends ApplicationAdapter {
@@ -18,13 +18,13 @@ public class VikingGame extends ApplicationAdapter {
 	private GameStateManager gsm;
 	private I18NBundle language;
 
-	private FirebaseProfileCollection firebaseProfileCollection;
-	private FirebaseGameCollection firebaseGameCollection;
+	private ProfileCollection profileCollection;
+	private GameCollection gameCollection;
 	// TODO more collections
 
 	public VikingGame(FirebaseInterface firebaseInterface) {
-		this.firebaseGameCollection = new FirebaseGameCollection(firebaseInterface);
-		this.firebaseProfileCollection = new FirebaseProfileCollection(firebaseInterface);
+		this.gameCollection = new GameCollection(firebaseInterface);
+		this.profileCollection = new ProfileCollection(firebaseInterface);
 		// TODO more collections
 	}
 
@@ -32,12 +32,10 @@ public class VikingGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		gsm.push(new MenuState(gsm,
-				firebaseProfileCollection,
-				firebaseGameCollection));
+		gsm.push(new MenuState(gsm, profileCollection, gameCollection));
 
 		// Test Firestore:
-		new MenuState(gsm, firebaseProfileCollection, firebaseGameCollection).testFirestore();
+		new MenuState(gsm, profileCollection, gameCollection).testFirestore();
 
 		// create language bundle
 		// Locale locale = new Locale(Locale.getDefault().getLanguage() , Locale.getDefault().getCountry());

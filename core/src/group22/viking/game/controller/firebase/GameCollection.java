@@ -3,7 +3,7 @@ package group22.viking.game.controller.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FirebaseGameCollection extends FirebaseCollection{
+public class GameCollection extends FirebaseCollection{
 
     private final int MAX_HEALTH = 100;     // We won't have permanent powerups, right?
 
@@ -13,7 +13,7 @@ public class FirebaseGameCollection extends FirebaseCollection{
     private final static String KEY_GUEST_WINS = "wins_guest";
     private final static String KEY_PLAYING = "playing";
 
-    public FirebaseGameCollection(FirebaseInterface firebaseInterface) {
+    public GameCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface);
         super.name = "game";
     }

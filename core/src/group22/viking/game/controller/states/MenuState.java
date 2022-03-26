@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.FirebaseGameCollection;
-import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.GameCollection;
+import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 
@@ -17,15 +17,15 @@ public class MenuState extends State {
     private Texture leaderboardBtn;
     private Texture muteSoundBtn;
 
-    private FirebaseProfileCollection firebaseProfileCollection;
-    private FirebaseGameCollection firebaseGameCollection;
+    private ProfileCollection profileCollection;
+    private GameCollection gameCollection;
 
     public MenuState(GameStateManager gsm,
-                     FirebaseProfileCollection firebaseProfileCollection,
-                     FirebaseGameCollection firebaseGameCollection) {
+                     ProfileCollection profileCollection,
+                     GameCollection gameCollection) {
         super(gsm);
-        this.firebaseProfileCollection = firebaseProfileCollection;
-        this.firebaseGameCollection = firebaseGameCollection;
+        this.profileCollection = profileCollection;
+        this.gameCollection = gameCollection;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class MenuState extends State {
     private void userSubmitsCreateProfile(String name, int avatarId) {
         final MenuState that = this;
 
-        firebaseProfileCollection.createProfile(name, avatarId, new OnCollectionUpdatedListener() {
+        profileCollection.createProfile(name, avatarId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument profile) {
                 System.out.println("Profile created: " + profile.getId());
@@ -80,7 +80,7 @@ public class MenuState extends State {
     }
 
     private void getHostProfileData() {
-        Profile host = firebaseProfileCollection.getHostProfile();
+        Profile host = profileCollection.getHostProfile();
         System.out.println("The Host is " + host.getName());
     }
 
