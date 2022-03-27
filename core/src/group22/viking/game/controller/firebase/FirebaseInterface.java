@@ -9,8 +9,10 @@ import java.util.Map;
 public interface FirebaseInterface {
 
     void setOnValueChangedListener(String collection,
-                                   String document_id,
+                                   FirebaseDocument document,
                                    OnGetDataListener listener);
+
+    void removeOnValueChangedListener(FirebaseDocument document);
 
     void addOrUpdateDocument(String collection,
                      String document_id,

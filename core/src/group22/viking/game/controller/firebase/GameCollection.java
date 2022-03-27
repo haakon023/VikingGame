@@ -129,10 +129,9 @@ public class GameCollection extends FirebaseCollection{
     }
 
     public void activateCurrentGameListener() {
-        // TODO Only listen to other players health
         final GameCollection that = this;
         final Game game = getGame();
-        firebaseInterface.setOnValueChangedListener(name, currentGameId, new OnGetDataListener() {
+        firebaseInterface.setOnValueChangedListener(name, game, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 try {

@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.OnGetDataListener;
 import group22.viking.game.controller.firebase.OnPostDataListener;
@@ -26,20 +27,24 @@ import java.util.Map;
 public class AndroidInterfaceClass implements FirebaseInterface {
 
     private FirebaseFirestore db;
-    private ListenerRegistration serverListener; // System is only listening to one doc at once
+
+    private Map<FirebaseDocument, ListenerRegistration> serverListeners;
+
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
     }
 
     @Override
     public void setOnValueChangedListener(String collection,
-                                          String documentId,
+                                          FirebaseDocument document,
                                           OnGetDataListener listener) {
-        // Deactivate old listener:
-        serverListener.remove();
+        // Remove old listener if existing
+        if(serverListeners.containsKey(document)) {
+            serverListeners.get(document).remove();
+        }
 
-        DocumentReference documentReference = db.collection(collection).document(documentId);
-        serverListener = documentReference.addSnapshotListener(
+        DocumentReference documentReference = db.collection(collection).document(document.getId());
+        ListenerRegistration serverListener = documentReference.addSnapshotListener(
                 (@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
@@ -52,12 +57,20 @@ public class AndroidInterfaceClass implements FirebaseInterface {
 
                     if (snapshot != null && snapshot.exists()) {
                         Log.d(TAG, source + " data: " + snapshot.getData());
-                        listener.onGetData(documentId, snapshot.getData());
+                        listener.onGetData(document.getId(), snapshot.getData());
                     } else {
                         Log.d(TAG, source + " data: null");
                         listener.onFailure(); // TODO @Sacha right? Is this a failure
                     }
                 });
+
+        serverListeners.put(document, serverListener);
+    }
+    
+    public void removeOnValueChangedListener(FirebaseDocument document) {
+        if(!serverListeners.containsKey(document)) return;
+        serverListeners.get(document).remove();
+        serverListeners.remove(document);
     }
 
     @Override
