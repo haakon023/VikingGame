@@ -37,8 +37,8 @@ public class GameCollection extends FirebaseCollection{
         final GameCollection that = this;
         firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
             @Override
-            public void onSuccess(String documentId, Map<String, Object> data) {
-                System.out.println("Game exists!");
+            public void onGetData(String documentId, Map<String, Object> data) {
+                System.out.println("GameCollection: Game exists!");
                 game.setWonGamesHost((Long) data.get(Game.KEY_HOST_WON));
                 game.setWonGamesGuest((Long) data.get(Game.KEY_GUEST_WON));
                 game.setIsLoaded(true);
@@ -130,5 +130,24 @@ public class GameCollection extends FirebaseCollection{
 
     public void activateCurrentGameListener() {
         // TODO Only listen to other players health
+        final GameCollection that = this;
+        final Game game = getGame();
+        firebaseInterface.setOnValueChangedListener(name, currentGameId, new OnGetDataListener() {
+            @Override
+            public void onGetData(String documentId, Map<String, Object> data) {
+                try {
+                    String key = game.isHost() ? Game.KEY_GUEST_HEALTH : Game.KEY_HOST_HEALTH;
+                    game.set(key, data.get(key));
+                } catch (FieldKeyUnknownException exception) {
+                    // should never happen
+                }
+                System.out.println("GameCollection: Opponents health updated.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("GameCollection: Problems with listening.");
+            }
+        });
     }
 }

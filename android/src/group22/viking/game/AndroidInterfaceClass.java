@@ -9,10 +9,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import group22.viking.game.controller.firebase.FirebaseCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.OnGetDataListener;
 import group22.viking.game.controller.firebase.OnPostDataListener;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class AndroidInterfaceClass implements FirebaseInterface {
 
     private FirebaseFirestore db;
-
+    private ListenerRegistration serverListener; // System is only listening to one doc at once
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
     }
@@ -35,27 +35,29 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     public void setOnValueChangedListener(String collection,
                                           String documentId,
                                           OnGetDataListener listener) {
+        // Deactivate old listener:
+        serverListener.remove();
 
         DocumentReference documentReference = db.collection(collection).document(documentId);
-        documentReference.addSnapshotListener((@Nullable DocumentSnapshot snapshot,
-                                               @Nullable FirebaseFirestoreException e) -> {
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e);
-                listener.onFailure();
-                return;
-            }
+        serverListener = documentReference.addSnapshotListener(
+                (@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        listener.onFailure();
+                        return;
+                    }
 
-            String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
-                ? "Local" : "Server";
+                    String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+                        ? "Local" : "Server";
 
-            if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, source + " data: " + snapshot.getData());
-                listener.onSuccess(documentId, snapshot.getData());
-            } else {
-                Log.d(TAG, source + " data: null");
-                listener.onFailure(); // TODO @Sacha right? Is this a failure
-            }
-        });
+                    if (snapshot != null && snapshot.exists()) {
+                        Log.d(TAG, source + " data: " + snapshot.getData());
+                        listener.onGetData(documentId, snapshot.getData());
+                    } else {
+                        Log.d(TAG, source + " data: null");
+                        listener.onFailure(); // TODO @Sacha right? Is this a failure
+                    }
+                });
     }
 
     @Override
@@ -102,7 +104,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
             .document(documentId)
             .get()
             .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
-                listener.onSuccess(documentId, documentSnapshot.getData());
+                listener.onGetData(documentId, documentSnapshot.getData());
             });
     }
 
@@ -114,7 +116,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-                        listener.onSuccess(document.getId(), document.getData()); // TODO check how to handle multiple documents
+                        listener.onGetData(document.getId(), document.getData()); // TODO check how to handle multiple documents
                     }
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());

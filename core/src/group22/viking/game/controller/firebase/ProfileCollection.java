@@ -105,7 +105,7 @@ public class ProfileCollection extends FirebaseCollection{
                 this.hostId,
                 new OnGetDataListener() {
                     @Override
-                    public void onSuccess(String documentId, Map<String, Object> data) {
+                    public void onGetData(String documentId, Map<String, Object> data) {
                         Profile profile = (Profile) that.get(documentId);
                         for(Map.Entry<String, Object> e : data.entrySet()) {
                             try {
