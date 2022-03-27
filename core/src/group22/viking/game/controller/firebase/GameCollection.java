@@ -49,7 +49,7 @@ public class GameCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                System.out.println("Game does not exist yet.");
+                System.out.println("GameCollection: Game does not exist yet.");
                 game.setWonGamesHost(0);
                 game.setWonGamesGuest(0);
                 game.setIsLoaded(true);
@@ -75,13 +75,13 @@ public class GameCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("Wrote game to server: " + documentId);
+                        System.out.println("GameCollection: Wrote game to server: " + documentId);
                         listener.onSuccess(game);
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("Error while writing game to server.");
+                        System.out.println("GameCollection: Error while writing game to server.");
                         listener.onFailure();
                     }
                 });
@@ -112,12 +112,12 @@ public class GameCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("Health updated.");
+                        System.out.println("GameCollection: Health updated.");
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("Failed updating health!");
+                        System.out.println("GameCollection: Failed updating health!");
                     }
                 });
 

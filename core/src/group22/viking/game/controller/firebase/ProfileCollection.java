@@ -42,12 +42,12 @@ public class ProfileCollection extends FirebaseCollection{
                         Profile profile = new Profile(documentId);
                         that.add(documentId, new Profile(documentId));
                         that.hostId = documentId;
-                        System.out.println("Host is: " + documentId);
+                        System.out.println("ProfileCollection: Host is: " + documentId);
                         that.readProfile(documentId, listener);
                     }
                     @Override
                     public void onFailure() {
-                        System.out.println("Saving profile failed.");
+                        System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
                     }
                 });
@@ -120,7 +120,7 @@ public class ProfileCollection extends FirebaseCollection{
 
                     @Override
                     public void onFailure() {
-                        System.out.println("Loading profile failed.");
+                        System.out.println("ProfileCollection: Loading profile failed.");
                         listener.onFailure();
                     }
                 }
