@@ -8,8 +8,10 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,19 +36,28 @@ public class LoadingState implements Screen {
 
     //TODO ADD ALL FUTURE GAME ASSETS HERE (MUST BE ADDED TO ASSET MANAGER)
     private void queueAssets() {
-        vikingGame.assets.load("img/button.png", Texture.class);
+
+        //image files
+        //main menu
         vikingGame.assets.load("img/castle.png", Texture.class);
         vikingGame.assets.load("img/GoatIcon.png", Texture.class);
-        vikingGame.assets.load("img/leaderboardButton.png", Texture.class);
-        vikingGame.assets.load("img/mutedButton.png", Texture.class);
         vikingGame.assets.load("img/stopHeader.png", Texture.class);
-        vikingGame.assets.load("img/unmutedButton.png", Texture.class);
         vikingGame.assets.load("img/vikingHeader.png", Texture.class);
         vikingGame.assets.load("img/vikingShip.png", Texture.class);
         vikingGame.assets.load("img/waveDark.png", Texture.class);
         vikingGame.assets.load("img/waveMedium.png", Texture.class);
         vikingGame.assets.load("img/waveLight.png", Texture.class);
         vikingGame.assets.load("img/waveVeryLight.png", Texture.class);
+        //character sprites
+        vikingGame.assets.load("img/KnightSprite.png", Texture.class);
+        vikingGame.assets.load("img/KnightSpriteHead.png", Texture.class);
+        vikingGame.assets.load("img/WarriorWomanSprite.png", Texture.class);
+        vikingGame.assets.load("img/WarriorWomanSpriteHead.png", Texture.class);
+        vikingGame.assets.load("img/WizardSprite.png", Texture.class);
+        vikingGame.assets.load("img/WizardSpriteHead.png", Texture.class);
+
+        //ui files
+        vikingGame.assets.load("ui/uiskin.atlas", TextureAtlas.class);
 
 
     }
@@ -58,6 +69,8 @@ public class LoadingState implements Screen {
         this.vikingGame = vikingGame;
         this.shapeRenderer = new ShapeRenderer();
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT,vikingGame.camera));
+        Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
+
     }
 
 
@@ -90,8 +103,7 @@ public class LoadingState implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
         //calls draw for every actor it contains

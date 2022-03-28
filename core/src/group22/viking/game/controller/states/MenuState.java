@@ -2,29 +2,27 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-import javax.swing.JViewport;
-import javax.swing.Scrollable;
-
-import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
-
-import org.w3c.dom.Text;
 
 public class MenuState implements Screen {
 
@@ -34,8 +32,10 @@ public class MenuState implements Screen {
 
     //stage
     private Stage stage;
-    //skin
+    
+    //Skin
     private Skin skin;
+
 
     //header
     private Image vikingHeader;
@@ -69,25 +69,36 @@ public class MenuState implements Screen {
     private Texture title;
 
     //main Buttons
-    private Texture tutorialBtn;
-    private Texture practiceBtn;
-    private Texture joinBtn;
-    private Texture hostBtn;
-    private Texture profileBtn;
+    private TextButton tutorialBtn;
+    private TextButton practiceBtn;
+    private TextButton joinBtn;
+    private TextButton hostBtn;
+    //private TextButton profileBtn;
 
     //small buttons
-    private Texture leaderboardBtn;
-    private Texture unmutedBtn;
-    private Texture mutedBtn;
+    private TextButton leaderboardBtn;
+    private TextButton unmutedBtn;
+    private TextButton exitBtn;
+    //private TextButton mutedBtn;
 
+    //for profile Icon
+    private ShapeRenderer shapeRenderer;
+    private ImageButton profileBtn;
+    TextureRegion profileTextureRegion;
+    TextureRegionDrawable profileTextureRegionDrawable;
 
     /*
     constructor, do not load any actual files like pngs here. Instead do it in the show method
     */
     public MenuState(final VikingGame vikingGame) {
+        profileTextureRegion = new TextureRegion();
+        profileTextureRegionDrawable = new TextureRegionDrawable();
         this.vikingGame = vikingGame;
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT,vikingGame.camera));
-        this.skin = new Skin(Gdx.files.internal(""));
+        Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
+        this.shapeRenderer = new ShapeRenderer();
+
+
     }
 
 
@@ -98,7 +109,10 @@ public class MenuState implements Screen {
         //delegate input Events to all Actors
         Gdx.input.setInputProcessor(stage);
 
-
+        //stage clear to make sure there aren't any further animations
+        stage.clear();
+        
+        
         //header
         vikingHeader = new Image(vikingGame.assets.get("img/vikingHeader.png",Texture.class));
         vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
@@ -131,38 +145,51 @@ public class MenuState implements Screen {
         stage.addActor(waveLight);
         stage.addActor(waveVeryLight);
 
-        //main buttons
-        tutorialBtn = new Texture("img/button.png");
-        practiceBtn = new Texture("img/button.png");
-        hostBtn = new Texture("img/button.png");
-        joinBtn = new Texture("img/button.png");
-        profileBtn = new Texture("img/button.png");
 
-        //small buttons
-        leaderboardBtn = new Texture("img/leaderboardButton.png");
-        unmutedBtn = new Texture("img/unmutedButton.png");
-        mutedBtn = new Texture("img/mutedButton.png");
+
+
+
+        //skin
+        this.skin = new Skin();
+        this.skin.addRegions(vikingGame.assets.get("ui/uiskin.atlas",TextureAtlas.class));
+        this.skin.add("default-font",vikingGame.font48); //add font as default-font in json file
+        this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+        
+        initButtons();
+
+
 
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
+
         //calls draw for every actor it contains
         stage.draw();
+
+        //shapeRenderer (use it like a batch)
+        //Gdx.gl.glEnable(GL20.GL_BLEND);
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //shapeRenderer.circle(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT/2-80,
+        //        180);
+        //shapeRenderer.setColor(new Color(0.25f, 0.33f, 0.41f, 0.8f));
+
+        //shapeRenderer.end();
+        //Gdx.gl.glDisable(GL20.GL_BLEND);
+
+
+
+
 
         //BEGIN
         vikingGame.batch.begin();
 
-
         //background
         waveDark.setPosition(-600 +(x1/3),0);
         //waveDark.addAction(sequence(moveTo(-500,0,3f), Animation.PlayMode.LOOP);
-
-
         castle.setPosition(1500,290+(y4/10));
         waveMedium.setPosition(-300+(x2/3),0);
         vikingShip.setPosition(200+(x3/3),200+(y3/6));
@@ -201,13 +228,6 @@ public class MenuState implements Screen {
                 movingUp = true;
             }
         }
-
-
-
-
-
-
-
         vikingGame.batch.end();
 
     }
@@ -244,16 +264,114 @@ public class MenuState implements Screen {
 
         //background.dispose();
         title.dispose();
-
-        tutorialBtn.dispose();
-        practiceBtn.dispose();
-        joinBtn.dispose();
-        hostBtn.dispose();
-        profileBtn.dispose();
-
-        leaderboardBtn.dispose();
-        unmutedBtn.dispose();
-        mutedBtn.dispose();
         stage.dispose();
     }
+
+    private void initButtons() {
+        tutorialBtn = new TextButton("Tutorial", skin, "default");
+        tutorialBtn.setPosition(150,VikingGame.SCREEN_HEIGHT/2+80-50);
+        tutorialBtn.setSize(700,150);
+        tutorialBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        tutorialBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                vikingGame.setScreen(vikingGame.playState);
+            }
+        });
+
+        practiceBtn = new TextButton("Practice", skin, "default");
+        practiceBtn.setPosition(150,VikingGame.SCREEN_HEIGHT/2-80-150-50);
+        practiceBtn.setSize(700,150);
+        practiceBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        practiceBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                vikingGame.setScreen(vikingGame.playState);
+            }
+        });
+
+        joinBtn = new TextButton("Join", skin, "default");
+        joinBtn.setPosition(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2+80-50);
+        joinBtn.setSize(700,150);
+        joinBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        joinBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                vikingGame.setScreen(vikingGame.lobbyState);
+            }
+        });
+
+        hostBtn = new TextButton("Host", skin, "default");
+        hostBtn.setPosition(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2-80-150-50);
+        hostBtn.setSize(700,150);
+        hostBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        hostBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                vikingGame.setScreen(vikingGame.lobbyState);
+            }
+        });
+
+        //todo set the texture to the user specific profile image
+        profileTextureRegion= new TextureRegion(vikingGame.assets.get("img/WizardSpriteHead.png",Texture.class));
+        profileTextureRegionDrawable = new TextureRegionDrawable(profileTextureRegion);
+        profileBtn = new ImageButton(profileTextureRegionDrawable);
+        profileBtn.setSize(500,500);
+        profileBtn.setPosition(VikingGame.SCREEN_WIDTH/2-profileBtn.getWidth()/2,
+                VikingGame.SCREEN_HEIGHT/2-profileBtn.getHeight()/2-80);
+
+        profileBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        profileBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                vikingGame.setScreen(vikingGame.profileSettingsState);
+            }
+        });
+
+        leaderboardBtn = new TextButton("L", skin, "default");
+        leaderboardBtn.setPosition(VikingGame.SCREEN_WIDTH-120-60-120-60,50);
+        leaderboardBtn.setSize(120,120);
+        leaderboardBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        leaderboardBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                vikingGame.setScreen(vikingGame.leaderboardState);
+            }
+        });
+
+        unmutedBtn = new TextButton("U", skin, "default");
+        unmutedBtn.setPosition(VikingGame.SCREEN_WIDTH-120-60,50);
+        unmutedBtn.setSize(120,120);
+        unmutedBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        unmutedBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo
+            }
+        });
+
+        exitBtn = new TextButton("Exit", skin, "default");
+        exitBtn.setPosition(150,VikingGame.SCREEN_HEIGHT-200);
+        exitBtn.setSize(120,120);
+        exitBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        exitBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+            }
+        });
+
+        //add all buttons as actors
+        stage.addActor(tutorialBtn);
+        stage.addActor(practiceBtn);
+        stage.addActor(joinBtn);
+        stage.addActor(hostBtn);
+        stage.addActor(profileBtn);
+        stage.addActor(leaderboardBtn);
+        stage.addActor(unmutedBtn);
+        stage.addActor(exitBtn);
+        stage.addActor(profileBtn);
+
+    }
+
 }

@@ -1,6 +1,5 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,6 +37,15 @@ public class SplashState implements Screen {
         //delegate input Events to all Actors
         Gdx.input.setInputProcessor(stage);
 
+        //runnable
+        Runnable transitionRunnable = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("transitioning");
+                vikingGame.setScreen(vikingGame.loadingState);
+            }
+        };
+
         //Goat image
         goatIcon = new Image(new Texture("img/GoatIcon.png"));
         goatIcon.setWidth(200);
@@ -49,7 +57,7 @@ public class SplashState implements Screen {
                 parallel(fadeIn(2f, Interpolation.pow2),
                         scaleTo(2f,2f,2.5f,Interpolation.pow5),
                         moveTo(VikingGame.SCREEN_WIDTH/2-100, VikingGame.SCREEN_HEIGHT/2-100,2f,Interpolation.swing)),
-                delay(1.5f), fadeOut(1.25f)));
+                delay(1.5f), fadeOut(1.25f), run(transitionRunnable)));
 
         stage.addActor(goatIcon);
     }
@@ -66,6 +74,7 @@ public class SplashState implements Screen {
         //BEGIN
         vikingGame.batch.begin();
         counter++;
+        vikingGame.font48.draw(vikingGame.batch, "Version: 1.0.0", 20,80);
         vikingGame.batch.end();
     }
 
@@ -73,9 +82,9 @@ public class SplashState implements Screen {
 
         //calls the act Method of any actor that is added to the stage
         stage.act(delta);
-        if(counter == 400){
-            vikingGame.setScreen(new LoadingState(vikingGame));
-        }
+        //if(counter == 400){
+           // vikingGame.setScreen(new LoadingState(vikingGame));
+       // }
 
 
     }
