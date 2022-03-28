@@ -9,12 +9,6 @@ import java.util.Map;
  */
 public class GameCollection extends FirebaseCollection{
 
-    private final static String KEY_HOST_HEALTH = "health_host";
-    private final static String KEY_GUEST_HEALTH = "health_guest";
-    private final static String KEY_HOST_WINS = "wins_host";
-    private final static String KEY_GUEST_WINS = "wins_guest";
-    private final static String KEY_PLAYING = "playing";
-
     private String currentGameId;
     
     public GameCollection(FirebaseInterface firebaseInterface) {
@@ -64,11 +58,11 @@ public class GameCollection extends FirebaseCollection{
 
     private void writeGameToServer(final Game game, final OnCollectionUpdatedListener listener) {
         Map<String, Object> gameValues = new HashMap<>();
-        gameValues.put(KEY_HOST_HEALTH,  game.getHealthHost());
-        gameValues.put(KEY_GUEST_HEALTH, game.getHealthGuest());
-        gameValues.put(KEY_HOST_WINS,    game.getWonGamesHost());
-        gameValues.put(KEY_GUEST_WINS,   game.getWonGamesGuest());
-        gameValues.put(KEY_PLAYING,      game.isRunning());
+        gameValues.put(Game.KEY_HOST_HEALTH,  game.getHealthHost());
+        gameValues.put(Game.KEY_GUEST_HEALTH, game.getHealthGuest());
+        gameValues.put(Game.KEY_HOST_WON,     game.getWonGamesHost());
+        gameValues.put(Game.KEY_GUEST_WON,    game.getWonGamesGuest());
+        gameValues.put(Game.KEY_IS_RUNNING,   game.isRunning());
 
         firebaseInterface.addOrUpdateDocument(
                 name,
@@ -103,7 +97,7 @@ public class GameCollection extends FirebaseCollection{
 
         Map<String, Object> gameValues = new HashMap<>();
         gameValues.put(
-                game.isHost() ? KEY_HOST_HEALTH : KEY_GUEST_HEALTH,
+                game.isHost() ? Game.KEY_HOST_HEALTH : Game.KEY_GUEST_HEALTH,
                 game.isHost() ? game.getHealthHost() : game.getHealthGuest()
         );
 
