@@ -85,6 +85,10 @@ public class Game extends FirebaseDocument{
         return healthGuest -= damage;
     }
 
+    void setIsRunningFalse() {
+        this.isRunning = false;
+    }
+
     public void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
             case KEY_IS_RUNNING:
@@ -107,7 +111,7 @@ public class Game extends FirebaseDocument{
         }
     }
 
-    public void addFinishedGame(boolean hostWin) {
+    public void finish(boolean hostWin) {
         if(hostWin) {
             wonGamesHost++;
         } else {

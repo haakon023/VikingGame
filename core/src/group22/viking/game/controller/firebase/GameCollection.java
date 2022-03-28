@@ -20,6 +20,7 @@ public class GameCollection extends FirebaseCollection{
     public GameCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Game());
         super.name = "game";
+        this.currentGameId = null;
     }
 
     /**
@@ -32,6 +33,7 @@ public class GameCollection extends FirebaseCollection{
         // 1) Create game
         final Game game = new Game(host, guest, true);
         this.add(game.getId(), game);
+        this.currentGameId = game.getId();
 
         // 2) Get server data
         final GameCollection that = this;
@@ -108,7 +110,7 @@ public class GameCollection extends FirebaseCollection{
         firebaseInterface.addOrUpdateDocument(
                 name,
                 game.getId(),
-                null,
+                gameValues,
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
@@ -125,15 +127,35 @@ public class GameCollection extends FirebaseCollection{
     }
     
     public Game getGame() {
+        if (currentGameId == null) return null;
         return (Game) get(currentGameId);
     }
 
-    public void activateCurrentGameListener() {
+    public void activateCurrentGameListener(final OnCollectionUpdatedListener listener) {
         final GameCollection that = this;
         final Game game = getGame();
         firebaseInterface.setOnValueChangedListener(name, game, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
+                if(!(Boolean) data.get(Game.KEY_IS_RUNNING)){
+                    game.setIsRunningFalse();
+
+                    System.out.println("GameCollection: Opponent ended game.");
+
+                    // If guest, do not read health values as they are reset by host.
+                    if (!game.isHost()) {
+                        firebaseInterface.removeOnValueChangedListener(game);
+                        try {
+                            String key = Game.KEY_GUEST_WON;
+                            game.set(key, data.get(key));
+                        } catch (FieldKeyUnknownException exception) {
+                            // should never happen
+                        }
+                        listener.onSuccess(game);
+                        return;
+                    }
+                }
+
                 try {
                     String key = game.isHost() ? Game.KEY_GUEST_HEALTH : Game.KEY_HOST_HEALTH;
                     game.set(key, data.get(key));
@@ -141,11 +163,67 @@ public class GameCollection extends FirebaseCollection{
                     // should never happen
                 }
                 System.out.println("GameCollection: Opponents health updated.");
+                listener.onSuccess(game);
             }
 
             @Override
             public void onFailure() {
                 System.out.println("GameCollection: Problems with listening.");
+                listener.onFailure();
+            }
+        });
+    }
+
+    /**
+     * The host only (1) finishes the game: Save wins, reset values, stop listener and save game.
+     *
+     * @param isWin
+     */
+    public void finishGame(boolean isWin) {
+        Game game = getGame();
+
+        if (!game.isHost()) {
+            return;
+        }
+
+        game.finish(isWin);
+
+        firebaseInterface.removeOnValueChangedListener(game);
+
+        this.writeGameToServer(game, new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("GameCollection: Game finished on server.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("GameCollection: Error while finishing game.");
+            }
+        });
+    }
+
+    public void startGameAsGuest(Profile host, Profile guest, final OnCollectionUpdatedListener listener) {
+        final Game game = new Game(host, guest, false);
+        this.add(game.getId(), game);
+        this.currentGameId = game.getId();
+
+        firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
+            @Override
+            public void onGetData(String documentId, Map<String, Object> data) {
+                for(Map.Entry<String, Object> e : data.entrySet()) {
+                    try {
+                        game.set(e.getKey(), e.getValue());
+                    } catch (FieldKeyUnknownException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                listener.onSuccess(game);
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
             }
         });
     }
