@@ -3,15 +3,20 @@ package group22.viking.game;
 import java.util.Map;
 
 import group22.viking.game.controller.firebase.FirebaseCollection;
+import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.OnGetDataListener;
 import group22.viking.game.controller.firebase.OnPostDataListener;
 
 public class DesktopInterfaceClass implements FirebaseInterface {
 
+    @Override
+    public void setOnValueChangedListener(String collection, FirebaseDocument document, OnGetDataListener listener) {
+
+    }
 
     @Override
-    public void setOnValueChangedListener(String collection, String document_id, OnGetDataListener listener) {
+    public void removeOnValueChangedListener(FirebaseDocument document) {
 
     }
 
