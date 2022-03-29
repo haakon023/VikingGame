@@ -56,6 +56,16 @@ public class LoadingState implements Screen {
         vikingGame.assets.load("img/WizardSprite.png", Texture.class);
         vikingGame.assets.load("img/WizardSpriteHead.png", Texture.class);
 
+        //main game background
+        vikingGame.assets.load("img/OceanBack.png", Texture.class);
+        vikingGame.assets.load("img/OceanTop.png", Texture.class);
+        vikingGame.assets.load("img/WaveBottom.png", Texture.class);
+        vikingGame.assets.load("img/Island.png", Texture.class);
+        vikingGame.assets.load("img/WaveTop.png", Texture.class);
+        vikingGame.assets.load("img/Monastery.png", Texture.class);
+
+
+
         //ui files
         vikingGame.assets.load("ui/uiskin.atlas", TextureAtlas.class);
 

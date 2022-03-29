@@ -109,7 +109,7 @@ public class LeaderboardState implements Screen {
     }
 
     private void initButtons() {
-        exitBtn = new TextButton("Exit", skin, "default");
+        exitBtn = new TextButton("<", skin, "default");
         exitBtn.setPosition(50,150);
         exitBtn.setSize(150,VikingGame.SCREEN_HEIGHT-300);
         exitBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));

@@ -58,6 +58,15 @@ public class ProfileSettingsState implements Screen {
         //delegate input Events to all Actors
         Gdx.input.setInputProcessor(stage);
 
+        //image
+        //todo set head according to users selection in database
+        profileImage = new Image(vikingGame.assets.get("img/WizardSpriteHead.png", Texture.class));
+        profileImage.setWidth(400);
+        profileImage.setHeight(400);
+        profileImage.setPosition(VikingGame.SCREEN_WIDTH/4,
+                VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
+        profileImage.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        stage.addActor(profileImage);
 
         //skin
         this.skin = new Skin();
@@ -125,7 +134,7 @@ public class ProfileSettingsState implements Screen {
     }
 
     private void initButtons() {
-        exitBtn = new TextButton("Exit", skin, "default");
+        exitBtn = new TextButton("<", skin, "default");
         exitBtn.setPosition(50,150);
         exitBtn.setSize(150,VikingGame.SCREEN_HEIGHT-300);
         exitBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
@@ -136,7 +145,58 @@ public class ProfileSettingsState implements Screen {
             }
         });
 
+        leftBtn = new TextButton("<", skin, "default");
+        leftBtn.setSize(80,profileImage.getHeight());
+        leftBtn.setPosition(profileImage.getX()-leftBtn.getWidth(),
+                VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
+        leftBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        leftBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo cycle through images and save new icon to databse
+            }
+        });
+
+        rightBtn = new TextButton(">", skin, "default");
+        rightBtn.setSize(80,profileImage.getHeight());
+        rightBtn.setPosition(profileImage.getX()+profileImage.getWidth(),
+                VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
+        rightBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        rightBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo cycle through images and save new icon to database
+            }
+        });
+
+        nameField = new TextField("", skin);
+        //todo set text to username
+        nameField.setText("Caio");
+        nameField.setHeight(150);
+        nameField.setWidth(600);
+        nameField.setPosition(profileImage.getX()+profileImage.getWidth()+rightBtn.getWidth()+100,
+                VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
+
+
+        changeNameButton = new TextButton("Submit", skin, "default");
+        changeNameButton.setSize(nameField.getWidth()/4,nameField.getHeight());
+        changeNameButton.setPosition(
+                profileImage.getX()+profileImage.getWidth()+rightBtn.getWidth()+100+nameField.getWidth()+50,
+                VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
+        changeNameButton.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+        changeNameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo take name and save it to username in database
+            }
+        });
+
+
         stage.addActor(exitBtn);
+        stage.addActor(leftBtn);
+        stage.addActor(rightBtn);
+        stage.addActor(nameField);
+        stage.addActor(changeNameButton);
 
     }
 
