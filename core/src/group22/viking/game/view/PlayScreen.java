@@ -109,7 +109,7 @@ public class PlayScreen implements Screen {
         //skin
         this.skin = new Skin();
         this.skin.addRegions(Assets.getTextureAtlas("ui/uiskin.atlas"));
-        this.skin.add("default-font",Assets.FONT48); //add font as default-font in json file
+        this.skin.add("default-font", Assets.FONT48); //add font as default-font in json file
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 
         initButtons();

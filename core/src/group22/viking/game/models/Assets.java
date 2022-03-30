@@ -1,20 +1,21 @@
 package group22.viking.game.models;
 
+import static group22.viking.game.utility.FontGenerator.generateFont;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-
-import group22.viking.game.view.components.Font;
 
 public class Assets {
 
     public static AssetManager assetManager = new AssetManager();
 
     // fonts
-    public static final Font FONT48 = new Font(48, 5);
-    public static final Font FONT100 = new Font(100, 10);
+    public static final BitmapFont FONT48 = generateFont(48, 5);
+    public static final BitmapFont FONT100 = generateFont(100, 10);
 
     // background
     public static final String CASTLE = "img/castle.png";

@@ -158,7 +158,8 @@ public class LobbyScreen implements Screen {
         //PLAY button
         playButton = new CustomTextButton(
                 "PLAY",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-playButton.getWidth()/2,VikingGame.SCREEN_HEIGHT/2-playButton.getHeight()/2),
+                // new Vector2(VikingGame.SCREEN_WIDTH/2-playButton.getWidth()/2,VikingGame.SCREEN_HEIGHT/2-playButton.getHeight()/2),
+                new Vector2(VikingGame.SCREEN_WIDTH/2-600/2,VikingGame.SCREEN_HEIGHT/2-150/2),
                 new Vector2(600, 150)
         );
         playButton.addListener(new ClickListener(){

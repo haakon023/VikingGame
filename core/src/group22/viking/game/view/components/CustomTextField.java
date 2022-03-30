@@ -34,6 +34,7 @@ public class CustomTextField extends TextField {
     private static Skin initSkin() {
         Skin skin = new Skin();
         skin.addRegions(Assets.getTextureAtlas(Assets.UI_SKIN));
+        // skin.add("default-font", VikingGame.font48);
         skin.add("default-font", Assets.FONT48); //add font as default-font in json file
         skin.load(Gdx.files.internal("ui/uiskin.json"));
         return skin;

@@ -304,7 +304,8 @@ public class MenuScreen implements Screen {
 
         joinButton = new CustomTextButton(
                 "Join",
-                new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+joinTextField.getWidth() +20,
+                // new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+joinTextField.getWidth() +20,
+                new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+ 530 +20,
                         VikingGame.SCREEN_HEIGHT/2+80-50),
                 smallButtonSize);
         joinButton.addListener(new ClickListener() {
@@ -321,8 +322,10 @@ public class MenuScreen implements Screen {
 
         profileButton = new CustomImageButton(
                 profileTextureRegionDrawable,
-                new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
-                VikingGame.SCREEN_HEIGHT/2-profileButton.getHeight()/2-80),
+                // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
+                new Vector2(VikingGame.SCREEN_WIDTH/2-500/2,
+                //VikingGame.SCREEN_HEIGHT/2-profileButton.getHeight()/2-80),
+                VikingGame.SCREEN_HEIGHT/2-500/2-80),
                 profileImageSize);
         profileButton.addListener(new ClickListener(){
             @Override

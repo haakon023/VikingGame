@@ -98,11 +98,12 @@ public class LoadingScreen implements Screen {
         game.getBatch().end();
     }
 
+    //TODO: move update to State
     public void update(float delta){
         stage.act(delta);
 
         //TODO Needs to make progressbar smooth (lerp function does NOT work somehow)
-        progress= MathUtils.lerp(progress, Assets.getProgress(), 0.1f);
+        progress = MathUtils.lerp(progress, Assets.getProgress(), 0.1f);
 
         //animate upwards motion of logo to match main menu position
         vikingHeader.addAction(moveTo(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250,.3f));

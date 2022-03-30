@@ -84,8 +84,7 @@ public class SplashScreen implements Screen {
         //BEGIN
         game.getBatch().begin();
         counter++;
-        // Assets.FONT48.draw(game.getBatch(), "Version: 1.0.0", 20,80);
-        VikingGame.font48.draw(game.getBatch(), "Version: 1.0.0", 20,80);
+        Assets.FONT48.draw(game.getBatch(), "Version: 1.0.0", 20,80);
         game.getBatch().end();
     }
 
