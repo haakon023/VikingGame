@@ -1,6 +1,5 @@
 package group22.viking.game.controller.firebase;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -29,8 +28,23 @@ public class LobbyCollection extends FirebaseCollection{
 
     }
 
-    public void joinLobby(String id, Profile profile, OnPostDataListener listener) {
+    public void joinLobby(final String id, Profile profile, final OnCollectionUpdatedListener listener) {
 
+        final LobbyCollection that = this;
+        firebaseInterface.get(name, id, new OnGetDataListener() {
+            @Override
+            public void onGetData(String documentId, Map<String, Object> data) {
+                Lobby lobby = new Lobby(id, (String) data.get(Lobby.KEY_HOST));
+                that.currentLobbyId = "";
+                listener.onSuccess(lobby);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("LobbyCollection: No lobby found.");
+                listener.onFailure();
+            }
+        });
     }
 
     private String generateId() {
