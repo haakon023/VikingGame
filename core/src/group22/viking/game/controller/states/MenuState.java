@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -71,6 +72,7 @@ public class MenuState implements Screen {
     //main Buttons
     private TextButton tutorialBtn;
     private TextButton practiceBtn;
+    private TextField joinTextField;
     private TextButton joinBtn;
     private TextButton hostBtn;
     //private TextButton profileBtn;
@@ -290,9 +292,18 @@ public class MenuState implements Screen {
             }
         });
 
+        joinTextField = new TextField("Enter Pin", skin);
+        joinTextField.setHeight(150);
+        joinTextField.setWidth(530);
+        joinTextField.setPosition(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),
+                VikingGame.SCREEN_HEIGHT/2+80-50);
+        joinTextField.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
+
+
         joinBtn = new TextButton("Join", skin, "default");
-        joinBtn.setPosition(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2+80-50);
-        joinBtn.setSize(700,150);
+        joinBtn.setPosition(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+joinTextField.getWidth() +20,
+                VikingGame.SCREEN_HEIGHT/2+80-50);
+        joinBtn.setSize(150,150);
         joinBtn.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
         joinBtn.addListener(new ClickListener(){
             @Override
@@ -364,6 +375,7 @@ public class MenuState implements Screen {
         //add all buttons as actors
         stage.addActor(tutorialBtn);
         stage.addActor(practiceBtn);
+        stage.addActor(joinTextField);
         stage.addActor(joinBtn);
         stage.addActor(hostBtn);
         stage.addActor(profileBtn);

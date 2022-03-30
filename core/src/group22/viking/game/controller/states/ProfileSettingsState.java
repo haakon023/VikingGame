@@ -176,10 +176,11 @@ public class ProfileSettingsState implements Screen {
         nameField.setWidth(600);
         nameField.setPosition(profileImage.getX()+profileImage.getWidth()+rightBtn.getWidth()+100,
                 VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
+        nameField.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
 
 
         changeNameButton = new TextButton("Submit", skin, "default");
-        changeNameButton.setSize(nameField.getWidth()/4,nameField.getHeight());
+        changeNameButton.setSize(nameField.getWidth()/3,nameField.getHeight());
         changeNameButton.setPosition(
                 profileImage.getX()+profileImage.getWidth()+rightBtn.getWidth()+100+nameField.getWidth()+50,
                 VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
