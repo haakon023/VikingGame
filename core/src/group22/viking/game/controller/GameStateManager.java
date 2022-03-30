@@ -8,30 +8,48 @@ import group22.viking.game.controller.states.State;
 
 public class GameStateManager {
 
+    private static GameStateManager instance;
+    private VikingGame game;
+
+    public static GameStateManager getInstance(VikingGame game) {
+        if(instance == null) {
+            instance = new GameStateManager(game);
+        }
+        return instance;
+    }
+
     private Stack<State> states;
 
-    public GameStateManager(){
+    private GameStateManager(VikingGame game){
         states = new Stack<State>();
+        this.game = game;
     }
 
     public void push(State state){
         states.push(state);
+        updateScreen();
     }
 
     public void pop(){
-        states.pop();
+        states.pop().dispose();
     }
 
     public void set(State state){
-        states.pop();
+        states.pop().dispose();
         states.push(state);
+        updateScreen();
     }
 
+    //TODO: adapt the update and render functions as they are not contained in the states anymore
     public void update(float dt){
         states.peek().update(dt);
     }
 
     public void render(SpriteBatch sb){
         states.peek().render(sb);
+    }
+
+    public void updateScreen() {
+        game.setScreen(states.peek().getScreen());
     }
 }
