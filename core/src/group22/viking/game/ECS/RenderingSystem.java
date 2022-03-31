@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -45,8 +44,8 @@ public class RenderingSystem extends SortedIteratingSystem {
     //Dependency on Git Component issues/tasks
     private ComponentMapper<tempComponentToBeRemoved> tempMapper;
 
-    public RenderingSystem(SpriteBatch spriteBatch, Comparator<Entity> comparator) {
-        super(Family.all(tempComponentToBeRemoved.class).get(), comparator);
+    public RenderingSystem(SpriteBatch spriteBatch) {
+        super(Family.all(tempComponentToBeRemoved.class).get(), new ZComparator());
         this.spriteBatch = spriteBatch;
 
         //For testing purposes
