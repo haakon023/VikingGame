@@ -1,6 +1,7 @@
 package group22.viking.game.controller;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,12 +9,14 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
+import group22.viking.game.ECS.InputController;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
 import group22.viking.game.controller.states.MenuState;
+import group22.viking.game.controller.states.PlayState;
 
-public class VikingGame extends ApplicationAdapter {
+public class VikingGame extends Game {
 	private SpriteBatch batch;
 	private GameStateManager gsm;
 	private I18NBundle language;
@@ -22,20 +25,24 @@ public class VikingGame extends ApplicationAdapter {
 	private FirebaseGameCollection firebaseGameCollection;
 	// TODO more collections
 
+	public static VikingGame instance;
+	
 	public VikingGame(FirebaseInterface firebaseInterface) {
 		this.firebaseGameCollection = new FirebaseGameCollection(firebaseInterface);
 		this.firebaseProfileCollection = new FirebaseProfileCollection(firebaseInterface);
 		// TODO more collections
+		
+		instance = this;
 	}
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		gsm.push(new MenuState(gsm,
-				firebaseProfileCollection,
-				firebaseGameCollection));
-
+//		gsm.push(new MenuState(gsm,
+//				firebaseProfileCollection,
+//				firebaseGameCollection));
+		gsm.push(new PlayState(gsm));
 		// Test Firestore:
 		// new MenuState(gsm, firebaseProfileCollection, firebaseGameCollection).testFirestore();
 

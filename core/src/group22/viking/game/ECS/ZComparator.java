@@ -5,14 +5,16 @@ import com.badlogic.ashley.core.Entity;
 
 import java.util.Comparator;
 
+import group22.viking.game.ECS.components.TransformComponent;
+
 
 public class ZComparator implements Comparator<Entity> {
 
-    private ComponentMapper<tempComponentToBeRemoved> componentMapperTransform;
+    private ComponentMapper<TransformComponent> componentMapperTransform;
 
     public ZComparator()
     {
-        componentMapperTransform = ComponentMapper.getFor(tempComponentToBeRemoved.class);
+        componentMapperTransform = ComponentMapper.getFor(TransformComponent.class);
     }
 
     @Override

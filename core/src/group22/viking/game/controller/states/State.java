@@ -1,11 +1,12 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 import group22.viking.game.controller.GameStateManager;
 
-public abstract class State {
+public abstract class State implements Screen{
     //protected OrthographicCamera cam; Do we want this?
     protected Vector3 mouse;
     protected GameStateManager gsm;
@@ -19,5 +20,6 @@ public abstract class State {
     protected abstract void handleInput();
     public abstract void update(float dt);
     public abstract void render(SpriteBatch sb);
+
     public abstract void dispose();
 }

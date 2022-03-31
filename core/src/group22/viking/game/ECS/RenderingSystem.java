@@ -18,7 +18,7 @@ import group22.viking.game.ECS.components.TransformComponent;
 public class RenderingSystem extends SortedIteratingSystem {
 
     //Pixels per meter
-    static final float PPM = 32.0f;
+    static final float PPM = 1f;
     public static final float PIXELS_TO_METRES = 1.0f / PPM;
     
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;
@@ -54,7 +54,6 @@ public class RenderingSystem extends SortedIteratingSystem {
         cmTextureComp = ComponentMapper.getFor(TextureComponent.class);
 
         renderQueue = new Array<Entity>();
-        this.spriteBatch = spriteBatch;
         
         camera = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
         camera.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
