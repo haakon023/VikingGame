@@ -31,8 +31,6 @@ public class ProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_GAMES_LOST, 0);
         profileValues.put(Profile.KEY_AVATAR_ID, avatarId);
 
-        final ProfileCollection that = this;
-
         this.firebaseInterface.addDocumentWithGeneratedId(
                 this.name,
                 profileValues,
@@ -40,10 +38,10 @@ public class ProfileCollection extends FirebaseCollection{
                     @Override
                     public void onSuccess(String documentId) {
                         Profile profile = new Profile(documentId);
-                        that.add(documentId, new Profile(documentId));
-                        that.hostId = documentId;
+                        add(documentId, new Profile(documentId));
+                        hostId = documentId;
                         System.out.println("ProfileCollection: Host is: " + documentId);
-                        that.readProfile(documentId, listener);
+                        readProfile(documentId, listener);
                     }
                     @Override
                     public void onFailure() {
@@ -70,12 +68,10 @@ public class ProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_GAMES_WON, profile.getWonGames());
         profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
 
-        final ProfileCollection that = this;
-
         this.firebaseInterface.addOrUpdateDocument(this.name, profile.getId(), profileValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
-                that.readProfile(documentId, listener);
+                readProfile(documentId, listener);
             }
 
             @Override
@@ -98,15 +94,13 @@ public class ProfileCollection extends FirebaseCollection{
             this.get(profileId).setIsLoaded(false);
         }
 
-        final ProfileCollection that = this;
-
         this.firebaseInterface.get(
                 this.name,
                 this.hostId,
                 new OnGetDataListener() {
                     @Override
                     public void onGetData(String documentId, Map<String, Object> data) {
-                        Profile profile = (Profile) that.get(documentId);
+                        Profile profile = (Profile) get(documentId);
                         for(Map.Entry<String, Object> e : data.entrySet()) {
                             try {
                                 profile.set(e.getKey(), e.getValue());
