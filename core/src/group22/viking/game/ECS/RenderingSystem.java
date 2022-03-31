@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.Comparator;
 
+import group22.viking.game.ECS.components.TextureComponent;
+import group22.viking.game.ECS.components.TransformComponent;
+
 public class RenderingSystem extends SortedIteratingSystem {
 
     //Pixels per meter
@@ -40,18 +43,16 @@ public class RenderingSystem extends SortedIteratingSystem {
     private Array<Entity> renderQueue;
     private OrthographicCamera camera;
     
-    //Todo needs mapper for PositionComponent and TextureComponent or whatever
-    //Dependency on Git Component issues/tasks
-    private ComponentMapper<tempComponentToBeRemoved> tempMapper;
+    private ComponentMapper<TransformComponent> cmTransformComp;
+    private ComponentMapper<TextureComponent> cmTextureComp;
 
     public RenderingSystem(SpriteBatch spriteBatch) {
-        super(Family.all(tempComponentToBeRemoved.class).get(), new ZComparator());
+        super(Family.all(TransformComponent.class).get(), new ZComparator());
         this.spriteBatch = spriteBatch;
 
-        //For testing purposes
-        //needs proper components
-        tempMapper = ComponentMapper.getFor(tempComponentToBeRemoved.class);
-        
+        cmTransformComp = ComponentMapper.getFor(TransformComponent.class);
+        cmTextureComp = ComponentMapper.getFor(TextureComponent.class);
+
         renderQueue = new Array<Entity>();
         this.spriteBatch = spriteBatch;
         
@@ -72,7 +73,26 @@ public class RenderingSystem extends SortedIteratingSystem {
         
         
         for(Entity entity : renderQueue) {
+            TextureComponent texComp = cmTextureComp.get(entity);
+            TransformComponent transComp = cmTransformComp.get(entity);
 
+            if(texComp.region == null || transComp.isHidden)
+                continue;
+
+            float width = texComp.region.getRegionWidth();
+            float height = texComp.region.getRegionHeight();
+
+            float originX = width / 2;
+            float originY = height / 2;
+
+            spriteBatch.draw(texComp.region,
+                    transComp.position.x - originX,
+                    transComp.position.y - originY,
+                    originX, originY,
+                    width, height,
+                    PixelsToMeters(transComp.scale.x), PixelsToMeters(transComp.scale.x),
+                    transComp.rotation
+                    );
         }
         
         spriteBatch.end();
@@ -84,5 +104,10 @@ public class RenderingSystem extends SortedIteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         renderQueue.add(entity);
+    }
+
+    public OrthographicCamera getCamera()
+    {
+        return camera;
     }
 }
