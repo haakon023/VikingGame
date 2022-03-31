@@ -107,6 +107,14 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
+    /**
+     * User tries to join lobby by using lobby id.
+     *
+     * @param id
+     * @param profile
+     * @param gotLobbyListener
+     * @param startGameListener
+     */
     public void tryToJoinLobbyById(
             final String id,
             final Profile profile,
@@ -196,6 +204,37 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
+    /**
+     * Set lobby to started
+     *
+     * @param lobby
+     * @param listener
+     */
+    public void setLobbyToStarted(final Lobby lobby, final OnCollectionUpdatedListener listener) {
+        if(!lobby.getState().equals(Lobby.State.GUEST_READY)) {
+            System.out.println("LobbyCollection: Guest not ready. (Lobby state should handle this before)");
+            listener.onFailure();
+        }
+
+        Map<String, Object> lobbyValues = new HashMap<String, Object>(){{
+            put(Lobby.KEY_STATE, Lobby.State.RUNNING);
+        }};
+
+        firebaseInterface.addOrUpdateDocument(name, lobby.getId(), lobbyValues, new OnPostDataListener() {
+            @Override
+            public void onSuccess(String documentId) {
+                lobby.setState(Lobby.State.RUNNING);
+                listener.onSuccess(lobby);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("LobbyCollection: Set Lobby to started failed.");
+                listener.onFailure();
+            }
+        });
+    }
+
     private String generateId() {
         String id = "";
         int validationSum = 0;
@@ -214,7 +253,7 @@ public class LobbyCollection extends FirebaseCollection{
      * @param id
      * @return
      */
-    private boolean validateId(String id) {
+    public boolean validateId(String id) {
         int validationSum = 0;
         for(int i = 0; i < ID_LENGTH - 1; i++) {
             validationSum += (int) id.charAt(i);

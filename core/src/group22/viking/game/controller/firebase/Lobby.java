@@ -14,7 +14,7 @@ public class Lobby extends FirebaseDocument{
 
         public final String label;
 
-        private State(String label) {
+        State(String label) {
             this.label = label;
         }
     }

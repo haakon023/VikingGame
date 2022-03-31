@@ -23,14 +23,15 @@ public class GameCollection extends FirebaseCollection{
      * @param host
      * @param guest
      */
-    public void startGame(Profile host, Profile guest, final OnCollectionUpdatedListener listener) {
+    public void startGame(Profile host,
+                          Profile guest,
+                          final OnCollectionUpdatedListener startGameListener) {
         // 1) Create game
         final Game game = new Game(host, guest, true);
         this.add(game.getId(), game);
         this.currentGameId = game.getId();
 
         // 2) Get server data
-        final GameCollection that = this;
         firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
@@ -40,7 +41,7 @@ public class GameCollection extends FirebaseCollection{
                 game.setIsLoaded(true);
 
                 // 3a) Save to database
-                that.writeGameToServer(game, listener);
+                writeGameToServer(game, startGameListener);
             }
 
             @Override
@@ -51,7 +52,7 @@ public class GameCollection extends FirebaseCollection{
                 game.setIsLoaded(true);
 
                 // 3b) Save to database
-                that.writeGameToServer(game, listener);
+                writeGameToServer(game, startGameListener);
             }
         });
     }
@@ -125,7 +126,7 @@ public class GameCollection extends FirebaseCollection{
         return (Game) get(currentGameId);
     }
 
-    public void activateCurrentGameListener(final OnCollectionUpdatedListener listener) {
+    public void setOpponentHealthListener(final OnCollectionUpdatedListener listener) {
         final GameCollection that = this;
         final Game game = getGame();
         firebaseInterface.setOnValueChangedListener(name, game, new OnGetDataListener() {
