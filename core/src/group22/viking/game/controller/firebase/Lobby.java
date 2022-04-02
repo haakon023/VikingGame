@@ -80,4 +80,8 @@ public class Lobby extends FirebaseDocument{
     public String getGuestId() {
         return guestId;
     }
+
+    public String getHostId() {
+        return hostId;
+    }
 }

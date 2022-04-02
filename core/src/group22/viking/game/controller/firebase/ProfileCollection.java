@@ -11,6 +11,7 @@ public class ProfileCollection extends FirebaseCollection{
 
     private String hostId;
     private String guestId;
+    private String localPlayerId;
 
     public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null));
@@ -23,7 +24,7 @@ public class ProfileCollection extends FirebaseCollection{
      * @param name {String}
      * @param avatarId {int}
      */
-    public void createProfile(String name, int avatarId, final OnCollectionUpdatedListener listener) {
+    public void createProfile(String name, long avatarId, final OnCollectionUpdatedListener listener) {
         Map<String, Object> profileValues = new HashMap<>();
 
         profileValues.put(Profile.KEY_NAME, name);
@@ -144,4 +145,5 @@ public class ProfileCollection extends FirebaseCollection{
         return getProfileById(guestId);
     }
 
+    public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
 }

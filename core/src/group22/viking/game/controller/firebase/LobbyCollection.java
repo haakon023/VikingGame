@@ -178,7 +178,9 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
-    private void addWaitForStartListener(final Lobby lobby, final OnCollectionUpdatedListener listener) {
+    private void addWaitForStartListener(final Lobby lobby,
+                                         final OnCollectionUpdatedListener startGameListener)
+    {
         firebaseInterface.setOnValueChangedListener(name, lobby, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
@@ -188,18 +190,18 @@ public class LobbyCollection extends FirebaseCollection{
 
                 if(!lobby.getGuestId().equals((String) data.get(Lobby.KEY_GUEST))) {
                     System.out.println("LobbyCollection: Some one else joined the lobby and started.");
-                    listener.onFailure();
+                    startGameListener.onFailure();
                     return;
                 }
 
                 lobby.setState(Lobby.State.RUNNING);
-                listener.onSuccess(lobby);
+                startGameListener.onSuccess(lobby);
             }
 
             @Override
             public void onFailure() {
                 System.out.println("LobbyCollection: Failed placing the listener.");
-                listener.onFailure();
+                startGameListener.onFailure();
             }
         });
     }
@@ -207,10 +209,11 @@ public class LobbyCollection extends FirebaseCollection{
     /**
      * Set lobby to started
      *
-     * @param lobby
      * @param listener
      */
-    public void setLobbyToStarted(final Lobby lobby, final OnCollectionUpdatedListener listener) {
+    public void setLobbyToStarted(final OnCollectionUpdatedListener listener) {
+        final Lobby lobby = getLobby();
+
         if(!lobby.getState().equals(Lobby.State.GUEST_READY)) {
             System.out.println("LobbyCollection: Guest not ready. (Lobby state should handle this before)");
             listener.onFailure();
@@ -224,6 +227,33 @@ public class LobbyCollection extends FirebaseCollection{
             @Override
             public void onSuccess(String documentId) {
                 lobby.setState(Lobby.State.RUNNING);
+                listener.onSuccess(lobby);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("LobbyCollection: Set Lobby to started failed.");
+                listener.onFailure();
+            }
+        });
+    }
+
+    /**
+     * Update lobby after game ended
+     *
+     * @param listener
+     */
+    public void setLobbyToGameEnded(final OnCollectionUpdatedListener listener) {
+        final Lobby lobby = getLobby();
+
+        Map<String, Object> lobbyValues = new HashMap<String, Object>(){{
+            put(Lobby.KEY_STATE, Lobby.State.GUEST_JOINED);
+        }};
+
+        firebaseInterface.addOrUpdateDocument(name, lobby.getId(), lobbyValues, new OnPostDataListener() {
+            @Override
+            public void onSuccess(String documentId) {
+                lobby.setState(Lobby.State.GUEST_JOINED);
                 listener.onSuccess(lobby);
             }
 
