@@ -45,7 +45,7 @@ public class PlayState extends State {        //TODO: implements Screen?
     public PlayState(VikingGame game, Type type) {             //TODO: GameStateManager gsm, 
         super(new PlayScreen(game));                           //TODO: GSM necessary here?
         this.type = type;
-        super(gsm);
+        // super(gsm);
         
         inputController = new InputController();
         
@@ -53,7 +53,9 @@ public class PlayState extends State {        //TODO: implements Screen?
         playerControlSystem = new PlayerControlSystem(inputController);
         
         engine.addSystem(playerControlSystem);
-        
+
+        Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
+
         CreatePlayer();
     }
 
@@ -82,32 +84,6 @@ public class PlayState extends State {        //TODO: implements Screen?
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(inputController);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-
-    @Override
     public void dispose() {
     }
     
@@ -123,7 +99,7 @@ public class PlayState extends State {        //TODO: implements Screen?
         tc.position.set(test / 2, Gdx.graphics.getHeight() / 2,0);
         state.set(StateComponent.STATE_NORMAL); 
         
-        tex.region = new TextureRegion(new Texture("badlogic.jpg"));
+        tex.region = new TextureRegion(new Texture("img/badlogic.jpg"));
         
         entity.add(tc);
         entity.add(tex);

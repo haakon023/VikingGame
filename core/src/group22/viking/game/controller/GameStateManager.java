@@ -27,7 +27,7 @@ public class GameStateManager {
     }
 
     public void push(State state){
-        VikingGame.instance.setScreen(state);
+        // VikingGame.instance.setScreen(state);        // probably not necessary, as we have the updateScreen() method below
         states.push(state);
         updateScreen();
     }
