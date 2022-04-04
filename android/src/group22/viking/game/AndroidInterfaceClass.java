@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -122,10 +123,18 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void getAll(String collection, OnGetDataListener listener) {
-        db.collection(collection)
-            .get()
-            .addOnCompleteListener((@NonNull Task<QuerySnapshot> task) -> {
+    public void getAll(String collection, String orderBy, int limit, OnGetDataListener listener) {
+        Query query = db.collection(collection);
+
+        if(orderBy != null && !orderBy.isEmpty()) {
+            query = query.orderBy(orderBy);
+        }
+
+        if(limit > 0 ) {
+            query = query.limit(limit);
+        }
+
+        query.get().addOnCompleteListener((@NonNull Task<QuerySnapshot> task) -> {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());

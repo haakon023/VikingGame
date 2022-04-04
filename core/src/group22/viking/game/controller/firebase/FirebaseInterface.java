@@ -28,5 +28,7 @@ public interface FirebaseInterface {
              OnGetDataListener listener);
 
     void getAll(String collection,
+                String orderBy,
+                int limit,
                 OnGetDataListener listener);
 }

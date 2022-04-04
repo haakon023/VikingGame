@@ -36,7 +36,7 @@ public class DesktopInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void getAll(String collection, OnGetDataListener listener) {
+    public void getAll(String collection, String orderBy, int limit, OnGetDataListener listener) {
 
     }
 }
