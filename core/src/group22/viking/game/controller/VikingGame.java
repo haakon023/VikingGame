@@ -1,6 +1,5 @@
 package group22.viking.game.controller;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,11 +8,9 @@ import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
-import group22.viking.game.ECS.InputController;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
-import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.controller.states.PlayState;
 
 public class VikingGame extends Game {

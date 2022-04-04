@@ -11,13 +11,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
 import group22.viking.game.ECS.components.PlayerComponent;
-import group22.viking.game.ECS.components.PlayerControlSystem;
+import group22.viking.game.ECS.PlayerControlSystem;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.VikingGame;
-import group22.viking.game.models.Player;
 
 public class PlayState extends State implements Screen {
     private Texture muteSoundBtn;
@@ -104,7 +102,7 @@ public class PlayState extends State implements Screen {
 
     }
     
-    private void CreatePlayer()
+    private Entity CreatePlayer()
     {
         Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
@@ -112,8 +110,8 @@ public class PlayState extends State implements Screen {
         StateComponent state = engine.createComponent(StateComponent.class);
         PlayerComponent plc = engine.createComponent(PlayerComponent.class);
 
-        float test = Gdx.graphics.getWidth();
-        tc.position.set(test / 2, Gdx.graphics.getHeight() / 2,0);
+        float width = Gdx.graphics.getWidth();
+        tc.position.set(width / 2, Gdx.graphics.getHeight() / 2,0);
         state.set(StateComponent.STATE_NORMAL); 
         
         tex.region = new TextureRegion(new Texture("badlogic.jpg"));
@@ -124,7 +122,6 @@ public class PlayState extends State implements Screen {
         entity.add(plc);
         
         engine.addEntity(entity);
-        
+        return entity;
     }
-    
 }
