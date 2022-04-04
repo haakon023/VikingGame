@@ -74,6 +74,9 @@ public class VikingGame extends Game {
 
 	@Override
 	public void render () {
+		// first, update the data
+		gsm.update(Gdx.graphics.getDeltaTime());
+		// then render the screen via Game
 		super.render();
 	}
 	

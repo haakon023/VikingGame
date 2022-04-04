@@ -51,6 +51,7 @@ public class GameStateManager {
         states.peek().update(dt);
     }
 
+    // not used as of now:
     public void render(SpriteBatch sb){
         states.peek().render(sb);
     }

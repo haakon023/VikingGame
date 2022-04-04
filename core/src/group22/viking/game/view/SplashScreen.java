@@ -27,7 +27,6 @@ public class SplashScreen implements Screen {
 
     private Stage stage;
     private Image goatIcon;
-    private int counter = 0;
     private VikingGame game;
 
     /*
@@ -83,7 +82,6 @@ public class SplashScreen implements Screen {
 
         //BEGIN
         game.getBatch().begin();
-        counter++;
         Assets.FONT48.draw(game.getBatch(), "Version: 1.0.0", 20,80);
         game.getBatch().end();
     }

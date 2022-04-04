@@ -60,8 +60,9 @@ public class PlayScreen implements Screen {
         System.out.println("PLAY");
 
         //delegate input Events to all Actors
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage);         //TODO: this should probably also be our ECS InputController, right?
 
+        
         oceanBackImage = new Image(Assets.getTexture("img/OceanBack.png"));
         oceanBackImage.setPosition(0,0);
         oceanBackImage.setWidth(VikingGame.SCREEN_WIDTH);
@@ -104,8 +105,6 @@ public class PlayScreen implements Screen {
         stage.addActor(monasteryImage);
 
 
-
-
         //skin
         this.skin = new Skin();
         this.skin.addRegions(Assets.getTextureAtlas("ui/uiskin.atlas"));
@@ -113,12 +112,13 @@ public class PlayScreen implements Screen {
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 
         initButtons();
+
     }
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
 
@@ -151,14 +151,14 @@ public class PlayScreen implements Screen {
 
     }
 
-    public void update(float delta){
-        //calls the act Method of any actor that is added to the stage
-        stage.act(delta);
-    }
-
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public void update(float delta){
+        //calls the act Method of any actor that is added to the stage
+        stage.act(delta);
     }
 
     private void initButtons() {
@@ -170,6 +170,7 @@ public class PlayScreen implements Screen {
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                //TODO: this should be in the state
                 GameStateManager.getInstance(game).push(new MenuState(game));
             }
         });

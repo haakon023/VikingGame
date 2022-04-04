@@ -6,7 +6,6 @@ import group22.viking.game.view.PlayScreen;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,11 +17,8 @@ import group22.viking.game.ECS.components.PlayerControlSystem;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
-import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.VikingGame;
-import group22.viking.game.models.Player;
 
-public class PlayState extends State {        //TODO: implements Screen?
+public class PlayState extends State {
 
     public enum Type {
         TUTORIAL,
@@ -56,7 +52,7 @@ public class PlayState extends State {        //TODO: implements Screen?
 
         Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
-        CreatePlayer();
+        createPlayer();
     }
 
     @Override
@@ -81,13 +77,17 @@ public class PlayState extends State {        //TODO: implements Screen?
         renderingSystem = new RenderingSystem(sb);
         
         engine.addSystem(renderingSystem);
+        initialized = true;
     }
 
     @Override
     public void dispose() {
+        //REVIEW: remove the renderingSystem once the state is not used anymore
+        // engine.removeSystem(engine.getSystem(RenderingSystem.class));
+        engine.removeSystem(renderingSystem);
     }
     
-    private void CreatePlayer()
+    private void createPlayer()
     {
         Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
