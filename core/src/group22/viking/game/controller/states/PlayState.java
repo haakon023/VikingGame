@@ -38,7 +38,7 @@ public class PlayState extends State implements Screen {
         playerControlSystem = new PlayerControlSystem(inputController);
         
         engine.addSystem(playerControlSystem);
-        
+
         CreatePlayer();
     }
 
@@ -57,7 +57,8 @@ public class PlayState extends State implements Screen {
         //Not sure how to do this in a better way, with the setup we have with States that has the render method, which contains a SpriteBatch
         //Rendering system handles everything that has a TextureComponent and a transformComponent
         //or rewrite the state stuff    
-        
+
+
         if(initialized)
             return;
 
@@ -65,6 +66,8 @@ public class PlayState extends State implements Screen {
         renderingSystem = new RenderingSystem(sb);
         
         engine.addSystem(renderingSystem);
+
+        initialized = true;
     }
 
     @Override
