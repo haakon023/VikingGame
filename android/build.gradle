@@ -1,5 +1,5 @@
 android {
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "30.0.2"
     compileSdkVersion 30
     sourceSets {
         main {
@@ -18,16 +18,22 @@ android {
     }
     defaultConfig {
         applicationId "group22.viking.game"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    // fix as indicated here: https://stackoverflow.com/questions/49891730/invoke-customs-are-only-supported-starting-with-android-0-min-api-26
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8     //added as a fix //REVIEW: correct Java version?
+        targetCompatibility JavaVersion.VERSION_1_8     //added as a fix //REVIEW: correct Java version?
     }
 }
 
@@ -87,6 +93,10 @@ task run(type: Exec) {
 
     def adb = path + "/platform-tools/adb"
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'group22.viking.game/group22.viking.game.AndroidLauncher'
+}
+
+dependencies {
+    implementation 'com.google.firebase:firebase-database:20.0.4'
 }
 
 eclipse.project.name = appName + "-android"

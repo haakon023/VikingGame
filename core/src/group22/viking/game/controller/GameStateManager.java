@@ -1,5 +1,6 @@
 package group22.viking.game.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
@@ -26,12 +27,17 @@ public class GameStateManager {
     }
 
     public void push(State state){
+        VikingGame.instance.setScreen(state);
         states.push(state);
         updateScreen();
     }
 
     public void pop(){
         states.pop().dispose();
+    }
+
+    public State get(){
+        return states.peek();
     }
 
     public void set(State state){
