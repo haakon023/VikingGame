@@ -10,11 +10,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
+import group22.viking.game.ECS.VikingSystem;
+import group22.viking.game.ECS.ZComparator;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.PlayerControlSystem;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.ECS.components.VikingComponent;
 import group22.viking.game.controller.GameStateManager;
 
 public class PlayState extends State implements Screen {
@@ -36,10 +39,13 @@ public class PlayState extends State implements Screen {
         
         engine = new PooledEngine();
         playerControlSystem = new PlayerControlSystem(inputController);
+        VikingSystem vikingSystem = new VikingSystem();
         
         engine.addSystem(playerControlSystem);
+        engine.addSystem(vikingSystem);
 
         CreatePlayer();
+        CreateViking();
     }
 
     @Override
@@ -63,7 +69,7 @@ public class PlayState extends State implements Screen {
             return;
 
         //Ideally I'd like to have this in the constructor, but the batch is being passed as parameter
-        renderingSystem = new RenderingSystem(sb);
+        renderingSystem = new RenderingSystem(sb, new ZComparator());
         
         engine.addSystem(renderingSystem);
 
@@ -124,6 +130,25 @@ public class PlayState extends State implements Screen {
         entity.add(state);
         entity.add(plc);
         
+        engine.addEntity(entity);
+        return entity;
+    }
+
+    private Entity CreateViking()
+    {
+        Entity entity = engine.createEntity();
+        TransformComponent tc = engine.createComponent(TransformComponent.class);
+        TextureComponent tex = engine.createComponent(TextureComponent.class);
+        VikingComponent vc = engine.createComponent(VikingComponent.class);
+
+        tc.position.set(0, 0,0);
+
+        tex.region = new TextureRegion(new Texture("badlogic.jpg"));
+
+        entity.add(tc);
+        entity.add(tex);
+        entity.add(vc);
+
         engine.addEntity(entity);
         return entity;
     }

@@ -9,11 +9,11 @@ import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 
-public class PhysicsSystem extends IteratingSystem {
+public class CollisionSystem extends IteratingSystem {
 
     ComponentMapper<CollisionComponent> componentMapper;
 
-    public PhysicsSystem() {
+    public CollisionSystem() {
         super(Family.all(CollisionComponent.class, TransformComponent.class).get());
         componentMapper = ComponentMapper.getFor(CollisionComponent.class);
     }
@@ -32,10 +32,6 @@ public class PhysicsSystem extends IteratingSystem {
                         //do player hit enemy thing
                         System.out.println("player hit enemy");
                         break;
-                    case PLAYER:
-                        //do player hit other thing
-                        System.out.println("player hit other");
-                        break; //technically this isn't needed
                 }
                 cc.collisionEntity = null; // collision handled reset component
             }

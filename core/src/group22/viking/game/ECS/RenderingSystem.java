@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.Comparator;
 
@@ -18,7 +19,7 @@ import group22.viking.game.ECS.components.TransformComponent;
 public class RenderingSystem extends SortedIteratingSystem {
 
     //Pixels per meter
-    static final float PPM = 0.5f;
+    static final float PPM = 32f;
     public static final float PIXELS_TO_METRES = 1.0f / PPM;
     
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;
@@ -46,8 +47,10 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<TransformComponent> cmTransformComp;
     private ComponentMapper<TextureComponent> cmTextureComp;
 
-    public RenderingSystem(SpriteBatch spriteBatch) {
-        super(Family.all(TransformComponent.class).get(), new ZComparator());
+    public RenderingSystem(SpriteBatch spriteBatch, ZComparator comparator) {
+        super(Family.all(TransformComponent.class).get(), comparator);
+        this.comparator = comparator;
+
         this.spriteBatch = spriteBatch;
 
         cmTransformComp = ComponentMapper.getFor(TransformComponent.class);
@@ -89,7 +92,7 @@ public class RenderingSystem extends SortedIteratingSystem {
                     transComp.position.y - originY,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(transComp.scale.x), PixelsToMeters(transComp.scale.x),
+                    PixelsToMeters(transComp.scale.x), PixelsToMeters(transComp.scale.y),
                     transComp.rotation
                     );
         }
