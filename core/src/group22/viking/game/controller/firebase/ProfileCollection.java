@@ -60,14 +60,16 @@ public class ProfileCollection extends FirebaseCollection{
      */
     public void addFinishedGame(Profile profile,
                                 boolean win,
+                                long score,
                                 final OnCollectionUpdatedListener listener)
     {
         profile.setIsLoaded(false);
-        profile.addFinishedGame(win);
+        profile.addFinishedGame(win, score);
 
         Map<String, Object> profileValues = new HashMap<>();
         profileValues.put(Profile.KEY_GAMES_WON, profile.getWonGames());
         profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
+        profileValues.put(Profile.KEY_HIGHSCORE, profile.getHighscore());
 
         this.firebaseInterface.addOrUpdateDocument(this.name, profile.getId(), profileValues, new OnPostDataListener() {
             @Override
@@ -120,6 +122,22 @@ public class ProfileCollection extends FirebaseCollection{
                     }
                 }
         );
+    }
+
+    public void getLeaderboardFromTo(int from, int to, OnCollectionUpdatedListener listener) {
+        firebaseInterface.getAll(name, Profile.KEY_HIGHSCORE, to, new OnGetDataListener() {
+            @Override
+            public void onGetData(String documentId, Map<String, Object> data) {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+
     }
 
     public void setHostId(String hostId) {

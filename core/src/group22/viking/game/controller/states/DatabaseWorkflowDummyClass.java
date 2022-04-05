@@ -181,7 +181,8 @@ public class DatabaseWorkflowDummyClass {
                 // game.getHealthHost();
                 // game.isRunning();
 
-                hostEndsGame(true); //dummy
+                long score = -1; // dummy
+                hostEndsGame(true, score); //dummy
             }
 
             @Override
@@ -195,10 +196,8 @@ public class DatabaseWorkflowDummyClass {
         return gameCollection.reduceOwnHealth(damage);
     }
 
-    private void hostEndsGame(boolean hostWin) {
-
-
-        profileCollection.addFinishedGame(profileCollection.getHostProfile(), hostWin, new OnCollectionUpdatedListener() {
+    private void hostEndsGame(boolean hostWin, long score) {
+        profileCollection.addFinishedGame(profileCollection.getHostProfile(), hostWin, score, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 // nothing?
@@ -209,7 +208,7 @@ public class DatabaseWorkflowDummyClass {
                 // TODO
             }
         });
-        profileCollection.addFinishedGame(profileCollection.getGuestProfile(), !hostWin, new OnCollectionUpdatedListener() {
+        profileCollection.addFinishedGame(profileCollection.getGuestProfile(), !hostWin, score, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 // nothing?
