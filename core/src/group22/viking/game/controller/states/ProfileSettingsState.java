@@ -18,7 +18,7 @@ public class ProfileSettingsState extends State {
 
     }
 
-    @Override
+    /*@Override
     public void update(float dt) {
 
     }
@@ -27,7 +27,7 @@ public class ProfileSettingsState extends State {
     @Override
     public void render(SpriteBatch sb) {
 
-    }
+    }*/
 
     @Override
     public void dispose() {

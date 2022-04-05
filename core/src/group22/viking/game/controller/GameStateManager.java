@@ -29,7 +29,7 @@ public class GameStateManager {
     public void push(State state){
         // VikingGame.instance.setScreen(state);        // probably not necessary, as we have the updateScreen() method below
         states.push(state);
-        updateScreen();
+        //updateScreen();
     }
 
     public void pop(){
@@ -43,20 +43,20 @@ public class GameStateManager {
     public void set(State state){
         states.pop().dispose();
         states.push(state);
-        updateScreen();
+        //updateScreen();
     }
 
     //TODO: adapt the update and render functions as they are not contained in the states anymore
-    public void update(float dt){
+    /*public void update(float dt){
         states.peek().update(dt);
-    }
+    }*/
 
     // not used as of now:
-    public void render(SpriteBatch sb){
+    /*public void render(SpriteBatch sb){
         states.peek().render(sb);
-    }
+    }*/
 
-    public void updateScreen() {
+    /*public void updateScreen() {
         game.setScreen(states.peek().getScreen());
-    }
+    }*/
 }

@@ -23,10 +23,10 @@ public class SplashState extends State {
 
     }
 
-    @Override
+    /*@Override
     public void render(SpriteBatch sb) {
 
-    }
+    }*/
 
     @Override
     public void dispose() {

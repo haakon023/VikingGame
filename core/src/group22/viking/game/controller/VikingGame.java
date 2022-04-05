@@ -53,7 +53,7 @@ public class VikingGame extends Game {
 		batch = new SpriteBatch();
 
 		gsm = GameStateManager.getInstance(this);
-		gsm.push(new SplashState(this));
+		gsm.push(new PlayState(this, PlayState.Type.TUTORIAL));
 		// gsm.push(new PlayState(gsm));
 
 		// gsm.push(new MenuState(gsm,
@@ -75,7 +75,8 @@ public class VikingGame extends Game {
 	@Override
 	public void render () {
 		// first, update the data
-		gsm.update(Gdx.graphics.getDeltaTime());
+		//gsm.update(Gdx.graphics.getDeltaTime());
+		//gsm.render(new SpriteBatch());
 		// then render the screen via Game
 		super.render();
 	}

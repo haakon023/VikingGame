@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
 
 import java.util.Comparator;
 
@@ -63,7 +64,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     public void update(float deltaTime)
     {
         super.update(deltaTime);
-        renderQueue.sort(comparator);
+        renderQueue.sort(new ZComparator());
         
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);

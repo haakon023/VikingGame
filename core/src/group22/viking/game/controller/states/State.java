@@ -18,8 +18,8 @@ public abstract class State {       //TODO: implements Screen ; or has screen?
     }
 
     protected abstract void handleInput();
-    public abstract void update(float dt);
-    public abstract void render(SpriteBatch sb);
+    //public abstract void update(float dt);
+    //public abstract void render(SpriteBatch sb);
 
     public abstract void dispose();
 

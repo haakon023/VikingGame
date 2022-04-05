@@ -24,10 +24,12 @@ import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.controller.states.PlayState;
+import group22.viking.game.controller.states.State;
 import group22.viking.game.models.Assets;
+import group22.viking.game.models.Entity;
 import group22.viking.game.view.components.CustomTextButton;
 
-public class PlayScreen implements Screen {
+public class PlayScreen /*implements Screen */{
 
     private Stage stage;
 
@@ -47,23 +49,28 @@ public class PlayScreen implements Screen {
 
     private VikingGame game;
 
+    private PlayState state;
+
     /*
     constructor, do not load any actual files like pngs here. Instead do it in the show method
     */
-    public PlayScreen(VikingGame game) {
+    public PlayScreen(VikingGame game, PlayState state) {
         this.game = game;
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, game.getCamera()));
+        this.state = state;
     }
 
-    @Override
+    //@Override
     public void show() {
         System.out.println("PLAY");
 
+
         //delegate input Events to all Actors
-        Gdx.input.setInputProcessor(stage);         //TODO: this should probably also be our ECS InputController, right?
+        //Gdx.input.setInputProcessor(stage);         //TODO: this should probably also be our ECS InputController, right?
+
 
         
-        oceanBackImage = new Image(Assets.getTexture("img/OceanBack.png"));
+        /*oceanBackImage = new Image(Assets.getTexture("img/OceanBack.png"));
         oceanBackImage.setPosition(0,0);
         oceanBackImage.setWidth(VikingGame.SCREEN_WIDTH);
         oceanBackImage.setHeight(VikingGame.SCREEN_HEIGHT);
@@ -112,10 +119,10 @@ public class PlayScreen implements Screen {
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 
         initButtons();
-
+*/
     }
 
-    @Override
+    //@Override
     public void render(float delta) {
 
         Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
@@ -131,7 +138,7 @@ public class PlayScreen implements Screen {
         game.getBatch().end();
     }
 
-    @Override
+    /*@Override
     public void resize(int width, int height) {
 
     }
@@ -154,7 +161,7 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-    }
+    }*/
 
     public void update(float delta){
         //calls the act Method of any actor that is added to the stage

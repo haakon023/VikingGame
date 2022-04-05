@@ -44,10 +44,10 @@ public class MenuState extends State {
 
     }
 
-    @Override
+    /*@Override
     public void render(SpriteBatch sb) {
 
-    }
+    }*/
 
     @Override
     public void dispose() {
