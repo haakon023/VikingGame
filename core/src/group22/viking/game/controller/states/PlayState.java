@@ -14,11 +14,15 @@ import group22.viking.game.ECS.VikingSystem;
 import group22.viking.game.ECS.ZComparator;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.PlayerControlSystem;
+import group22.viking.game.ECS.components.PowerUpComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.VikingComponent;
 import group22.viking.game.controller.GameStateManager;
+import group22.viking.game.factory.PlayerFactory;
+import group22.viking.game.factory.PowerUpFactory;
+import group22.viking.game.factory.VikingFactory;
 
 public class PlayState extends State implements Screen {
     private Texture muteSoundBtn;
@@ -44,8 +48,15 @@ public class PlayState extends State implements Screen {
         engine.addSystem(playerControlSystem);
         engine.addSystem(vikingSystem);
 
-        CreatePlayer();
-        CreateViking();
+
+        VikingFactory vikingFactory = new VikingFactory(engine);
+        Entity viking =  vikingFactory.createEntity(0,0,0, new Texture("badlogic.jpg"));
+        PlayerFactory playerFactory = new PlayerFactory(engine);
+        float width = Gdx.graphics.getWidth();
+        Entity player =  playerFactory.createEntity(width / 2, Gdx.graphics.getHeight() / 2,0, new Texture("badlogic.jpg"));
+        engine.addEntity(player);
+        engine.addEntity(viking);
+
     }
 
     @Override
@@ -111,45 +122,5 @@ public class PlayState extends State implements Screen {
 
     }
     
-    private Entity CreatePlayer()
-    {
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        StateComponent state = engine.createComponent(StateComponent.class);
-        PlayerComponent plc = engine.createComponent(PlayerComponent.class);
 
-        float width = Gdx.graphics.getWidth();
-        tc.position.set(width / 2, Gdx.graphics.getHeight() / 2,0);
-        state.set(StateComponent.STATE_NORMAL); 
-        
-        tex.region = new TextureRegion(new Texture("badlogic.jpg"));
-        
-        entity.add(tc);
-        entity.add(tex);
-        entity.add(state);
-        entity.add(plc);
-        
-        engine.addEntity(entity);
-        return entity;
-    }
-
-    private Entity CreateViking()
-    {
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        VikingComponent vc = engine.createComponent(VikingComponent.class);
-
-        tc.position.set(0, 0,0);
-
-        tex.region = new TextureRegion(new Texture("badlogic.jpg"));
-
-        entity.add(tc);
-        entity.add(tex);
-        entity.add(vc);
-
-        engine.addEntity(entity);
-        return entity;
-    }
 }
