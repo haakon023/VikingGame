@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.Comparator;
 
@@ -19,7 +18,7 @@ import group22.viking.game.ECS.components.TransformComponent;
 public class RenderingSystem extends SortedIteratingSystem {
 
     //Pixels per meter
-    static final float PPM = 32f;
+    static final float PPM = 1f;
     public static final float PIXELS_TO_METRES = 1.0f / PPM;
     
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;
