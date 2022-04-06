@@ -63,9 +63,9 @@ public class EntityFactory {
         tc.position.set(screenMiddle);
         tc.position.add(position);
 
-        tc.scale.set(screenSize);
-        tc.scale.scl(1 / texture.getWidth(), 1 / texture.getHeight());
-        tc.scale.scl(scale);
+        tc.scale.set(
+                screenSize.x / texture.getWidth() * scale,
+                screenSize.y / texture.getHeight() * scale);
 
         tex.region = new TextureRegion(texture);
 

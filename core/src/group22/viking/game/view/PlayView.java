@@ -27,33 +27,33 @@ public class PlayView extends View {
     public void buildBackground(EntityFactory factory) {
         factory.createTexture(
                 Assets.getTexture(Assets.OCEANBACK),
-                new Vector3(0,0,-5),
+                new Vector3(0,0,-6),
                 1.5F
         );
         factory.createTexture(
                 Assets.getTexture(Assets.OCEANTOP),
-                new Vector3(0,0,-4),
+                new Vector3(0,0,-5),
                 1.5F
         );
         factory.createTexture(
                 Assets.getTexture(Assets.WAVEBOTTOM),
                 new Vector3(0,0,-4),
-                1.5F
+                0.4F
         );
         factory.createTexture(
                 Assets.getTexture(Assets.ISLAND),
-                new Vector3(0,0,-4),
-                1.5F
+                new Vector3(0,0,-3),
+                0.3F
         );
         factory.createTexture(
                 Assets.getTexture(Assets.WAVETOP),
-                new Vector3(0,0,-4),
-                1.5F
+                new Vector3(0,-76,-2),
+                0.3F
         );
         factory.createTexture(
                 Assets.getTexture(Assets.MONASTERY),
-                new Vector3(0,200,-4),
-                1.5F
+                new Vector3(0,200,-1),
+                0.2F
         );
         // ...
 
