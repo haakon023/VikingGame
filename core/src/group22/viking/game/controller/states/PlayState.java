@@ -20,6 +20,7 @@ import group22.viking.game.ECS.components.PlayerControlSystem;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.view.PlayView;
 
 public class PlayState extends State {
 
@@ -62,7 +63,7 @@ public class PlayState extends State {
         //Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
         Entity player = entityFactory.createPlayer();
-        ((PlayScreen) screen).buildBackground(entityFactory);
+        ((PlayView) view).buildBackground(entityFactory);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class PlayState extends State {
 
     //@Override
     public void show() {
-        screen.show();
+        view.show();
         Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
         engine.addSystem(playerControlSystem);
