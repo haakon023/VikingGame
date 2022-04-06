@@ -55,7 +55,6 @@ public class MenuState extends State {
 
     }
 
-
     public void testFirestore() {
         // test Firestore:
         //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
@@ -69,9 +68,60 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
-                System.out.println("TUT BUTTON CLICKED");
                 GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.TUTORIAL));
             }
         });
+
+        ((MenuView) view).getPracticeButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.PRACTICE));
+            }
+        });
+
+        ((MenuView) view).getHostButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance(game).push(new LobbyState(game));
+            }
+        });
+
+
+        ((MenuView) view).getJoinButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance(game).push(new LobbyState(game));
+            }
+        });
+
+        ((MenuView) view).getProfileButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance(game).push(new ProfileSettingsState(game));
+            }
+        });
+
+        ((MenuView) view).getLeaderboardButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance(game).push(new LeaderboardState(game));
+            }
+        });
+
+        ((MenuView) view).getExitButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+            }
+        });
+
+        ((MenuView) view).getMuteButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo
+            }
+        });
+
+
     }
 }

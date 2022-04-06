@@ -16,17 +16,6 @@ public class ProfileSettingsState extends State {
 
     }
 
-    /*@Override
-    public void update(float dt) {
-
-    }*/
-
-
-    @Override
-    public void render(float deltaTime) {
-
-    }
-
     @Override
     public void dispose() {
 

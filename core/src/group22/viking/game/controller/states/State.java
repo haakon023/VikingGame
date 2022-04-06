@@ -9,7 +9,7 @@ import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.View;
 
-public abstract class State {       //TODO: implements Screen ; or has screen?
+public abstract class State {
     //protected OrthographicCamera cam; Do we want this?
     protected Vector3 mouse;
     protected VikingGame game;

@@ -48,11 +48,6 @@ public class SplashState extends State {
     }
 
     @Override
-    public void render(float deltaTime) {
-        view.render(deltaTime);
-    }
-
-    @Override
     public void dispose() {
 
     }
