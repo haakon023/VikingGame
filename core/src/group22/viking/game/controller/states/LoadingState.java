@@ -20,7 +20,7 @@ public class LoadingState extends State {
 
         Assets.load();
 
-        ((LoadingView) view).init();
+        view.init();
     }
 
 

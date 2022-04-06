@@ -12,15 +12,22 @@ import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 public class EntityFactory {
 
     private PooledEngine engine;
+    private Vector3 screenMiddle;
+    private Vector2 screenSize;
+
 
     public EntityFactory(PooledEngine engine) {
         this.engine = engine;
+        this.screenMiddle = new Vector3(VikingGame.SCREEN_WIDTH / 2, VikingGame.SCREEN_HEIGHT / 2, 0);
+        this.screenSize = new Vector2(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT);
     }
+
     public Entity createPlayer()
     {
         Entity entity = engine.createEntity();
@@ -32,8 +39,9 @@ public class EntityFactory {
         float test = Gdx.graphics.getWidth();
         tc.position.set(test / 2, Gdx.graphics.getHeight() / 2,0);
         state.set(StateComponent.STATE_NORMAL);
+        tc.scale.scl(0.5f);
 
-        tex.region = new TextureRegion(new Texture(Assets.WIZARDSPRITE));
+        tex.region = new TextureRegion(Assets.getTexture(Assets.WIZARDSPRITE));
 
         entity.add(tc);
         entity.add(tex);
@@ -46,17 +54,20 @@ public class EntityFactory {
 
     }
 
-    public Entity createTexture(String imagePath, Vector3 position, Vector2 scale)
+    public Entity createTexture(Texture texture, Vector3 position, float scale)
     {
         Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
 
+        tc.position.set(screenMiddle);
+        tc.position.add(position);
 
-        tc.position.set(position);
-        tc.scale.set(scale);
+        tc.scale.set(screenSize);
+        tc.scale.scl(1 / texture.getWidth(), 1 / texture.getHeight());
+        tc.scale.scl(scale);
 
-        tex.region = new TextureRegion(new Texture(imagePath));
+        tex.region = new TextureRegion(texture);
 
         entity.add(tc);
         entity.add(tex);

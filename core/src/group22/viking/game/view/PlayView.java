@@ -25,13 +25,35 @@ public class PlayView extends View {
     }
 
     public void buildBackground(EntityFactory factory) {
-        float zoom = 1.35F;
         factory.createTexture(
-                Assets.OCEANBACK,
-                new Vector3(VikingGame.SCREEN_WIDTH / 2,VikingGame.SCREEN_HEIGHT / 2,-1),
-                new Vector2(
-                        VikingGame.SCREEN_HEIGHT / Assets.getTexture(Assets.OCEANBACK).getHeight() * zoom,
-                        VikingGame.SCREEN_WIDTH / Assets.getTexture(Assets.OCEANBACK).getWidth() * zoom)
+                Assets.getTexture(Assets.OCEANBACK),
+                new Vector3(0,0,-5),
+                1.5F
+        );
+        factory.createTexture(
+                Assets.getTexture(Assets.OCEANTOP),
+                new Vector3(0,0,-4),
+                1.5F
+        );
+        factory.createTexture(
+                Assets.getTexture(Assets.WAVEBOTTOM),
+                new Vector3(0,0,-4),
+                1.5F
+        );
+        factory.createTexture(
+                Assets.getTexture(Assets.ISLAND),
+                new Vector3(0,0,-4),
+                1.5F
+        );
+        factory.createTexture(
+                Assets.getTexture(Assets.WAVETOP),
+                new Vector3(0,0,-4),
+                1.5F
+        );
+        factory.createTexture(
+                Assets.getTexture(Assets.MONASTERY),
+                new Vector3(0,200,-4),
+                1.5F
         );
         // ...
 

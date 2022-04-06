@@ -68,7 +68,7 @@ public class Assets {
         assetManager.load("img/KnightSpriteHead.png", Texture.class);
         assetManager.load("img/WarriorWomanSprite.png", Texture.class);
         assetManager.load("img/WarriorWomanSpriteHead.png", Texture.class);
-        assetManager.load("img/WizardSprite.png", Texture.class);
+        assetManager.load(Assets.WIZARDSPRITE, Texture.class);
         assetManager.load("img/WizardSpriteHead.png", Texture.class);
 
         //main game background
@@ -77,7 +77,7 @@ public class Assets {
         assetManager.load("img/WaveBottom.png", Texture.class);
         assetManager.load("img/Island.png", Texture.class);
         assetManager.load("img/WaveTop.png", Texture.class);
-        assetManager.load("img/Monastery.png", Texture.class);
+        assetManager.load(Assets.MONASTERY, Texture.class);
 
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);
