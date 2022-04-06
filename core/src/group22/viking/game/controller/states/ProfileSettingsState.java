@@ -1,15 +1,13 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.view.ProfileScreen;
+import group22.viking.game.view.ProfileSettingsView;
 
 
 public class ProfileSettingsState extends State {
 
     public ProfileSettingsState(final VikingGame game) {
-        super(new ProfileScreen(game));
+        super(new ProfileSettingsView(game.getBatch()));
     }
 
 
@@ -21,13 +19,13 @@ public class ProfileSettingsState extends State {
     /*@Override
     public void update(float dt) {
 
-    }
+    }*/
 
 
     @Override
-    public void render(SpriteBatch sb) {
+    public void render(float deltaTime) {
 
-    }*/
+    }
 
     @Override
     public void dispose() {

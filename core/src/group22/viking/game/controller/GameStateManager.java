@@ -52,9 +52,9 @@ public class GameStateManager {
     }*/
 
     // not used as of now:
-    /*public void render(SpriteBatch sb){
-        states.peek().render(sb);
-    }*/
+    public void render(float deltaTime){
+        states.peek().render(deltaTime);
+    }
 
     /*public void updateScreen() {
         game.setScreen(states.peek().getScreen());

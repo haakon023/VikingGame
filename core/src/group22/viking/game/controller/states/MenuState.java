@@ -3,12 +3,15 @@ package group22.viking.game.controller.states;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.awt.Menu;
+
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.MenuScreen;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.view.MenuView;
 
 public class MenuState extends State {
     private Texture background;
@@ -24,14 +27,14 @@ public class MenuState extends State {
                      FirebaseProfileCollection firebaseProfileCollection,
                      FirebaseGameCollection firebaseGameCollection) {
         // super(gsm);
-        super(new MenuScreen(game));
+        super(new MenuView(game.getBatch()));
         this.firebaseProfileCollection = firebaseProfileCollection;
         this.firebaseGameCollection = firebaseGameCollection;
     }
 
     // alternative constructor w/o Firebase for now:
     public MenuState(VikingGame game) {
-        super(new MenuScreen(game));
+        super(new MenuView(game.getBatch()));
     }
 
 
@@ -44,10 +47,9 @@ public class MenuState extends State {
 
     }
 
-    /*@Override
-    public void render(SpriteBatch sb) {
+    public void render(float deltaTime) {
 
-    }*/
+    }
 
     @Override
     public void dispose() {

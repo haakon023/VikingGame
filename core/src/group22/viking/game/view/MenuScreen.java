@@ -212,7 +212,7 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         //background.dispose();
-        title.dispose();
+        //title.dispose();
         stage.dispose();
     }
 
@@ -231,6 +231,7 @@ public class MenuScreen implements Screen {
         tutorialButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                dispose();
                 GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.TUTORIAL));
             }
         });
@@ -351,4 +352,41 @@ public class MenuScreen implements Screen {
 
 
     }
+
+    public CustomTextButton getTutorialButton() {
+        return tutorialButton;
+    }
+
+    public CustomTextButton getPracticeButton() {
+        return practiceButton;
+    }
+
+    public CustomTextButton getJoinButton() {
+        return joinButton;
+    }
+
+    public CustomTextButton getHostButton() {
+        return hostButton;
+    }
+
+    public CustomTextButton getLeaderboardButton() {
+        return leaderboardButton;
+    }
+
+    public CustomTextButton getUnmuteButton() {
+        return unmuteButton;
+    }
+
+    public CustomTextButton getExitButton() {
+        return exitButton;
+    }
+
+    public TextField getJoinTextField() {
+        return joinTextField;
+    }
+
+    public CustomImageButton getProfileButton() {
+        return profileButton;
+    }
+
 }

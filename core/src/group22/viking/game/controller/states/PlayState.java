@@ -57,7 +57,6 @@ public class PlayState extends State {
         this.playerControlSystem = new PlayerControlSystem(inputController);
         this.renderingSystem = new RenderingSystem(game.getBatch());
 
-
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(renderingSystem);
         //Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())

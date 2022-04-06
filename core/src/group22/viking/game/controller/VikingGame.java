@@ -17,6 +17,7 @@ import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.controller.states.SplashState;
 import group22.viking.game.models.Assets;
+import group22.viking.game.view.MenuView;
 
 public class VikingGame extends Game {
 
@@ -52,9 +53,12 @@ public class VikingGame extends Game {
 		camera.setToOrtho(false,VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
 		batch = new SpriteBatch();
 
+		MenuView menuView = new MenuView(batch);
+		menuView.render(Gdx.graphics.getDeltaTime());
+
 		gsm = GameStateManager.getInstance(this);
-		gsm.push(new PlayState(this, PlayState.Type.TUTORIAL));
-		// gsm.push(new PlayState(gsm));
+		// gsm.push(new PlayState(this, PlayState.Type.TUTORIAL));
+		gsm.push(new SplashState(this));
 
 		// gsm.push(new MenuState(gsm,
 		//		firebaseProfileCollection,
@@ -76,9 +80,9 @@ public class VikingGame extends Game {
 	public void render () {
 		// first, update the data
 		//gsm.update(Gdx.graphics.getDeltaTime());
-		//gsm.render(new SpriteBatch());
+		gsm.render(Gdx.graphics.getDeltaTime());
 		// then render the screen via Game
-		super.render();
+		// super.render();
 	}
 	
 	@Override
