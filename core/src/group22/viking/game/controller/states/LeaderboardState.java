@@ -12,7 +12,7 @@ public class LeaderboardState extends State {
 
 
     public LeaderboardState(VikingGame game) {
-        super(new LeaderboardView(game.getBatch()));
+        super(new LeaderboardView(game.getBatch()), game);
     }
 
     @Override

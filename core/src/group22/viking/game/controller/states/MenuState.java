@@ -27,14 +27,15 @@ public class MenuState extends State {
                      FirebaseProfileCollection firebaseProfileCollection,
                      FirebaseGameCollection firebaseGameCollection) {
         // super(gsm);
-        super(new MenuView(game.getBatch()));
+        super(new MenuView(game.getBatch(), game.getCamera()), game);
         this.firebaseProfileCollection = firebaseProfileCollection;
         this.firebaseGameCollection = firebaseGameCollection;
     }
 
     // alternative constructor w/o Firebase for now:
     public MenuState(VikingGame game) {
-        super(new MenuView(game.getBatch()));
+        super(new MenuView(game.getBatch(), game.getCamera()), game);
+        System.out.println("MENU STATE CREATED");
     }
 
 

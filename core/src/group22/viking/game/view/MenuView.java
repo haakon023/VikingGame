@@ -1,9 +1,10 @@
 package group22.viking.game.view;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MenuView extends View {
-    public MenuView(SpriteBatch batch) {
+    public MenuView(SpriteBatch batch, Camera camera) {
         super(batch);
     }
 

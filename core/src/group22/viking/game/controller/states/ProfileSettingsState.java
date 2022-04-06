@@ -7,7 +7,7 @@ import group22.viking.game.view.ProfileSettingsView;
 public class ProfileSettingsState extends State {
 
     public ProfileSettingsState(final VikingGame game) {
-        super(new ProfileSettingsView(game.getBatch()));
+        super(new ProfileSettingsView(game.getBatch()), game);
     }
 
 

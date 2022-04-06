@@ -42,7 +42,7 @@ public class PlayState extends State implements Screen {
     private Type type;
     
     public PlayState(VikingGame game, Type type) {             //TODO: GameStateManager gsm, 
-        super(null);                           //TODO: GSM necessary here?
+        super(null, game);                           //TODO: GSM necessary here?
         this.type = type;
         // super(gsm);
         
