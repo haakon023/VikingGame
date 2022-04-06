@@ -34,7 +34,7 @@ public class SplashState extends State {
                         moveTo(VikingGame.SCREEN_WIDTH/2-100, VikingGame.SCREEN_HEIGHT/2-100,2f,Interpolation.swing)),
                 delay(1.5f), fadeOut(1.25f), run(createTransitionRunnable())));
 
-        ((SplashView) view).show();
+        ((SplashView) view).init();
 
     }
 

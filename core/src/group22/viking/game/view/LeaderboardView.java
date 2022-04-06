@@ -9,7 +9,12 @@ public class LeaderboardView extends View {
     }
 
     @Override
-    void show() {
+    public void init() {
+
+    }
+
+    @Override
+    public void runInitialAnimations() {
 
     }
 

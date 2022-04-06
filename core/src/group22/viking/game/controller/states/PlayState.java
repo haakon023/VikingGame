@@ -47,6 +47,9 @@ public class PlayState extends State {
     
     public PlayState(VikingGame game, Type type) {             //TODO: GameStateManager gsm, 
         super(new PlayView(game.getBatch(), game.getCamera()), game);                           //TODO: GSM necessary here?
+
+        System.out.println("PLAYSTATE CONSTRUCTOR ");
+
         this.type = type;
 
         // super(gsm);
@@ -60,7 +63,7 @@ public class PlayState extends State {
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(renderingSystem);
-        //Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
+        Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
         Entity player = entityFactory.createPlayer();
         ((PlayView) view).buildBackground(entityFactory);
@@ -72,9 +75,9 @@ public class PlayState extends State {
     }
 
 
-    //@Override
-    public void show() {
-        view.show();
+    @Override
+    public void reinitialize() {
+        view.runInitialAnimations();
         Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
         engine.addSystem(playerControlSystem);

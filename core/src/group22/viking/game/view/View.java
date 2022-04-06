@@ -3,10 +3,13 @@ package group22.viking.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class View {
 
     protected SpriteBatch batch;
+    protected Stage stage;
+
 
     public View(SpriteBatch batch) {
         this.batch = batch;
@@ -15,7 +18,9 @@ public abstract class View {
     /**
      * call show() every time a view is shown again, e.g. after changing views
      */
-    abstract void show();
+    public abstract void init();
+
+    public abstract void runInitialAnimations();
 
     /**
      *
@@ -34,4 +39,7 @@ public abstract class View {
 
     public void dispose() {}
 
+    public Stage getStage() {
+        return stage;
+    }
 }

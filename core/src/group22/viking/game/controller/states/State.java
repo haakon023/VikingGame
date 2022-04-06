@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
+import group22.viking.game.ECS.InputController;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.View;
@@ -13,6 +14,7 @@ public abstract class State {       //TODO: implements Screen ; or has screen?
     protected Vector3 mouse;
     protected VikingGame game;
     protected View view;
+    protected InputController inputController;
 
     protected State(View view, VikingGame game){
         //cam = new OrthographicCamera(); Do we want this?
@@ -23,8 +25,18 @@ public abstract class State {       //TODO: implements Screen ; or has screen?
 
     protected abstract void handleInput();
 
-    public abstract void render(float deltaTime);
+    public void reinitialize() {
+        view.runInitialAnimations();
+    }
 
-    public abstract void dispose();
+    public void pause() {}
+
+    public void render(float deltaTime) {
+        view.render(deltaTime);
+    }
+
+    public void dispose() {
+        view.dispose();
+    }
 
 }

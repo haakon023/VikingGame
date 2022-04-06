@@ -6,10 +6,19 @@ public class LobbyView extends View {
 
     public LobbyView(SpriteBatch batch) {
         super(batch);
+
+        this.init();
     }
 
     @Override
-    void show() {
+    public void init() {
+
+
+        runInitialAnimations();
+    }
+
+    @Override
+    public void runInitialAnimations() {
 
     }
 

@@ -24,7 +24,7 @@ public class SplashView extends View {
     }
 
     @Override
-    public void show() {
+    public void init() {
 
         System.out.println("SPLASH");
 
@@ -40,6 +40,13 @@ public class SplashView extends View {
 
         stage.addActor(goatIcon);
         stage.act(0);
+
+        this.runInitialAnimations();
+    }
+
+    @Override
+    public void runInitialAnimations() {
+
     }
 
     @Override

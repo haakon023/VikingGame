@@ -1,10 +1,14 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.Menu;
 
+import group22.viking.game.ECS.InputController;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.MenuScreen;
 
@@ -35,6 +39,9 @@ public class MenuState extends State {
     // alternative constructor w/o Firebase for now:
     public MenuState(VikingGame game) {
         super(new MenuView(game.getBatch(), game.getCamera()), game);
+        Gdx.input.setInputProcessor(view.getStage());
+        addListenersToButtons();
+
         System.out.println("MENU STATE CREATED");
     }
 
@@ -48,19 +55,23 @@ public class MenuState extends State {
 
     }
 
-    public void render(float deltaTime) {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
 
     public void testFirestore() {
         // test Firestore:
         //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
         firebaseGameCollection.startGame(0, 0);
         //firebaseGameCollection.getGame();
+    }
+
+
+    private void addListenersToButtons() {
+        ((MenuView) view).getTutorialButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                dispose();
+                System.out.println("TUT BUTTON CLICKED");
+                GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.TUTORIAL));
+            }
+        });
     }
 }

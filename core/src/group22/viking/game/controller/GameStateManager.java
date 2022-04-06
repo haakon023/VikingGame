@@ -27,13 +27,13 @@ public class GameStateManager {
     }
 
     public void push(State state){
-        // VikingGame.instance.setScreen(state);        // probably not necessary, as we have the updateScreen() method below
+        if(!states.isEmpty()) states.peek().pause();
         states.push(state);
-        //updateScreen();
     }
 
     public void pop(){
         states.pop().dispose();
+        states.peek().reinitialize();
     }
 
     public State get(){
@@ -43,20 +43,9 @@ public class GameStateManager {
     public void set(State state){
         states.pop().dispose();
         states.push(state);
-        //updateScreen();
     }
 
-    //TODO: adapt the update and render functions as they are not contained in the states anymore
-    /*public void update(float dt){
-        states.peek().update(dt);
-    }*/
-
-    // not used as of now:
     public void render(float deltaTime){
         states.peek().render(deltaTime);
     }
-
-    /*public void updateScreen() {
-        game.setScreen(states.peek().getScreen());
-    }*/
 }

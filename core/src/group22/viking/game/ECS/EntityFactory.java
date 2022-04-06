@@ -12,6 +12,7 @@ import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.models.Assets;
 
 public class EntityFactory {
 
@@ -32,7 +33,7 @@ public class EntityFactory {
         tc.position.set(test / 2, Gdx.graphics.getHeight() / 2,0);
         state.set(StateComponent.STATE_NORMAL);
 
-        tex.region = new TextureRegion(new Texture("img/OceanBack.png"));
+        tex.region = new TextureRegion(new Texture(Assets.WIZARDSPRITE));
 
         entity.add(tc);
         entity.add(tex);
@@ -51,7 +52,7 @@ public class EntityFactory {
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
 
-        float test = Gdx.graphics.getWidth();
+
         tc.position.set(position);
         tc.scale.set(scale);
 

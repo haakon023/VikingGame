@@ -71,16 +71,6 @@ public class PlayScreen implements Screen {
         //this.renderingSystem = renderingSystem;
     }
 
-    public void buildBackground(EntityFactory factory) {
-        factory.createTexture(
-                Assets.OCEANBACK,
-                new Vector3(0,0,-1),
-                new Vector2(VikingGame.SCREEN_HEIGHT, VikingGame.SCREEN_WIDTH)
-        );
-        // ...
-
-
-    }
 
     // depreciated:
     public void show() {
@@ -142,6 +132,11 @@ public class PlayScreen implements Screen {
 
         initButtons();
 */
+    }
+
+    @Override
+    public void render(float delta) {
+
     }
 
     @Override

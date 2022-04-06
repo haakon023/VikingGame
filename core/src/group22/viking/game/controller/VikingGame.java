@@ -53,9 +53,6 @@ public class VikingGame extends Game {
 		camera.setToOrtho(false,VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
 		batch = new SpriteBatch();
 
-		MenuView menuView = new MenuView(batch, camera);
-		menuView.render(Gdx.graphics.getDeltaTime());
-
 		gsm = GameStateManager.getInstance(this);
 		// gsm.push(new PlayState(this, PlayState.Type.TUTORIAL));
 		gsm.push(new SplashState(this));

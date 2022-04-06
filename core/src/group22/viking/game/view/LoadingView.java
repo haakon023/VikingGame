@@ -36,7 +36,7 @@ public class LoadingView extends View {
     }
 
     @Override
-    public void show() {
+    public void init() {
         System.out.println("LOADING");
 
         vikingHeader = new Image(new Texture("img/vikingHeader.png"));
@@ -55,6 +55,10 @@ public class LoadingView extends View {
 
         stage.act(0);
         this.progress = 0f;
+    }
+
+    @Override
+    public void runInitialAnimations() {
 
     }
 
