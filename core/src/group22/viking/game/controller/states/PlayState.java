@@ -51,12 +51,13 @@ public class PlayState extends State implements Screen {
         playScreen = new PlayScreen(game, this);
 
         engine = new PooledEngine();
+
         playerControlSystem = new PlayerControlSystem(inputController);
-        
         engine.addSystem(playerControlSystem);
 
        // Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
-        renderingSystem = new RenderingSystem(new SpriteBatch());
+        // renderingSystem = new RenderingSystem(new SpriteBatch());
+        renderingSystem = new RenderingSystem(game.getBatch());     // get game's SpriteBatch
         game.setScreen(this);
         engine.addSystem(renderingSystem);
         createPlayer();
@@ -141,8 +142,9 @@ public class PlayState extends State implements Screen {
         tc.position.set(test / 2, Gdx.graphics.getHeight() / 2,0);
         state.set(StateComponent.STATE_NORMAL); 
         
-        tex.region = new TextureRegion(new Texture("img/OceanBack.png"));
-        
+        tex.region = new TextureRegion(new Texture("img/WizardSprite.png"));
+        // tex.region = new TextureRegion(new Texture("img/OceanBack.png"));
+
         entity.add(tc);
         entity.add(tex);
         entity.add(state);
