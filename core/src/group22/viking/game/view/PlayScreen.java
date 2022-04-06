@@ -6,12 +6,16 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -20,16 +24,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import group22.viking.game.ECS.EntityFactory;
+import group22.viking.game.ECS.RenderingSystem;
+import group22.viking.game.ECS.components.PlayerComponent;
+import group22.viking.game.ECS.components.StateComponent;
+import group22.viking.game.ECS.components.TextureComponent;
+import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.controller.states.State;
 import group22.viking.game.models.Assets;
-import group22.viking.game.models.Entity;
 import group22.viking.game.view.components.CustomTextButton;
 
-public class PlayScreen /*implements Screen */{
+public class PlayScreen implements Screen {
 
     private Stage stage;
 
@@ -49,18 +58,31 @@ public class PlayScreen /*implements Screen */{
 
     private VikingGame game;
 
-    private PlayState state;
+    ///private PlayState state;
+    ///private RenderingSystem renderingSystem;
 
     /*
     constructor, do not load any actual files like pngs here. Instead do it in the show method
     */
-    public PlayScreen(VikingGame game, PlayState state) {
+    public PlayScreen(VikingGame game) {
         this.game = game;
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, game.getCamera()));
-        this.state = state;
+        //this.state = state;
+        //this.renderingSystem = renderingSystem;
     }
 
-    //@Override
+    public void buildBackground(EntityFactory factory) {
+        factory.createTexture(
+                Assets.OCEANBACK,
+                new Vector3(0,0,-1),
+                new Vector2(VikingGame.SCREEN_HEIGHT, VikingGame.SCREEN_WIDTH)
+        );
+        // ...
+
+
+    }
+
+    // depreciated:
     public void show() {
         System.out.println("PLAY");
 
@@ -122,23 +144,7 @@ public class PlayScreen /*implements Screen */{
 */
     }
 
-    //@Override
-    public void render(float delta) {
-
-        Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
-
-        update(delta);
-
-        //calls draw for every actor it contains
-        stage.draw();
-
-        //BEGIN
-        game.getBatch().begin();
-        Assets.FONT48.draw(game.getBatch(), "Play State", 20,80);
-        game.getBatch().end();
-    }
-
-    /*@Override
+    @Override
     public void resize(int width, int height) {
 
     }
@@ -161,11 +167,6 @@ public class PlayScreen /*implements Screen */{
     @Override
     public void dispose() {
         stage.dispose();
-    }*/
-
-    public void update(float delta){
-        //calls the act Method of any actor that is added to the stage
-        stage.act(delta);
     }
 
     private void initButtons() {

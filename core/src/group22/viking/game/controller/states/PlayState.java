@@ -1,6 +1,8 @@
 package group22.viking.game.controller.states;
 
+import group22.viking.game.ECS.EntityFactory;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.PlayScreen;
 
 import com.badlogic.ashley.core.Entity;
@@ -19,7 +21,7 @@ import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 
-public class PlayState extends State implements Screen {
+public class PlayState extends State {
 
     public enum Type {
         TUTORIAL,
@@ -29,40 +31,38 @@ public class PlayState extends State implements Screen {
 
     private Texture muteSoundBtn;
     
-    private RenderingSystem renderingSystem;
+    //private RenderingSystem renderingSystem;
     private PlayerControlSystem playerControlSystem;
+    private RenderingSystem renderingSystem;
+
     private boolean initialized;
     
     private InputController inputController;
 
-    private PlayScreen playScreen;
-
     private PooledEngine engine;
+    private EntityFactory entityFactory;
     
     private Type type;
     
     public PlayState(VikingGame game, Type type) {             //TODO: GameStateManager gsm, 
-        super(null, game);                           //TODO: GSM necessary here?
+        super(new PlayView(game.getBatch(), game.getCamera()), game);                           //TODO: GSM necessary here?
         this.type = type;
+
         // super(gsm);
         
-        inputController = new InputController();
+        this.inputController = new InputController();
 
-        playScreen = new PlayScreen(game, this);
+        this.engine = new PooledEngine();
+        this.entityFactory = new EntityFactory(engine);
+        this.playerControlSystem = new PlayerControlSystem(inputController);
+        this.renderingSystem = new RenderingSystem(game.getBatch());
 
-        engine = new PooledEngine();
+        this.engine.addSystem(playerControlSystem);
+        this.engine.addSystem(renderingSystem);
+        //Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
-        playerControlSystem = new PlayerControlSystem(inputController);
-        engine.addSystem(playerControlSystem);
-
-       // Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
-        // renderingSystem = new RenderingSystem(new SpriteBatch());
-        renderingSystem = new RenderingSystem(game.getBatch());     // get game's SpriteBatch
-        game.setScreen(this);
-        engine.addSystem(renderingSystem);
-        createPlayer();
-        createTexture("img/OceanBack.png");
-
+        Entity player = entityFactory.createPlayer();
+        ((PlayScreen) screen).buildBackground(entityFactory);
     }
 
     @Override
@@ -70,106 +70,31 @@ public class PlayState extends State implements Screen {
 
     }
 
-    /*public void update(float dt) {
-        engine.update(dt);
-    }*/
 
-    /*@Override
-    public void render(SpriteBatch sb) {
-        //Not sure how to do this in a better way, with the setup we have with States that has the render method, which contains a SpriteBatch
-        //Rendering system handles everything that has a TextureComponent and a transformComponent
-        //or rewrite the state stuff    
-        
-        if(initialized)
-            return;
-
-        //Ideally I'd like to have this in the constructor, but the batch is being passed as parameter
-        renderingSystem = new RenderingSystem(sb);
-        
-        engine.addSystem(renderingSystem);
-        initialized = true;
-    }*/
-
-    @Override
+    //@Override
     public void show() {
-        playScreen.show();
+        screen.show();
         Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
 
+        engine.addSystem(playerControlSystem);
+        engine.addSystem(renderingSystem);
     }
 
-    @Override
-    public void render(float delta) {
-        engine.update(delta);
-        //playScreen.render(delta);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
     public void pause() {
-
+        engine.removeSystem(playerControlSystem);
+        engine.removeSystem(renderingSystem);
     }
 
     @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+    public void render(float deltaTime) {
+        engine.update(deltaTime);
+        //do here NOT use the screen render system
+        //screen.render(deltaTime);
     }
 
     @Override
     public void dispose() {
         //REVIEW: remove the renderingSystem once the state is not used anymore
-        // engine.removeSystem(engine.getSystem(RenderingSystem.class));
         engine.removeSystem(renderingSystem);
     }
-    
-    public void createPlayer()
-    {
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        StateComponent state = engine.createComponent(StateComponent.class);
-        PlayerComponent plc = engine.createComponent(PlayerComponent.class);
-
-        float test = Gdx.graphics.getWidth();
-        tc.position.set(test / 2, Gdx.graphics.getHeight() / 2,0);
-        state.set(StateComponent.STATE_NORMAL); 
-        
-        tex.region = new TextureRegion(new Texture("img/WizardSprite.png"));
-        // tex.region = new TextureRegion(new Texture("img/OceanBack.png"));
-
-        entity.add(tc);
-        entity.add(tex);
-        entity.add(state);
-        entity.add(plc);
-        
-        engine.addEntity(entity);
-        
-    }
-
-    public void createTexture(String img)
-    {
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-
-        float test = Gdx.graphics.getWidth();
-        tc.position.set(0, 0,-1);
-
-        tex.region = new TextureRegion(new Texture(img));
-
-        entity.add(tc);
-        entity.add(tex);
-
-        engine.addEntity(entity);
-
-    }
-    
 }

@@ -22,7 +22,7 @@ public abstract class State {       //TODO: implements Screen ; or has screen?
     }
 
     protected abstract void handleInput();
-    //public abstract void update(float dt);
+
     public abstract void render(float deltaTime);
 
     public abstract void dispose();
