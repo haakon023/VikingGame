@@ -102,13 +102,6 @@ public class LobbyView extends View {
         stage.addActor(exitButton);
     }
 
-    /*
-    @Override
-    public void dispose() {
-        super.dispose();
-        //stage.dispose();
-    }
-    */
 
     public TextButton getPlayButton() {
         return playButton;
