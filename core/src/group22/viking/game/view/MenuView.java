@@ -7,6 +7,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -39,16 +43,11 @@ public class MenuView extends View {
     private Image vikingHeader;
     private Image stopHeader;
 
-    // for background scene
-    private Image waveDark;
-    private Image waveMedium;
-    private Image waveLight;
-    private Image waveVeryLight;
-    private Image vikingShip;
-    private Image castle;
 
     //TODO: PUT ALL THIS INTO ANIMATION CLASS OR SIMILAR; BEGIN OF COPIED PART
     // for wave movement
+    private Animation[] animations;
+
     private float x1 = 0;
     private float x2 = 0;
     // for boat movement
@@ -63,6 +62,65 @@ public class MenuView extends View {
     TextureRegion profileTextureRegion;
     TextureRegionDrawable profileTextureRegionDrawable;
 
+    /**
+     * Simple storage class for animation info.
+     */
+    abstract class Animation {
+        Image image;
+        public float status;
+        public float step;
+        public float max;
+        boolean animateX;
+
+        public Animation(Image image, float x, float y, float step, float max, boolean animateX) {
+            this.image = image;
+            this.image.setPosition(x, y);
+            this.status = 0F;
+            this.step = step;
+            this.max = max;
+            this.animateX = animateX;
+        }
+
+        public void makeStep(float deltaTime) {
+            status += step * deltaTime;
+            if(animateX) image.setX(image.getX() + step * deltaTime);
+            else image.setY(image.getY() + step * deltaTime);
+
+            this.stepChanges();
+        }
+
+        abstract void stepChanges();
+
+        public Image getImage() {
+            return image;
+        }
+    }
+
+    class LoopAnimation extends Animation {
+        public LoopAnimation(Image image, float x, float y, float step, float max, boolean animateX) {
+            super(image, x, y, step, max, animateX);
+        }
+
+        public void stepChanges() {
+            if (status > max) {
+                status -= max;
+                if(animateX) image.setX(image.getX() - max);
+                else image.setY(image.getY() - max);
+            }
+        }
+    }
+
+    class BouncingAnimation extends Animation {
+        public BouncingAnimation(Image image, float x, float y, float step, float max, boolean animateX) {
+            super(image, x, y, step, max, animateX);
+        }
+
+        public void stepChanges() {
+            if (Math.abs(status) > max) {
+                step *= (status < 0) ^ (step < 0) ? 1 : -1;
+            }
+        }
+    }
 
     public MenuView(SpriteBatch batch, Camera camera) {
         super(batch);
@@ -170,22 +228,38 @@ public class MenuView extends View {
     }
 
     private void createBackground() {
-        waveDark = new Image(Assets.getTexture("img/waveDark.png"));
-        castle = new Image(Assets.getTexture("img/castle.png"));
+        Image waveDark = new Image(Assets.getTexture("img/waveDark.png"));
+        stage.addActor(waveDark);
+
+        Image castle = new Image(Assets.getTexture("img/castle.png"));
         castle.setWidth(600);
         castle.setHeight(500);
-        waveMedium = new Image(Assets.getTexture("img/waveMedium.png"));
-        vikingShip = new Image(Assets.getTexture("img/vikingShip.png"));
+        stage.addActor(castle);
+
+        Image waveMedium = new Image(Assets.getTexture("img/waveMedium.png"));
+        stage.addActor(waveMedium);
+
+        Image vikingShip = new Image(Assets.getTexture("img/vikingShip.png"));
         vikingShip.setWidth(600);
         vikingShip.setHeight(500);
-        waveLight = new Image(Assets.getTexture("img/waveLight.png"));
-        waveVeryLight = new Image(Assets.getTexture("img/waveVeryLight.png"));
-        stage.addActor(waveDark);
-        stage.addActor(castle);
-        stage.addActor(waveMedium);
         stage.addActor(vikingShip);
+
+        Image waveLight = new Image(Assets.getTexture("img/waveLight.png"));
         stage.addActor(waveLight);
+
+        Image waveVeryLight = new Image(Assets.getTexture("img/waveVeryLight.png"));
         stage.addActor(waveVeryLight);
+
+        this.animations = new Animation[]{
+                new LoopAnimation(waveDark, -600, 0, 8, 296, true),
+                new BouncingAnimation(castle, 1500, 290, 10, 7, false),
+                new LoopAnimation(waveMedium, -300, 0, 16, 296, true),
+                new BouncingAnimation(vikingShip, 200, 200, 10, 15, true),
+                new BouncingAnimation(vikingShip, 200, 200, 30, 15, false),
+                new LoopAnimation(waveLight, -600, 0, 32, 296, true),
+                new LoopAnimation(waveVeryLight, -400, 0, 64, 296, true)
+        };
+
     }
 
     private void createHeader() {
@@ -225,49 +299,9 @@ public class MenuView extends View {
 
     void drawElements(float deltaTime) {
 
-        //TODO: COPIED FROM MENUSCREEN
-
-        //background
-        waveDark.setPosition(-600 +(x1/3),0);
-        //waveDark.addAction(sequence(moveTo(-500,0,3f), Animation.PlayMode.LOOP);
-        castle.setPosition(1500,290+(y4/10));
-        waveMedium.setPosition(-300+(x2/3),0);
-        vikingShip.setPosition(200+(x3/3),200+(y3/6));
-        waveLight.setPosition(-600+(x1/3),0);
-        waveVeryLight.setPosition(-400+(x2/3),0);
-
-
-        x1++;
-        x2 += 2;
-        if((x1/3) % 296 == 0){x1 = 0;}
-        if((x2/3) % 296 == 0){x2 = 0;}
-        //rock ship
-        if(movingRight){
-            x3++;
-            y3++;
-            if(x3 == 15){
-                movingRight = false;
-            }
-        }else{
-            x3--;
-            y3--;
-            if(x3 == -15){
-                movingRight = true;
-            }
+        for (Animation animation : animations) {
+            animation.makeStep(deltaTime);
         }
-        //move island
-        if(movingUp){
-            y4++;
-            if(x3 == 7){
-                movingUp = false;
-            }
-        }else{
-            y4--;
-            if(x3 == -7){
-                movingUp = true;
-            }
-        }
-        //TODO: END OF COPIED PART
 
         stage.act(deltaTime);
         stage.draw();
