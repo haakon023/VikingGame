@@ -43,21 +43,7 @@ public class MenuView extends View {
     private Image vikingHeader;
     private Image stopHeader;
 
-
-    //TODO: PUT ALL THIS INTO ANIMATION CLASS OR SIMILAR; BEGIN OF COPIED PART
-    // for wave movement
     private Animation[] animations;
-
-    private float x1 = 0;
-    private float x2 = 0;
-    // for boat movement
-    private float x3 = 0;
-    private float y3 = 0;
-    boolean movingRight = true;
-    // for castle movement
-    private float y4 = 0;
-    private boolean movingUp = true;
-    //TODO: END OF COPIED PART
 
     TextureRegion profileTextureRegion;
     TextureRegionDrawable profileTextureRegionDrawable;
