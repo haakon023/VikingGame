@@ -27,7 +27,6 @@ import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.components.CustomTextButton;
 
 public class LobbyScreen implements Screen {
 

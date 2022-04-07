@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.components.CustomTextButton;
+
 
 public class LeaderboardView extends View {
 

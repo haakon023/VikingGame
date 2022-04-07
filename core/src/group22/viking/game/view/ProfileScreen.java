@@ -25,8 +25,6 @@ import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.components.CustomTextButton;
-import group22.viking.game.view.components.CustomTextField;
 
 public class ProfileScreen implements Screen {
 

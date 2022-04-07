@@ -21,9 +21,7 @@ import group22.viking.game.controller.states.LobbyState;
 import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.controller.states.ProfileSettingsState;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.components.CustomImageButton;
-import group22.viking.game.view.components.CustomTextButton;
-import group22.viking.game.view.components.CustomTextField;
+
 
 public class MenuScreen implements Screen {
 
