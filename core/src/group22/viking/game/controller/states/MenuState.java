@@ -2,15 +2,10 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import java.awt.Menu;
-
-import group22.viking.game.ECS.InputController;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.view.MenuScreen;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;

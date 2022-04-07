@@ -1,16 +1,12 @@
 package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.view.LeaderboardScreen;
 import group22.viking.game.view.LeaderboardView;
-import group22.viking.game.view.MenuView;
-import group22.viking.game.view.ProfileSettingsView;
 
 
 public class LeaderboardState extends State {

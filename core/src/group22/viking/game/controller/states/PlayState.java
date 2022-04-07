@@ -2,30 +2,19 @@ package group22.viking.game.controller.states;
 
 import group22.viking.game.ECS.EntityFactory;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.models.Assets;
-import group22.viking.game.view.PlayScreen;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
 import group22.viking.game.ECS.VikingSystem;
 import group22.viking.game.ECS.ZComparator;
-import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.PlayerControlSystem;
-import group22.viking.game.ECS.components.StateComponent;
-import group22.viking.game.ECS.components.TextureComponent;
-import group22.viking.game.ECS.components.TransformComponent;
-import group22.viking.game.ECS.components.VikingComponent;
 
-import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.view.PlayView;
 
 public class PlayState extends State {

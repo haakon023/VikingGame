@@ -1,15 +1,12 @@
 package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.view.LobbyScreen;
 import group22.viking.game.view.LobbyView;
-import group22.viking.game.view.MenuView;
 
 
 public class LobbyState extends State {
