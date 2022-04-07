@@ -157,46 +157,46 @@ public class MenuView extends View {
         profileTextureRegion = new TextureRegion(Assets.getTexture("img/WizardSpriteHead.png"));
         profileTextureRegionDrawable = new TextureRegionDrawable(profileTextureRegion);
 
-        tutorialButton = factory.createTextButton(
+        tutorialButton = ViewComponentFactory.createTextButton(
                 "Tutorial",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT/2+80-50),
                 bigButtonSize
         );
 
-        practiceButton = factory.createTextButton(
+        practiceButton = ViewComponentFactory.createTextButton(
                 "Practice",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT / 2 - 80 - 150 - 50),
                 bigButtonSize);
 
 
-        hostButton = factory.createTextButton(
+        hostButton = ViewComponentFactory.createTextButton(
                 "Host",
                 new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2-80-150-50),
                 bigButtonSize
         );
 
-        joinButton = factory.createTextButton(
+        joinButton = ViewComponentFactory.createTextButton(
                 "Join",
                 new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+ 530 +20,
                         VikingGame.SCREEN_HEIGHT/2+80-50),
                 smallButtonSize);
 
-        exitButton = factory.createTextButton(
+        exitButton = ViewComponentFactory.createTextButton(
                 "Exit",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
                 verySmallButtonSize);
 
-        muteButton = factory.createTextButton(
+        muteButton = ViewComponentFactory.createTextButton(
                 "U",
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60, 50),
                 verySmallButtonSize);
 
-        leaderboardButton = factory.createTextButton(
+        leaderboardButton = ViewComponentFactory.createTextButton(
                 "L",
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
                 verySmallButtonSize);
 
-        profileButton = factory.createImageButton(
+        profileButton = ViewComponentFactory.createImageButton(
                 profileTextureRegionDrawable,
                 // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
                 new Vector2(VikingGame.SCREEN_WIDTH/2-500/2,
@@ -217,7 +217,7 @@ public class MenuView extends View {
 
     private void createTextField() {
 
-        joinTextField = factory.createTextField(
+        joinTextField = ViewComponentFactory.createTextField(
                 "Enter PIN",
                 new Vector2(VikingGame.SCREEN_WIDTH / 2 + (VikingGame.SCREEN_WIDTH / 2 - 700 - 150),
                         VikingGame.SCREEN_HEIGHT / 2 + 80 - 50),
@@ -278,14 +278,14 @@ public class MenuView extends View {
 
     @Override
     public void runInitialAnimations() {
-        tutorialButton.addAction(factory.FADE_IN_ANIMATION);
-        practiceButton.addAction(factory.FADE_IN_ANIMATION);
-        hostButton.addAction(factory.FADE_IN_ANIMATION);
-        joinTextField.addAction(factory.FADE_IN_ANIMATION);
-        profileButton.addAction(factory.FADE_IN_ANIMATION);
-        joinButton.addAction(factory.FADE_IN_ANIMATION);
-        leaderboardButton.addAction(factory.FADE_IN_ANIMATION);
-        exitButton.addAction(factory.FADE_IN_ANIMATION);
+        tutorialButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        practiceButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        hostButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        joinTextField.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        profileButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        joinButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        leaderboardButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        exitButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
 
     }
 

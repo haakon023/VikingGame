@@ -97,14 +97,14 @@ public class LobbyView extends View {
         Vector2 bigButtonSize =  new Vector2(700, 150);
         Vector2 profileImageSize = new Vector2(500, 500);
 
-        playButton = factory.createTextButton(
+        playButton = ViewComponentFactory.createTextButton(
                 "Play",
                 new Vector2(VikingGame.SCREEN_WIDTH/2-600/2,VikingGame.SCREEN_HEIGHT/2-150/2),
                 bigButtonSize
         );
 
 
-        exitButton = factory.createTextButton(
+        exitButton = ViewComponentFactory.createTextButton(
                 "Exit",
                 new Vector2(150,VikingGame.SCREEN_HEIGHT-200),
                 verySmallButtonSize

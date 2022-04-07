@@ -9,12 +9,10 @@ public abstract class View {
 
     protected SpriteBatch batch;
     protected Stage stage;
-    protected ViewComponentFactory factory;
 
 
     public View(SpriteBatch batch) {
         this.batch = batch;
-        this.factory = new ViewComponentFactory();
     }
 
     /**

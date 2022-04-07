@@ -6,6 +6,9 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -25,9 +28,13 @@ public class ViewComponentFactory {
     //TODO:
     // someone turn this into a proper factory pattern...
 
-    public final Action FADE_IN_ANIMATION = this.createFadeInAction();
+    private static FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto.ttf"));
+    private static FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-    public ImageButton createImageButton (
+
+    public static final Action FADE_IN_ANIMATION = createFadeInAction();
+
+    public static ImageButton createImageButton (
             TextureRegionDrawable profileTextureRegionDrawable,
             Vector2 position,
             Vector2 size)
@@ -40,7 +47,7 @@ public class ViewComponentFactory {
         return button;
     }
 
-    public TextButton createTextButton(String text, Vector2 position, Vector2 size) {
+    public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
         TextButton textButton = new TextButton(text, createSkin(), "default");
         textButton.setSize(size.x, size.y);
         textButton.setPosition(position.x, position.y);
@@ -48,7 +55,7 @@ public class ViewComponentFactory {
         return textButton;
     }
 
-    public TextField createTextField(String text, Vector2 position, Vector2 size) {
+    public static TextField createTextField(String text, Vector2 position, Vector2 size) {
         TextField textField = new TextField(text, createSkin(), "default");
         textField.setSize(size.x, size.y);
         textField.setPosition(position.x, position.y);
@@ -56,7 +63,7 @@ public class ViewComponentFactory {
         return textField;
     }
 
-    private Skin createSkin() {
+    private static Skin createSkin() {
         Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
         skin.add("default-font", Assets.FONT48); //add font as default-font in json file
         skin.load(Gdx.files.internal("ui/uiskin.json"));
@@ -64,7 +71,7 @@ public class ViewComponentFactory {
         return skin;
     }
 
-    private Action createFadeInAction() {
+    private static Action createFadeInAction() {
         return sequence(
                 alpha(0),
                 parallel(
@@ -72,6 +79,14 @@ public class ViewComponentFactory {
                         moveBy(0,-20,.5f, Interpolation.pow5Out)
                 )
         );
+    }
+
+    public static BitmapFont generateFont(int fontSize, int letterSpacing) {
+        parameter.size = fontSize;
+        parameter.color = Color.WHITE;
+        parameter.spaceX = letterSpacing; //letter spacing
+
+        return generator.generateFont(parameter);
     }
 
 }

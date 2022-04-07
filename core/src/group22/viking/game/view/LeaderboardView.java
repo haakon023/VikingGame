@@ -55,7 +55,7 @@ public class LeaderboardView extends View {
         //exit button for prodile and leaderboard
         Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
 
-        exitButton = factory.createTextButton(
+        exitButton = ViewComponentFactory.createTextButton(
                 "<",
                 new Vector2(50, 150),
                 exitButtonSize
@@ -67,7 +67,7 @@ public class LeaderboardView extends View {
 
     @Override
     public void runInitialAnimations() {
-        exitButton.addAction(factory.FADE_IN_ANIMATION);
+        exitButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
     }
 
     @Override

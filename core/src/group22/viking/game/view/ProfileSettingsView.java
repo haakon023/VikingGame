@@ -88,14 +88,14 @@ public class ProfileSettingsView extends View {
         //for prodile and leaderboard
         Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
 
-        exitButton = factory.createTextButton(
+        exitButton = ViewComponentFactory.createTextButton(
                 "<",
                 new Vector2(50, 150),
                 exitButtonSize
         );
 
 
-        leftButton = factory.createTextButton(
+        leftButton = ViewComponentFactory.createTextButton(
                 "<",
                 new Vector2(profileImage.getX() - carouselButtonSize.x,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
@@ -103,14 +103,14 @@ public class ProfileSettingsView extends View {
         );
 
 
-        rightButton = factory.createTextButton(
+        rightButton = ViewComponentFactory.createTextButton(
                 ">",
                 new Vector2(profileImage.getX() + profileImage.getWidth(),
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
                 carouselButtonSize
         );
 
-        changeNameButton = factory.createTextButton(
+        changeNameButton = ViewComponentFactory.createTextButton(
                 "Submit",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + carouselButtonSize.x + 100 + 600 + 50,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
@@ -128,7 +128,7 @@ public class ProfileSettingsView extends View {
 
     private void createTextField() {
 
-        nameField = factory.createTextField(
+        nameField = ViewComponentFactory.createTextField(
                 "",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + rightButton.getWidth() + 100,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
