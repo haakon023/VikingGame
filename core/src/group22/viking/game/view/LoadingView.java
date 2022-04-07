@@ -39,11 +39,11 @@ public class LoadingView extends View {
     public void init() {
         System.out.println("LOADING");
 
-        vikingHeader = new Image(new Texture("img/vikingHeader.png"));
+        vikingHeader = new Image(new Texture(Assets.VIKINGHEADER));
         vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT/2);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
-        stopHeader = new Image(new Texture("img/stopHeader.png"));
+        stopHeader = new Image(new Texture(Assets.STOPHEADER));
         stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT/2-130);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);

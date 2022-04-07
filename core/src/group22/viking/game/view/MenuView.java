@@ -130,7 +130,7 @@ public class MenuView extends View {
         Vector2 profileImageSize = new Vector2(500, 500);
 
         //todo set the texture to the user specific profile image
-        profileTextureRegion = new TextureRegion(Assets.getTexture("img/WizardSpriteHead.png"));
+        profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.WIZARDSPRITEHEAD));
         profileTextureRegionDrawable = new TextureRegionDrawable(profileTextureRegion);
 
         tutorialButton = ViewComponentFactory.createTextButton(
@@ -204,26 +204,26 @@ public class MenuView extends View {
     }
 
     private void createBackground() {
-        Image waveDark = new Image(Assets.getTexture("img/waveDark.png"));
+        Image waveDark = new Image(Assets.getTexture(Assets.WAVEDARK));
         stage.addActor(waveDark);
 
-        Image castle = new Image(Assets.getTexture("img/castle.png"));
+        Image castle = new Image(Assets.getTexture(Assets.CASTLE));
         castle.setWidth(600);
         castle.setHeight(500);
         stage.addActor(castle);
 
-        Image waveMedium = new Image(Assets.getTexture("img/waveMedium.png"));
+        Image waveMedium = new Image(Assets.getTexture(Assets.WAVEMEDIUM));
         stage.addActor(waveMedium);
 
-        Image vikingShip = new Image(Assets.getTexture("img/vikingShip.png"));
+        Image vikingShip = new Image(Assets.getTexture(Assets.VIKINGSHIP));
         vikingShip.setWidth(600);
         vikingShip.setHeight(500);
         stage.addActor(vikingShip);
 
-        Image waveLight = new Image(Assets.getTexture("img/waveLight.png"));
+        Image waveLight = new Image(Assets.getTexture(Assets.WAVELIGHT));
         stage.addActor(waveLight);
 
-        Image waveVeryLight = new Image(Assets.getTexture("img/waveVeryLight.png"));
+        Image waveVeryLight = new Image(Assets.getTexture(Assets.WAVEVERYLIGHT));
         stage.addActor(waveVeryLight);
 
         this.animations = new Animation[]{
@@ -240,11 +240,11 @@ public class MenuView extends View {
 
     private void createHeader() {
         //header
-        vikingHeader = new Image(Assets.getTexture("img/vikingHeader.png"));
+        vikingHeader = new Image(Assets.getTexture(Assets.VIKINGHEADER));
         vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
-        stopHeader = new Image(Assets.getTexture("img/stopHeader.png"));
+        stopHeader = new Image(Assets.getTexture(Assets.STOPHEADER));
         stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);

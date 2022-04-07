@@ -43,11 +43,11 @@ public class LobbyView extends View {
 
         //todo get profile sprite information from user
         //todo set player2 once the second player has joined
-        player1 = new Image(Assets.getTexture("img/WizardSprite.png"));
+        player1 = new Image(Assets.getTexture(Assets.WIZARDSPRITE));
         player1.setPosition(0,0);
         player1.setWidth(VikingGame.SCREEN_WIDTH/2);
         player1.setHeight(VikingGame.SCREEN_HEIGHT);
-        player2 = new Image(Assets.getTexture("img/KnightSprite.png"));
+        player2 = new Image(Assets.getTexture(Assets.KNIGHTSPRITE));
         player2.setPosition(VikingGame.SCREEN_WIDTH/2,0);
         player2.setWidth(VikingGame.SCREEN_WIDTH/2);
         player2.setHeight(VikingGame.SCREEN_HEIGHT);

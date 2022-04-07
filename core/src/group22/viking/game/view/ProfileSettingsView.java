@@ -49,7 +49,7 @@ public class ProfileSettingsView extends View {
         stage.clear();
 
         //todo get img file from db or json log file
-        profileImage = new Image(Assets.getTexture("img/WizardSpriteHead.png"));
+        profileImage = new Image(Assets.getTexture(Assets.WIZARDSPRITEHEAD));
         profileImage.setWidth(400);
         profileImage.setHeight(400);
         profileImage.setPosition(VikingGame.SCREEN_WIDTH/4,

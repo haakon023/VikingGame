@@ -20,7 +20,7 @@ public class SplashView extends View {
         super(batch);
         System.out.println("CONSTRUCTOR SPLASHVIEW");
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT, camera));
-        goatIcon = new Image(new Texture("img/GoatIcon.png"));
+        goatIcon = new Image(new Texture(Assets.GOATICON));
     }
 
     @Override
