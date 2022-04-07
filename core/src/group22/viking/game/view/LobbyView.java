@@ -28,11 +28,8 @@ public class LobbyView extends View {
 
     private ShapeRenderer shapeRenderer;
 
-    private final ViewComponentFactory viewComponentFactory;
-
     public LobbyView(SpriteBatch batch, Camera camera) {
         super(batch);
-        this.viewComponentFactory = new ViewComponentFactory();
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT, camera));
         this.shapeRenderer = new ShapeRenderer();
 
@@ -100,14 +97,14 @@ public class LobbyView extends View {
         Vector2 bigButtonSize =  new Vector2(700, 150);
         Vector2 profileImageSize = new Vector2(500, 500);
 
-        playButton = viewComponentFactory.createTextButton(
+        playButton = factory.createTextButton(
                 "Play",
                 new Vector2(VikingGame.SCREEN_WIDTH/2-600/2,VikingGame.SCREEN_HEIGHT/2-150/2),
                 bigButtonSize
         );
 
 
-        exitButton = viewComponentFactory.createTextButton(
+        exitButton = factory.createTextButton(
                 "Exit",
                 new Vector2(150,VikingGame.SCREEN_HEIGHT-200),
                 verySmallButtonSize

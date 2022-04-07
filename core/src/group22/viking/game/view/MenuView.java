@@ -6,32 +6,19 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.states.LeaderboardState;
-import group22.viking.game.controller.states.MenuState;
-import group22.viking.game.controller.states.PlayState;
-import group22.viking.game.controller.states.ProfileSettingsState;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.components.CustomImageButton;
-import group22.viking.game.view.components.CustomTextButton;
-import group22.viking.game.view.components.CustomTextField;
 
 public class MenuView extends View {
 
@@ -50,11 +37,9 @@ public class MenuView extends View {
     TextureRegion profileTextureRegion;
     TextureRegionDrawable profileTextureRegionDrawable;
 
-    private final ViewComponentFactory viewComponentFactory;
 
     public MenuView(SpriteBatch batch, Camera camera) {
         super(batch);
-        this.viewComponentFactory = new ViewComponentFactory();
 
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
 
@@ -85,46 +70,46 @@ public class MenuView extends View {
         profileTextureRegion = new TextureRegion(Assets.getTexture("img/WizardSpriteHead.png"));
         profileTextureRegionDrawable = new TextureRegionDrawable(profileTextureRegion);
 
-        tutorialButton = viewComponentFactory.createTextButton(
+        tutorialButton = factory.createTextButton(
                 "Tutorial",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT/2+80-50),
                 bigButtonSize
         );
 
-        practiceButton = viewComponentFactory.createTextButton(
+        practiceButton = factory.createTextButton(
                 "Practice",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT / 2 - 80 - 150 - 50),
                 bigButtonSize);
 
 
-        hostButton = viewComponentFactory.createTextButton(
+        hostButton = factory.createTextButton(
                 "Host",
                 new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2-80-150-50),
                 bigButtonSize
         );
 
-        joinButton = viewComponentFactory.createTextButton(
+        joinButton = factory.createTextButton(
                 "Join",
                 new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+ 530 +20,
                         VikingGame.SCREEN_HEIGHT/2+80-50),
                 smallButtonSize);
 
-        exitButton = viewComponentFactory.createTextButton(
+        exitButton = factory.createTextButton(
                 "Exit",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
                 verySmallButtonSize);
 
-        muteButton = viewComponentFactory.createTextButton(
+        muteButton = factory.createTextButton(
                 "U",
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60, 50),
                 verySmallButtonSize);
 
-        leaderboardButton = viewComponentFactory.createTextButton(
+        leaderboardButton = factory.createTextButton(
                 "L",
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
                 verySmallButtonSize);
 
-        profileButton = viewComponentFactory.createImageButton(
+        profileButton = factory.createImageButton(
                 profileTextureRegionDrawable,
                 // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
                 new Vector2(VikingGame.SCREEN_WIDTH/2-500/2,
@@ -145,7 +130,7 @@ public class MenuView extends View {
 
     private void createTextField() {
 
-        joinTextField = viewComponentFactory.createTextField(
+        joinTextField = factory.createTextField(
                 "Enter PIN",
                 new Vector2(VikingGame.SCREEN_WIDTH / 2 + (VikingGame.SCREEN_WIDTH / 2 - 700 - 150),
                         VikingGame.SCREEN_HEIGHT / 2 + 80 - 50),
@@ -158,20 +143,14 @@ public class MenuView extends View {
 
     @Override
     public void runInitialAnimations() {
-        // TODO
-        Action fadeInAnimation = sequence(alpha(0),
-                parallel(fadeIn(0.5f),
-                        moveBy(0,-20,.5f, Interpolation.pow5Out)
-                ));
-
-        tutorialButton.addAction(fadeInAnimation);
-        practiceButton.addAction(fadeInAnimation);
-        hostButton.addAction(fadeInAnimation);
-        joinTextField.addAction(fadeInAnimation);
-        profileButton.addAction(fadeInAnimation);
-        joinButton.addAction(fadeInAnimation);
-        leaderboardButton.addAction(fadeInAnimation);
-        exitButton.addAction(fadeInAnimation);
+        tutorialButton.addAction(factory.FADE_IN_ANIMATION);
+        practiceButton.addAction(factory.FADE_IN_ANIMATION);
+        hostButton.addAction(factory.FADE_IN_ANIMATION);
+        joinTextField.addAction(factory.FADE_IN_ANIMATION);
+        profileButton.addAction(factory.FADE_IN_ANIMATION);
+        joinButton.addAction(factory.FADE_IN_ANIMATION);
+        leaderboardButton.addAction(factory.FADE_IN_ANIMATION);
+        exitButton.addAction(factory.FADE_IN_ANIMATION);
 
     }
 

@@ -58,7 +58,7 @@ public class MenuScreen implements Screen {
     private float y4 = 0;
     private boolean movingUp = true;
 
-    private CustomTextButton tutorialButton;
+    /*private CustomTextButton tutorialButton;
     private CustomTextButton practiceButton;
     private CustomTextButton joinButton;
     private CustomTextButton hostButton;
@@ -68,7 +68,7 @@ public class MenuScreen implements Screen {
 
     private TextField joinTextField;
 
-    private CustomImageButton profileButton;
+    private CustomImageButton profileButton;*/
 
     TextureRegion profileTextureRegion;
     TextureRegionDrawable profileTextureRegionDrawable;
@@ -223,7 +223,7 @@ public class MenuScreen implements Screen {
         Vector2 bigButtonSize =  new Vector2(700, 150);
 
         Vector2 profileImageSize = new Vector2(500, 500);
-
+        /*
         tutorialButton = new CustomTextButton(
                 "Tutorial",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT/2+80-50),
@@ -349,10 +349,11 @@ public class MenuScreen implements Screen {
         stage.addActor(unmuteButton);
         stage.addActor(exitButton);
 
+        */
 
 
     }
-
+/*
     public CustomTextButton getTutorialButton() {
         return tutorialButton;
     }
@@ -388,5 +389,5 @@ public class MenuScreen implements Screen {
     public CustomImageButton getProfileButton() {
         return profileButton;
     }
-
+*/
 }

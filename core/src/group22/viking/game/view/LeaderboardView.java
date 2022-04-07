@@ -25,11 +25,8 @@ public class LeaderboardView extends View {
     //buttons
     private TextButton exitButton;
 
-    private final ViewComponentFactory viewComponentFactory;
-
     public LeaderboardView(SpriteBatch batch, Camera camera) {
         super(batch);
-        this.viewComponentFactory = new ViewComponentFactory();
 
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
 
@@ -71,12 +68,7 @@ public class LeaderboardView extends View {
 
     @Override
     public void runInitialAnimations() {
-        Action fadeInAnimation = sequence(alpha(0),
-                parallel(fadeIn(0.5f),
-                        moveBy(0,-20,.5f, Interpolation.pow5Out)
-                ));
-
-        exitButton.addAction(fadeInAnimation);
+        exitButton.addAction(factory.FADE_IN_ANIMATION);
     }
 
     @Override

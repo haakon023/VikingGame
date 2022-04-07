@@ -42,11 +42,8 @@ public class ProfileSettingsView extends View {
     //Text Fields
     private TextField nameField;
 
-    private final ViewComponentFactory viewComponentFactory;
-
     public ProfileSettingsView(SpriteBatch batch, Camera camera) {
         super(batch);
-        this.viewComponentFactory = new ViewComponentFactory();
 
         this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
 
@@ -92,14 +89,14 @@ public class ProfileSettingsView extends View {
         //for prodile and leaderboard
         Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
 
-        exitButton = viewComponentFactory.createTextButton(
+        exitButton = factory.createTextButton(
                 "<",
                 new Vector2(50, 150),
                 exitButtonSize
         );
 
 
-        leftButton = viewComponentFactory.createTextButton(
+        leftButton = factory.createTextButton(
                 "<",
                 new Vector2(profileImage.getX() - carouselButtonSize.x,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
@@ -107,14 +104,14 @@ public class ProfileSettingsView extends View {
         );
 
 
-        rightButton = viewComponentFactory.createTextButton(
+        rightButton = factory.createTextButton(
                 ">",
                 new Vector2(profileImage.getX() + profileImage.getWidth(),
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
                 carouselButtonSize
         );
 
-        changeNameButton = viewComponentFactory.createTextButton(
+        changeNameButton = factory.createTextButton(
                 "Submit",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + carouselButtonSize.x + 100 + 600 + 50,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
@@ -132,7 +129,7 @@ public class ProfileSettingsView extends View {
 
     private void createTextField() {
 
-        nameField = viewComponentFactory.createTextField(
+        nameField = factory.createTextField(
                 "",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + rightButton.getWidth() + 100,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),

@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
 
     private Skin skin;
 
-    private CustomTextButton exitButton;
+    //private CustomTextButton exitButton;
 
     private VikingGame game;
 
@@ -165,6 +165,7 @@ public class PlayScreen implements Screen {
     }
 
     private void initButtons() {
+        /*
         exitButton = new CustomTextButton(
                 "Exit",
                 new Vector2(150,VikingGame.SCREEN_HEIGHT-200),
@@ -180,5 +181,6 @@ public class PlayScreen implements Screen {
 
 
         stage.addActor(exitButton);
+        */
     }
 }

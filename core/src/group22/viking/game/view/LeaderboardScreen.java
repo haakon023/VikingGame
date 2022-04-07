@@ -99,6 +99,7 @@ public class LeaderboardScreen implements Screen {
 
     private void initButtons() {
 
+        /*
         exitButton = new CustomTextButton("<", new Vector2(50, 150), new Vector2(150,VikingGame.SCREEN_HEIGHT-300));
         exitButton.addListener(new ClickListener(){
             @Override
@@ -106,6 +107,7 @@ public class LeaderboardScreen implements Screen {
                 GameStateManager.getInstance(game).push(new MenuState(game));
             }
         });
+        */
 
         stage.addActor(exitButton);
     }

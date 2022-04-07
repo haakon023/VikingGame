@@ -8,6 +8,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,6 +25,7 @@ public class ViewComponentFactory {
     //TODO:
     // someone turn this into a proper factory pattern...
 
+    public final Action FADE_IN_ANIMATION = this.createFadeInAction();
 
     public ImageButton createImageButton (
             TextureRegionDrawable profileTextureRegionDrawable,
@@ -39,7 +41,7 @@ public class ViewComponentFactory {
     }
 
     public TextButton createTextButton(String text, Vector2 position, Vector2 size) {
-        TextButton textButton = new TextButton(text, initSkin(), "default");
+        TextButton textButton = new TextButton(text, createSkin(), "default");
         textButton.setSize(size.x, size.y);
         textButton.setPosition(position.x, position.y);
 
@@ -47,22 +49,29 @@ public class ViewComponentFactory {
     }
 
     public TextField createTextField(String text, Vector2 position, Vector2 size) {
-        TextField textField = new TextField(text, initSkin(), "default");
+        TextField textField = new TextField(text, createSkin(), "default");
         textField.setSize(size.x, size.y);
         textField.setPosition(position.x, position.y);
 
         return textField;
     }
 
-    private Skin initSkin() {
-        Skin skin = new Skin();
-        skin.addRegions(Assets.getTextureAtlas(Assets.UI_SKIN));
+    private Skin createSkin() {
+        Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
         skin.add("default-font", Assets.FONT48); //add font as default-font in json file
         skin.load(Gdx.files.internal("ui/uiskin.json"));
+
         return skin;
     }
 
-
-
+    private Action createFadeInAction() {
+        return sequence(
+                alpha(0),
+                parallel(
+                        fadeIn(0.5f),
+                        moveBy(0,-20,.5f, Interpolation.pow5Out)
+                )
+        );
+    }
 
 }

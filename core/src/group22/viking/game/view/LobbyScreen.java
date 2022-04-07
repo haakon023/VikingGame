@@ -146,6 +146,7 @@ public class LobbyScreen implements Screen {
 
     private void initButtons(){
 
+        /*
         //EXIT Button
         exitButton = new CustomTextButton("Exit", new Vector2(150,VikingGame.SCREEN_HEIGHT-200), new Vector2(120, 120));
         exitButton.addListener(new ClickListener(){
@@ -172,5 +173,6 @@ public class LobbyScreen implements Screen {
         //add all buttons to stage
         stage.addActor(exitButton);
         stage.addActor(playButton);
+        */
     }
 }

@@ -35,6 +35,7 @@ public class ProfileScreen implements Screen {
     //Images
     private Image profileImage;
 
+    /*
     //Text Fields
     private CustomTextField nameField;
 
@@ -44,6 +45,7 @@ public class ProfileScreen implements Screen {
     private CustomTextButton rightButton;
     private CustomTextButton changeNameButton;
 
+     */
     private Skin skin;
 
 
@@ -130,7 +132,7 @@ public class ProfileScreen implements Screen {
     }
 
     private void initButtons() {
-
+/*
         exitButton = new CustomTextButton("<", new Vector2(50, 150),
                 new Vector2(150,VikingGame.SCREEN_HEIGHT-300));
         exitButton.addListener(new ClickListener(){
@@ -194,6 +196,6 @@ public class ProfileScreen implements Screen {
         stage.addActor(rightButton);
         stage.addActor(nameField);
         stage.addActor(changeNameButton);
-
+*/
     }
 }
