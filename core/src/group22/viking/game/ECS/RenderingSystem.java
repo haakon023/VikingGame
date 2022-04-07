@@ -66,7 +66,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     public void update(float deltaTime)
     {
         super.update(deltaTime);
-        renderQueue.sort(new ZComparator());
+        renderQueue.sort(comparator);
         
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
