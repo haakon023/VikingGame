@@ -1,11 +1,16 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.view.MenuView;
 
 public class MenuState extends State {
     private Texture background;
@@ -17,38 +22,36 @@ public class MenuState extends State {
     private FirebaseProfileCollection firebaseProfileCollection;
     private FirebaseGameCollection firebaseGameCollection;
 
-    public MenuState(GameStateManager gsm,
+    public MenuState(VikingGame game,               // GameStateManager gsm,
                      FirebaseProfileCollection firebaseProfileCollection,
                      FirebaseGameCollection firebaseGameCollection) {
-        super(gsm);
+        // super(gsm);
+        super(new MenuView(game.getBatch(), game.getCamera()), game);
         this.firebaseProfileCollection = firebaseProfileCollection;
         this.firebaseGameCollection = firebaseGameCollection;
     }
 
-    @Override
-    public void handleInput() {
+    // alternative constructor w/o Firebase for now:
+    public MenuState(VikingGame game) {
+        super(new MenuView(game.getBatch(), game.getCamera()), game);
+        Gdx.input.setInputProcessor(view.getStage());
+        addListenersToButtons();
 
+        System.out.println("MENU STATE CREATED");
     }
 
     @Override
-    public void update(float dt) {
-        handleInput();
+    public void reinitialize() {
+        super.reinitialize();
     }
 
     @Override
-    public void render(SpriteBatch sb) {
-        sb.begin(); //Rendering goes below here
+    protected void handleInput() {
 
-        sb.end();
     }
 
-    @Override
-    public void dispose() {
-        background.dispose();
-        tutorialPlayBtn.dispose();
-        multiplayerPlayBtn.dispose();
-        leaderboardBtn.dispose();
-        muteSoundBtn.dispose();
+    public void update(float delta){
+
     }
 
     public void testFirestore() {
@@ -56,5 +59,70 @@ public class MenuState extends State {
         //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
         firebaseGameCollection.startGame(0, 0);
         //firebaseGameCollection.getGame();
+    }
+
+
+    private void addListenersToButtons() {
+        ((MenuView) view).getTutorialButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                dispose();
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.TUTORIAL));
+            }
+        });
+
+        ((MenuView) view).getPracticeButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.PRACTICE));
+            }
+        });
+
+        ((MenuView) view).getHostButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance().push(new LobbyState(game));
+            }
+        });
+
+
+        ((MenuView) view).getJoinButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance().push(new LobbyState(game));
+            }
+        });
+
+        ((MenuView) view).getProfileButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                System.out.println("Profile Pushed");
+                GameStateManager.getInstance().push(new ProfileSettingsState(game));
+            }
+        });
+
+        ((MenuView) view).getLeaderboardButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                System.out.println("Leaderboard Pushed");
+                GameStateManager.getInstance().push(new LeaderboardState(game));
+            }
+        });
+
+        ((MenuView) view).getExitButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+            }
+        });
+
+        ((MenuView) view).getMuteButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo
+            }
+        });
+
+
     }
 }
