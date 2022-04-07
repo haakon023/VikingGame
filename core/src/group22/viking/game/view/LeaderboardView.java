@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
-
 public class LeaderboardView extends View {
 
     //buttons
@@ -35,7 +34,7 @@ public class LeaderboardView extends View {
 
     @Override
     public void init() {
-// stage clear to make sure there aren't any further animations
+        // stage clear to make sure there aren't any further animations
         stage.clear();
 
         createButtons();
@@ -56,7 +55,7 @@ public class LeaderboardView extends View {
         //exit button for prodile and leaderboard
         Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
 
-        exitButton = new CustomTextButton(
+        exitButton = factory.createTextButton(
                 "<",
                 new Vector2(50, 150),
                 exitButtonSize

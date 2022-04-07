@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -34,6 +35,31 @@ public class MenuView extends View {
 
     private TextField joinTextField;
 
+    // header
+    private Image vikingHeader;
+    private Image stopHeader;
+
+    // for background scene
+    private Image waveDark;
+    private Image waveMedium;
+    private Image waveLight;
+    private Image waveVeryLight;
+    private Image vikingShip;
+    private Image castle;
+
+    //TODO: PUT ALL THIS INTO ANIMATION CLASS OR SIMILAR; BEGIN OF COPIED PART
+    // for wave movement
+    private float x1 = 0;
+    private float x2 = 0;
+    // for boat movement
+    private float x3 = 0;
+    private float y3 = 0;
+    boolean movingRight = true;
+    // for castle movement
+    private float y4 = 0;
+    private boolean movingUp = true;
+    //TODO: END OF COPIED PART
+
     TextureRegion profileTextureRegion;
     TextureRegionDrawable profileTextureRegionDrawable;
 
@@ -51,8 +77,11 @@ public class MenuView extends View {
         // stage clear to make sure there aren't any further animations
         stage.clear();
 
+        createBackground();
+        createHeader();
         createButtons();
         createTextField();
+
         // TODO continue...
 
         runInitialAnimations();
@@ -138,7 +167,39 @@ public class MenuView extends View {
         );
 
         stage.addActor(joinTextField);
+    }
 
+    private void createBackground() {
+        waveDark = new Image(Assets.getTexture("img/waveDark.png"));
+        castle = new Image(Assets.getTexture("img/castle.png"));
+        castle.setWidth(600);
+        castle.setHeight(500);
+        waveMedium = new Image(Assets.getTexture("img/waveMedium.png"));
+        vikingShip = new Image(Assets.getTexture("img/vikingShip.png"));
+        vikingShip.setWidth(600);
+        vikingShip.setHeight(500);
+        waveLight = new Image(Assets.getTexture("img/waveLight.png"));
+        waveVeryLight = new Image(Assets.getTexture("img/waveVeryLight.png"));
+        stage.addActor(waveDark);
+        stage.addActor(castle);
+        stage.addActor(waveMedium);
+        stage.addActor(vikingShip);
+        stage.addActor(waveLight);
+        stage.addActor(waveVeryLight);
+    }
+
+    private void createHeader() {
+        //header
+        vikingHeader = new Image(Assets.getTexture("img/vikingHeader.png"));
+        vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
+        vikingHeader.setWidth(660);
+        vikingHeader.setHeight(200);
+        stopHeader = new Image(Assets.getTexture("img/stopHeader.png"));
+        stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380);
+        stopHeader.setWidth(430);
+        stopHeader.setHeight(300);
+        stage.addActor(vikingHeader);
+        stage.addActor(stopHeader);
     }
 
     @Override
@@ -163,6 +224,51 @@ public class MenuView extends View {
     */
 
     void drawElements(float deltaTime) {
+
+        //TODO: COPIED FROM MENUSCREEN
+
+        //background
+        waveDark.setPosition(-600 +(x1/3),0);
+        //waveDark.addAction(sequence(moveTo(-500,0,3f), Animation.PlayMode.LOOP);
+        castle.setPosition(1500,290+(y4/10));
+        waveMedium.setPosition(-300+(x2/3),0);
+        vikingShip.setPosition(200+(x3/3),200+(y3/6));
+        waveLight.setPosition(-600+(x1/3),0);
+        waveVeryLight.setPosition(-400+(x2/3),0);
+
+
+        x1++;
+        x2 += 2;
+        if((x1/3) % 296 == 0){x1 = 0;}
+        if((x2/3) % 296 == 0){x2 = 0;}
+        //rock ship
+        if(movingRight){
+            x3++;
+            y3++;
+            if(x3 == 15){
+                movingRight = false;
+            }
+        }else{
+            x3--;
+            y3--;
+            if(x3 == -15){
+                movingRight = true;
+            }
+        }
+        //move island
+        if(movingUp){
+            y4++;
+            if(x3 == 7){
+                movingUp = false;
+            }
+        }else{
+            y4--;
+            if(x3 == -7){
+                movingUp = true;
+            }
+        }
+        //TODO: END OF COPIED PART
+
         stage.act(deltaTime);
         stage.draw();
     }
