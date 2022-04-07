@@ -17,7 +17,7 @@ public class ProfileSettingsState extends State {
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
-        System.out.println("MENU STATE CREATED");
+        System.out.println("PROFILE STATE CREATED");
     }
 
 

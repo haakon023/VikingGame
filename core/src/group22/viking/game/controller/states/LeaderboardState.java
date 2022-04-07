@@ -22,7 +22,7 @@ public class LeaderboardState extends State {
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
-        System.out.println("MENU STATE CREATED");
+        System.out.println("LEADERBOARD STATE CREATED");
     }
 
     @Override
@@ -43,10 +43,7 @@ public class LeaderboardState extends State {
             public void clicked(InputEvent event, float x, float y){
                 dispose();
                 System.out.println("EXIT BUTTON CLICKED");
-                //GameStateManager.getInstance(game).pop();
-
-                //todo this works but the above code doesnt... something is wrong with init or the constructor
-                GameStateManager.getInstance(game).push(new MenuState(game));
+                GameStateManager.getInstance(game).pop();
             }
         });
 

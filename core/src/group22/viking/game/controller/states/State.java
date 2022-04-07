@@ -1,5 +1,6 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -27,6 +28,7 @@ public abstract class State {
 
     public void reinitialize() {
         view.runInitialAnimations();
+        Gdx.input.setInputProcessor(view.getStage());
     }
 
     public void pause() {}

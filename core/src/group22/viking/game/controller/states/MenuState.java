@@ -45,6 +45,10 @@ public class MenuState extends State {
         System.out.println("MENU STATE CREATED");
     }
 
+    @Override
+    public void reinitialize() {
+        super.reinitialize();
+    }
 
     @Override
     protected void handleInput() {
