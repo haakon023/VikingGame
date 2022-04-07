@@ -1,17 +1,24 @@
 package group22.viking.game.models;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.I18NBundle;
+
+import java.util.Locale;
 
 import group22.viking.game.view.ViewComponentFactory;
 
 public class Assets {
 
     public static AssetManager assetManager = new AssetManager();
+
+    // language
+    public static final I18NBundle LANGUAGE = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
 
     // fonts
     public static final BitmapFont FONT48 = ViewComponentFactory.generateFont(48, 5);

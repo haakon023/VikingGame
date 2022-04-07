@@ -25,8 +25,6 @@ public class VikingGame extends Game {
 
 	public GameStateManager gsm;			//TODO: or private?
 
-	private I18NBundle language;
-
 	private FirebaseProfileCollection firebaseProfileCollection;
 	private FirebaseGameCollection firebaseGameCollection;
 	// TODO more collections
@@ -59,12 +57,8 @@ public class VikingGame extends Game {
 		// Test Firestore:
 		// new MenuState(gsm, firebaseProfileCollection, firebaseGameCollection).testFirestore();
 
-		// create language bundle
-		// Locale locale = new Locale(Locale.getDefault().getLanguage() , Locale.getDefault().getCountry());
-		language = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
-
 		// TODO: Remove Test / example
-		System.out.println(language.get("app_name"));
+		System.out.println(Assets.LANGUAGE.get("app_name"));
 	}
 
 
