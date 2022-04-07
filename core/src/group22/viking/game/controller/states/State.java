@@ -38,5 +38,4 @@ public abstract class State {
     public void dispose() {
         view.dispose();
     }
-
 }

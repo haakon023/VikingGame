@@ -97,6 +97,7 @@ public class MenuState extends State {
         ((MenuView) view).getProfileButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                System.out.println("Profile Pushed");
                 GameStateManager.getInstance(game).push(new ProfileSettingsState(game));
             }
         });
@@ -104,6 +105,7 @@ public class MenuState extends State {
         ((MenuView) view).getLeaderboardButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                System.out.println("Leaderboard Pushed");
                 GameStateManager.getInstance(game).push(new LeaderboardState(game));
             }
         });

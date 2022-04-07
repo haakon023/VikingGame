@@ -21,6 +21,10 @@ import group22.viking.game.models.Assets;
 
 public class ViewComponentFactory {
 
+    //TODO:
+    // someone turn this into a proper factory pattern...
+
+
     public ImageButton createImageButton (
             TextureRegionDrawable profileTextureRegionDrawable,
             Vector2 position,

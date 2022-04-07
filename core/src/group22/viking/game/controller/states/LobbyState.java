@@ -17,6 +17,7 @@ public class LobbyState extends State {
 
     public LobbyState(final VikingGame game) {
         super(new LobbyView(game.getBatch(), game.getCamera()), game);
+        //System.out.println("STAGE IS: " + view.getStage().toString());
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
@@ -31,6 +32,10 @@ public class LobbyState extends State {
 
     @Override
     public void dispose() {
+
+    }
+
+    public void update(float delta){
 
     }
 

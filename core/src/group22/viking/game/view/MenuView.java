@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.LeaderboardState;
+import group22.viking.game.controller.states.MenuState;
 import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.controller.states.ProfileSettingsState;
 import group22.viking.game.models.Assets;
@@ -174,14 +175,15 @@ public class MenuView extends View {
 
     }
 
+    /*
     @Override
     public void dispose() {
         super.dispose();
-        stage.dispose();
+        //stage.dispose();
     }
+    */
 
     void drawElements(float deltaTime) {
-        System.out.println("DRAW ELEMENTS");
         stage.act(deltaTime);
         stage.draw();
     }

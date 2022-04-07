@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -105,6 +106,7 @@ public class LobbyView extends View {
                 bigButtonSize
         );
 
+
         exitButton = viewComponentFactory.createTextButton(
                 "Exit",
                 new Vector2(150,VikingGame.SCREEN_HEIGHT-200),
@@ -115,6 +117,14 @@ public class LobbyView extends View {
         stage.addActor(playButton);
         stage.addActor(exitButton);
     }
+
+    /*
+    @Override
+    public void dispose() {
+        super.dispose();
+        //stage.dispose();
+    }
+    */
 
     public TextButton getPlayButton() {
         return playButton;
