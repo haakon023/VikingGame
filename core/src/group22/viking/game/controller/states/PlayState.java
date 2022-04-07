@@ -12,6 +12,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
@@ -53,7 +54,7 @@ public class PlayState extends State {
     public PlayState(VikingGame game, Type type) {
         super(new PlayView(game.getBatch(), game.getCamera()), game);
 
-        System.out.println("PLAYSTATE CONSTRUCTOR ");
+        System.out.println("PLAYSTATE CONSTRUCTOR");
 
         this.type = type;
 
@@ -71,9 +72,10 @@ public class PlayState extends State {
         Gdx.input.setInputProcessor(inputController);
 
         Entity player = entityFactory.createPlayer();
+        Entity viking1 = entityFactory.createViking(new Vector2(0, 0));
+        Entity viking2 = entityFactory.createViking(new Vector2(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT));
         ((PlayView) view).buildBackground(entityFactory);
 
-        createViking();
     }
 
     @Override
@@ -107,24 +109,5 @@ public class PlayState extends State {
     public void dispose() {
         //REVIEW: remove the renderingSystem once the state is not used anymore
         engine.removeSystem(renderingSystem);
-    }
-
-    private Entity createViking()
-    {
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        VikingComponent vc = engine.createComponent(VikingComponent.class);
-
-        tc.position.set(0, 0,0);
-
-        tex.region = new TextureRegion(new Texture("img/badlogic.jpg"));
-
-        entity.add(tc);
-        entity.add(tex);
-        entity.add(vc);
-
-        engine.addEntity(entity);
-        return entity;
     }
 }

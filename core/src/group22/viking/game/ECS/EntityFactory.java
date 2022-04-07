@@ -12,6 +12,7 @@ import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.ECS.components.VikingComponent;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
@@ -51,7 +52,26 @@ public class EntityFactory {
         engine.addEntity(entity);
 
         return entity;
+    }
 
+    public Entity createViking(Vector2 spawnPosition)
+    {
+        Entity entity = engine.createEntity();
+        TransformComponent tc = engine.createComponent(TransformComponent.class);
+        TextureComponent tex = engine.createComponent(TextureComponent.class);
+        VikingComponent vc = engine.createComponent(VikingComponent.class);
+
+        tc.position.set(spawnPosition.x, spawnPosition.y,0);
+
+        tex.region = new TextureRegion(new Texture(Assets.VIKINGSHIP));
+
+        entity.add(tc);
+        entity.add(tex);
+        entity.add(vc);
+
+        engine.addEntity(entity);
+
+        return entity;
     }
 
     public Entity createTexture(Texture texture, Vector3 position, float scale)
