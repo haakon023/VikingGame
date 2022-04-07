@@ -1,14 +1,11 @@
 package group22.viking.game.controller.states;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
-
 import com.badlogic.gdx.math.MathUtils;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LoadingView;
-import group22.viking.game.view.SplashView;
 
 
 public class LoadingState extends State {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.view.LobbyView;
 import group22.viking.game.view.ProfileSettingsView;
 
 

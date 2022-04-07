@@ -1,8 +1,5 @@
 package group22.viking.game.controller;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.Stack;
 
 import group22.viking.game.controller.states.State;

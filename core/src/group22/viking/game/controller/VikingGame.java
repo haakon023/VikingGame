@@ -14,7 +14,6 @@ import group22.viking.game.controller.firebase.FirebaseProfileCollection;
 import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.controller.states.SplashState;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.MenuView;
 
 public class VikingGame extends Game {
 
@@ -51,7 +50,6 @@ public class VikingGame extends Game {
 		batch = new SpriteBatch();
 
 		gsm = GameStateManager.getInstance(this);
-		// gsm.push(new PlayState(this, PlayState.Type.TUTORIAL));
 		gsm.push(new SplashState(this));
 
 		// gsm.push(new MenuState(gsm,

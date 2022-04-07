@@ -1,15 +1,10 @@
 package group22.viking.game.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.ECS.EntityFactory;
-import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 public class PlayView extends View {
