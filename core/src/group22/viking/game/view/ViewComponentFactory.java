@@ -31,6 +31,10 @@ public class ViewComponentFactory {
     private static FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto.ttf"));
     private static FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
+    public static final Vector2 VERY_SMALL_BUTTON_SIZE = new Vector2(120, 120);
+    public static final Vector2 SMALL_BUTTON_SIZE = new Vector2(150, 150);
+    public static final Vector2 BIG_BUTTON_SIZE =  new Vector2(700, 150);
+    public static final Vector2 PROFILE_IMAGE_SIZE = new Vector2(500, 500);
 
     public static final Action FADE_IN_ANIMATION = createFadeInAction();
 

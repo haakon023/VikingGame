@@ -71,11 +71,6 @@ public class ProfileSettingsView extends View {
 
 
     private void createButtons() {
-        Vector2 verySmallButtonSize = new Vector2(120, 120);
-        Vector2 smallButtonSize = new Vector2(150, 150);
-        Vector2 bigButtonSize =  new Vector2(700, 150);
-        Vector2 profileImageSize = new Vector2(500, 500);
-
         //only for profile
         Vector2 carouselButtonSize = new Vector2(80,profileImage.getHeight());
 
