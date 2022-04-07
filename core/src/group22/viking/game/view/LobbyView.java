@@ -5,17 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {
-
-    private Stage stage;
 
     private Image player1;
     private Image player2;
@@ -23,13 +19,11 @@ public class LobbyView extends View {
     private TextButton playButton;
     private TextButton exitButton;
 
-    private ShapeRenderer shapeRenderer;
+    private final ShapeRenderer shapeRenderer;
 
     public LobbyView(SpriteBatch batch, Camera camera) {
-        super(batch);
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT, camera));
+        super(batch, camera);
         this.shapeRenderer = new ShapeRenderer();
-
         this.init();
     }
 
@@ -92,7 +86,7 @@ public class LobbyView extends View {
 
         playButton = ViewComponentFactory.createTextButton(
                 "Play",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-600/2,VikingGame.SCREEN_HEIGHT/2-150/2),
+                new Vector2(VikingGame.SCREEN_WIDTH/2-600F/2,VikingGame.SCREEN_HEIGHT/2-150F/2),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
@@ -122,5 +116,13 @@ public class LobbyView extends View {
 
     public TextButton getExitButton() {
         return exitButton;
+    }
+
+    public Image getPlayer1() {
+        return player1;
+    }
+
+    public Image getPlayer2() {
+        return player2;
     }
 }

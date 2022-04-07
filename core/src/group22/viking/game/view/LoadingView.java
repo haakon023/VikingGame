@@ -12,26 +12,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 public class LoadingView extends View {
 
-    private Stage stage;
-
-    private ShapeRenderer shapeRenderer;
+    private final ShapeRenderer shapeRenderer;
     private float progress;
 
     private Image vikingHeader;
     private Image stopHeader;
 
     public LoadingView(SpriteBatch batch, Camera camera) {
-        super(batch);
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT, camera));
+        super(batch, camera);
         this.shapeRenderer = new ShapeRenderer();
     }
 

@@ -1,30 +1,36 @@
 package group22.viking.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import group22.viking.game.controller.VikingGame;
 
 public abstract class View {
 
     protected SpriteBatch batch;
-    protected Stage stage;
+    protected final Stage stage;
 
 
-    public View(SpriteBatch batch) {
+    public View(SpriteBatch batch, Camera camera) {
         this.batch = batch;
+        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
     }
 
     /**
-     * call show() every time a view is shown again, e.g. after changing views
+     * Initialize view
      */
     public abstract void init();
 
     public abstract void runInitialAnimations();
 
     /**
+     * Render the view.
      *
-     * @param deltaTime
+     * @param deltaTime time difference to previous rendering.
      */
     public void render(float deltaTime) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -35,6 +41,11 @@ public abstract class View {
         batch.end();
     }
 
+    /**
+     * Called by render method: draw view elements.
+     *
+     * @param deltaTime time difference to previous rendering.
+     */
     abstract void drawElements(float deltaTime);
 
     public void dispose() {}

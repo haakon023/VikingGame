@@ -4,13 +4,11 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -28,10 +26,6 @@ public class MenuView extends View {
     private ImageButton profileButton;
 
     private TextField joinTextField;
-
-    // header
-    private Image vikingHeader;
-    private Image stopHeader;
 
     private Animation[] animations;
 
@@ -66,10 +60,6 @@ public class MenuView extends View {
         }
 
         abstract void stepChanges();
-
-        public Image getImage() {
-            return image;
-        }
     }
 
     class LoopAnimation extends Animation {
@@ -99,10 +89,7 @@ public class MenuView extends View {
     }
 
     public MenuView(SpriteBatch batch, Camera camera) {
-        super(batch);
-
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
-
+        super(batch, camera);
         this.init();
     }
 
@@ -170,9 +157,9 @@ public class MenuView extends View {
         profileButton = ViewComponentFactory.createImageButton(
                 profileTextureRegionDrawable,
                 // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
-                new Vector2(VikingGame.SCREEN_WIDTH/2-500/2,
+                new Vector2(VikingGame.SCREEN_WIDTH/2-500F/2,
                         //VikingGame.SCREEN_HEIGHT/2-profileButton.getHeight()/2-80),
-                        VikingGame.SCREEN_HEIGHT/2-500/2-80),
+                        VikingGame.SCREEN_HEIGHT/2-500F/2-80),
                 ViewComponentFactory.PROFILE_IMAGE_SIZE);
 
 
@@ -235,11 +222,11 @@ public class MenuView extends View {
 
     private void createHeader() {
         //header
-        vikingHeader = new Image(Assets.getTexture(Assets.VIKINGHEADER));
+        Image vikingHeader = new Image(Assets.getTexture(Assets.VIKINGHEADER));
         vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
-        stopHeader = new Image(Assets.getTexture(Assets.STOPHEADER));
+        Image stopHeader = new Image(Assets.getTexture(Assets.STOPHEADER));
         stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);
@@ -259,14 +246,6 @@ public class MenuView extends View {
         exitButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
 
     }
-
-    /*
-    @Override
-    public void dispose() {
-        super.dispose();
-        //stage.dispose();
-    }
-    */
 
     void drawElements(float deltaTime) {
 

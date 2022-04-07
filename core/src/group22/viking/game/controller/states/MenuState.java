@@ -67,21 +67,21 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
-                GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.TUTORIAL));
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.TUTORIAL));
             }
         });
 
         ((MenuView) view).getPracticeButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.PRACTICE));
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.PRACTICE));
             }
         });
 
         ((MenuView) view).getHostButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameStateManager.getInstance(game).push(new LobbyState(game));
+                GameStateManager.getInstance().push(new LobbyState(game));
             }
         });
 
@@ -89,7 +89,7 @@ public class MenuState extends State {
         ((MenuView) view).getJoinButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameStateManager.getInstance(game).push(new LobbyState(game));
+                GameStateManager.getInstance().push(new LobbyState(game));
             }
         });
 
@@ -97,7 +97,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Profile Pushed");
-                GameStateManager.getInstance(game).push(new ProfileSettingsState(game));
+                GameStateManager.getInstance().push(new ProfileSettingsState(game));
             }
         });
 
@@ -105,7 +105,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Leaderboard Pushed");
-                GameStateManager.getInstance(game).push(new LeaderboardState(game));
+                GameStateManager.getInstance().push(new LeaderboardState(game));
             }
         });
 

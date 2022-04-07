@@ -13,13 +13,11 @@ import group22.viking.game.models.Assets;
 
 public class SplashView extends View {
 
-    private Stage stage;
     private Image goatIcon;
 
     public SplashView(SpriteBatch batch, Camera camera) {
-        super(batch);
+        super(batch, camera);
         System.out.println("CONSTRUCTOR SPLASHVIEW");
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT, camera));
         goatIcon = new Image(new Texture(Assets.GOATICON));
     }
 

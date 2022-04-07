@@ -11,7 +11,6 @@ import java.util.Locale;
 import group22.viking.game.controller.firebase.FirebaseGameCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.FirebaseProfileCollection;
-import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.controller.states.SplashState;
 import group22.viking.game.models.Assets;
 
@@ -47,15 +46,8 @@ public class VikingGame extends Game {
 		camera.setToOrtho(false,VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
 		batch = new SpriteBatch();
 
-		gsm = GameStateManager.getInstance(this);
+		gsm = GameStateManager.getInstance();
 		gsm.push(new SplashState(this));
-
-		// gsm.push(new MenuState(gsm,
-		//		firebaseProfileCollection,
-		//		firebaseGameCollection));
-		
-		// Test Firestore:
-		// new MenuState(gsm, firebaseProfileCollection, firebaseGameCollection).testFirestore();
 
 		// TODO: Remove Test / example
 		System.out.println(Assets.LANGUAGE.get("app_name"));

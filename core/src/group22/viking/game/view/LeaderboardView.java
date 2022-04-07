@@ -3,9 +3,7 @@ package group22.viking.game.view;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -16,9 +14,7 @@ public class LeaderboardView extends View {
     private TextButton exitButton;
 
     public LeaderboardView(SpriteBatch batch, Camera camera) {
-        super(batch);
-
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
+        super(batch, camera);
 
         this.init();
     }
@@ -39,7 +35,7 @@ public class LeaderboardView extends View {
 
     private void createButtons() {
 
-        //exit button for prodile and leaderboard
+        //exit button for profile and leaderboard
         Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
 
         exitButton = ViewComponentFactory.createTextButton(
@@ -63,15 +59,6 @@ public class LeaderboardView extends View {
         stage.act(deltaTime);
         stage.draw();
     }
-
-    /*
-    @Override
-    public void dispose() {
-        super.dispose();
-        //stage.dispose();
-    }
-    */
-
 
     public TextButton getExitButton() {
         return exitButton;

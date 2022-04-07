@@ -11,7 +11,7 @@ public class PlayView extends View {
 
 
     public PlayView(SpriteBatch batch, Camera camera) {
-        super(batch);
+        super(batch, camera);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class PlayView extends View {
     /**
      * Will not be used.
      *
-     * @param deltaTime
+     * @param deltaTime time difference
      */
     @Override
     void drawElements(float deltaTime) {

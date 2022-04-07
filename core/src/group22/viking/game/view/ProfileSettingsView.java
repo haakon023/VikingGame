@@ -11,11 +11,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -36,10 +34,7 @@ public class ProfileSettingsView extends View {
     private TextField nameField;
 
     public ProfileSettingsView(SpriteBatch batch, Camera camera) {
-        super(batch);
-
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
-
+        super(batch, camera);
         this.init();
     }
 
@@ -74,7 +69,7 @@ public class ProfileSettingsView extends View {
         //only for profile
         Vector2 carouselButtonSize = new Vector2(80,profileImage.getHeight());
 
-        //for prodile and leaderboard
+        //for profile and leaderboard
         Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
 
         exitButton = ViewComponentFactory.createTextButton(
@@ -103,7 +98,7 @@ public class ProfileSettingsView extends View {
                 "Submit",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + carouselButtonSize.x + 100 + 600 + 50,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
-                new Vector2(600 / 3, 150)
+                new Vector2(600F / 3, 150)
         );
 
 
@@ -154,14 +149,6 @@ public class ProfileSettingsView extends View {
         stage.act(deltaTime);
         stage.draw();
     }
-
-    /*
-    @Override
-    public void dispose() {
-        super.dispose();
-        //stage.dispose();
-    }
-    */
 
     public TextButton getExitButton() {
         return exitButton;

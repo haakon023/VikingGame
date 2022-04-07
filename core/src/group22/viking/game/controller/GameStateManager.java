@@ -7,20 +7,18 @@ import group22.viking.game.controller.states.State;
 public class GameStateManager {
 
     private static GameStateManager instance;
-    private VikingGame game;
 
-    public static GameStateManager getInstance(VikingGame game) {
+    public static GameStateManager getInstance() {
         if(instance == null) {
-            instance = new GameStateManager(game);
+            instance = new GameStateManager();
         }
         return instance;
     }
 
     private Stack<State> states;
 
-    private GameStateManager(VikingGame game){
-        states = new Stack<State>();
-        this.game = game;
+    private GameStateManager(){
+        states = new Stack<>();
     }
 
     public void push(State state){

@@ -42,7 +42,7 @@ public class LobbyState extends State {
             public void clicked(InputEvent event, float x, float y){
                 dispose();
                 System.out.println("PLAY BUTTON CLICKED");
-                GameStateManager.getInstance(game).push(new PlayState(game, PlayState.Type.ONLINE));
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.ONLINE));
             }
         });
 
@@ -51,7 +51,7 @@ public class LobbyState extends State {
             public void clicked(InputEvent event, float x, float y){
                 dispose();
                 System.out.println("EXIT BUTTON CLICKED");
-                GameStateManager.getInstance(game).pop();
+                GameStateManager.getInstance().pop();
             }
         });
 

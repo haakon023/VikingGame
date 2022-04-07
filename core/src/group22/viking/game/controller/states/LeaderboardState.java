@@ -39,7 +39,7 @@ public class LeaderboardState extends State {
             public void clicked(InputEvent event, float x, float y){
                 dispose();
                 System.out.println("EXIT BUTTON CLICKED");
-                GameStateManager.getInstance(game).pop();
+                GameStateManager.getInstance().pop();
             }
         });
 
