@@ -47,8 +47,10 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<TransformComponent> cmTransformComp;
     private ComponentMapper<TextureComponent> cmTextureComp;
 
-    public RenderingSystem(SpriteBatch spriteBatch) {
-        super(Family.all(TransformComponent.class).get(), new ZComparator());
+    public RenderingSystem(SpriteBatch spriteBatch, ZComparator comparator) {
+        super(Family.all(TransformComponent.class).get(), comparator);
+        this.comparator = comparator;
+
         this.spriteBatch = spriteBatch;
 
         cmTransformComp = ComponentMapper.getFor(TransformComponent.class);
@@ -64,7 +66,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     public void update(float deltaTime)
     {
         super.update(deltaTime);
-        renderQueue.sort(new ZComparator());
+        renderQueue.sort(comparator);
         
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -90,7 +92,7 @@ public class RenderingSystem extends SortedIteratingSystem {
                     transComp.position.y - originY,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(transComp.scale.x), PixelsToMeters(transComp.scale.x),
+                    PixelsToMeters(transComp.scale.x), PixelsToMeters(transComp.scale.y),
                     transComp.rotation
                     );
         }

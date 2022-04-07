@@ -54,30 +54,30 @@ public class Assets {
 
         //background
         assetManager.load(CASTLE, Texture.class);
-        assetManager.load("img/GoatIcon.png", Texture.class);
-        assetManager.load("img/stopHeader.png", Texture.class);
-        assetManager.load("img/vikingHeader.png", Texture.class);
-        assetManager.load("img/vikingShip.png", Texture.class);
-        assetManager.load("img/waveDark.png", Texture.class);
-        assetManager.load("img/waveMedium.png", Texture.class);
-        assetManager.load("img/waveLight.png", Texture.class);
-        assetManager.load("img/waveVeryLight.png", Texture.class);
+        assetManager.load(GOATICON, Texture.class);
+        assetManager.load(STOPHEADER, Texture.class);
+        assetManager.load(VIKINGHEADER, Texture.class);
+        assetManager.load(VIKINGSHIP, Texture.class);
+        assetManager.load(WAVEDARK, Texture.class);
+        assetManager.load(WAVEMEDIUM, Texture.class);
+        assetManager.load(WAVELIGHT, Texture.class);
+        assetManager.load(WAVEVERYLIGHT, Texture.class);
 
         //character sprites
-        assetManager.load("img/KnightSprite.png", Texture.class);
-        assetManager.load("img/KnightSpriteHead.png", Texture.class);
-        assetManager.load("img/WarriorWomanSprite.png", Texture.class);
-        assetManager.load("img/WarriorWomanSpriteHead.png", Texture.class);
-        assetManager.load(Assets.WIZARDSPRITE, Texture.class);
-        assetManager.load("img/WizardSpriteHead.png", Texture.class);
+        assetManager.load(KNIGHTSPRITE, Texture.class);
+        assetManager.load(KNIGHTSPRITEHEAD, Texture.class);
+        assetManager.load(WARRIORWOMANSPRITE, Texture.class);
+        assetManager.load(WARRIORWOMANSPRITEHEAD, Texture.class);
+        assetManager.load(WIZARDSPRITE, Texture.class);
+        assetManager.load(WIZARDSPRITEHEAD, Texture.class);
 
         //main game background
-        assetManager.load("img/OceanBack.png", Texture.class);
-        assetManager.load("img/OceanTop.png", Texture.class);
-        assetManager.load("img/WaveBottom.png", Texture.class);
-        assetManager.load("img/Island.png", Texture.class);
-        assetManager.load("img/WaveTop.png", Texture.class);
-        assetManager.load(Assets.MONASTERY, Texture.class);
+        assetManager.load(OCEANBACK, Texture.class);
+        assetManager.load(OCEANTOP, Texture.class);
+        assetManager.load(WAVEBOTTOM, Texture.class);
+        assetManager.load(ISLAND, Texture.class);
+        assetManager.load(WAVETOP, Texture.class);
+        assetManager.load(MONASTERY, Texture.class);
 
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);

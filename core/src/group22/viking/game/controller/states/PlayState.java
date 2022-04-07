@@ -12,14 +12,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
+import group22.viking.game.ECS.VikingSystem;
+import group22.viking.game.ECS.ZComparator;
 import group22.viking.game.ECS.components.PlayerComponent;
-import group22.viking.game.ECS.components.PlayerControlSystem;
+import group22.viking.game.ECS.PlayerControlSystem;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.ECS.components.VikingComponent;
+
+import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.view.PlayView;
 
 public class PlayState extends State {
@@ -32,7 +38,6 @@ public class PlayState extends State {
 
     private Texture muteSoundBtn;
     
-    //private RenderingSystem renderingSystem;
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
 
@@ -45,28 +50,32 @@ public class PlayState extends State {
     
     private Type type;
     
-    public PlayState(VikingGame game, Type type) {             //TODO: GameStateManager gsm, 
-        super(new PlayView(game.getBatch(), game.getCamera()), game);                           //TODO: GSM necessary here?
 
-        System.out.println("PLAYSTATE CONSTRUCTOR ");
+    public PlayState(VikingGame game, Type type) {
+        super(new PlayView(game.getBatch(), game.getCamera()), game);
+
+        System.out.println("PLAYSTATE CONSTRUCTOR");
 
         this.type = type;
 
-        // super(gsm);
-        
         this.inputController = new InputController();
-
         this.engine = new PooledEngine();
-        this.entityFactory = new EntityFactory(engine);
         this.playerControlSystem = new PlayerControlSystem(inputController);
-        this.renderingSystem = new RenderingSystem(game.getBatch());
+        VikingSystem vikingSystem = new VikingSystem();
+        this.entityFactory = new EntityFactory(engine);
+        this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
 
         this.engine.addSystem(playerControlSystem);
+        this.engine.addSystem(vikingSystem);
         this.engine.addSystem(renderingSystem);
-        Gdx.input.setInputProcessor(inputController);           //TODO: is it fine to put it here? (before: in show())
+
+        Gdx.input.setInputProcessor(inputController);
 
         Entity player = entityFactory.createPlayer();
+        Entity viking1 = entityFactory.createViking(new Vector2(0, 0));
+        Entity viking2 = entityFactory.createViking(new Vector2(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT));
         ((PlayView) view).buildBackground(entityFactory);
+
     }
 
     @Override
