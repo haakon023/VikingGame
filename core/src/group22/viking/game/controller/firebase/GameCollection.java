@@ -12,8 +12,7 @@ public class GameCollection extends FirebaseCollection{
     private String currentGameId;
     
     public GameCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface, new Game());
-        super.name = "game";
+        super(firebaseInterface, new Game(), "game");
         this.currentGameId = null;
     }
 
@@ -32,7 +31,7 @@ public class GameCollection extends FirebaseCollection{
         this.currentGameId = game.getId();
 
         // 2) Get server data
-        firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
+        firebaseInterface.get(identifier, game.getId(), new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 System.out.println("GameCollection: Game exists!");
@@ -68,7 +67,7 @@ public class GameCollection extends FirebaseCollection{
         gameValues.put(Game.KEY_IS_RUNNING,   game.isRunning());
 
         firebaseInterface.addOrUpdateDocument(
-                name,
+                identifier,
                 game.getId(),
                 gameValues,
                 new OnPostDataListener() {
@@ -105,7 +104,7 @@ public class GameCollection extends FirebaseCollection{
         );
 
         firebaseInterface.addOrUpdateDocument(
-                name,
+                identifier,
                 game.getId(),
                 gameValues,
                 new OnPostDataListener() {
@@ -142,7 +141,7 @@ public class GameCollection extends FirebaseCollection{
         );
 
         firebaseInterface.addOrUpdateDocument(
-                name,
+                identifier,
                 game.getId(),
                 gameValues,
                 new OnPostDataListener() {
@@ -166,7 +165,7 @@ public class GameCollection extends FirebaseCollection{
     public void setOpponentListener(final OnCollectionUpdatedListener listener) {
         final GameCollection that = this;
         final Game game = getGame();
-        firebaseInterface.setOnValueChangedListener(name, game, new OnGetDataListener() {
+        firebaseInterface.setOnValueChangedListener(identifier, game, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 if(!(Boolean) data.get(Game.KEY_IS_RUNNING)){
@@ -243,7 +242,7 @@ public class GameCollection extends FirebaseCollection{
         this.add(game.getId(), game);
         this.currentGameId = game.getId();
 
-        firebaseInterface.get(name, game.getId(), new OnGetDataListener() {
+        firebaseInterface.get(identifier, game.getId(), new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 for(Map.Entry<String, Object> e : data.entrySet()) {

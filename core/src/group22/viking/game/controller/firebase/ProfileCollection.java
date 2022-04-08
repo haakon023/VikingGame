@@ -1,13 +1,10 @@
 package group22.viking.game.controller.firebase;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Preferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import group22.viking.game.controller.VikingGame;
 
 /**
  * The ProfileCollection follows the concept: First write data in the database, and save it to the
@@ -25,11 +22,15 @@ public class ProfileCollection extends FirebaseCollection{
     private ArrayList<String> leaderboard;
 
     public ProfileCollection(FirebaseInterface firebaseInterface, Preferences preferences) {
-        super(firebaseInterface, new Profile(null));
-        super.name = "profile";
+        super(firebaseInterface, new Profile(null), "profile");
         this.preferences = preferences;
     }
 
+    /**
+     * Initialize profile collection: check preferences for local profile and load it or create new.
+     *
+     * @param listener for synchronization
+     */
     public void init(final OnCollectionUpdatedListener listener) {
         if(!preferences.contains(PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(PREFERENCES_PROFILE_KEY) == null ||
@@ -55,6 +56,11 @@ public class ProfileCollection extends FirebaseCollection{
         });
     }
 
+    /**
+     * Create default profile for new user.
+     *
+     * @param listener for synchronization
+     */
     private void createDefaultProfile(OnCollectionUpdatedListener listener) {
         String[] names = {"James", "Robert", "John", "Mary", "Patricia", "Linda", "Fighter", "Olaf",
                 "Jan", "Bjorn", "Knut", "Lars", "Kjell", "Hans", "Astrid", "Ingrid", "Kari", "Liv",
@@ -77,7 +83,7 @@ public class ProfileCollection extends FirebaseCollection{
      */
     public void createProfile(final String name, final long avatarId, final OnCollectionUpdatedListener listener) {
         this.firebaseInterface.addDocumentWithGeneratedId(
-                this.name,
+                this.identifier,
                 new HashMap<String, Object>(){{
                     put(Profile.KEY_NAME, name);
                     put(Profile.KEY_AVATAR_ID, avatarId);
@@ -107,6 +113,32 @@ public class ProfileCollection extends FirebaseCollection{
                 });
     }
 
+    public void updateLocalProfile(final String name,
+                                   final long avatarId,
+                                   final OnCollectionUpdatedListener listener)
+    {
+        this.firebaseInterface.addOrUpdateDocument(
+                this.identifier,
+                this.localPlayerId,
+                new HashMap<String, Object>(){{
+                    put(Profile.KEY_NAME, name);
+                    put(Profile.KEY_AVATAR_ID, avatarId);
+                }},
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        System.out.println("ProfileCollection: Host is: " + documentId);
+                        readProfile(documentId, listener);
+                    }
+                    @Override
+                    public void onFailure() {
+                        System.out.println("ProfileCollection: Saving profile failed.");
+                        listener.onFailure();
+                    }
+                });
+    }
+
+
     /**
      * Increases the win or lost_game-field in the database by one.
      *
@@ -126,7 +158,7 @@ public class ProfileCollection extends FirebaseCollection{
         profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
         profileValues.put(Profile.KEY_HIGHSCORE, profile.getHighscore());
 
-        this.firebaseInterface.addOrUpdateDocument(this.name, profile.getId(), profileValues, new OnPostDataListener() {
+        this.firebaseInterface.addOrUpdateDocument(this.identifier, profile.getId(), profileValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
                 readProfile(documentId, listener);
@@ -153,7 +185,7 @@ public class ProfileCollection extends FirebaseCollection{
         }
 
         this.firebaseInterface.get(
-                this.name,
+                this.identifier,
                 profileId,
                 new OnGetDataListener() {
                     @Override
@@ -188,7 +220,7 @@ public class ProfileCollection extends FirebaseCollection{
     public void loadLeaderboard(int topPlaces, final OnCollectionUpdatedListener listener) {
         final int[] counter = {topPlaces};
         leaderboard = new ArrayList<>();
-        firebaseInterface.getAll(name, Profile.KEY_HIGHSCORE, topPlaces, new OnGetDataListener() {
+        firebaseInterface.getAll(identifier, Profile.KEY_HIGHSCORE, topPlaces, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 Profile profile = new Profile(documentId);
@@ -252,4 +284,5 @@ public class ProfileCollection extends FirebaseCollection{
     }
 
     public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
+
 }

@@ -15,8 +15,7 @@ public class LobbyCollection extends FirebaseCollection{
     public final static int ID_LENGTH = 4;
 
     public LobbyCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface, new Lobby());
-        super.name = "lobby";
+        super(firebaseInterface, new Lobby(), "lobby");
         this.currentLobbyId = null;
     }
 
@@ -31,7 +30,7 @@ public class LobbyCollection extends FirebaseCollection{
             final OnCollectionUpdatedListener guestJoinedListener)
     {
         final String lobbyId = generateId();
-        firebaseInterface.get(name, lobbyId, new OnGetDataListener() {
+        firebaseInterface.get(identifier, lobbyId, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 // try again by recursive call
@@ -58,7 +57,7 @@ public class LobbyCollection extends FirebaseCollection{
             put(Lobby.KEY_STATE, Lobby.State.OPEN);
         }};
 
-        firebaseInterface.addOrUpdateDocument(name, lobbyId, lobbyValues, new OnPostDataListener() {
+        firebaseInterface.addOrUpdateDocument(identifier, lobbyId, lobbyValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
                 Lobby lobby = new Lobby(documentId, profile.getId());
@@ -79,7 +78,7 @@ public class LobbyCollection extends FirebaseCollection{
 
     private void addWaitForJoinListener(Lobby lobby, final OnCollectionUpdatedListener listener) {
         // TODO remove listener again, when game started
-        firebaseInterface.setOnValueChangedListener(name, lobby, new OnGetDataListener() {
+        firebaseInterface.setOnValueChangedListener(identifier, lobby, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 Lobby lobby = (Lobby) get(documentId);
@@ -121,7 +120,7 @@ public class LobbyCollection extends FirebaseCollection{
             final OnCollectionUpdatedListener gotLobbyListener,
             final OnCollectionUpdatedListener startGameListener)
     {
-        firebaseInterface.get(name, id, new OnGetDataListener() {
+        firebaseInterface.get(identifier, id, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 Lobby lobby = new Lobby(documentId);
@@ -162,7 +161,7 @@ public class LobbyCollection extends FirebaseCollection{
             put(Lobby.KEY_STATE, Lobby.State.GUEST_READY);
         }};
 
-        firebaseInterface.addOrUpdateDocument(name, lobby.getId(), lobbyValues, new OnPostDataListener() {
+        firebaseInterface.addOrUpdateDocument(identifier, lobby.getId(), lobbyValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
                 lobby.joinGuest(profile.getId());
@@ -181,7 +180,7 @@ public class LobbyCollection extends FirebaseCollection{
     private void addWaitForStartListener(final Lobby lobby,
                                          final OnCollectionUpdatedListener startGameListener)
     {
-        firebaseInterface.setOnValueChangedListener(name, lobby, new OnGetDataListener() {
+        firebaseInterface.setOnValueChangedListener(identifier, lobby, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 String stateString = (String) data.get(Lobby.KEY_STATE);
@@ -223,7 +222,7 @@ public class LobbyCollection extends FirebaseCollection{
             put(Lobby.KEY_STATE, Lobby.State.RUNNING);
         }};
 
-        firebaseInterface.addOrUpdateDocument(name, lobby.getId(), lobbyValues, new OnPostDataListener() {
+        firebaseInterface.addOrUpdateDocument(identifier, lobby.getId(), lobbyValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
                 lobby.setState(Lobby.State.RUNNING);
@@ -250,7 +249,7 @@ public class LobbyCollection extends FirebaseCollection{
             put(Lobby.KEY_STATE, Lobby.State.GUEST_JOINED);
         }};
 
-        firebaseInterface.addOrUpdateDocument(name, lobby.getId(), lobbyValues, new OnPostDataListener() {
+        firebaseInterface.addOrUpdateDocument(identifier, lobby.getId(), lobbyValues, new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
                 lobby.setState(Lobby.State.GUEST_JOINED);

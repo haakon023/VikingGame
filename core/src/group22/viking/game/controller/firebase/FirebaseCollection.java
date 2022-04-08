@@ -3,24 +3,23 @@ package group22.viking.game.controller.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.text.Document;
-
 public abstract class FirebaseCollection {
 
     FirebaseInterface firebaseInterface;
-    String name;
+    String identifier;
 
     private Map<String, FirebaseDocument> documents;
     private final FirebaseDocument documentTypeExample;
 
-    public FirebaseCollection(FirebaseInterface firebaseInterface, FirebaseDocument documentTypeExample) {
+    public FirebaseCollection(
+            FirebaseInterface firebaseInterface,
+            FirebaseDocument documentTypeExample,
+            String identifier)
+    {
         this.firebaseInterface = firebaseInterface;
         this.documents = new HashMap<>();
         this.documentTypeExample = documentTypeExample;
-    }
-
-    public void update(String documentId, Map<String, Object> data) {
-
+        this.identifier = identifier;
     }
 
     FirebaseDocument get(String key) {

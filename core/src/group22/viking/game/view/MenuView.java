@@ -150,7 +150,7 @@ public class MenuView extends View {
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
-        profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.getAvatarHead(0)));
+        profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.getAvatarHead(1)));
 
         profileButton = ViewComponentFactory.createImageButton(
                 new TextureRegionDrawable(profileTextureRegion),

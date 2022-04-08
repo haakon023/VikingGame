@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -28,7 +29,7 @@ public class ProfileSettingsView extends View {
     private TextButton exitButton;
     private TextButton leftButton;
     private TextButton rightButton;
-    private TextButton changeNameButton;
+    private TextButton submitChangesButton;
 
     //Text Fields
     private TextField nameField;
@@ -44,7 +45,7 @@ public class ProfileSettingsView extends View {
         stage.clear();
 
         //todo get img file from db or json log file
-        profileImage = new Image(Assets.getTexture(Assets.WIZARDSPRITEHEAD));
+        profileImage = new Image(Assets.getTexture(Assets.getAvatarHead(0)));
         profileImage.setWidth(400);
         profileImage.setHeight(400);
         profileImage.setPosition(VikingGame.SCREEN_WIDTH/4,
@@ -94,7 +95,7 @@ public class ProfileSettingsView extends View {
                 carouselButtonSize
         );
 
-        changeNameButton = ViewComponentFactory.createTextButton(
+        submitChangesButton = ViewComponentFactory.createTextButton(
                 "Submit",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + carouselButtonSize.x + 100 + 600 + 50,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
@@ -106,7 +107,7 @@ public class ProfileSettingsView extends View {
         stage.addActor(exitButton);
         stage.addActor(leftButton);
         stage.addActor(rightButton);
-        stage.addActor(changeNameButton);
+        stage.addActor(submitChangesButton);
 
     }
 
@@ -138,7 +139,7 @@ public class ProfileSettingsView extends View {
         leftButton.addAction(fadeInAnimation);
         rightButton.addAction(fadeInAnimation);
         nameField.addAction(fadeInAnimation);
-        changeNameButton.addAction(fadeInAnimation);
+        submitChangesButton.addAction(fadeInAnimation);
         profileImage.addAction(fadeInAnimation);
     }
 
@@ -148,6 +149,12 @@ public class ProfileSettingsView extends View {
         Assets.FONT48.draw(batch, "Profile Settings State", 20,80);
         stage.act(deltaTime);
         stage.draw();
+    }
+
+    public void updateShownAvatarId(int avatarId) {
+        profileImage.setDrawable(new TextureRegionDrawable(
+                Assets.getTexture(Assets.getAvatarHead(avatarId))
+        ));
     }
 
     public TextButton getExitButton() {
@@ -162,8 +169,8 @@ public class ProfileSettingsView extends View {
         return rightButton;
     }
 
-    public TextButton getChangeNameButton() {
-        return changeNameButton;
+    public TextButton getSubmitChangesButton() {
+        return submitChangesButton;
     }
 
     public TextField getNameField() {

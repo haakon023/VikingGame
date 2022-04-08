@@ -42,6 +42,7 @@ public class Assets {
     public static final String WARRIORWOMANSPRITEHEAD = "img/WarriorWomanSpriteHead.png";
     public static final String WIZARDSPRITE = "img/WizardSprite.png";
     public static final String WIZARDSPRITEHEAD = "img/WizardSpriteHead.png";
+    public static final int NUMBER_OF_AVATARS = 3;
 
     // main game background
     public static final String OCEANBACK = "img/OceanBack.png";
