@@ -8,6 +8,7 @@ import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
+import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.ProfileSettingsView;
@@ -25,7 +26,12 @@ public class ProfileSettingsState extends State {
         addListenersToButtons();
 
         this.profileCollection = game.getProfileCollection();
-        this.currentShownAvatarId = 0;
+        Profile profile = profileCollection.getLocalPlayerProfile();
+
+        this.currentShownAvatarId = (int) profile.getAvatarId();
+        updateShownAvatar();
+
+        ((ProfileSettingsView) view).getNameField().setText(profile.getName());
 
         System.out.println("PROFILE STATE CREATED");
     }
