@@ -1,5 +1,8 @@
 package group22.viking.game.controller.firebase;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,13 +12,36 @@ import java.util.Map;
  */
 public class ProfileCollection extends FirebaseCollection{
 
+    private static final String PREFERENCES_PROFILE_KEY = "local-profile-id";
+
     private String hostId;
     private String guestId;
     private String localPlayerId;
+    private Preferences preference;
 
     public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null));
         super.name = "profile";
+
+        preference = Gdx.app.getPreferences("my-prefs");
+    }
+
+    public void init(final OnCollectionUpdatedListener listener) {
+        if(preference.contains(PREFERENCES_PROFILE_KEY)){
+            this.localPlayerId = preference.getString(PREFERENCES_PROFILE_KEY);
+            this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
+                @Override
+                public void onSuccess(FirebaseDocument document) {
+                    System.out.println("PROFILE SUCCESSFULLY LOADED FROM DB");
+                    listener.onSuccess(document);
+                }
+
+                @Override
+                public void onFailure() {
+                    listener.onFailure();
+                }
+            });
+        }
     }
 
     /**
@@ -38,10 +64,14 @@ public class ProfileCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        Profile profile = new Profile(documentId);
-                        add(documentId, new Profile(documentId));
-                        hostId = documentId;
                         System.out.println("ProfileCollection: Host is: " + documentId);
+
+                        Profile profile = new Profile(documentId);
+                        add(documentId, profile);
+
+                        localPlayerId = documentId;
+                        preference.putString(PREFERENCES_PROFILE_KEY, documentId);
+
                         readProfile(documentId, listener);
                     }
                     @Override
