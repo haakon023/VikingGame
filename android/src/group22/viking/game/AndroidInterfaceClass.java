@@ -23,16 +23,18 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AndroidInterfaceClass implements FirebaseInterface {
 
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
 
-    private Map<FirebaseDocument, ListenerRegistration> serverListeners;
+    private final Map<FirebaseDocument, ListenerRegistration> serverListeners;
 
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
+        serverListeners = new HashMap<>();
     }
 
     @Override
@@ -114,12 +116,17 @@ public class AndroidInterfaceClass implements FirebaseInterface {
 
     @Override
     public void get(String collection, String documentId, OnGetDataListener listener) {
-        db.collection(collection)
-            .document(documentId)
-            .get()
-            .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
-                listener.onGetData(documentId, documentSnapshot.getData());
-            });
+        try {
+            db.collection(collection)
+                    .document(documentId)
+                    .get()
+                    .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
+                        listener.onGetData(documentId, documentSnapshot.getData());
+                    });
+        } catch (NullPointerException e) {
+            System.out.println("No document: " + documentId);
+            listener.onFailure();
+        }
     }
 
     @Override

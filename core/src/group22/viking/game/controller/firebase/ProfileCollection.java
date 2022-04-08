@@ -1,11 +1,13 @@
 package group22.viking.game.controller.firebase;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Preferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import group22.viking.game.controller.VikingGame;
 
 /**
  * The ProfileCollection follows the concept: First write data in the database, and save it to the
@@ -22,29 +24,34 @@ public class ProfileCollection extends FirebaseCollection{
 
     private ArrayList<String> leaderboard;
 
-    public ProfileCollection(FirebaseInterface firebaseInterface) {
+    public ProfileCollection(FirebaseInterface firebaseInterface, Preferences preferences) {
         super(firebaseInterface, new Profile(null));
         super.name = "profile";
-
-        this.preferences = Gdx.app.getPreferences("my-prefs");
+        this.preferences = preferences;
     }
 
     public void init(final OnCollectionUpdatedListener listener) {
-        if(preferences.contains(PREFERENCES_PROFILE_KEY)){
-            this.localPlayerId = preferences.getString(PREFERENCES_PROFILE_KEY);
-            this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
-                @Override
-                public void onSuccess(FirebaseDocument document) {
-                    System.out.println("PROFILE SUCCESSFULLY LOADED FROM DB");
-                    listener.onSuccess(document);
-                }
-
-                @Override
-                public void onFailure() {
-                    listener.onFailure();
-                }
-            });
+        if(!preferences.contains(PREFERENCES_PROFILE_KEY) ||
+                preferences.getString(PREFERENCES_PROFILE_KEY) == null ||
+                preferences.getString(PREFERENCES_PROFILE_KEY).isEmpty()){
+            System.out.println("NO LOCAL PROFILE FOUND");
+            listener.onSuccess(null);
+            return;
         }
+        this.localPlayerId = preferences.getString(PREFERENCES_PROFILE_KEY);
+        this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("PROFILE SUCCESSFULLY LOADED FROM DB");
+                listener.onSuccess(document);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("PROFILE DOESN'T EXIST");
+                listener.onFailure();
+            }
+        });
     }
 
     /**
