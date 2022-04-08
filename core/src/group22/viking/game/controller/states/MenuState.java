@@ -23,12 +23,15 @@ public class MenuState extends State {
     private ProfileCollection profileCollection;
     private LobbyCollection lobbyCollection;
 
+    private Profile localPlayerProfile;
+
     public MenuState(VikingGame game) {
         super(new MenuView(game.getBatch(), game.getCamera()), game);
 
         this.profileCollection = game.getProfileCollection();
         this.lobbyCollection = game.getLobbyCollection();
 
+        localPlayerProfile = profileCollection.getLocalPlayerProfile();
         refreshAvatar();
 
         Gdx.input.setInputProcessor(view.getStage());
@@ -50,19 +53,6 @@ public class MenuState extends State {
 
     public void update(float delta){
 
-    }
-
-    private void getHostProfileData() {
-        Profile host = profileCollection.getHostProfile();
-        System.out.println("The Host is " + host.getName());
-    }
-
-    private void updateOwnAvatar(int avatarId) {
-
-    }
-    
-    public void setLoading(boolean isLoading){
-        
     }
 
 
@@ -129,6 +119,6 @@ public class MenuState extends State {
     }
 
     private void refreshAvatar() {
-        ((MenuView) view).setAvatar((int) profileCollection.getLocalPlayerProfile().getAvatarId());
+        ((MenuView) view).setAvatar((int) localPlayerProfile.getAvatarId());
     }
 }
