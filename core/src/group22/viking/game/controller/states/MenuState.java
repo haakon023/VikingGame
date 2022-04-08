@@ -49,22 +49,6 @@ public class MenuState extends State {
 
     }
 
-    private void userSubmitsCreateProfile(String name, int avatarId) {
-        final MenuState that = this;
-
-        profileCollection.createProfile(name, avatarId, new OnCollectionUpdatedListener() {
-            @Override
-            public void onSuccess(FirebaseDocument profile) {
-                System.out.println("Profile created: " + profile.getId());
-                that.getHostProfileData();
-            }
-            @Override
-            public void onFailure() {
-                System.out.println("Failure.");
-            }
-        });
-    }
-
     private void getHostProfileData() {
         Profile host = profileCollection.getHostProfile();
         System.out.println("The Host is " + host.getName());

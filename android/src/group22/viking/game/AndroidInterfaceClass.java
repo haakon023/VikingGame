@@ -124,7 +124,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                         listener.onGetData(documentId, documentSnapshot.getData());
                     });
         } catch (NullPointerException e) {
-            System.out.println("No document: " + documentId);
+            System.out.println("No document with id " + documentId);
             listener.onFailure();
         }
     }

@@ -33,12 +33,13 @@ public class ProfileCollection extends FirebaseCollection{
     public void init(final OnCollectionUpdatedListener listener) {
         if(!preferences.contains(PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(PREFERENCES_PROFILE_KEY) == null ||
-                preferences.getString(PREFERENCES_PROFILE_KEY).isEmpty()){
+                preferences.getString(PREFERENCES_PROFILE_KEY).isEmpty()) {
             System.out.println("NO LOCAL PROFILE FOUND");
-            listener.onSuccess(null);
+            createDefaultProfile(listener);
             return;
         }
         this.localPlayerId = preferences.getString(PREFERENCES_PROFILE_KEY);
+        System.out.println("FOUND LOCAL PROFILE: " + localPlayerId);
         this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -54,23 +55,36 @@ public class ProfileCollection extends FirebaseCollection{
         });
     }
 
+    private void createDefaultProfile(OnCollectionUpdatedListener listener) {
+        String[] names = {"James", "Robert", "John", "Mary", "Patricia", "Linda", "Fighter", "Olaf",
+                "Jan", "Bjorn", "Knut", "Lars", "Kjell", "Hans", "Astrid", "Ingrid", "Kari", "Liv",
+                "Anne", "Marit", "Solveig", "Ursula", "Hildegard", "Ilse", "Gerda", "Ingeborg",
+                "Helga", "Gunther", "Carl", "Heinz", "Werner", "Wolfgang", "Ludwig", "Kurt", "Horst"};
+        int nameIndex = (int) (Math.random() * names.length);
+        createProfile(
+                names[nameIndex],
+                0,
+                listener
+        );
+    }
+
+
     /**
      * Creates profile entry in database and returns unique profile-id
      *
      * @param name {String}
      * @param avatarId {int}
      */
-    public void createProfile(String name, long avatarId, final OnCollectionUpdatedListener listener) {
-        Map<String, Object> profileValues = new HashMap<>();
-
-        profileValues.put(Profile.KEY_NAME, name);
-        profileValues.put(Profile.KEY_GAMES_WON, 0);
-        profileValues.put(Profile.KEY_GAMES_LOST, 0);
-        profileValues.put(Profile.KEY_AVATAR_ID, avatarId);
-
+    public void createProfile(final String name, final long avatarId, final OnCollectionUpdatedListener listener) {
         this.firebaseInterface.addDocumentWithGeneratedId(
                 this.name,
-                profileValues,
+                new HashMap<String, Object>(){{
+                    put(Profile.KEY_NAME, name);
+                    put(Profile.KEY_AVATAR_ID, avatarId);
+                    put(Profile.KEY_GAMES_WON, 0);
+                    put(Profile.KEY_GAMES_LOST, 0);
+                    put(Profile.KEY_HIGHSCORE, 0);
+                }},
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
@@ -81,6 +95,7 @@ public class ProfileCollection extends FirebaseCollection{
 
                         localPlayerId = documentId;
                         preferences.putString(PREFERENCES_PROFILE_KEY, documentId);
+                        preferences.flush();
 
                         readProfile(documentId, listener);
                     }
@@ -139,7 +154,7 @@ public class ProfileCollection extends FirebaseCollection{
 
         this.firebaseInterface.get(
                 this.name,
-                this.hostId,
+                profileId,
                 new OnGetDataListener() {
                     @Override
                     public void onGetData(String documentId, Map<String, Object> data) {
