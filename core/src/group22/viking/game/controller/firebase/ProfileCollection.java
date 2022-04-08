@@ -3,6 +3,7 @@ package group22.viking.game.controller.firebase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ public class ProfileCollection extends FirebaseCollection{
     private String guestId;
     private String localPlayerId;
     private final Preferences preferences;
+
+    private ArrayList<String> leaderboard;
 
     public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null));
@@ -154,20 +157,53 @@ public class ProfileCollection extends FirebaseCollection{
         );
     }
 
-    public void getLeaderboardFromTo(int from, int to, OnCollectionUpdatedListener listener) {
-        firebaseInterface.getAll(name, Profile.KEY_HIGHSCORE, to, new OnGetDataListener() {
+    /**
+     * Load the top leaderboard profiles.
+     *
+     * @param topPlaces {int} top X places
+     * @param listener for synchronization
+     */
+    public void loadLeaderboard(int topPlaces, final OnCollectionUpdatedListener listener) {
+        final int[] counter = {topPlaces};
+        leaderboard = new ArrayList<>();
+        firebaseInterface.getAll(name, Profile.KEY_HIGHSCORE, topPlaces, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
-
+                Profile profile = new Profile(documentId);
+                leaderboard.add(documentId);
+                for(Map.Entry<String, Object> e : data.entrySet()) {
+                    try {
+                        profile.set(e.getKey(), e.getValue());
+                    } catch (FieldKeyUnknownException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                profile.setIsLoaded(true);
+                counter[0]--;
+                if(counter[0] <= 0) {
+                    listener.onSuccess(getLocalPlayerProfile());
+                }
             }
 
             @Override
             public void onFailure() {
-
+                listener.onFailure();
             }
         });
+    }
 
-
+    /**
+     * Return the leaderboard profiles.
+     *
+     * @return ArrayList of profiles. Empty if not loaded.
+     */
+    public ArrayList<Profile> getLeaderboard() {
+        ArrayList<Profile> leaderboardProfiles = new ArrayList<>();
+        if (leaderboard == null) return leaderboardProfiles;
+        for(String profileId : leaderboard) {
+            leaderboardProfiles.add((Profile) get(profileId));
+        }
+        return leaderboardProfiles;
     }
 
     public void setHostId(String hostId) {

@@ -59,7 +59,7 @@ public class DatabaseWorkflowDummyClass {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
-                        // TODO swich view and show lobby id
+                        // TODO switch view and show lobby id
                     }
 
                     @Override
@@ -95,7 +95,7 @@ public class DatabaseWorkflowDummyClass {
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
                         getHostProfile(lobby.getHostId());
-                        // TODO switch to lobbby state
+                        // TODO switch to lobby state
                     }
 
                     @Override
@@ -223,7 +223,7 @@ public class DatabaseWorkflowDummyClass {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 Lobby lobby = (Lobby) document;
-                // TODO switch to lobbby state
+                // TODO switch to lobby state
             }
 
             @Override
