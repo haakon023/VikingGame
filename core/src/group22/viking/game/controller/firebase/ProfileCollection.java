@@ -17,18 +17,18 @@ public class ProfileCollection extends FirebaseCollection{
     private String hostId;
     private String guestId;
     private String localPlayerId;
-    private Preferences preference;
+    private final Preferences preferences;
 
     public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null));
         super.name = "profile";
 
-        preference = Gdx.app.getPreferences("my-prefs");
+        this.preferences = Gdx.app.getPreferences("my-prefs");
     }
 
     public void init(final OnCollectionUpdatedListener listener) {
-        if(preference.contains(PREFERENCES_PROFILE_KEY)){
-            this.localPlayerId = preference.getString(PREFERENCES_PROFILE_KEY);
+        if(preferences.contains(PREFERENCES_PROFILE_KEY)){
+            this.localPlayerId = preferences.getString(PREFERENCES_PROFILE_KEY);
             this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
                 @Override
                 public void onSuccess(FirebaseDocument document) {
@@ -70,7 +70,7 @@ public class ProfileCollection extends FirebaseCollection{
                         add(documentId, profile);
 
                         localPlayerId = documentId;
-                        preference.putString(PREFERENCES_PROFILE_KEY, documentId);
+                        preferences.putString(PREFERENCES_PROFILE_KEY, documentId);
 
                         readProfile(documentId, listener);
                     }
