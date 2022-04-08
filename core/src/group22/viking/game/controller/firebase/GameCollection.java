@@ -63,6 +63,8 @@ public class GameCollection extends FirebaseCollection{
         gameValues.put(Game.KEY_GUEST_HEALTH, game.getHealthGuest());
         gameValues.put(Game.KEY_HOST_WON,     game.getWonGamesHost());
         gameValues.put(Game.KEY_GUEST_WON,    game.getWonGamesGuest());
+        gameValues.put(Game.KEY_HOST_WAVE,    game.getWaveHost());
+        gameValues.put(Game.KEY_GUEST_WAVE,   game.getWaveGuest());
         gameValues.put(Game.KEY_IS_RUNNING,   game.isRunning());
 
         firebaseInterface.addOrUpdateDocument(
@@ -120,13 +122,48 @@ public class GameCollection extends FirebaseCollection{
 
         return health;
     }
+
+    /**
+     * Save, that wave was completed, and send status to database.
+     */
+    public void waveCompleted() {
+        Game game = getGame();
+        game.increaseOwnWaveNumber();
+
+        Map<String, Object> gameValues = new HashMap<>();
+        gameValues.put(
+                game.isHost() ? Game.KEY_HOST_WAVE : Game.KEY_GUEST_WAVE,
+                game.isHost() ? game.getWaveHost() : game.getWaveGuest()
+        );
+        // to be sure, also update health:
+        gameValues.put(
+                game.isHost() ? Game.KEY_HOST_HEALTH : Game.KEY_GUEST_HEALTH,
+                game.isHost() ? game.getHealthHost() : game.getHealthGuest()
+        );
+
+        firebaseInterface.addOrUpdateDocument(
+                name,
+                game.getId(),
+                gameValues,
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        System.out.println("GameCollection: Wave updated.");
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        System.out.println("GameCollection: Failed updating wave!");
+                    }
+                });
+    }
     
     public Game getGame() {
         if (currentGameId == null) return null;
         return (Game) get(currentGameId);
     }
 
-    public void setOpponentHealthListener(final OnCollectionUpdatedListener listener) {
+    public void setOpponentListener(final OnCollectionUpdatedListener listener) {
         final GameCollection that = this;
         final Game game = getGame();
         firebaseInterface.setOnValueChangedListener(name, game, new OnGetDataListener() {
@@ -154,10 +191,13 @@ public class GameCollection extends FirebaseCollection{
                 try {
                     String key = game.isHost() ? Game.KEY_GUEST_HEALTH : Game.KEY_HOST_HEALTH;
                     game.set(key, data.get(key));
+
+                    key = game.isHost() ? Game.KEY_GUEST_WAVE : Game.KEY_HOST_WAVE;
+                    game.set(key, data.get(key));
                 } catch (FieldKeyUnknownException exception) {
                     // should never happen
                 }
-                System.out.println("GameCollection: Opponents health updated.");
+                System.out.println("GameCollection: Opponents status updated.");
                 listener.onSuccess(game);
             }
 

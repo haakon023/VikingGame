@@ -1,7 +1,5 @@
 package group22.viking.game.controller.firebase;
 
-import java.security.PublicKey;
-
 public class Game extends FirebaseDocument{
 
     private static final long INITIAL_HEALTH = 1000;
@@ -13,6 +11,8 @@ public class Game extends FirebaseDocument{
     public final static String KEY_GUEST_WON = "guest_won";
     public final static String KEY_HOST_HEALTH = "host_health";
     public final static String KEY_GUEST_HEALTH = "guest_health";
+    public final static String KEY_HOST_WAVE = "host_wave";
+    public final static String KEY_GUEST_WAVE = "guest_wave";
 
     private boolean isRunning;
     private boolean isHost;
@@ -20,6 +20,8 @@ public class Game extends FirebaseDocument{
     private long wonGamesGuest;
     private long healthHost;
     private long healthGuest;
+    private long waveHost;
+    private long waveGuest;
 
     /**
      * Constructor for dummy instance.
@@ -44,6 +46,8 @@ public class Game extends FirebaseDocument{
         this.wonGamesGuest = -1;
         this.healthHost = INITIAL_HEALTH;
         this.healthGuest = INITIAL_HEALTH;
+        this.waveHost = 0;
+        this.waveGuest = 0;
     }
 
     public boolean isRunning() {
@@ -68,6 +72,14 @@ public class Game extends FirebaseDocument{
 
     public long getHealthHost() {
         return healthHost;
+    }
+
+    public long getWaveGuest() {
+        return waveGuest;
+    }
+
+    public long getWaveHost() {
+        return waveHost;
     }
 
     void setWonGamesGuest(long wonGamesGuest) {
@@ -106,6 +118,12 @@ public class Game extends FirebaseDocument{
             case KEY_GUEST_HEALTH:
                 this.healthGuest = (Long) value;
                 break;
+            case KEY_HOST_WAVE:
+                this.waveHost = (Long) value;
+                break;
+            case KEY_GUEST_WAVE:
+                this.waveGuest = (Long) value;
+                break;
             default:
                 throw new FieldKeyUnknownException(key);
         }
@@ -120,5 +138,17 @@ public class Game extends FirebaseDocument{
         isRunning = false;
         healthGuest = -1;
         healthHost = -1;
+    }
+
+    public void increaseOwnWaveNumber() {
+        if (isHost) {
+            waveHost++;
+        } else {
+            waveGuest++;
+        }
+    }
+
+    public boolean playNextWave() {
+        return isHost ? (waveHost <= waveGuest ) : (waveHost >= waveGuest);
     }
 }

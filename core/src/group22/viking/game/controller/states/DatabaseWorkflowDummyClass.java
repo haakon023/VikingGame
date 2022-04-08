@@ -172,7 +172,7 @@ public class DatabaseWorkflowDummyClass {
      * GAME STATE
      */
     private void setGameListener() {
-        gameCollection.setOpponentHealthListener(new OnCollectionUpdatedListener() {
+        gameCollection.setOpponentListener(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 Game game = (Game) document;
