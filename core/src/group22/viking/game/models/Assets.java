@@ -116,4 +116,20 @@ public class Assets {
         return assetManager.get(path, Sound.class);
     }
 
+    public static String getAvatar(int index) {
+        return new String[]{
+                Assets.KNIGHTSPRITE,
+                Assets.WIZARDSPRITE,
+                Assets.WARRIORWOMANSPRITE
+        }[index];
+    }
+
+    public static String getAvatarHead(int index) {
+        return new String[]{
+                Assets.KNIGHTSPRITEHEAD,
+                Assets.WIZARDSPRITEHEAD,
+                Assets.WARRIORWOMANSPRITEHEAD
+        }[index];
+    }
+
 }

@@ -29,6 +29,8 @@ public class MenuState extends State {
         this.profileCollection = game.getProfileCollection();
         this.lobbyCollection = game.getLobbyCollection();
 
+        refreshAvatar();
+
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
@@ -38,6 +40,7 @@ public class MenuState extends State {
     @Override
     public void reinitialize() {
         super.reinitialize();
+        refreshAvatar();
     }
 
     @Override
@@ -123,7 +126,9 @@ public class MenuState extends State {
                 //todo
             }
         });
+    }
 
-
+    private void refreshAvatar() {
+        ((MenuView) view).setAvatar((int) profileCollection.getLocalPlayerProfile().getAvatarId());
     }
 }
