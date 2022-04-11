@@ -1,5 +1,6 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Lobby extends FirebaseDocument{
@@ -58,6 +59,15 @@ public class Lobby extends FirebaseDocument{
         this.hostId = null;
         this.state = State.UNDEFINED;
         this.guestId = GUEST_FIELD_DUMMY;
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        return new HashMap<String, Object>(){{
+            put(KEY_HOST, hostId);
+            put(KEY_GUEST, guestId);
+            put(KEY_STATE, state.label);
+        }};
     }
 
     public void joinGuest(String guestId) {

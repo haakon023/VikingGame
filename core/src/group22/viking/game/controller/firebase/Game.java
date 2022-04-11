@@ -1,5 +1,8 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Game extends FirebaseDocument{
 
     private static final long INITIAL_HEALTH = 1000;
@@ -127,6 +130,19 @@ public class Game extends FirebaseDocument{
             default:
                 throw new FieldKeyUnknownException(key);
         }
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        return new HashMap<String, Object>(){{
+            put(KEY_IS_RUNNING, isRunning);
+            put(KEY_HOST_WON, wonGamesHost);
+            put(KEY_GUEST_WON, wonGamesGuest);
+            put(KEY_HOST_HEALTH, healthHost);
+            put(KEY_GUEST_HEALTH, healthGuest);
+            put(KEY_HOST_WAVE, waveHost);
+            put(KEY_GUEST_WAVE, waveGuest);
+        }};
     }
 
     public void finish(boolean hostWin) {

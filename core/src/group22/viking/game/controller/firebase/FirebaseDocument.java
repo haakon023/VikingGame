@@ -1,5 +1,8 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Refers to data in database.
  */
@@ -29,4 +32,6 @@ public abstract class FirebaseDocument {
     public void set(String key, Object value) throws FieldKeyUnknownException {
         throw new FieldKeyUnknownException(key);
     }
+
+    public abstract Map<String, Object> getData();
 }

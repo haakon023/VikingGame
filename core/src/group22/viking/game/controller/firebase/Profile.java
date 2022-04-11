@@ -1,5 +1,8 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Profile extends FirebaseDocument{
 
     public final static String KEY_NAME = "name";
@@ -80,6 +83,18 @@ public class Profile extends FirebaseDocument{
                 throw new FieldKeyUnknownException(key);
         }
     }
+
+    @Override
+    public Map<String, Object> getData() {
+        return new HashMap<String, Object>(){{
+            put(KEY_NAME, name);
+            put(KEY_AVATAR_ID, avatarId);
+            put(KEY_GAMES_WON, wonGames);
+            put(KEY_GAMES_LOST, lostGames);
+            put(KEY_HIGHSCORE, highscore);
+        }};
+    }
+
 
     public void addFinishedGame(boolean win, long score) {
         if(win) {
