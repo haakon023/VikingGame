@@ -117,12 +117,17 @@ public class ProfileCollection extends FirebaseCollection{
                                    final long avatarId,
                                    final OnCollectionUpdatedListener listener)
     {
+        final Profile profile = getLocalPlayerProfile();
+
         this.firebaseInterface.addOrUpdateDocument(
                 this.identifier,
                 this.localPlayerId,
                 new HashMap<String, Object>(){{
                     put(Profile.KEY_NAME, name);
                     put(Profile.KEY_AVATAR_ID, avatarId);
+                    put(Profile.KEY_GAMES_WON, profile.getWonGames());
+                    put(Profile.KEY_GAMES_LOST, profile.getLostGames());
+                    put(Profile.KEY_HIGHSCORE, profile.getHighscore());
                 }},
                 new OnPostDataListener() {
                     @Override
