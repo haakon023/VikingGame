@@ -29,6 +29,12 @@ public class SpawnerController {
 
     public int amountOfAttackersToSpawnForEachSpawner(int time)
     {
-        return amountOfAttackersToSpawn(time) / spawners.size();
+        int amount = amountOfAttackersToSpawn(time);
+        int amountPerSpawner = amount / spawners.size();
+        if (amountPerSpawner == 0 && amount != 0)
+        {
+            return spawners.size(); //Ensures that some enemies will always spawn
+        }
+        return amountPerSpawner;
     }
 }
