@@ -2,7 +2,7 @@ package group22.viking.game.controller.states;
 
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.PlayerStatus;
-import group22.viking.game.controller.firebase.GameCollection;
+import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
@@ -11,15 +11,15 @@ import group22.viking.game.controller.firebase.ProfileCollection;
 
 public class DatabaseWorkflowDummyClass {
 
-    GameCollection gameCollection;
+    PlayerStatusCollection playerStatusCollection;
     ProfileCollection profileCollection;
     LobbyCollection lobbyCollection;
 
-    public DatabaseWorkflowDummyClass(GameCollection gameCollection,
+    public DatabaseWorkflowDummyClass(PlayerStatusCollection playerStatusCollection,
                                       ProfileCollection profileCollection,
                                       LobbyCollection lobbyCollection)
     {
-        this.gameCollection = gameCollection;
+        this.playerStatusCollection = playerStatusCollection;
         this.profileCollection = profileCollection;
         this.lobbyCollection = lobbyCollection;
     }
@@ -171,8 +171,8 @@ public class DatabaseWorkflowDummyClass {
     /**
      * GAME STATE
      */
-    private void setGameListener() {
-        gameCollection.setOpponentListener(new OnCollectionUpdatedListener() {
+    /*private void setGameListener() {
+        playerStatusCollection.setOpponentListener(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 PlayerStatus game = (PlayerStatus) document;
@@ -190,10 +190,10 @@ public class DatabaseWorkflowDummyClass {
                 // TODO
             }
         });
-    }
+    }*/
 
     private long reduceOwnHealth(long damage) {
-        return gameCollection.reduceOwnHealth(damage);
+        return playerStatusCollection.reduceOwnHealth(damage);
     }
 
     private void hostEndsGame(boolean hostWin, long score) {

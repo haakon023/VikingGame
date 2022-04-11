@@ -1,5 +1,7 @@
 package group22.viking.game.controller.firebase;
 
+import com.badlogic.gdx.Preferences;
+
 import org.junit.Assert;
 
 
@@ -17,7 +19,7 @@ public class ProfileCollectionTest {
     String profileIdGuest = "000000000000000000002";
 
     public ProfileCollectionTest(FirebaseInterface firebaseInterface){
-        profileCollection = new ProfileCollection(firebaseInterface);
+        //profileCollection = new ProfileCollection(firebaseInterface);
     }
 
 
@@ -57,7 +59,7 @@ public class ProfileCollectionTest {
         });
     }
 
-    public void addFinishedGameTest() {
+    /*public void addFinishedGameTest() {
         profileCollection.addFinishedGame(profile, true, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -74,7 +76,7 @@ public class ProfileCollectionTest {
                 Assert.assertTrue(false);
             }
         });
-    }
+    }*/
 
     public void setHostIdTest() {
         profileCollection.readProfile(profileIdHost, new OnCollectionUpdatedListener() {

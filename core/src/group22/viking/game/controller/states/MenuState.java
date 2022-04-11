@@ -1,19 +1,14 @@
 package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.GameCollection;
-import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.ProfileCollection;
-import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.view.MenuView;
 

@@ -3,17 +3,17 @@ package group22.viking.game.controller.firebase;
 import java.util.Map;
 
 /**
- * The GameCollection follows the concept: First update the collection locally, and THEN send it
+ * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
  * to the server.
  */
-public class GameCollection extends FirebaseCollection{
+public class PlayerStatusCollection extends FirebaseCollection{
 
     private String localStatusId; // own status
     private String opponentStatusId; // opponent status
 
     private boolean isHost;
     
-    public GameCollection(FirebaseInterface firebaseInterface) {
+    public PlayerStatusCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new PlayerStatus(), "game");
         this.opponentStatusId = null;
         this.localStatusId = null;
@@ -42,7 +42,7 @@ public class GameCollection extends FirebaseCollection{
         firebaseInterface.get(identifier, status.getId(), new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
-                System.out.println("GameCollection: PlayerStatus exists!");
+                System.out.println("PlayerStatusCollection: PlayerStatus exists!");
                 status.setWonGames((Long) data.get(PlayerStatus.KEY_WON));
                 status.setIsLoaded(true);
 
@@ -52,7 +52,7 @@ public class GameCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                System.out.println("GameCollection: PlayerStatus does not exist yet.");
+                System.out.println("PlayerStatusCollection: PlayerStatus does not exist yet.");
                 status.setWonGames(0);
                 status.setIsLoaded(true);
 
@@ -70,13 +70,13 @@ public class GameCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("GameCollection: Wrote game to server: " + documentId);
+                        System.out.println("PlayerStatusCollection: Wrote game to server: " + documentId);
                         listener.onSuccess(game);
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("GameCollection: Error while writing game to server.");
+                        System.out.println("PlayerStatusCollection: Error while writing game to server.");
                         listener.onFailure();
                     }
                 });
@@ -110,9 +110,9 @@ public class GameCollection extends FirebaseCollection{
                         exception.printStackTrace();
                     }
                 }
-                System.out.println("GameCollection: Opponents status updated.");
+                System.out.println("PlayerStatusCollection: Opponents status updated.");
                 if(!status.isAlive()){
-                    System.out.println("GameCollection: Opponent dead.");
+                    System.out.println("PlayerStatusCollection: Opponent dead.");
                     finishGame(true);
                 }
                 listener.onSuccess(status);
@@ -120,7 +120,7 @@ public class GameCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                System.out.println("GameCollection: Problems with listening.");
+                System.out.println("PlayerStatusCollection: Problems with listening.");
                 listener.onFailure();
             }
         });
@@ -138,12 +138,12 @@ public class GameCollection extends FirebaseCollection{
         this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                System.out.println("GameCollection: PlayerStatus finished on server.");
+                System.out.println("PlayerStatusCollection: PlayerStatus finished on server.");
             }
 
             @Override
             public void onFailure() {
-                System.out.println("GameCollection: Error while finishing game.");
+                System.out.println("PlayerStatusCollection: Error while finishing game.");
             }
         });
     }
@@ -167,12 +167,12 @@ public class GameCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("GameCollection: Health updated.");
+                        System.out.println("PlayerStatusCollection: Health updated.");
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("GameCollection: Failed updating health!");
+                        System.out.println("PlayerStatusCollection: Failed updating health!");
                     }
                 });
 
@@ -193,12 +193,12 @@ public class GameCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("GameCollection: Wave updated.");
+                        System.out.println("PlayerStatusCollection: Wave updated.");
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("GameCollection: Failed updating wave!");
+                        System.out.println("PlayerStatusCollection: Failed updating wave!");
                     }
                 });
     }

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * The GameCollection follows the concept: First update the collection locally, and THEN send it
+ * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
  * to the server.
  */
 public class LobbyCollection extends FirebaseCollection{
