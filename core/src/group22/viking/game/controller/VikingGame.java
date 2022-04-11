@@ -63,7 +63,7 @@ public class VikingGame extends Game {
 		// first, update the data
 		//gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(Gdx.graphics.getDeltaTime());
-		// then render the screen via Game
+		// then render the screen via PlayerStatus
 		// super.render();
 	}
 	

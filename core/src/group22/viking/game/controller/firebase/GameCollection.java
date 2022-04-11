@@ -1,6 +1,5 @@
 package group22.viking.game.controller.firebase;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,67 +8,65 @@ import java.util.Map;
  */
 public class GameCollection extends FirebaseCollection{
 
-    private String currentGameId;
+    private String localStatusId; // own status
+    private String opponentStatusId; // opponent status
+
+    private boolean isHost;
     
     public GameCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface, new Game(), "game");
-        this.currentGameId = null;
+        super(firebaseInterface, new PlayerStatus(), "game");
+        this.opponentStatusId = null;
+        this.localStatusId = null;
+        this.isHost = false;
     }
 
     /**
-     * Only call as a host (???).
+     * Creates own status sending document, when ready to play.
+     * Guest: Call after joining the lobby.
+     * Host: Call after starting game.
      *
-     * @param host
-     * @param guest
+     * @param localPlayer
+     * @param opponent
+     * @param listener
      */
-    public void startGame(Profile host,
-                          Profile guest,
-                          final OnCollectionUpdatedListener startGameListener) {
-        // 1) Create game
-        final Game game = new Game(host, guest, true);
-        this.add(game.getId(), game);
-        this.currentGameId = game.getId();
+    public void createOwnStatus(Profile localPlayer,
+                                Profile opponent,
+                                final OnCollectionUpdatedListener listener)
+    {
+        // 1) Create document locally
+        final PlayerStatus status = new PlayerStatus(localPlayer, opponent, true);
+        this.add(status.getId(), status);
+        this.localStatusId = status.getId();
 
         // 2) Get server data
-        firebaseInterface.get(identifier, game.getId(), new OnGetDataListener() {
+        firebaseInterface.get(identifier, status.getId(), new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
-                System.out.println("GameCollection: Game exists!");
-                game.setWonGamesHost((Long) data.get(Game.KEY_HOST_WON));
-                game.setWonGamesGuest((Long) data.get(Game.KEY_GUEST_WON));
-                game.setIsLoaded(true);
+                System.out.println("GameCollection: PlayerStatus exists!");
+                status.setWonGames((Long) data.get(PlayerStatus.KEY_WON));
+                status.setIsLoaded(true);
 
                 // 3a) Save to database
-                writeGameToServer(game, startGameListener);
+                writeStatusToServer(status, listener);
             }
 
             @Override
             public void onFailure() {
-                System.out.println("GameCollection: Game does not exist yet.");
-                game.setWonGamesHost(0);
-                game.setWonGamesGuest(0);
-                game.setIsLoaded(true);
+                System.out.println("GameCollection: PlayerStatus does not exist yet.");
+                status.setWonGames(0);
+                status.setIsLoaded(true);
 
                 // 3b) Save to database
-                writeGameToServer(game, startGameListener);
+                writeStatusToServer(status, listener);
             }
         });
     }
 
-    private void writeGameToServer(final Game game, final OnCollectionUpdatedListener listener) {
-        Map<String, Object> gameValues = new HashMap<>();
-        gameValues.put(Game.KEY_HOST_HEALTH,  game.getHealthHost());
-        gameValues.put(Game.KEY_GUEST_HEALTH, game.getHealthGuest());
-        gameValues.put(Game.KEY_HOST_WON,     game.getWonGamesHost());
-        gameValues.put(Game.KEY_GUEST_WON,    game.getWonGamesGuest());
-        gameValues.put(Game.KEY_HOST_WAVE,    game.getWaveHost());
-        gameValues.put(Game.KEY_GUEST_WAVE,   game.getWaveGuest());
-        gameValues.put(Game.KEY_IS_RUNNING,   game.isRunning());
-
+    private void writeStatusToServer(final PlayerStatus game, final OnCollectionUpdatedListener listener) {
         firebaseInterface.addOrUpdateDocument(
                 identifier,
                 game.getId(),
-                gameValues,
+                game.getData(),
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
@@ -86,6 +83,72 @@ public class GameCollection extends FirebaseCollection{
     }
 
     /**
+     * Add listener to opponent status when starting game.
+     *
+     * @param localPlayer
+     * @param opponent
+     */
+    public void addListenerToOpponentStatus(
+            Profile localPlayer,
+            Profile opponent,
+            boolean isHost,
+            final OnCollectionUpdatedListener listener)
+    {
+        this.isHost = isHost;
+
+        final PlayerStatus status = new PlayerStatus(localPlayer, opponent, false);
+        this.add(status.getId(), status);
+        this.opponentStatusId = status.getId();
+
+        firebaseInterface.setOnValueChangedListener(identifier, status, new OnGetDataListener() {
+            @Override
+            public void onGetData(String documentId, Map<String, Object> data) {
+                for (Map.Entry<String, Object> e : data.entrySet()) {
+                    try {
+                        status.set(e.getKey(), e.getValue());
+                    } catch (FieldKeyUnknownException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                System.out.println("GameCollection: Opponents status updated.");
+                if(!status.isAlive()){
+                    System.out.println("GameCollection: Opponent dead.");
+                    finishGame(true);
+                }
+                listener.onSuccess(status);
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("GameCollection: Problems with listening.");
+                listener.onFailure();
+            }
+        });
+    }
+
+    /**
+     *
+     *
+     * @param isWin
+     */
+    private void finishGame(boolean isWin) {
+        getLocalPlayerStatus().finish(true); // mark win
+        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
+
+        this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("GameCollection: PlayerStatus finished on server.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("GameCollection: Error while finishing game.");
+            }
+        });
+    }
+
+    /**
      * Update own health, load to server and return new value.
      *
      * NOTE: Does not wait for server success.
@@ -94,19 +157,13 @@ public class GameCollection extends FirebaseCollection{
      * @return {long} new health
      */
     public long reduceOwnHealth(long damage) {
-        Game game = getGame();
-        long health = game.reduceOwnHealth(damage);
-
-        Map<String, Object> gameValues = new HashMap<>();
-        gameValues.put(
-                game.isHost() ? Game.KEY_HOST_HEALTH : Game.KEY_GUEST_HEALTH,
-                game.isHost() ? game.getHealthHost() : game.getHealthGuest()
-        );
+        PlayerStatus status = getLocalPlayerStatus();
+        long health = status.reduceOwnHealth(damage);
 
         firebaseInterface.addOrUpdateDocument(
                 identifier,
-                game.getId(),
-                gameValues,
+                status.getId(),
+                status.getData(),
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
@@ -126,24 +183,13 @@ public class GameCollection extends FirebaseCollection{
      * Save, that wave was completed, and send status to database.
      */
     public void waveCompleted() {
-        Game game = getGame();
-        game.increaseOwnWaveNumber();
-
-        Map<String, Object> gameValues = new HashMap<>();
-        gameValues.put(
-                game.isHost() ? Game.KEY_HOST_WAVE : Game.KEY_GUEST_WAVE,
-                game.isHost() ? game.getWaveHost() : game.getWaveGuest()
-        );
-        // to be sure, also update health:
-        gameValues.put(
-                game.isHost() ? Game.KEY_HOST_HEALTH : Game.KEY_GUEST_HEALTH,
-                game.isHost() ? game.getHealthHost() : game.getHealthGuest()
-        );
+        PlayerStatus status = getLocalPlayerStatus();
+        status.increaseWave();
 
         firebaseInterface.addOrUpdateDocument(
                 identifier,
-                game.getId(),
-                gameValues,
+                status.getId(),
+                status.getData(),
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
@@ -157,108 +203,13 @@ public class GameCollection extends FirebaseCollection{
                 });
     }
     
-    public Game getGame() {
-        if (currentGameId == null) return null;
-        return (Game) get(currentGameId);
+    public PlayerStatus getLocalPlayerStatus() {
+        if (this.localStatusId == null) return null;
+        return (PlayerStatus) get(localStatusId);
     }
 
-    public void setOpponentListener(final OnCollectionUpdatedListener listener) {
-        final GameCollection that = this;
-        final Game game = getGame();
-        firebaseInterface.setOnValueChangedListener(identifier, game, new OnGetDataListener() {
-            @Override
-            public void onGetData(String documentId, Map<String, Object> data) {
-                if(!(Boolean) data.get(Game.KEY_IS_RUNNING)){
-                    game.setIsRunningFalse();
-
-                    System.out.println("GameCollection: Opponent ended game.");
-
-                    // If guest, do not read health values as they are reset by host.
-                    if (!game.isHost()) {
-                        firebaseInterface.removeOnValueChangedListener(game);
-                        try {
-                            String key = Game.KEY_GUEST_WON;
-                            game.set(key, data.get(key));
-                        } catch (FieldKeyUnknownException exception) {
-                            // should never happen
-                        }
-                        listener.onSuccess(game);
-                        return;
-                    }
-                }
-
-                try {
-                    String key = game.isHost() ? Game.KEY_GUEST_HEALTH : Game.KEY_HOST_HEALTH;
-                    game.set(key, data.get(key));
-
-                    key = game.isHost() ? Game.KEY_GUEST_WAVE : Game.KEY_HOST_WAVE;
-                    game.set(key, data.get(key));
-                } catch (FieldKeyUnknownException exception) {
-                    // should never happen
-                }
-                System.out.println("GameCollection: Opponents status updated.");
-                listener.onSuccess(game);
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("GameCollection: Problems with listening.");
-                listener.onFailure();
-            }
-        });
-    }
-
-    /**
-     * The host only (1) finishes the game: Save wins, reset values, stop listener and save game.
-     *
-     * @param isWin
-     */
-    public void finishGame(boolean isWin) {
-        Game game = getGame();
-
-        if (!game.isHost()) {
-            return;
-        }
-
-        game.finish(isWin);
-
-        firebaseInterface.removeOnValueChangedListener(game);
-
-        this.writeGameToServer(game, new OnCollectionUpdatedListener() {
-            @Override
-            public void onSuccess(FirebaseDocument document) {
-                System.out.println("GameCollection: Game finished on server.");
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("GameCollection: Error while finishing game.");
-            }
-        });
-    }
-
-    public void startGameAsGuest(Profile host, Profile guest, final OnCollectionUpdatedListener listener) {
-        final Game game = new Game(host, guest, false);
-        this.add(game.getId(), game);
-        this.currentGameId = game.getId();
-
-        firebaseInterface.get(identifier, game.getId(), new OnGetDataListener() {
-            @Override
-            public void onGetData(String documentId, Map<String, Object> data) {
-                for(Map.Entry<String, Object> e : data.entrySet()) {
-                    try {
-                        game.set(e.getKey(), e.getValue());
-                    } catch (FieldKeyUnknownException exception) {
-                        exception.printStackTrace();
-                    }
-                }
-                listener.onSuccess(game);
-            }
-
-            @Override
-            public void onFailure() {
-                listener.onFailure();
-            }
-        });
+    public PlayerStatus getOpponentPlayerStatus() {
+        if (this.opponentStatusId == null) return null;
+        return (PlayerStatus) get(opponentStatusId);
     }
 }

@@ -1,7 +1,7 @@
 package group22.viking.game.controller.states;
 
 import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.Game;
+import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.GameCollection;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
@@ -175,7 +175,7 @@ public class DatabaseWorkflowDummyClass {
         gameCollection.setOpponentListener(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                Game game = (Game) document;
+                PlayerStatus game = (PlayerStatus) document;
                 // TODO update health, check if game still running etc
                 // game.getHealthGuest();
                 // game.getHealthHost();
