@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class Profile extends FirebaseDocument{
 
-    public final static String KEY_NAME = "name";
-    public final static String KEY_GAMES_WON = "games_won";
-    public final static String KEY_GAMES_LOST = "games_lost";
-    public final static String KEY_HIGHSCORE = "highscore";
-    public final static String KEY_AVATAR_ID = "avatar_id";
+    final static String KEY_NAME = "name";
+    final static String KEY_GAMES_WON = "games_won";
+    final static String KEY_GAMES_LOST = "games_lost";
+    final static String KEY_HIGHSCORE = "highscore";
+    final static String KEY_AVATAR_ID = "avatar_id";
 
     private String name;
     private long avatarId;
@@ -17,7 +17,7 @@ public class Profile extends FirebaseDocument{
     private long lostGames;
     private long highscore;
 
-    public Profile(String id, String name, long avatarId, long wonGames, long lostGames, long highscore) {
+    Profile(String id, String name, long avatarId, long wonGames, long lostGames, long highscore) {
         super(id);
         this.name = name;
         this.avatarId = avatarId;
@@ -26,7 +26,7 @@ public class Profile extends FirebaseDocument{
         this.highscore = highscore;
     }
 
-    public Profile(String id) {
+    Profile(String id) {
         super(id);
         this.name = null;
         this.avatarId = -1;
@@ -96,8 +96,7 @@ public class Profile extends FirebaseDocument{
         }};
     }
 
-
-    public void addFinishedGame(boolean win, long score) {
+    void addFinishedGame(boolean win, long score) {
         if(win) {
             wonGames++;
         } else {

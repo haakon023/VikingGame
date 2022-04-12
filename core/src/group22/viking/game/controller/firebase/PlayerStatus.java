@@ -9,10 +9,10 @@ public class PlayerStatus extends FirebaseDocument{
 
     private static final String ID_SEPARATOR = "-";
 
-    public final static String KEY_IS_ALIVE = "is_alive";
-    public final static String KEY_WON = "won";
-    public final static String KEY_HEALTH = "health";
-    public final static String KEY_WAVE = "wave";
+    final static String KEY_IS_ALIVE = "is_alive";
+    final static String KEY_WON = "won";
+    final static String KEY_HEALTH = "health";
+    final static String KEY_WAVE = "wave";
 
     private boolean isAlive;
     private final boolean isWriting;
@@ -34,7 +34,7 @@ public class PlayerStatus extends FirebaseDocument{
      * @param player {Profile}
      * @param listener {Profile}
      */
-    public PlayerStatus(Profile player, Profile listener, boolean isWriting) {
+    PlayerStatus(Profile player, Profile listener, boolean isWriting) {
         super(player.getId() + ID_SEPARATOR + listener.getId());
         super.isLoaded = false;
         this.isWriting = isWriting;
@@ -103,13 +103,13 @@ public class PlayerStatus extends FirebaseDocument{
         }};
     }
 
-    public void finish(boolean win) {
+    void finish(boolean win) {
         if(!isWriting) return; // error
         wonGames++;
         health = -1;
     }
 
-    public void increaseWave() {
+    void increaseWave() {
         wave++;
     }
 }

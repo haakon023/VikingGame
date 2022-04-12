@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Lobby extends FirebaseDocument{
 
-    public enum State {
+    enum State {
         UNDEFINED("undefined"),
         OPEN("open"),
         GUEST_JOINED("guest_joined"),
@@ -29,11 +29,11 @@ public class Lobby extends FirebaseDocument{
         }
     }
 
-    public final static String KEY_HOST = "host";
-    public final static String KEY_GUEST = "guest";
-    public final static String KEY_STATE = "state";
+    final static String KEY_HOST = "host";
+    final static String KEY_GUEST = "guest";
+    final static String KEY_STATE = "state";
 
-    public final static String GUEST_FIELD_DUMMY = "__open__";
+    final static String GUEST_FIELD_DUMMY = "__open__";
 
     private String hostId;
     private String guestId;
@@ -42,7 +42,7 @@ public class Lobby extends FirebaseDocument{
     /**
      * Dummy constructor.
      */
-    public Lobby() {
+    Lobby() {
         super("dummy");
         this.guestId = "dummy";
         this.hostId = "dummy";
@@ -56,14 +56,14 @@ public class Lobby extends FirebaseDocument{
      * @param id
      * @param hostId
      */
-    public Lobby(String id, String hostId) {
+    Lobby(String id, String hostId) {
         super(id);
         this.hostId = hostId;
         this.state = State.OPEN;
         this.guestId = GUEST_FIELD_DUMMY;
     }
 
-    public Lobby(String documentId) {
+    Lobby(String documentId) {
         super(documentId);
         this.hostId = null;
         this.state = State.UNDEFINED;
@@ -101,11 +101,15 @@ public class Lobby extends FirebaseDocument{
         return !guestId.equals(GUEST_FIELD_DUMMY);
     }
 
-    public State getState() {
+    public boolean isGuestReady() {
+        return state == State.GUEST_READY;
+    }
+
+    State getState() {
         return state;
     }
 
-    public void setState(State state) {
+    void setState(State state) {
         this.state = state;
     }
 
@@ -117,7 +121,7 @@ public class Lobby extends FirebaseDocument{
         return hostId;
     }
 
-    public void setGuestId(String guestId) {
+    void setGuestId(String guestId) {
         this.guestId = guestId;
     }
 }
