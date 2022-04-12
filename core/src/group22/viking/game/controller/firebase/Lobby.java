@@ -18,11 +18,20 @@ public class Lobby extends FirebaseDocument{
         State(String label) {
             this.label = label;
         }
+
+        public static State fromString(String text) {
+            for (State state : State.values()) {
+                if (state.label.equals(text)) {
+                    return state;
+                }
+            }
+            return null;
+        }
     }
 
     public final static String KEY_HOST = "host";
     public final static String KEY_GUEST = "guest";
-    public final static String KEY_STATE = "open";
+    public final static String KEY_STATE = "state";
 
     public final static String GUEST_FIELD_DUMMY = "__open__";
 
@@ -62,6 +71,23 @@ public class Lobby extends FirebaseDocument{
     }
 
     @Override
+    public void set(String key, Object value) throws FieldKeyUnknownException {
+        switch (key) {
+            case KEY_HOST:
+                this.hostId = (String) value;
+                break;
+            case KEY_GUEST:
+                this.guestId = (String) value;
+                break;
+            case KEY_STATE:
+                this.state = State.fromString((String) value);
+                break;
+            default:
+                throw new FieldKeyUnknownException(key);
+        }
+    }
+
+    @Override
     public Map<String, Object> getData() {
         return new HashMap<String, Object>(){{
             put(KEY_HOST, hostId);
@@ -70,10 +96,6 @@ public class Lobby extends FirebaseDocument{
         }};
     }
 
-    public void joinGuest(String guestId) {
-        this.guestId = guestId;
-        this.state = State.GUEST_READY;
-    }
 
     public boolean isFull() {
         return guestId != GUEST_FIELD_DUMMY;
@@ -93,5 +115,9 @@ public class Lobby extends FirebaseDocument{
 
     public String getHostId() {
         return hostId;
+    }
+
+    public void setGuestId(String guestId) {
+        this.guestId = guestId;
     }
 }

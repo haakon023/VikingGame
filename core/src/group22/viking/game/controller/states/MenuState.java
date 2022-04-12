@@ -7,7 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
+import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.LobbyCollection;
+import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.view.MenuView;
@@ -41,18 +43,17 @@ public class MenuState extends State {
         refreshAvatar();
     }
 
+    private void refreshAvatar() {
+        getView().setAvatar((int) localPlayerProfile.getAvatarId());
+    }
+
     @Override
     protected void handleInput() {
 
     }
 
-    public void update(float delta){
-
-    }
-
-
     private void addListenersToButtons() {
-        ((MenuView) view).getTutorialButton().addListener(new ClickListener() {
+        getView().getTutorialButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
@@ -60,29 +61,29 @@ public class MenuState extends State {
             }
         });
 
-        ((MenuView) view).getPracticeButton().addListener(new ClickListener() {
+        getView().getPracticeButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.PRACTICE));
             }
         });
 
-        ((MenuView) view).getHostButton().addListener(new ClickListener() {
+        getView().getHostButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameStateManager.getInstance().push(new LobbyState(game));
+                userHostsGame();
             }
         });
 
 
-        ((MenuView) view).getJoinButton().addListener(new ClickListener() {
+        getView().getJoinButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameStateManager.getInstance().push(new LobbyState(game));
+                userSubmitsJoinLobbyId();
             }
         });
 
-        ((MenuView) view).getProfileButton().addListener(new ClickListener(){
+        getView().getProfileButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Profile Pushed");
@@ -90,7 +91,7 @@ public class MenuState extends State {
             }
         });
 
-        ((MenuView) view).getLeaderboardButton().addListener(new ClickListener() {
+        getView().getLeaderboardButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Leaderboard Pushed");
@@ -98,14 +99,14 @@ public class MenuState extends State {
             }
         });
 
-        ((MenuView) view).getExitButton().addListener(new ClickListener() {
+        getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
             }
         });
 
-        ((MenuView) view).getMuteButton().addListener(new ClickListener(){
+        getView().getMuteButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 //todo
@@ -113,7 +114,23 @@ public class MenuState extends State {
         });
     }
 
-    private void refreshAvatar() {
-        ((MenuView) view).setAvatar((int) localPlayerProfile.getAvatarId());
+    private void userSubmitsJoinLobbyId() {
+        String id = getView().getJoinTextField().getText();
+        if (!lobbyCollection.validateId(id)) {
+            // id is wrong
+            System.out.println("Misspelling in ID");
+            // TODO make something.
+            return;
+        }
+        GameStateManager.getInstance().push(new LobbyState(game, id));
     }
+
+    private void userHostsGame() {
+        GameStateManager.getInstance().push(new LobbyState(game));
+    }
+
+    private MenuView getView() {
+        return (MenuView) view;
+    }
+
 }

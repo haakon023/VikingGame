@@ -30,17 +30,23 @@ public class LobbyCollection extends FirebaseCollection{
             final OnCollectionUpdatedListener guestJoinedListener)
     {
         final String lobbyId = generateId();
+        System.out.println(validateId(lobbyId));
         firebaseInterface.get(identifier, lobbyId, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
-                // try again by recursive call
-                createLobby(profile, gotIdListener, guestJoinedListener);
+                if (data != null) {
+                    // try again by recursive call
+                    createLobby(profile, gotIdListener, guestJoinedListener);
+                    return;
+                }
+                // great! lobby id does not exist!
+                addNewLobby(lobbyId, profile, gotIdListener, guestJoinedListener);
             }
 
             @Override
             public void onFailure() {
-                // great! lobby id does not exist!
-                addNewLobby(lobbyId, profile, gotIdListener, guestJoinedListener);
+                System.out.println("Lobby Collection: error when reading.");
+                gotIdListener.onFailure();
             }
         });
     }
@@ -51,29 +57,29 @@ public class LobbyCollection extends FirebaseCollection{
             final OnCollectionUpdatedListener gotIdListener,
             final OnCollectionUpdatedListener guestJoinedListener)
     {
-        Map<String, Object> lobbyValues = new HashMap<String, Object>() {{
-            put(Lobby.KEY_HOST, profile.getId());
-            put(Lobby.KEY_GUEST, Lobby.GUEST_FIELD_DUMMY);
-            put(Lobby.KEY_STATE, Lobby.State.OPEN);
-        }};
+        final Lobby lobby = new Lobby(lobbyId, profile.getId());
 
-        firebaseInterface.addOrUpdateDocument(identifier, lobbyId, lobbyValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
-                Lobby lobby = new Lobby(documentId, profile.getId());
-                add(documentId, lobby);
-                currentLobbyId = documentId;
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                lobby.getId(),
+                lobby.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        add(documentId, lobby);
+                        currentLobbyId = documentId;
 
-                addWaitForJoinListener(lobby, guestJoinedListener);
-                gotIdListener.onSuccess(lobby);
-            }
+                        addWaitForJoinListener(lobby, guestJoinedListener);
+                        gotIdListener.onSuccess(lobby);
+                    }
 
-            @Override
-            public void onFailure() {
-                System.out.println("LobbyCollection: new lobby not added to server.");
-                gotIdListener.onFailure();
-            }
-        });
+                    @Override
+                    public void onFailure() {
+                        System.out.println("LobbyCollection: new lobby not added to server.");
+                        gotIdListener.onFailure();
+                    }
+                }
+        );
     }
 
     private void addWaitForJoinListener(Lobby lobby, final OnCollectionUpdatedListener listener) {
@@ -84,7 +90,7 @@ public class LobbyCollection extends FirebaseCollection{
                 Lobby lobby = (Lobby) get(documentId);
 
                 String guestId = (String) data.get(Lobby.KEY_GUEST);
-                if (guestId == Lobby.GUEST_FIELD_DUMMY) return;
+                if (guestId.equals(Lobby.GUEST_FIELD_DUMMY)) return;
 
                 String stateString = (String) data.get(Lobby.KEY_STATE);
                 if(Lobby.State.GUEST_LEFT.label.equals(stateString)) {
@@ -93,7 +99,8 @@ public class LobbyCollection extends FirebaseCollection{
                     return;
                 }
 
-                lobby.joinGuest(guestId);
+                lobby.setGuestId(guestId);
+                lobby.setState(Lobby.State.GUEST_READY);
 
                 listener.onSuccess(lobby);
             }
@@ -156,25 +163,27 @@ public class LobbyCollection extends FirebaseCollection{
             final OnCollectionUpdatedListener gotLobbyListener,
             final OnCollectionUpdatedListener startGameListener)
     {
-        Map<String, Object> lobbyValues = new HashMap<String, Object>(){{
-            put(Lobby.KEY_GUEST, profile.getId());
-            put(Lobby.KEY_STATE, Lobby.State.GUEST_READY);
-        }};
+        lobby.setGuestId(profile.getId());
+        lobby.setState(Lobby.State.GUEST_READY);
 
-        firebaseInterface.addOrUpdateDocument(identifier, lobby.getId(), lobbyValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
-                lobby.joinGuest(profile.getId());
-                addWaitForStartListener(lobby, startGameListener);
-                gotLobbyListener.onSuccess(lobby);
-            }
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                lobby.getId(),
+                lobby.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        addWaitForStartListener(lobby, startGameListener);
+                        gotLobbyListener.onSuccess(lobby);
+                    }
 
-            @Override
-            public void onFailure() {
-                System.out.println("LobbyCollection: Joining lobby failed.");
-                gotLobbyListener.onFailure();
-            }
-        });
+                    @Override
+                    public void onFailure() {
+                        System.out.println("LobbyCollection: Joining lobby failed.");
+                        gotLobbyListener.onFailure();
+                    }
+                }
+        );
     }
 
     private void addWaitForStartListener(final Lobby lobby,
@@ -273,8 +282,8 @@ public class LobbyCollection extends FirebaseCollection{
             id += letter;
             validationSum += (int) letter;
         }
-        validationSum = validationSum % 25 + 'A';
-        return id;
+        char validation = (char) ('A' + validationSum % 25);
+        return id + validation;
     }
 
     /**
@@ -283,6 +292,8 @@ public class LobbyCollection extends FirebaseCollection{
      * @return
      */
     public boolean validateId(String id) {
+        if(id.length() != ID_LENGTH) return false;
+
         int validationSum = 0;
         for(int i = 0; i < ID_LENGTH - 1; i++) {
             validationSum += (int) id.charAt(i);

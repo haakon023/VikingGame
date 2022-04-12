@@ -195,6 +195,10 @@ public class ProfileCollection extends FirebaseCollection{
                 new OnGetDataListener() {
                     @Override
                     public void onGetData(String documentId, Map<String, Object> data) {
+                        if (data == null) {
+                            listener.onFailure();
+                            return;
+                        }
                         Profile profile = (Profile) get(documentId);
                         for(Map.Entry<String, Object> e : data.entrySet()) {
                             try {
