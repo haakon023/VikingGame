@@ -62,7 +62,8 @@ public class Profile extends FirebaseDocument{
         return wonGames - lostGames;
     }
 
-    public void set(String key, Object value) throws FieldKeyUnknownException {
+    @Override
+    void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
             case KEY_NAME:
                 this.name = (String) value;
@@ -85,7 +86,7 @@ public class Profile extends FirebaseDocument{
     }
 
     @Override
-    public Map<String, Object> getData() {
+    Map<String, Object> getData() {
         return new HashMap<String, Object>(){{
             put(KEY_NAME, name);
             put(KEY_AVATAR_ID, avatarId);

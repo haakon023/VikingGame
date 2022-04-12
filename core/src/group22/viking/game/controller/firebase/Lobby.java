@@ -71,7 +71,7 @@ public class Lobby extends FirebaseDocument{
     }
 
     @Override
-    public void set(String key, Object value) throws FieldKeyUnknownException {
+    void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
             case KEY_HOST:
                 this.hostId = (String) value;
@@ -88,7 +88,7 @@ public class Lobby extends FirebaseDocument{
     }
 
     @Override
-    public Map<String, Object> getData() {
+    Map<String, Object> getData() {
         return new HashMap<String, Object>(){{
             put(KEY_HOST, hostId);
             put(KEY_GUEST, guestId);

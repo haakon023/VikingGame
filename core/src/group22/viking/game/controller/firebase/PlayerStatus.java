@@ -73,7 +73,8 @@ public class PlayerStatus extends FirebaseDocument{
         this.isAlive = false;
     }
 
-    public void set(String key, Object value) throws FieldKeyUnknownException {
+    @Override
+    void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
             case KEY_IS_ALIVE:
                 this.isAlive = (Boolean) value;
@@ -93,7 +94,7 @@ public class PlayerStatus extends FirebaseDocument{
     }
 
     @Override
-    public Map<String, Object> getData() {
+    Map<String, Object> getData() {
         return new HashMap<String, Object>(){{
             put(KEY_IS_ALIVE, isAlive);
             put(KEY_WON, wonGames);

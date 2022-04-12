@@ -20,7 +20,7 @@ public class LobbyState extends State {
     ProfileCollection profileCollection;
     LobbyCollection lobbyCollection;
 
-    boolean isHost = false;
+    private boolean isHost = false;
 
     /**
      * Host lobby constructor.

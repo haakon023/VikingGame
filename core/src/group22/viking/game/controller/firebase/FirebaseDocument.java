@@ -21,17 +21,15 @@ public abstract class FirebaseDocument {
         return id;
     }
 
-    public boolean isLoaded() {
+    boolean isLoaded() {
         return isLoaded;
     }
 
-    public void setIsLoaded(boolean isLoaded) {
+    void setIsLoaded(boolean isLoaded) {
         this.isLoaded = isLoaded;
     }
 
-    public void set(String key, Object value) throws FieldKeyUnknownException {
-        throw new FieldKeyUnknownException(key);
-    }
+    abstract void set(String key, Object value) throws FieldKeyUnknownException;
 
-    public abstract Map<String, Object> getData();
+    abstract Map<String, Object> getData();
 }
