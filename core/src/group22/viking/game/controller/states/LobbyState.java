@@ -20,7 +20,7 @@ public class LobbyState extends State {
     ProfileCollection profileCollection;
     LobbyCollection lobbyCollection;
 
-    private boolean isHost = false;
+    private final boolean IS_HOST;
 
     /**
      * Host lobby constructor.
@@ -29,13 +29,13 @@ public class LobbyState extends State {
      */
     public LobbyState(final VikingGame game) {
         super(new LobbyView(game.getBatch(), game.getCamera()), game);
+        this.IS_HOST = true;
 
         profileCollection = game.getProfileCollection();
         lobbyCollection = game.getLobbyCollection();
 
         Gdx.input.setInputProcessor(view.getStage());
 
-        this.isHost = true;
         createLobbyOnServer();
         displayHost(profileCollection.getLocalPlayerProfile());
 
@@ -53,13 +53,13 @@ public class LobbyState extends State {
      */
     public LobbyState(final VikingGame game, String joinLobbyId) {
         super(new LobbyView(game.getBatch(), game.getCamera()), game);
+        this.IS_HOST = false;
 
         profileCollection = game.getProfileCollection();
         lobbyCollection = game.getLobbyCollection();
 
         Gdx.input.setInputProcessor(view.getStage());
 
-        this.isHost = false;
         tryJoinLobby(joinLobbyId);
 
         addListenersToButtons();
@@ -106,7 +106,7 @@ public class LobbyState extends State {
         profileCollection.readProfile(guestId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                if(isHost) {
+                if(IS_HOST) {
                     displayGuest((Profile) document);
                     getView().enablePlayButton();
                 } else {
@@ -143,7 +143,7 @@ public class LobbyState extends State {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
                         // TODO: BACKEND start game
-
+                        System.out.println("TODO: Received info: Host starts game");
 
 
 
@@ -171,18 +171,14 @@ public class LobbyState extends State {
         getView().getPlayButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                dispose();
-                System.out.println("PLAY BUTTON CLICKED");
-                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.ONLINE));
+                userConfirmsStart();
             }
         });
 
         getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                dispose();
-                System.out.println("EXIT BUTTON CLICKED");
-                GameStateManager.getInstance().pop();
+                userExits();
             }
         });
 
@@ -194,11 +190,6 @@ public class LobbyState extends State {
 
     }
 
-    @Override
-    public void dispose() {
-
-    }
-
     public void update(float delta){
 
     }
@@ -207,6 +198,19 @@ public class LobbyState extends State {
         return (LobbyView) view;
     }
 
+    private void userExits() {
+        GameStateManager.getInstance().pop();
+        this.dispose();
+    }
+
+    private void userConfirmsStart() {
+        System.out.println("PLAY BUTTON CLICKED");
+        if(!IS_HOST) return;
+        if(!lobbyCollection.getLobby().isFull()) return;
+        if(!lobbyCollection.getLobby().isGuestReady()) return;
+
+        GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.ONLINE));
+    }
 
 
 }
