@@ -98,7 +98,7 @@ public class Lobby extends FirebaseDocument{
 
 
     public boolean isFull() {
-        return guestId != GUEST_FIELD_DUMMY;
+        return !guestId.equals(GUEST_FIELD_DUMMY);
     }
 
     public State getState() {
