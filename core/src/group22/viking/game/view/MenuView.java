@@ -241,14 +241,14 @@ public class MenuView extends View {
 
     @Override
     public void runInitialAnimations() {
-        tutorialButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        practiceButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        hostButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        joinTextField.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        profileButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        leaderboardButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        exitButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-
+        tutorialButton.addAction(ViewComponentFactory.createFadeInAction());
+        practiceButton.addAction(ViewComponentFactory.createFadeInAction());
+        hostButton.addAction(ViewComponentFactory.createFadeInAction());
+        joinTextField.addAction(ViewComponentFactory.createFadeInAction());
+        profileButton.addAction(ViewComponentFactory.createFadeInAction());
+        leaderboardButton.addAction(ViewComponentFactory.createFadeInAction());
+        exitButton.addAction(ViewComponentFactory.createFadeInAction());
+        muteButton.addAction(ViewComponentFactory.createFadeInAction());
     }
 
     public void makeErrorShakeOnTextField() {

@@ -38,8 +38,6 @@ public class ViewComponentFactory {
     public static final Vector2 BIG_BUTTON_SIZE =  new Vector2(700, 150);
     public static final Vector2 PROFILE_IMAGE_SIZE = new Vector2(500, 500);
 
-    public static final Action FADE_IN_ANIMATION = createFadeInAction();
-
     public static ImageButton createImageButton (
             TextureRegionDrawable profileTextureRegionDrawable,
             Vector2 position,
@@ -85,11 +83,12 @@ public class ViewComponentFactory {
         return skin;
     }
 
-    private static Action createFadeInAction() {
+    public static Action createFadeInAction() {
         return sequence(
                 alpha(0),
+                moveBy(0,20,0f, Interpolation.linear),
                 parallel(
-                        fadeIn(0.5f),
+                        fadeIn(.5f),
                         moveBy(0,-20,.5f, Interpolation.pow5Out)
                 )
         );
