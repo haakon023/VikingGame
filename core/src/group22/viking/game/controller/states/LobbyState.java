@@ -238,7 +238,8 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-               //todo
+                ErrorDialog errorDialog = ViewComponentFactory.createErrorDialog();
+                errorDialog.show(getView().getStage());
             }
         };
 
