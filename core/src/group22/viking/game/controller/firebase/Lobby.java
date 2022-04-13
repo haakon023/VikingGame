@@ -96,9 +96,13 @@ public class Lobby extends FirebaseDocument{
         }};
     }
 
-
     public boolean isFull() {
         return !guestId.equals(GUEST_FIELD_DUMMY);
+    }
+
+    public boolean isJoinable() {
+        return guestId.equals(GUEST_FIELD_DUMMY) &&
+                (state.equals(State.OPEN) || state.equals(State.GUEST_LEFT));
     }
 
     public boolean isGuestReady() {

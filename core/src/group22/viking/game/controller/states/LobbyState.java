@@ -197,7 +197,6 @@ public class LobbyState extends State {
 
     }
 
-
     @Override
     protected void handleInput() {
 
@@ -240,6 +239,5 @@ public class LobbyState extends State {
 
         GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.ONLINE));
     }
-
 
 }

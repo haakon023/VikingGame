@@ -139,7 +139,7 @@ public class LobbyCollection extends FirebaseCollection{
                     }
                 }
                 // check if lobby open
-                if(lobby.getState() != Lobby.State.OPEN) {
+                if(!lobby.isJoinable()) {
                     System.out.println("LobbyCollection: Lobby is not open.");
                     gotLobbyListener.onFailure();
                     return;
