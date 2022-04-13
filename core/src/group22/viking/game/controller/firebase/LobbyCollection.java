@@ -26,8 +26,7 @@ public class LobbyCollection extends FirebaseCollection{
 
     public void createLobby(
             final Profile profile,
-            final OnCollectionUpdatedListener gotIdListener,
-            final OnCollectionUpdatedListener guestJoinedListener)
+            final OnCollectionUpdatedListener listener)
     {
         final String lobbyId = generateId();
         System.out.println(validateId(lobbyId));
@@ -36,17 +35,17 @@ public class LobbyCollection extends FirebaseCollection{
             public void onGetData(String documentId, Map<String, Object> data) {
                 if (data != null) {
                     // try again by recursive call
-                    createLobby(profile, gotIdListener, guestJoinedListener);
+                    createLobby(profile, listener);
                     return;
                 }
                 // great! lobby id does not exist!
-                addNewLobby(lobbyId, profile, gotIdListener, guestJoinedListener);
+                addNewLobby(lobbyId, profile, listener);
             }
 
             @Override
             public void onFailure() {
                 System.out.println("Lobby Collection: error when reading.");
-                gotIdListener.onFailure();
+                listener.onFailure();
             }
         });
     }
@@ -54,8 +53,7 @@ public class LobbyCollection extends FirebaseCollection{
     private void addNewLobby(
             String lobbyId,
             final Profile profile,
-            final OnCollectionUpdatedListener gotIdListener,
-            final OnCollectionUpdatedListener guestJoinedListener)
+            final OnCollectionUpdatedListener listener)
     {
         final Lobby lobby = new Lobby(lobbyId, profile.getId());
 
@@ -69,39 +67,30 @@ public class LobbyCollection extends FirebaseCollection{
                         add(documentId, lobby);
                         currentLobbyId = documentId;
 
-                        addWaitForJoinListener(lobby, guestJoinedListener);
-                        gotIdListener.onSuccess(lobby);
+                        listener.onSuccess(lobby);
                     }
 
                     @Override
                     public void onFailure() {
                         System.out.println("LobbyCollection: new lobby not added to server.");
-                        gotIdListener.onFailure();
+                        listener.onFailure();
                     }
                 }
         );
     }
 
-    private void addWaitForJoinListener(Lobby lobby, final OnCollectionUpdatedListener listener) {
-        // TODO remove listener again, when game started
+    public void addLobbyListener(Lobby lobby, final OnCollectionUpdatedListener listener) {
         firebaseInterface.setOnValueChangedListener(identifier, lobby, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 Lobby lobby = (Lobby) get(documentId);
-
-                String guestId = (String) data.get(Lobby.KEY_GUEST);
-                if (guestId.equals(Lobby.GUEST_FIELD_DUMMY)) return;
-
-                String stateString = (String) data.get(Lobby.KEY_STATE);
-                if(Lobby.State.GUEST_LEFT.label.equals(stateString)) {
-                    System.out.println("LobbyCollection: user left again");
-                    listener.onFailure();
-                    return;
+                for(Map.Entry<String, Object> e : data.entrySet()) {
+                    try {
+                        lobby.set(e.getKey(), e.getValue());
+                    } catch (FieldKeyUnknownException exception) {
+                        exception.printStackTrace();
+                    }
                 }
-
-                lobby.setGuestId(guestId);
-                lobby.setState(Lobby.State.GUEST_READY);
-
                 listener.onSuccess(lobby);
             }
 
@@ -111,6 +100,10 @@ public class LobbyCollection extends FirebaseCollection{
                 listener.onFailure();
             }
         });
+    }
+
+    private void removeLobbyListener(Lobby lobby) {
+        firebaseInterface.removeOnValueChangedListener(lobby);
     }
 
     /**
@@ -273,6 +266,7 @@ public class LobbyCollection extends FirebaseCollection{
     }
 
     public void deleteLobby(final OnCollectionUpdatedListener listener) {
+        firebaseInterface.removeOnValueChangedListener(getLobby());
         firebaseInterface.removeDocument(identifier, getLobby(), new OnPostDataListener() {
             @Override
             public void onSuccess(String documentId) {
@@ -293,6 +287,7 @@ public class LobbyCollection extends FirebaseCollection{
         lobby.setState(Lobby.State.GUEST_LEFT);
         lobby.setGuestId(Lobby.GUEST_FIELD_DUMMY);
 
+        firebaseInterface.removeOnValueChangedListener(lobby);
         firebaseInterface.addOrUpdateDocument(
                 identifier,
                 lobby.getId(),

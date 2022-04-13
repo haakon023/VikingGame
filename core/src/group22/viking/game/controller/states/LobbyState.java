@@ -82,6 +82,7 @@ public class LobbyState extends State {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
+                        setLobbyListener(lobby);
                         System.out.println(lobby.getId());
                         getView().printLobbyId(lobby.getId());
                     }
@@ -90,21 +91,45 @@ public class LobbyState extends State {
                     public void onFailure() {
                         // TODO Notify that problems with server. No lobby created
                     }
-                },
-                // guestJoinedListener
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        Lobby lobby = (Lobby) document;
-                        displayLobbyId(lobby.getId());
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        // TODO Notify that problems with server. No listener
-                    }
                 }
         );
+    }
+
+    private void setLobbyListener(Lobby lobby) {
+        lobbyCollection.addLobbyListener(lobby, new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                Lobby lobby = (Lobby) document;
+
+                switch (lobby.getState()) {
+                    case OPEN:
+                    case GUEST_LEFT:
+                        removeShownPlayer();
+                        return;
+                    case GUEST_READY:
+                    case GUEST_JOINED:
+                        getOpponentInformationAndDisplay(lobby.getGuestId());
+                        return;
+                    case RUNNING:
+                        if(IS_HOST) {
+                            return; // self started, nothing to do
+                        }
+                        // TODO force start game
+                        return;
+                    case UNDEFINED:
+                        return;
+                }
+                getOpponentInformationAndDisplay(lobby.getGuestId());
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void removeShownPlayer() {
     }
 
     /**

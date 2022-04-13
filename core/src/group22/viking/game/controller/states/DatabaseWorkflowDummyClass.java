@@ -52,36 +52,6 @@ public class DatabaseWorkflowDummyClass {
      * MENU STATE
      */
 
-    private void createLobby(){
-        lobbyCollection.createLobby(
-                profileCollection.getLocalPlayerProfile(),
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        Lobby lobby = (Lobby) document;
-                        // TODO switch view and show lobby id
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        // TODO
-                    }
-                },
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        // User is joined
-                        Lobby lobby = (Lobby) document;
-                        getGuestProfile(lobby.getGuestId());
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        // TODO
-                    }
-                });
-    }
-
     private boolean isLobbyIdValidate(String id) {
         return lobbyCollection.validateId(id);
     }

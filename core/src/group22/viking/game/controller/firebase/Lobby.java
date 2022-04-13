@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Lobby extends FirebaseDocument{
 
-    enum State {
+    public enum State {
         UNDEFINED("undefined"),
         OPEN("open"),
         GUEST_JOINED("guest_joined"),
@@ -109,7 +109,7 @@ public class Lobby extends FirebaseDocument{
         return state == State.GUEST_READY;
     }
 
-    State getState() {
+    public State getState() {
         return state;
     }
 
