@@ -31,11 +31,11 @@ public class PlayerStatus extends FirebaseDocument{
     /**
      * New game, where players never played against each other. (With this host)
      *
-     * @param player {Profile}
-     * @param listener {Profile}
+     * @param writer {String}
+     * @param listener {String}
      */
-    PlayerStatus(Profile player, Profile listener, boolean isWriting) {
-        super(player.getId() + ID_SEPARATOR + listener.getId());
+    PlayerStatus(String writer, String listener, boolean isWriting) {
+        super(writer + ID_SEPARATOR + listener);
         super.isLoaded = false;
         this.isWriting = isWriting;
         this.isAlive = true;

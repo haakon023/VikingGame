@@ -75,7 +75,7 @@ public class VikingGame extends Game {
 		return batch;
 	}
 
-	public PlayerStatusCollection getGameCollection() {
+	public PlayerStatusCollection getPlayerStatusCollection() {
 		return playerStatusCollection;
 	}
 

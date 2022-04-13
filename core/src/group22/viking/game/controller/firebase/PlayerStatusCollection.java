@@ -25,16 +25,16 @@ public class PlayerStatusCollection extends FirebaseCollection{
      * Guest: Call after joining the lobby.
      * Host: Call after starting game.
      *
-     * @param localPlayer
-     * @param opponent
+     * @param localPlayerId
+     * @param opponentId
      * @param listener
      */
-    public void createOwnStatus(Profile localPlayer,
-                                Profile opponent,
+    public void createOwnStatus(String localPlayerId,
+                                String opponentId,
                                 final OnCollectionUpdatedListener listener)
     {
         // 1) Create document locally
-        final PlayerStatus status = new PlayerStatus(localPlayer, opponent, true);
+        final PlayerStatus status = new PlayerStatus(localPlayerId, opponentId, true);
         this.add(status.getId(), status);
         this.localStatusId = status.getId();
 
@@ -85,18 +85,20 @@ public class PlayerStatusCollection extends FirebaseCollection{
     /**
      * Add listener to opponent status when starting game.
      *
-     * @param localPlayer
-     * @param opponent
+     * @param localPlayerId
+     * @param opponentId
+     * @param isHost
+     * @poram listener
      */
     public void addListenerToOpponentStatus(
-            Profile localPlayer,
-            Profile opponent,
+            String localPlayerId,
+            String opponentId,
             boolean isHost,
             final OnCollectionUpdatedListener listener)
     {
         this.isHost = isHost;
 
-        final PlayerStatus status = new PlayerStatus(localPlayer, opponent, false);
+        final PlayerStatus status = new PlayerStatus(opponentId, localPlayerId, false);
         this.add(status.getId(), status);
         this.opponentStatusId = status.getId();
 
