@@ -1,14 +1,22 @@
 package group22.viking.game.view;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -17,7 +25,6 @@ public class MenuView extends View {
 
     private TextButton tutorialButton;
     private TextButton hostButton;
-    private TextButton joinButton;
     private TextButton exitButton;
     private TextButton leaderboardButton;
     private TextButton muteButton;
@@ -129,12 +136,6 @@ public class MenuView extends View {
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
-        joinButton = ViewComponentFactory.createTextButton(
-                "Join",
-                new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150)+ 530 +20,
-                        VikingGame.SCREEN_HEIGHT/2+80-50),
-                ViewComponentFactory.SMALL_BUTTON_SIZE);
-
         exitButton = ViewComponentFactory.createTextButton(
                 "Exit",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
@@ -165,7 +166,6 @@ public class MenuView extends View {
         stage.addActor(practiceButton);
         stage.addActor(hostButton);
         stage.addActor(profileButton);
-        stage.addActor(joinButton);
         stage.addActor(leaderboardButton);
         stage.addActor(exitButton);
         stage.addActor(muteButton);
@@ -181,8 +181,11 @@ public class MenuView extends View {
                 "Enter PIN",
                 new Vector2(VikingGame.SCREEN_WIDTH / 2 + (VikingGame.SCREEN_WIDTH / 2 - 700 - 150),
                         VikingGame.SCREEN_HEIGHT / 2 + 80 - 50),
-                new Vector2(530, 150)
+                ViewComponentFactory.BIG_BUTTON_SIZE
         );
+
+        joinTextField.setMaxLength(4);
+        joinTextField.setAlignment(Align.center);
 
         stage.addActor(joinTextField);
     }
@@ -243,10 +246,20 @@ public class MenuView extends View {
         hostButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
         joinTextField.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
         profileButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
-        joinButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
         leaderboardButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
         exitButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
 
+    }
+
+    public void makeErrorShakeOnTextField() {
+        joinTextField.addAction(sequence(
+                moveBy(-30,0,.1f, Interpolation.circle),
+                moveBy(60,0,.1f, Interpolation.circle),
+                moveBy(-60,0,.1f, Interpolation.circle),
+                moveBy(60,0,.1f, Interpolation.circle),
+                moveBy(-60,0,.1f, Interpolation.circle),
+                moveBy(30,0,.1f, Interpolation.circle)
+        ));
     }
 
     void drawElements(float deltaTime) {
@@ -265,10 +278,6 @@ public class MenuView extends View {
 
     public TextButton getHostButton() {
         return hostButton;
-    }
-
-    public TextButton getJoinButton() {
-        return joinButton;
     }
 
     public TextButton getExitButton() {

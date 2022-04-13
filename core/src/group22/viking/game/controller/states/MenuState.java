@@ -2,7 +2,10 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.util.Locale;
 
 import group22.viking.game.controller.VikingGame;
 
@@ -33,6 +36,7 @@ public class MenuState extends State {
 
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
+        initTextFieldLogic();
 
         System.out.println("MENU STATE CREATED");
     }
@@ -75,14 +79,6 @@ public class MenuState extends State {
             }
         });
 
-
-        getView().getJoinButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                userSubmitsJoinLobbyId();
-            }
-        });
-
         getView().getProfileButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -114,12 +110,43 @@ public class MenuState extends State {
         });
     }
 
+    private void initTextFieldLogic() {
+        final TextField textField = getView().getJoinTextField();
+        textField.setTextFieldFilter(new TextField.TextFieldFilter() {
+            @Override
+            public boolean acceptChar(TextField textField, char c) {
+                return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+            }
+        });
+        textField.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                if(c >= 'a' && c <= 'z') {
+                    textField.setText(textField.getText().toUpperCase(Locale.ROOT));
+                    textField.setCursorPosition(textField.getText().length());
+                }
+                if(textField.getText().length() == 4) {
+                    textField.getOnscreenKeyboard().show(false);
+                    userSubmitsJoinLobbyId();
+                }
+            }
+        });
+        textField.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                textField.setText("");
+            }
+        });
+    }
+
     private void userSubmitsJoinLobbyId() {
         String id = getView().getJoinTextField().getText();
         if (!lobbyCollection.validateId(id)) {
             // id is wrong
             System.out.println("Misspelling in ID");
-            // TODO make something.
+            //getView().getJoinTextField().setText("....");
+            getView().makeErrorShakeOnTextField();
             return;
         }
         GameStateManager.getInstance().push(new LobbyState(game, id));
