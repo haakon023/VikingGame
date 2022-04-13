@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.models.Assets;
 
 public class MenuView extends View {
@@ -302,5 +303,11 @@ public class MenuView extends View {
 
     public ImageButton getProfileButton() {
         return profileButton;
+    }
+
+    public void resetTextField() {
+        joinTextField.setMaxLength(1000);
+        joinTextField.setText(Assets.t("menu_text_field_join"));
+        joinTextField.setMaxLength(Lobby.ID_LENGTH);
     }
 }

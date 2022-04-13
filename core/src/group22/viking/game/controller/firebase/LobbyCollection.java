@@ -12,8 +12,6 @@ public class LobbyCollection extends FirebaseCollection{
 
     private String currentLobbyId;
 
-    public final static int ID_LENGTH = 4;
-
     public LobbyCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Lobby(), "lobby");
         this.currentLobbyId = null;
@@ -313,7 +311,7 @@ public class LobbyCollection extends FirebaseCollection{
         String id = "";
         int validationSum = 0;
         Random rand = new Random();
-        for(int i = 0; i < ID_LENGTH - 1; i++) {
+        for(int i = 0; i < Lobby.ID_LENGTH - 1; i++) {
             char letter = (char) ('A' + rand.nextInt(25));
             id += letter;
             validationSum += (int) letter;
@@ -328,15 +326,15 @@ public class LobbyCollection extends FirebaseCollection{
      * @return
      */
     public boolean validateId(String id) {
-        if(id.length() != ID_LENGTH) return false;
+        if(id.length() != Lobby.ID_LENGTH) return false;
 
         int validationSum = 0;
-        for(int i = 0; i < ID_LENGTH - 1; i++) {
+        for(int i = 0; i < Lobby.ID_LENGTH - 1; i++) {
             validationSum += (int) id.charAt(i);
         }
         validationSum = validationSum % 25 + 'A';
 
-        return validationSum == id.charAt(ID_LENGTH - 1);
+        return validationSum == id.charAt(Lobby.ID_LENGTH - 1);
     }
 }
 

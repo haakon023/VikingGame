@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class Lobby extends FirebaseDocument{
 
+    public final static int ID_LENGTH = 4;
+
     public enum State {
         UNDEFINED("undefined"),
         OPEN("open"),

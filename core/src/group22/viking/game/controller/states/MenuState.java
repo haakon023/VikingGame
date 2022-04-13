@@ -11,6 +11,7 @@ import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.FirebaseDocument;
+import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.ProfileCollection;
@@ -126,7 +127,7 @@ public class MenuState extends State {
                     textField.setText(textField.getText().toUpperCase(Locale.ROOT));
                     textField.setCursorPosition(textField.getText().length());
                 }
-                if(textField.getText().length() == 4) {
+                if(textField.getText().length() == Lobby.ID_LENGTH) {
                     textField.getOnscreenKeyboard().show(false);
                     userSubmitsJoinLobbyId();
                 }
