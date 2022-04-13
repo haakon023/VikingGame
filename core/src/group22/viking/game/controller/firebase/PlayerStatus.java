@@ -39,7 +39,7 @@ public class PlayerStatus extends FirebaseDocument{
         super.isLoaded = false;
         this.isWriting = isWriting;
         this.isAlive = true;
-        this.wonGames = -1;
+        this.wonGames = 0;
         this.health = INITIAL_HEALTH;
         this.wave = 0;
     }

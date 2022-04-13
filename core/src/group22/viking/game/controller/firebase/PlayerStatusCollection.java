@@ -43,7 +43,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 System.out.println("PlayerStatusCollection: PlayerStatus exists!");
-                status.setWonGames((Long) data.get(PlayerStatus.KEY_WON));
+                if(data != null) status.setWonGames((Long) data.get(PlayerStatus.KEY_WON));
                 status.setIsLoaded(true);
 
                 // 3a) Save to database
