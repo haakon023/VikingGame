@@ -184,6 +184,7 @@ public class MenuView extends View {
                 new Vector2(530, 150)
         );
 
+
         stage.addActor(joinTextField);
     }
 

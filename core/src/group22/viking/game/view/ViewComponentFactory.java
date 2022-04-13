@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -54,7 +53,7 @@ public class ViewComponentFactory {
     }
 
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
-        TextButton textButton = new TextButton(text, createSkin(), "default");
+        TextButton textButton = new TextButton(text, createSkin48(), "default");
         textButton.setSize(size.x, size.y);
         textButton.setPosition(position.x, position.y);
 
@@ -62,24 +61,38 @@ public class ViewComponentFactory {
     }
 
     public static TextField createTextField(String text, Vector2 position, Vector2 size) {
-        TextField textField = new TextField(text, createSkin(), "default");
+        TextField textField = new TextField(text, createSkin48(), "default");
         textField.setSize(size.x, size.y);
         textField.setPosition(position.x, position.y);
 
         return textField;
     }
 
-    public static Label createLabel(String text, Vector2 position, Vector2 size) {
-        Label label = new Label(text, createSkin());
-        label.setSize(size.x, size.y);
+    public static Label createLabel48(String text, Vector2 position) {
+        Label label = new Label(text, createSkin48());
         label.setPosition(position.x, position.y);
 
         return label;
     }
 
-    private static Skin createSkin() {
+    public static Label createLabel100(String text, Vector2 position) {
+        Label label = new Label(text, createSkin100());
+        label.setPosition(position.x, position.y);
+
+        return label;
+    }
+
+    private static Skin createSkin48() {
         Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
         skin.add("default-font", Assets.FONT48); //add font as default-font in json file
+        skin.load(Gdx.files.internal("ui/uiskin.json"));
+
+        return skin;
+    }
+
+    private static Skin createSkin100() {
+        Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
+        skin.add("default-font", Assets.FONT100); //add font as default-font in json file
         skin.load(Gdx.files.internal("ui/uiskin.json"));
 
         return skin;
