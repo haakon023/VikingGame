@@ -96,8 +96,7 @@ public class MenuState extends State {
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Leaderboard Pushed");
                 GameStateManager.getInstance().push(new LeaderboardState(game));
-                ErrorDialog errorDialog = ViewComponentFactory.createErrorDialog();
-                errorDialog.show(getView().getStage());
+
             }
         });
 
