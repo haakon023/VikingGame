@@ -2,6 +2,7 @@ package group22.viking.game;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.database.annotations.Nullable;
@@ -152,5 +153,19 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                     listener.onFailure();
                 }
             });
+    }
+
+    @Override
+    public void removeDocument(String collection, FirebaseDocument document, OnPostDataListener listener) {
+        db.collection(collection)
+                .document(document.getId())
+                .delete()
+                .addOnSuccessListener((Void unused) -> {
+                        listener.onSuccess(document.getId());
+                })
+                .addOnFailureListener((@NonNull Exception e) -> {
+                    Log.w(TAG, "Error deleting document", e);
+                    listener.onFailure();
+                });
     }
 }
