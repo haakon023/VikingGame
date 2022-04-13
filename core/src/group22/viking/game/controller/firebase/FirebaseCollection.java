@@ -33,6 +33,11 @@ public abstract class FirebaseCollection {
         documents.put(key, document);
     }
 
+    void remove(String key) {
+        if(!documents.containsKey(key)) return;
+        documents.remove(key);
+    }
+
     boolean isKeyLocallyExisting(String key) {
         return documents.containsKey(key);
     }

@@ -69,6 +69,9 @@ public class LobbyState extends State {
         System.out.println("GUEST LOBBY STATE CREATED");
     }
 
+    /**
+     * Create lobby on server (ONLY HOST)
+     */
     private void createLobbyOnServer() {
         lobbyCollection.createLobby(
                 profileCollection.getLocalPlayerProfile(),
@@ -102,6 +105,11 @@ public class LobbyState extends State {
         );
     }
 
+    /**
+     * Get opponent information from server, and call display functions.
+     *
+     * @param guestId
+     */
     private void getOpponentInformationAndDisplay (String guestId) {
         profileCollection.readProfile(guestId, new OnCollectionUpdatedListener() {
             @Override
@@ -121,6 +129,11 @@ public class LobbyState extends State {
         });
     }
 
+    /**
+     * Try to join Lobby. (ONLY GUEST)
+     *
+     * @param id
+     */
     private void tryJoinLobby(String id){
         lobbyCollection.tryToJoinLobbyById(
                 id,
@@ -199,8 +212,24 @@ public class LobbyState extends State {
     }
 
     private void userExits() {
-        GameStateManager.getInstance().pop();
-        this.dispose();
+        OnCollectionUpdatedListener whenExited = new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                GameStateManager.getInstance().pop();
+                dispose();
+            }
+
+            @Override
+            public void onFailure() {
+                // TODO
+            }
+        };
+
+        if(IS_HOST) {
+            lobbyCollection.deleteLobby(whenExited);
+        } else {
+            lobbyCollection.leaveLobby(whenExited);
+        }
     }
 
     private void userConfirmsStart() {

@@ -192,9 +192,8 @@ public class LobbyCollection extends FirebaseCollection{
         firebaseInterface.setOnValueChangedListener(identifier, lobby, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
-                String stateString = (String) data.get(Lobby.KEY_STATE);
-
-                if(!Lobby.State.RUNNING.equals(stateString)) return;
+                Lobby.State state = Lobby.State.fromString((String) data.get(Lobby.KEY_STATE));
+                if(state != Lobby.State.RUNNING) return;
 
                 if(!lobby.getGuestId().equals((String) data.get(Lobby.KEY_GUEST))) {
                     System.out.println("LobbyCollection: Some one else joined the lobby and started.");
@@ -271,6 +270,48 @@ public class LobbyCollection extends FirebaseCollection{
                 listener.onFailure();
             }
         });
+    }
+
+    public void deleteLobby(final OnCollectionUpdatedListener listener) {
+        firebaseInterface.removeDocument(identifier, getLobby(), new OnPostDataListener() {
+            @Override
+            public void onSuccess(String documentId) {
+                currentLobbyId = null;
+                remove(documentId);
+                listener.onSuccess(null);
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
+        });
+    }
+
+    public void leaveLobby(final OnCollectionUpdatedListener listener) {
+        Lobby lobby = getLobby();
+        lobby.setState(Lobby.State.GUEST_LEFT);
+        lobby.setGuestId(Lobby.GUEST_FIELD_DUMMY);
+
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                lobby.getId(),
+                lobby.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        currentLobbyId = null;
+                        remove(documentId);
+                        listener.onSuccess(null);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        System.out.println("Lobby Collection: Failed leaving lobby.");
+                        listener.onFailure();
+                    }
+                }
+        );
     }
 
     private String generateId() {

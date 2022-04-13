@@ -31,4 +31,8 @@ public interface FirebaseInterface {
                 String orderBy,
                 int limit,
                 OnGetDataListener listener);
+
+    void removeDocument(String collection,
+                        FirebaseDocument document,
+                        OnPostDataListener listener);
 }
