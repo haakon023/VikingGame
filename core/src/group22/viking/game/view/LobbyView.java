@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -123,13 +124,6 @@ public class LobbyView extends View {
         return exitButton;
     }
 
-    public void updateShownHost(int avatarId) {
-        // TODO something like this?
-        /*player1.setDrawable(new TextureRegionDrawable(
-                Assets.getTexture(Assets.getAvatarHead(avatarId))
-        ));*/
-    }
-
     public void displayGuestName(String name) {
         // TODO
     }
@@ -138,11 +132,18 @@ public class LobbyView extends View {
         // TODO
     }
 
+    public void updateShownHost(int avatarId) {
+        // TODO something like this?
+        player1.setDrawable(new TextureRegionDrawable(
+                Assets.getTexture(Assets.getAvatar(avatarId))
+        ));
+    }
+
     public void updateShownGuest(int avatarId) {
         // TODO something like this?
-        /*player2.setDrawable(new TextureRegionDrawable(
-                Assets.getTexture(Assets.getAvatarHead(avatarId))
-        ));*/
+        player2.setDrawable(new TextureRegionDrawable(
+                Assets.getTexture(Assets.getAvatar(avatarId))
+        ));
     }
 
     public void enablePlayButton() {

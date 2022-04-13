@@ -68,6 +68,8 @@ public class LobbyState extends State {
 
         displayLobbyId(joinLobbyId);
 
+        displayGuest(profileCollection.getLocalPlayerProfile());
+
         System.out.println("GUEST LOBBY STATE CREATED");
     }
 
@@ -83,8 +85,7 @@ public class LobbyState extends State {
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
                         setLobbyListener(lobby);
-                        System.out.println(lobby.getId());
-                        getView().printLobbyId(lobby.getId());
+                        displayLobbyId(lobby.getId());
                     }
 
                     @Override
@@ -268,7 +269,7 @@ public class LobbyState extends State {
     }
 
     private void displayLobbyId(String lobbyId){
-        getOpponentInformationAndDisplay(lobbyId);
+        getView().printLobbyId(lobbyId);
     }
 
 }
