@@ -2,6 +2,7 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
@@ -12,7 +13,10 @@ import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.Assets;
+import group22.viking.game.view.ErrorDialog;
 import group22.viking.game.view.LobbyView;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class LobbyState extends State {
@@ -102,10 +106,12 @@ public class LobbyState extends State {
             public void onSuccess(FirebaseDocument document) {
                 Lobby lobby = (Lobby) document;
 
+                System.out.println(lobby.getState());
                 switch (lobby.getState()) {
                     case OPEN:
+                        return;
                     case GUEST_LEFT:
-                        removeShownPlayer();
+                        getView().resetGuest();
                         return;
                     case GUEST_READY:
                     case GUEST_JOINED:
@@ -130,8 +136,6 @@ public class LobbyState extends State {
         });
     }
 
-    private void removeShownPlayer() {
-    }
 
     /**
      * Get opponent information from server, and call display functions.
@@ -206,6 +210,8 @@ public class LobbyState extends State {
     private void displayGuest(Profile profile) {
         getView().displayGuestName(profile.getName());
         getView().updateShownGuest((int) profile.getAvatarId());
+        getView().getPlayer2NameLabel().setVisible(true);
+        getView().getPlayer2ScoreLabel().setVisible(true);
     }
 
     private void addListenersToButtons() {
@@ -248,7 +254,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                // TODO
+               //todo
             }
         };
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 
@@ -48,6 +50,11 @@ public class ViewComponentFactory {
         button.setPosition(position.x, position.y);
 
         return button;
+    }
+
+    public static ErrorDialog createErrorDialog(){
+        ErrorDialog errorDialog = new ErrorDialog("", createSkin48());
+        return errorDialog;
     }
 
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
@@ -96,6 +103,14 @@ public class ViewComponentFactory {
         return skin;
     }
 
+    private static Skin createSkin28() {
+        Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
+        skin.add("default-font", Assets.FONT28); //add font as default-font in json file
+        skin.load(Gdx.files.internal("ui/uiskin.json"));
+
+        return skin;
+    }
+
 
     public static Action createFadeInAction() {
         return sequence(
@@ -115,5 +130,7 @@ public class ViewComponentFactory {
 
         return generator.generateFont(parameter);
     }
+
+
 
 }

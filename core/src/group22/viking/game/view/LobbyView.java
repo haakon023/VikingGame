@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -50,20 +51,17 @@ public class LobbyView extends View {
         //stage clear to make sure there aren't any further animations
         stage.clear();
 
-        // TODO continue...
-
-        //todo get profile sprite information from user
-        //todo set player2 once the second player has joined
-        player1Image = new Image(Assets.getTexture(Assets.WIZARDSPRITE));
+        player1Image = new Image(Assets.getTexture(Assets.QUESTIONMARK));
         player1Image.setPosition(0, 120);
         player1Image.setWidth(VikingGame.SCREEN_WIDTH / 2);
         player1Image.setHeight(VikingGame.SCREEN_HEIGHT-120);
-        player1Image.toBack();
-        player2Image = new Image(Assets.getTexture(Assets.KNIGHTSPRITE));
+
+        player2Image = new Image(Assets.getTexture(Assets.QUESTIONMARK));
         player2Image.setPosition(VikingGame.SCREEN_WIDTH / 2, 120);
         player2Image.setWidth(VikingGame.SCREEN_WIDTH / 2);
         player2Image.setHeight(VikingGame.SCREEN_HEIGHT-120);
-        player2Image.toBack();
+
+
 
 
         stage.addActor(player1Image);
@@ -152,6 +150,7 @@ public class LobbyView extends View {
         );
 
         player2NameLabel.setColor(Color.WHITE);
+        player2NameLabel.setVisible(false);
 
 
         player2ScoreLabel = ViewComponentFactory.createLabel100(
@@ -159,7 +158,7 @@ public class LobbyView extends View {
                 new Vector2(VikingGame.SCREEN_WIDTH/2+100,20)
         );
         player2ScoreLabel.setColor(Color.WHITE);
-
+        player2ScoreLabel.setVisible(false);
 
 
 
@@ -191,14 +190,14 @@ public class LobbyView extends View {
     }
 
     public void updateShownHost(int avatarId) {
-        // TODO something like this?
+        System.out.println("host updated");
         player1Image.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
     }
 
     public void updateShownGuest(int avatarId) {
-        // TODO something like this?
+        System.out.println("guest updated: " + avatarId);
         player2Image.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
@@ -213,15 +212,41 @@ public class LobbyView extends View {
     }
 
     public void hidePlayButton() {
-        // TODO
+        playButton.setVisible(false);
     }
 
     public void showPlayButton() {
-        // TODO
+        playButton.setVisible(true);
     }
 
     //
     public void printLobbyId(String lobbyId){
         idLabel.setText(lobbyId);
+    }
+
+    public Image getPlayer2Image() {
+        return player2Image;
+    }
+
+    public Label getPlayer2NameLabel() {
+        return player2NameLabel;
+    }
+
+    public Label getPlayer2ScoreLabel() {
+        return player2ScoreLabel;
+    }
+
+    public void resetGuest() {
+        this.player2Image.setDrawable(new TextureRegionDrawable(Assets.getTexture(Assets.QUESTIONMARK)));
+        player2NameLabel.setVisible(false);
+        player2ScoreLabel.setVisible(false);
+    }
+
+    public void setPlayer2NameLabel(Label player2NameLabel) {
+        this.player2NameLabel = player2NameLabel;
+    }
+
+    public void setPlayer2ScoreLabel(Label player2ScoreLabel) {
+        this.player2ScoreLabel = player2ScoreLabel;
     }
 }

@@ -21,6 +21,7 @@ public class Assets {
     private static final I18NBundle TRANSLATION = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
 
     // fonts
+    public static final BitmapFont FONT28 = ViewComponentFactory.generateFont(28, 5);
     public static final BitmapFont FONT48 = ViewComponentFactory.generateFont(48, 5);
     public static final BitmapFont FONT100 = ViewComponentFactory.generateFont(100, 10);
 
@@ -42,6 +43,7 @@ public class Assets {
     public static final String WARRIORWOMANSPRITEHEAD = "img/WarriorWomanSpriteHead.png";
     public static final String WIZARDSPRITE = "img/WizardSprite.png";
     public static final String WIZARDSPRITEHEAD = "img/WizardSpriteHead.png";
+    public static final String QUESTIONMARK = "img/Questionmark.png";
     public static final int NUMBER_OF_AVATARS = 3;
 
     // main game background
@@ -78,6 +80,7 @@ public class Assets {
         assetManager.load(WARRIORWOMANSPRITEHEAD, Texture.class);
         assetManager.load(WIZARDSPRITE, Texture.class);
         assetManager.load(WIZARDSPRITEHEAD, Texture.class);
+        assetManager.load(QUESTIONMARK, Texture.class);
 
         //main game background
         assetManager.load(OCEANBACK, Texture.class);

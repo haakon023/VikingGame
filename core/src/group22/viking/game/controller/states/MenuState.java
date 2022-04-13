@@ -16,7 +16,9 @@ import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.view.ErrorDialog;
 import group22.viking.game.view.MenuView;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class MenuState extends State {
@@ -94,6 +96,8 @@ public class MenuState extends State {
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Leaderboard Pushed");
                 GameStateManager.getInstance().push(new LeaderboardState(game));
+                ErrorDialog errorDialog = ViewComponentFactory.createErrorDialog();
+                errorDialog.show(getView().getStage());
             }
         });
 
