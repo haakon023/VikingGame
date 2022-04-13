@@ -66,9 +66,12 @@ public class LobbyState extends State {
         getView().disablePlayButton();
         getView().hidePlayButton();
 
+        displayLobbyId(joinLobbyId);
+
         System.out.println("GUEST LOBBY STATE CREATED");
     }
 
+    //only called by host
     private void createLobbyOnServer() {
         lobbyCollection.createLobby(
                 profileCollection.getLocalPlayerProfile(),
@@ -78,7 +81,7 @@ public class LobbyState extends State {
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
                         System.out.println(lobby.getId());
-                        // TODO print lobby ID
+                        getView().printLobbyId(lobby.getId());
                     }
 
                     @Override
@@ -91,7 +94,7 @@ public class LobbyState extends State {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
-                        getOpponentInformationAndDisplay(lobby.getGuestId());
+                        displayLobbyId(lobby.getId());
                     }
 
                     @Override
@@ -102,8 +105,8 @@ public class LobbyState extends State {
         );
     }
 
-    private void getOpponentInformationAndDisplay (String guestId) {
-        profileCollection.readProfile(guestId, new OnCollectionUpdatedListener() {
+    private void getOpponentInformationAndDisplay (String opponent) {
+        profileCollection.readProfile(opponent, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 if(IS_HOST) {
@@ -210,6 +213,11 @@ public class LobbyState extends State {
         if(!lobbyCollection.getLobby().isGuestReady()) return;
 
         GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.ONLINE));
+    }
+
+
+    private void displayLobbyId(String lobbyId){
+        getOpponentInformationAndDisplay(lobbyId);
     }
 
 

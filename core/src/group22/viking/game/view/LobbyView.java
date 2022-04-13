@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -21,6 +21,8 @@ public class LobbyView extends View {
     private TextButton exitButton;
 
     private final ShapeRenderer shapeRenderer;
+
+    private Label idLabel;
 
     public LobbyView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
@@ -47,10 +49,12 @@ public class LobbyView extends View {
         player2.setWidth(VikingGame.SCREEN_WIDTH / 2);
         player2.setHeight(VikingGame.SCREEN_HEIGHT);
 
+
         stage.addActor(player1);
         stage.addActor(player2);
 
         createButtons();
+        createLabel();
 
         runInitialAnimations();
 
@@ -101,6 +105,15 @@ public class LobbyView extends View {
         stage.addActor(exitButton);
     }
 
+    private void createLabel(){
+        idLabel = ViewComponentFactory.createLabel(
+                ". . .",
+                new Vector2(VikingGame.SCREEN_WIDTH-200, 100),
+                new Vector2(180,60)
+        );
+        stage.addActor(idLabel);
+    }
+
 
     public TextButton getPlayButton() {
         return playButton;
@@ -146,5 +159,11 @@ public class LobbyView extends View {
 
     public void showPlayButton() {
         // TODO
+    }
+
+    //
+    public void printLobbyId(String lobbyId){
+        idLabel.setText(lobbyId);
+
     }
 }
