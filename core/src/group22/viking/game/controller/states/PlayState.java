@@ -170,7 +170,7 @@ public class PlayState extends State {
         // TODO offline functionality
     }
 
-    private void notifiOpponentOverCompletedWave() {
+    private void notifyOpponentOverCompletedWave() {
         if(type != Type.ONLINE) return;
         playerStatusCollection.waveCompleted();
     }
