@@ -168,6 +168,7 @@ public class PlayState extends State {
             return playerStatusCollection.reduceOwnHealth(damage);
         }
         // TODO offline functionality
+        return 1L;
     }
 
     private void notifyOpponentOverCompletedWave() {
