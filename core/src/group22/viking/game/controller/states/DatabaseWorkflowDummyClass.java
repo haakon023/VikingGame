@@ -49,45 +49,6 @@ public class DatabaseWorkflowDummyClass {
     }
 
     /**
-     * MENU STATE
-     */
-
-    private boolean isLobbyIdValidate(String id) {
-        return lobbyCollection.validateId(id);
-    }
-
-    private void tryJoinLobby(String id) {
-        lobbyCollection.tryToJoinLobbyById(
-                id,
-                profileCollection.getLocalPlayerProfile(),
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        Lobby lobby = (Lobby) document;
-                        getHostProfile(lobby.getHostId());
-                        // TODO switch to lobby state
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        // TODO retry
-                    }
-                },
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        // TODO start game (in lobby state)
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        // TODO
-                    }
-                });
-    }
-
-
-    /**
      * LOBBY STATE
      */
 

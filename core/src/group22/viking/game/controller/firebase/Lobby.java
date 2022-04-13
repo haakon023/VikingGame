@@ -41,6 +41,8 @@ public class Lobby extends FirebaseDocument{
     private String guestId;
     private State state;
 
+    private boolean isHost;
+
     /**
      * Dummy constructor.
      */
@@ -63,6 +65,7 @@ public class Lobby extends FirebaseDocument{
         this.hostId = hostId;
         this.state = State.OPEN;
         this.guestId = GUEST_FIELD_DUMMY;
+        this.isHost = true;
     }
 
     Lobby(String documentId) {
@@ -70,6 +73,7 @@ public class Lobby extends FirebaseDocument{
         this.hostId = null;
         this.state = State.UNDEFINED;
         this.guestId = GUEST_FIELD_DUMMY;
+        this.isHost = false;
     }
 
     @Override
@@ -125,6 +129,18 @@ public class Lobby extends FirebaseDocument{
 
     public String getHostId() {
         return hostId;
+    }
+
+    public String getOwnId() {
+        return isHost ? hostId : guestId;
+    }
+
+    public String getOpponentId() {
+        return isHost ? guestId : hostId;
+    }
+
+    public boolean isHost() {
+        return isHost;
     }
 
     void setGuestId(String guestId) {

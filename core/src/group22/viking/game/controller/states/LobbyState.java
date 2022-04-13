@@ -115,13 +115,13 @@ public class LobbyState extends State {
                         return;
                     case GUEST_READY:
                     case GUEST_JOINED:
-                        getOpponentInformationAndDisplay(lobby.getGuestId());
+                        if(IS_HOST) getOpponentInformationAndDisplay(lobby.getGuestId());
                         return;
                     case RUNNING:
                         if(IS_HOST) {
                             return; // self started, nothing to do
                         }
-                        // TODO force start game
+                        GameStateManager.getInstance().push(new PlayState(game, lobby));
                         return;
                     case UNDEFINED:
                         return;
@@ -176,28 +176,12 @@ public class LobbyState extends State {
                     public void onSuccess(FirebaseDocument document) {
                         Lobby lobby = (Lobby) document;
                         getOpponentInformationAndDisplay(lobby.getHostId());
+                        setLobbyListener(lobby);
                     }
 
                     @Override
                     public void onFailure() {
                         // TODO Lobby not found. Return to Main Menu.
-                    }
-                },
-                // Start Game Listener
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        // TODO: BACKEND start game
-                        System.out.println("TODO: Received info: Host starts game");
-
-
-
-
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        // TODO network error message
                     }
                 });
     }
@@ -271,7 +255,7 @@ public class LobbyState extends State {
         if(!lobbyCollection.getLobby().isFull()) return;
         if(!lobbyCollection.getLobby().isGuestReady()) return;
 
-        GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.ONLINE));
+        GameStateManager.getInstance().push(new PlayState(game, lobbyCollection.getLobby()));
     }
 
     private void displayLobbyId(String lobbyId){
