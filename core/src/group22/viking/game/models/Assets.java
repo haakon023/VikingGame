@@ -18,7 +18,7 @@ public class Assets {
     public static AssetManager assetManager = new AssetManager();
 
     // language
-    public static final I18NBundle LANGUAGE = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
+    private static final I18NBundle TRANSLATION = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
 
     // fonts
     public static final BitmapFont FONT48 = ViewComponentFactory.generateFont(48, 5);
@@ -131,6 +131,14 @@ public class Assets {
                 Assets.WIZARDSPRITEHEAD,
                 Assets.WARRIORWOMANSPRITEHEAD
         }[index];
+    }
+
+    public static String translate(String key) {
+        return TRANSLATION.get(key);
+    }
+
+    public static String t(String key) {
+        return translate(key);
     }
 
 }

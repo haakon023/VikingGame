@@ -45,6 +45,7 @@ public class MenuState extends State {
     public void reinitialize() {
         super.reinitialize();
         refreshAvatar();
+        getView().resetTextField();
     }
 
     private void refreshAvatar() {

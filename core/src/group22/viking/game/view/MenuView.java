@@ -119,19 +119,19 @@ public class MenuView extends View {
     private void createButtons() {
         //todo set the texture to the user specific profile image
         tutorialButton = ViewComponentFactory.createTextButton(
-                "Tutorial",
+                Assets.t("menu_button_tutorial"),
                 new Vector2(150, VikingGame.SCREEN_HEIGHT/2+80-50),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
         practiceButton = ViewComponentFactory.createTextButton(
-                "Practice",
+                Assets.t("menu_button_practice"),
                 new Vector2(150, VikingGame.SCREEN_HEIGHT / 2 - 80 - 150 - 50),
                 ViewComponentFactory.BIG_BUTTON_SIZE);
 
 
         hostButton = ViewComponentFactory.createTextButton(
-                "Host",
+                Assets.t("menu_button_host"),
                 new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2-80-150-50),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
@@ -178,7 +178,7 @@ public class MenuView extends View {
     private void createTextField() {
 
         joinTextField = ViewComponentFactory.createTextField(
-                "Enter PIN",
+                Assets.t("menu_text_field_join"),
                 new Vector2(VikingGame.SCREEN_WIDTH / 2 + (VikingGame.SCREEN_WIDTH / 2 - 700 - 150),
                         VikingGame.SCREEN_HEIGHT / 2 + 80 - 50),
                 ViewComponentFactory.BIG_BUTTON_SIZE
