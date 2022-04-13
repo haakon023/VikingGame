@@ -49,9 +49,6 @@ public class VikingGame extends Game {
 
 		gsm = GameStateManager.getInstance();
 		gsm.push(new SplashState(this));
-
-		// TODO: Remove Test / example
-		System.out.println(Assets.LANGUAGE.get("app_name"));
 	}
 
 
