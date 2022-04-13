@@ -202,7 +202,7 @@ public class LobbyState extends State {
         getView().getPlayButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                userConfirmsStart();
+                hostConfirmsStart();
             }
         });
 
@@ -250,13 +250,24 @@ public class LobbyState extends State {
         }
     }
 
-    private void userConfirmsStart() {
+    private void hostConfirmsStart() {
         System.out.println("PLAY BUTTON CLICKED");
         if(!IS_HOST) return;
         if(!lobbyCollection.getLobby().isFull()) return;
         if(!lobbyCollection.getLobby().isGuestReady()) return;
 
-        GameStateManager.getInstance().push(new PlayState(game, lobbyCollection.getLobby()));
+        lobbyCollection.setLobbyToStarted(new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                GameStateManager.getInstance().push(new PlayState(game, lobbyCollection.getLobby()));
+
+            }
+
+            @Override
+            public void onFailure() {
+                // TODO Network error
+            }
+        });
     }
 
     private void displayLobbyId(String lobbyId){

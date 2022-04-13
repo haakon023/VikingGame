@@ -186,23 +186,25 @@ public class LobbyCollection extends FirebaseCollection{
             listener.onFailure();
         }
 
-        Map<String, Object> lobbyValues = new HashMap<String, Object>(){{
-            put(Lobby.KEY_STATE, Lobby.State.RUNNING);
-        }};
+        lobby.setState(Lobby.State.RUNNING);
 
-        firebaseInterface.addOrUpdateDocument(identifier, lobby.getId(), lobbyValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
-                lobby.setState(Lobby.State.RUNNING);
-                listener.onSuccess(lobby);
-            }
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                lobby.getId(),
+                lobby.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        listener.onSuccess(lobby);
+                    }
 
-            @Override
-            public void onFailure() {
-                System.out.println("LobbyCollection: Set Lobby to started failed.");
-                listener.onFailure();
-            }
-        });
+                    @Override
+                    public void onFailure() {
+                        System.out.println("LobbyCollection: Set Lobby to started failed.");
+                        listener.onFailure();
+                    }
+                }
+        );
     }
 
     /**
