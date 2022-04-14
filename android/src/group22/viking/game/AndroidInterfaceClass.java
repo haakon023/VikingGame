@@ -2,7 +2,6 @@ package group22.viking.game;
 
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.database.annotations.Nullable;
@@ -90,9 +89,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
         db.collection(collection)
             .document(documentId)
             .set(values)
-            .addOnSuccessListener((Void unused) -> {
-                listener.onSuccess(documentId);
-            })
+            .addOnSuccessListener((Void unused) -> listener.onSuccess(documentId))
             .addOnFailureListener((@NonNull Exception e) -> {
                 Log.w(TAG, "Error adding/editing document", e);
                 listener.onFailure();
@@ -105,9 +102,8 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                                            OnPostDataListener listener) {
         db.collection(collection)
                 .add(values)
-                .addOnSuccessListener((DocumentReference documentReference) -> {
-                    listener.onSuccess(documentReference.getId());
-                })
+                .addOnSuccessListener((DocumentReference documentReference) ->
+                        listener.onSuccess(documentReference.getId()))
                 .addOnFailureListener((@NonNull Exception e) -> {
                     Log.w(TAG, "Error loading document", e);
                     listener.onFailure();
@@ -121,9 +117,8 @@ public class AndroidInterfaceClass implements FirebaseInterface {
             db.collection(collection)
                     .document(documentId)
                     .get()
-                    .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
-                        listener.onGetData(documentId, documentSnapshot.getData());
-                    });
+                    .addOnSuccessListener((DocumentSnapshot documentSnapshot) ->
+                            listener.onGetData(documentId, documentSnapshot.getData()));
         } catch (NullPointerException e) {
             System.out.println("No document with id " + documentId);
             listener.onFailure();
@@ -146,7 +141,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-                        listener.onGetData(document.getId(), document.getData()); // TODO check how to handle multiple documents
+                        listener.onGetData(document.getId(), document.getData());
                     }
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());
@@ -156,13 +151,15 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     }
 
     @Override
-    public void removeDocument(String collection, FirebaseDocument document, OnPostDataListener listener) {
+    public void removeDocument(
+            String collection,
+            FirebaseDocument document,
+            OnPostDataListener listener)
+    {
         db.collection(collection)
                 .document(document.getId())
                 .delete()
-                .addOnSuccessListener((Void unused) -> {
-                        listener.onSuccess(document.getId());
-                })
+                .addOnSuccessListener((Void unused) -> listener.onSuccess(document.getId()))
                 .addOnFailureListener((@NonNull Exception e) -> {
                     Log.w(TAG, "Error deleting document", e);
                     listener.onFailure();

@@ -8,7 +8,7 @@ public abstract class FirebaseCollection {
     FirebaseInterface firebaseInterface;
     String identifier;
 
-    private Map<String, FirebaseDocument> documents;
+    private final Map<String, FirebaseDocument> documents;
     private final FirebaseDocument documentTypeExample;
 
     public FirebaseCollection(
@@ -38,7 +38,7 @@ public abstract class FirebaseCollection {
         documents.remove(key);
     }
 
-    boolean isKeyLocallyExisting(String key) {
-        return documents.containsKey(key);
+    boolean isKeyNotExistingLocally(String key) {
+        return !documents.containsKey(key);
     }
 }

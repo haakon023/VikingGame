@@ -2,7 +2,6 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
@@ -13,7 +12,6 @@ import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
-import group22.viking.game.models.Assets;
 import group22.viking.game.view.ErrorDialog;
 import group22.viking.game.view.LobbyView;
 import group22.viking.game.view.ViewComponentFactory;
@@ -29,7 +27,7 @@ public class LobbyState extends State {
     /**
      * Host lobby constructor.
      *
-     * @param game
+     * @param game {VikingGame}
      */
     public LobbyState(final VikingGame game) {
         super(new LobbyView(game.getBatch(), game.getCamera()), game);
@@ -52,8 +50,8 @@ public class LobbyState extends State {
     /**
      * Join lobby constructor.
      *
-     * @param game
-     * @param joinLobbyId
+     * @param game {VikingGame}
+     * @param joinLobbyId {String} ID of lobby
      */
     public LobbyState(final VikingGame game, String joinLobbyId) {
         super(new LobbyView(game.getBatch(), game.getCamera()), game);
@@ -109,6 +107,7 @@ public class LobbyState extends State {
                 System.out.println(lobby.getState());
                 switch (lobby.getState()) {
                     case OPEN:
+                    case UNDEFINED:
                         return;
                     case GUEST_LEFT:
                         getView().resetGuest();
@@ -122,8 +121,6 @@ public class LobbyState extends State {
                             return; // self started, nothing to do
                         }
                         GameStateManager.getInstance().push(new PlayState(game, lobby));
-                        return;
-                    case UNDEFINED:
                         return;
                 }
                 getOpponentInformationAndDisplay(lobby.getGuestId());
@@ -140,10 +137,10 @@ public class LobbyState extends State {
     /**
      * Get opponent information from server, and call display functions.
      *
-     * @param opponent
+     * @param profileId {String} opponent profile ID
      */
-    private void getOpponentInformationAndDisplay (String opponent) {
-        profileCollection.readProfile(opponent, new OnCollectionUpdatedListener() {
+    private void getOpponentInformationAndDisplay (String profileId) {
+        profileCollection.readProfile(profileId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 if(IS_HOST) {
@@ -164,11 +161,11 @@ public class LobbyState extends State {
     /**
      * Try to join Lobby. (ONLY GUEST)
      *
-     * @param id
+     * @param lobbyId {String} ID of lobby
      */
-    private void tryJoinLobby(String id){
+    private void tryJoinLobby(String lobbyId){
         lobbyCollection.tryToJoinLobbyById(
-                id,
+                lobbyId,
                 profileCollection.getLocalPlayerProfile(),
                 // Got Lobby Listener
                 new OnCollectionUpdatedListener() {
@@ -187,15 +184,15 @@ public class LobbyState extends State {
     }
 
     private void displayHost(Profile profile) {
-        getView().displayHostName(profile.getName());
-        getView().updateShownHost((int) profile.getAvatarId());
+        getView().updateNameLabelHost(profile.getName());
+        getView().updateAvatarHost((int) profile.getAvatarId());
     }
 
     private void displayGuest(Profile profile) {
-        getView().displayGuestName(profile.getName());
-        getView().updateShownGuest((int) profile.getAvatarId());
-        getView().getPlayer2NameLabel().setVisible(true);
-        getView().getPlayer2ScoreLabel().setVisible(true);
+        getView().updateNameLabelGuest(profile.getName());
+        getView().updateAvatarGuest((int) profile.getAvatarId());
+        getView().getNameLabelGuest().setVisible(true);
+        getView().getScoreLabelGuest().setVisible(true);
     }
 
     private void addListenersToButtons() {
@@ -217,10 +214,6 @@ public class LobbyState extends State {
 
     @Override
     protected void handleInput() {
-
-    }
-
-    public void update(float delta){
 
     }
 

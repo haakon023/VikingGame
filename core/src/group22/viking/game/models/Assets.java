@@ -18,6 +18,7 @@ public class Assets {
     public static AssetManager assetManager = new AssetManager();
 
     // language
+    @SuppressWarnings("ConstantLocale")
     private static final I18NBundle TRANSLATION = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
 
     // fonts

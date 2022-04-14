@@ -1,6 +1,5 @@
 package group22.viking.game.controller.firebase;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,6 +20,7 @@ public abstract class FirebaseDocument {
         return id;
     }
 
+    // might be of use in future (debugging server sync issues)
     boolean isLoaded() {
         return isLoaded;
     }

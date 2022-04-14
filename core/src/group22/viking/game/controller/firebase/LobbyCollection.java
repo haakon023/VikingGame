@@ -100,16 +100,12 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
-    private void removeLobbyListener(Lobby lobby) {
-        firebaseInterface.removeOnValueChangedListener(lobby);
-    }
-
     /**
      * User tries to join lobby by using lobby id.
      *
-     * @param id
-     * @param profile
-     * @param listener
+     * @param id lobby ID
+     * @param profile guest ID
+     * @param listener {OnCollectionUpdatedListener}
      */
     public void tryToJoinLobbyById(
             final String id,
@@ -128,7 +124,7 @@ public class LobbyCollection extends FirebaseCollection{
                     }
                 }
                 // check if lobby open
-                if(!lobby.isJoinable()) {
+                if(!lobby.isJoiningPossible()) {
                     System.out.println("LobbyCollection: Lobby is not open.");
                     listener.onFailure();
                     return;
@@ -176,7 +172,7 @@ public class LobbyCollection extends FirebaseCollection{
     /**
      * Set lobby to started
      *
-     * @param listener
+     * @param listener {OnCollectionUpdatedListener}
      */
     public void setLobbyToStarted(final OnCollectionUpdatedListener listener) {
         final Lobby lobby = getLobby();
@@ -210,7 +206,7 @@ public class LobbyCollection extends FirebaseCollection{
     /**
      * Update lobby after game ended
      *
-     * @param listener
+     * @param listener {OnCollectionUpdatedListener}
      */
     public void setLobbyToGameEnded(final OnCollectionUpdatedListener listener) {
         final Lobby lobby = getLobby();
@@ -279,29 +275,30 @@ public class LobbyCollection extends FirebaseCollection{
     }
 
     private String generateId() {
-        String id = "";
+        StringBuilder id = new StringBuilder();
         int validationSum = 0;
         Random rand = new Random();
         for(int i = 0; i < Lobby.ID_LENGTH - 1; i++) {
             char letter = (char) ('A' + rand.nextInt(25));
-            id += letter;
-            validationSum += (int) letter;
+            id.append(letter);
+            validationSum += letter;
         }
         char validation = (char) ('A' + validationSum % 25);
-        return id + validation;
+        return id.toString() + validation;
     }
 
     /**
      * Check immediately, if typed id is a valid id or not.
-     * @param id
-     * @return
+     *
+     * @param id lobby ID to be validated
+     * @return {boolean} true if correct
      */
     public boolean validateId(String id) {
         if(id.length() != Lobby.ID_LENGTH) return false;
 
         int validationSum = 0;
         for(int i = 0; i < Lobby.ID_LENGTH - 1; i++) {
-            validationSum += (int) id.charAt(i);
+            validationSum += id.charAt(i);
         }
         validationSum = validationSum % 25 + 'A';
 

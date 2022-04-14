@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
-import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 
@@ -53,8 +51,7 @@ public class ViewComponentFactory {
     }
 
     public static ErrorDialog createErrorDialog(){
-        ErrorDialog errorDialog = new ErrorDialog("", createSkin48());
-        return errorDialog;
+        return new ErrorDialog("", createSkin48());
     }
 
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {

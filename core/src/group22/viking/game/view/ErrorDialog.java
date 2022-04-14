@@ -3,8 +3,6 @@ package group22.viking.game.view;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import group22.viking.game.controller.VikingGame;
-
 public class ErrorDialog extends Dialog {
 
     public ErrorDialog(String title, Skin skin) {

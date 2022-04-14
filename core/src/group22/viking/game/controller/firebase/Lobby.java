@@ -55,10 +55,10 @@ public class Lobby extends FirebaseDocument{
 
 
     /**
-     * Create new open lobby.
+     * Create new open lobby (as host)
      *
-     * @param id
-     * @param hostId
+     * @param id lobby ID
+     * @param hostId ID of host player
      */
     Lobby(String id, String hostId) {
         super(id);
@@ -68,6 +68,11 @@ public class Lobby extends FirebaseDocument{
         this.isHost = true;
     }
 
+    /**
+     * Create empty lobby object (as guest).
+     *
+     * @param documentId lobby ID
+     */
     Lobby(String documentId) {
         super(documentId);
         this.hostId = null;
@@ -106,7 +111,7 @@ public class Lobby extends FirebaseDocument{
         return !guestId.equals(GUEST_FIELD_DUMMY);
     }
 
-    public boolean isJoinable() {
+    public boolean isJoiningPossible() {
         return guestId.equals(GUEST_FIELD_DUMMY) &&
                 (state.equals(State.OPEN) || state.equals(State.GUEST_LEFT));
     }

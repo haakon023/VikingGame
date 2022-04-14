@@ -44,8 +44,8 @@ public class PlayerStatus extends FirebaseDocument{
         this.wave = 0;
     }
 
-    public boolean isAlive() {
-        return isAlive;
+    public boolean isDead() {
+        return !isAlive;
     }
 
     public long getWonGames() {
@@ -67,10 +67,6 @@ public class PlayerStatus extends FirebaseDocument{
     synchronized long reduceOwnHealth(long damage) {
         if(!isWriting) return -1L; // error
         return health -= damage;
-    }
-
-    void setIsAliveFalse() {
-        this.isAlive = false;
     }
 
     @Override
@@ -105,7 +101,7 @@ public class PlayerStatus extends FirebaseDocument{
 
     void finish(boolean win) {
         if(!isWriting) return; // error
-        wonGames++;
+        if(win) wonGames++;
         health = -1;
     }
 

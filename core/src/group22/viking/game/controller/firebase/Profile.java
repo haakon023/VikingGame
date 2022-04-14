@@ -17,15 +17,6 @@ public class Profile extends FirebaseDocument{
     private long lostGames;
     private long highscore;
 
-    Profile(String id, String name, long avatarId, long wonGames, long lostGames, long highscore) {
-        super(id);
-        this.name = name;
-        this.avatarId = avatarId;
-        this.wonGames = wonGames;
-        this.lostGames = lostGames;
-        this.highscore = highscore;
-    }
-
     Profile(String id) {
         super(id);
         this.name = null;

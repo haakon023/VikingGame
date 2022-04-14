@@ -10,31 +10,23 @@ import java.util.Locale;
 import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
-import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
-import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.view.ErrorDialog;
 import group22.viking.game.view.MenuView;
-import group22.viking.game.view.ViewComponentFactory;
 
 
 public class MenuState extends State {
 
-    private ProfileCollection profileCollection;
-    private LobbyCollection lobbyCollection;
-
-    private Profile localPlayerProfile;
+    private final LobbyCollection lobbyCollection;
+    private final Profile localPlayerProfile;
 
     public MenuState(VikingGame game) {
         super(new MenuView(game.getBatch(), game.getCamera()), game);
 
-        this.profileCollection = game.getProfileCollection();
         this.lobbyCollection = game.getLobbyCollection();
 
-        localPlayerProfile = profileCollection.getLocalPlayerProfile();
+        localPlayerProfile = game.getProfileCollection().getLocalPlayerProfile();
         refreshAvatar();
 
         Gdx.input.setInputProcessor(view.getStage());

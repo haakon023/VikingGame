@@ -183,7 +183,7 @@ public class ProfileCollection extends FirebaseCollection{
      */
     public void readProfile(String profileId, final OnCollectionUpdatedListener listener) {
         // add profile with unloaded status if profile is not existing yet
-        if(!isKeyLocallyExisting(profileId)) {
+        if(isKeyNotExistingLocally(profileId)) {
             this.add(profileId, new Profile(profileId));
         } else {
             this.get(profileId).setIsLoaded(false);
@@ -278,7 +278,7 @@ public class ProfileCollection extends FirebaseCollection{
     }
 
     public Profile getProfileById(String id) {
-        if (!isKeyLocallyExisting(id)) {
+        if (isKeyNotExistingLocally(id)) {
             return null;
         }
         return (Profile) get(id);

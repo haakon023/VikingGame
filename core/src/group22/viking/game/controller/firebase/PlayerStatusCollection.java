@@ -11,13 +11,10 @@ public class PlayerStatusCollection extends FirebaseCollection{
     private String localStatusId; // own status
     private String opponentStatusId; // opponent status
 
-    private boolean isHost;
-    
     public PlayerStatusCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new PlayerStatus(), "game");
         this.opponentStatusId = null;
         this.localStatusId = null;
-        this.isHost = false;
     }
 
     /**
@@ -25,9 +22,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
      * Guest: Call after joining the lobby.
      * Host: Call after starting game.
      *
-     * @param localPlayerId
-     * @param opponentId
-     * @param listener
+     * @param localPlayerId profile ID
+     * @param opponentId profile ID
+     * @param listener {OnCollectionUpdatedListener}
      */
     public void createOwnStatus(String localPlayerId,
                                 String opponentId,
@@ -85,19 +82,15 @@ public class PlayerStatusCollection extends FirebaseCollection{
     /**
      * Add listener to opponent status when starting game.
      *
-     * @param localPlayerId
-     * @param opponentId
-     * @param isHost
-     * @poram listener
+     * @param localPlayerId profile ID
+     * @param opponentId profile ID
+     * @param listener {OnCollectionUpdatedListener}
      */
     public void addListenerToOpponentStatus(
             String localPlayerId,
             String opponentId,
-            boolean isHost,
             final OnCollectionUpdatedListener listener)
     {
-        this.isHost = isHost;
-
         final PlayerStatus status = new PlayerStatus(opponentId, localPlayerId, false);
         this.add(status.getId(), status);
         this.opponentStatusId = status.getId();
@@ -113,7 +106,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
                     }
                 }
                 System.out.println("PlayerStatusCollection: Opponents status updated.");
-                if(!status.isAlive()){
+                if(status.isDead()){
                     System.out.println("PlayerStatusCollection: Opponent dead.");
                     finishGame(true);
                 }
@@ -129,12 +122,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
 
     /**
+     * Finish game: Save stats, remove opponent status listener, and write to server.
      *
-     *
-     * @param isWin
+     * @param isWin {boolean} if local player won
      */
     private void finishGame(boolean isWin) {
-        getLocalPlayerStatus().finish(true); // mark win
+        getLocalPlayerStatus().finish(isWin); // mark win
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 
         this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {

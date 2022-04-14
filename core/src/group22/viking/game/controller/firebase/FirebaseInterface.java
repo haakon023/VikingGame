@@ -1,7 +1,7 @@
 package group22.viking.game.controller.firebase;
 
-/**
- * Tutorial: https://www.youtube.com/watch?v=WhuWqWVJ-_Y
+/*
+  Tutorial: https://www.youtube.com/watch?v=WhuWqWVJ-_Y
  */
 
 import java.util.Map;
