@@ -117,12 +117,17 @@ public class ProfileCollection extends FirebaseCollection{
                                    final long avatarId,
                                    final OnCollectionUpdatedListener listener)
     {
+        final Profile profile = getLocalPlayerProfile();
+
         this.firebaseInterface.addOrUpdateDocument(
                 this.identifier,
                 this.localPlayerId,
                 new HashMap<String, Object>(){{
                     put(Profile.KEY_NAME, name);
                     put(Profile.KEY_AVATAR_ID, avatarId);
+                    put(Profile.KEY_GAMES_WON, profile.getWonGames());
+                    put(Profile.KEY_GAMES_LOST, profile.getLostGames());
+                    put(Profile.KEY_HIGHSCORE, profile.getHighscore());
                 }},
                 new OnPostDataListener() {
                     @Override
@@ -178,7 +183,7 @@ public class ProfileCollection extends FirebaseCollection{
      */
     public void readProfile(String profileId, final OnCollectionUpdatedListener listener) {
         // add profile with unloaded status if profile is not existing yet
-        if(!isKeyLocallyExisting(profileId)) {
+        if(isKeyNotExistingLocally(profileId)) {
             this.add(profileId, new Profile(profileId));
         } else {
             this.get(profileId).setIsLoaded(false);
@@ -190,6 +195,10 @@ public class ProfileCollection extends FirebaseCollection{
                 new OnGetDataListener() {
                     @Override
                     public void onGetData(String documentId, Map<String, Object> data) {
+                        if (data == null) {
+                            listener.onFailure();
+                            return;
+                        }
                         Profile profile = (Profile) get(documentId);
                         for(Map.Entry<String, Object> e : data.entrySet()) {
                             try {
@@ -269,7 +278,7 @@ public class ProfileCollection extends FirebaseCollection{
     }
 
     public Profile getProfileById(String id) {
-        if (!isKeyLocallyExisting(id)) {
+        if (isKeyNotExistingLocally(id)) {
             return null;
         }
         return (Profile) get(id);
