@@ -29,8 +29,7 @@ public class MenuView extends View {
 
     private Animation[] animations;
 
-    TextureRegion profileTextureRegion;
-    TextureRegionDrawable profileTextureRegionDrawable;
+    private TextureRegion profileTextureRegion;
 
     /**
      * Simple storage class for animation info.
@@ -112,9 +111,6 @@ public class MenuView extends View {
 
     private void createButtons() {
         //todo set the texture to the user specific profile image
-        profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.WIZARDSPRITEHEAD));
-        profileTextureRegionDrawable = new TextureRegionDrawable(profileTextureRegion);
-
         tutorialButton = ViewComponentFactory.createTextButton(
                 "Tutorial",
                 new Vector2(150, VikingGame.SCREEN_HEIGHT/2+80-50),
@@ -154,8 +150,10 @@ public class MenuView extends View {
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
+        profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.getAvatarHead(1)));
+
         profileButton = ViewComponentFactory.createImageButton(
-                profileTextureRegionDrawable,
+                new TextureRegionDrawable(profileTextureRegion),
                 // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
                 new Vector2(VikingGame.SCREEN_WIDTH/2-500F/2,
                         //VikingGame.SCREEN_HEIGHT/2-profileButton.getHeight()/2-80),
@@ -171,6 +169,10 @@ public class MenuView extends View {
         stage.addActor(leaderboardButton);
         stage.addActor(exitButton);
         stage.addActor(muteButton);
+    }
+
+    public void setAvatar(int avatarId) {
+        profileTextureRegion.setRegion(Assets.getTexture(Assets.getAvatarHead(avatarId)));
     }
 
     private void createTextField() {

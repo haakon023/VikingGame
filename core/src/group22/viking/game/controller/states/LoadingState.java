@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.controller.firebase.FirebaseDocument;
+import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LoadingView;
 
@@ -11,11 +13,26 @@ import group22.viking.game.view.LoadingView;
 public class LoadingState extends State {
 
     private float progress;
+    private boolean profileLoaded;
 
     public LoadingState(final VikingGame game){
         super(new LoadingView(game.getBatch(), game.getCamera()), game);
 
         Assets.load();
+
+        this.profileLoaded = false;
+
+        game.getProfileCollection().init(new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                profileLoaded = true;
+            }
+
+            @Override
+            public void onFailure() {
+                // TODO throw some warning (no internet etc.)
+            }
+        });
 
         view.init();
     }
@@ -26,11 +43,6 @@ public class LoadingState extends State {
 
     }
 
-    /*@Override
-    public void update(float dt) {
-
-    }*/
-
 
     public void render(float deltaTime) {
         //TODO Needs to make progressbar smooth (lerp function does NOT work somehow)
@@ -38,7 +50,7 @@ public class LoadingState extends State {
 
 
         //once done loading all assets, go to menu screen
-        if(Assets.update() && progress <= Assets.getProgress()-.001f){
+        if(Assets.update() && progress <= Assets.getProgress()-.001f && profileLoaded){
             GameStateManager.getInstance().push(new MenuState(game));
         }
 
@@ -58,7 +70,5 @@ public class LoadingState extends State {
     public float updateProgressBar() {
         return Assets.getProgress();
     }
-
-
 
 }

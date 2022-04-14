@@ -8,32 +8,32 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.firebase.FirebaseGameCollection;
-import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.FirebaseDocument;
+import group22.viking.game.controller.firebase.GameCollection;
+import group22.viking.game.controller.firebase.Lobby;
+import group22.viking.game.controller.firebase.LobbyCollection;
+import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
+import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.view.MenuView;
 
+
 public class MenuState extends State {
-    private Texture background;
-    private Texture tutorialPlayBtn;
-    private Texture multiplayerPlayBtn;
-    private Texture leaderboardBtn;
-    private Texture muteSoundBtn;
 
-    private FirebaseProfileCollection firebaseProfileCollection;
-    private FirebaseGameCollection firebaseGameCollection;
+    private ProfileCollection profileCollection;
+    private LobbyCollection lobbyCollection;
 
-    public MenuState(VikingGame game,               // GameStateManager gsm,
-                     FirebaseProfileCollection firebaseProfileCollection,
-                     FirebaseGameCollection firebaseGameCollection) {
-        // super(gsm);
-        super(new MenuView(game.getBatch(), game.getCamera()), game);
-        this.firebaseProfileCollection = firebaseProfileCollection;
-        this.firebaseGameCollection = firebaseGameCollection;
-    }
+    private Profile localPlayerProfile;
 
-    // alternative constructor w/o Firebase for now:
     public MenuState(VikingGame game) {
         super(new MenuView(game.getBatch(), game.getCamera()), game);
+
+        this.profileCollection = game.getProfileCollection();
+        this.lobbyCollection = game.getLobbyCollection();
+
+        localPlayerProfile = profileCollection.getLocalPlayerProfile();
+        refreshAvatar();
+
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
@@ -43,6 +43,7 @@ public class MenuState extends State {
     @Override
     public void reinitialize() {
         super.reinitialize();
+        refreshAvatar();
     }
 
     @Override
@@ -52,13 +53,6 @@ public class MenuState extends State {
 
     public void update(float delta){
 
-    }
-
-    public void testFirestore() {
-        // test Firestore:
-        //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
-        firebaseGameCollection.startGame(0, 0);
-        //firebaseGameCollection.getGame();
     }
 
 
@@ -122,7 +116,9 @@ public class MenuState extends State {
                 //todo
             }
         });
+    }
 
-
+    private void refreshAvatar() {
+        ((MenuView) view).setAvatar((int) localPlayerProfile.getAvatarId());
     }
 }
