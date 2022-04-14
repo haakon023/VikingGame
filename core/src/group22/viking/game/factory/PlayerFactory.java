@@ -10,6 +10,7 @@ import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.models.Assets;
 
 public class PlayerFactory extends AbstractFactory {
 
@@ -26,7 +27,6 @@ public class PlayerFactory extends AbstractFactory {
         StateComponent state = engine.createComponent(StateComponent.class);
         PlayerComponent plc = engine.createComponent(PlayerComponent.class);
 
-        float width = Gdx.graphics.getWidth();
         tc.position.set(x, y,z);
         state.set(StateComponent.STATE_NORMAL);
 
@@ -37,5 +37,12 @@ public class PlayerFactory extends AbstractFactory {
         entity.add(state);
         entity.add(plc);
         return entity;
+    }
+
+    public Entity createPlayerInScreenMiddle(int avatarId) {
+        return createEntity(Gdx.graphics.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2,
+                0,
+                Assets.getTexture(Assets.getAvatar(avatarId)));
     }
 }

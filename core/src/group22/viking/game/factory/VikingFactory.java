@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.VikingComponent;
+import group22.viking.game.models.Assets;
 
 public class VikingFactory extends AbstractFactory {
 
@@ -31,5 +32,9 @@ public class VikingFactory extends AbstractFactory {
         entity.add(tex);
         entity.add(vc);
         return entity;
+    }
+
+    public Entity createShip(float x, float y) {
+        return createEntity(x, y, 0, Assets.getTexture(Assets.VIKINGSHIP));
     }
 }

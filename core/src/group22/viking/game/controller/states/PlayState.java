@@ -1,13 +1,11 @@
 package group22.viking.game.controller.states;
 
-import group22.viking.game.ECS.EntityFactory;
 import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
@@ -15,6 +13,7 @@ import group22.viking.game.ECS.VikingSystem;
 import group22.viking.game.ECS.ZComparator;
 import group22.viking.game.ECS.PlayerControlSystem;
 import group22.viking.game.factory.PlayerFactory;
+import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
 
 
@@ -38,8 +37,7 @@ public class PlayState extends State {
     private InputController inputController;
 
     private PooledEngine engine;
-    private EntityFactory entityFactory;
-    
+
     private Type type;
 
     public PlayState(VikingGame game, Type type) {
@@ -53,7 +51,6 @@ public class PlayState extends State {
         this.engine = new PooledEngine();
         this.playerControlSystem = new PlayerControlSystem(inputController);
         VikingSystem vikingSystem = new VikingSystem();
-        this.entityFactory = new EntityFactory(engine);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
 
         this.engine.addSystem(playerControlSystem);
@@ -62,28 +59,22 @@ public class PlayState extends State {
 
         Gdx.input.setInputProcessor(inputController);
 
-        /*
-        Entity player = entityFactory.createPlayer();
-        Entity viking1 = entityFactory.createViking(new Vector2(0, 0));
-        Entity viking2 = entityFactory.createViking(new Vector2(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT));
-        */
-        ((PlayView) view).buildBackground(entityFactory);
-
+        ((PlayView) view).buildBackground(engine);
         VikingFactory vikingFactory = new VikingFactory(engine);
         PlayerFactory playerFactory = new PlayerFactory(engine);
-        Entity viking =  vikingFactory.createEntity(0,0,0, new Texture("badlogic.jpg"));
-        float width = Gdx.graphics.getWidth();
-        Entity player =  playerFactory.createEntity(width / 2, Gdx.graphics.getHeight() / 2,0, new Texture("badlogic.jpg"));
+
+        Entity viking =  vikingFactory.createShip(0,0);
+        Entity viking2 =  vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
+        Entity player =  playerFactory.createPlayerInScreenMiddle(0);
         engine.addEntity(player);
         engine.addEntity(viking);
-
+        engine.addEntity(viking2);
     }
 
     @Override
     protected void handleInput() {
 
     }
-
 
     @Override
     public void reinitialize() {
