@@ -59,16 +59,30 @@ public class PlayState extends State {
 
         Gdx.input.setInputProcessor(inputController);
 
-        ((PlayView) view).buildBackground(engine);
-        VikingFactory vikingFactory = new VikingFactory(engine);
-        PlayerFactory playerFactory = new PlayerFactory(engine);
+        buildInitialEntities(engine);
+    }
 
-        Entity viking =  vikingFactory.createShip(0,0);
-        Entity viking2 =  vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
-        Entity player =  playerFactory.createPlayerInScreenMiddle(0);
-        engine.addEntity(player);
-        engine.addEntity(viking);
-        engine.addEntity(viking2);
+    /**
+     * Build background and Defender
+     *
+     * @param engine
+     */
+    private void buildInitialEntities(PooledEngine engine) {
+        TextureFactory textureFactory = new TextureFactory(engine);
+        engine.addEntity(textureFactory.createOceanback());
+        engine.addEntity(textureFactory.createOceantop());
+        engine.addEntity(textureFactory.createWavebottom());
+        engine.addEntity(textureFactory.createIsland());
+        engine.addEntity(textureFactory.createWavetop());
+        engine.addEntity(textureFactory.createMonastery());
+
+        PlayerFactory playerFactory = new PlayerFactory(engine);
+        engine.addEntity(playerFactory.createPlayerInScreenMiddle(0));
+
+        // TODO put code in wave logic:
+        VikingFactory vikingFactory = new VikingFactory(engine);
+        engine.addEntity(vikingFactory.createShip(0,0));
+        engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
     }
 
     @Override
