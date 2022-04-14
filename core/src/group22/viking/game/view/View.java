@@ -34,6 +34,7 @@ public abstract class View {
      */
     public void render(float deltaTime) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         Gdx.gl.glClearColor(0.34f, 0.44f, 0.53f, 1);
 
         batch.begin();

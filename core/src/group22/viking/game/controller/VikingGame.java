@@ -5,11 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.I18NBundle;
 
-import java.util.Locale;
-
-import group22.viking.game.controller.firebase.GameCollection;
+import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.ProfileCollection;
@@ -28,14 +25,14 @@ public class VikingGame extends Game {
 	public GameStateManager gsm;			//TODO: or private?
 
 	private final ProfileCollection profileCollection;
-	private final GameCollection gameCollection;
+	private final PlayerStatusCollection playerStatusCollection;
 	private final LobbyCollection lobbyCollection;
 	// TODO more collections
 
 	public static VikingGame instance;
 	
 	public VikingGame(FirebaseInterface firebaseInterface, Preferences preferences) {
-		this.gameCollection = new GameCollection(firebaseInterface);
+		this.playerStatusCollection = new PlayerStatusCollection(firebaseInterface);
 		this.profileCollection = new ProfileCollection(firebaseInterface, preferences);
 		this.lobbyCollection = new LobbyCollection(firebaseInterface);
 		
@@ -52,19 +49,12 @@ public class VikingGame extends Game {
 
 		gsm = GameStateManager.getInstance();
 		gsm.push(new SplashState(this));
-
-		// TODO: Remove Test / example
-		System.out.println(Assets.LANGUAGE.get("app_name"));
 	}
 
 
 	@Override
 	public void render () {
-		// first, update the data
-		//gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(Gdx.graphics.getDeltaTime());
-		// then render the screen via Game
-		// super.render();
 	}
 	
 	@Override
@@ -81,8 +71,8 @@ public class VikingGame extends Game {
 		return batch;
 	}
 
-	public GameCollection getGameCollection() {
-		return gameCollection;
+	public PlayerStatusCollection getPlayerStatusCollection() {
+		return playerStatusCollection;
 	}
 
 	public LobbyCollection getLobbyCollection() {

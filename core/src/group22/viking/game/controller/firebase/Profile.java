@@ -1,12 +1,15 @@
 package group22.viking.game.controller.firebase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Profile extends FirebaseDocument{
 
-    public final static String KEY_NAME = "name";
-    public final static String KEY_GAMES_WON = "games_won";
-    public final static String KEY_GAMES_LOST = "games_lost";
-    public final static String KEY_HIGHSCORE = "highscore";
-    public final static String KEY_AVATAR_ID = "avatar_id";
+    final static String KEY_NAME = "name";
+    final static String KEY_GAMES_WON = "games_won";
+    final static String KEY_GAMES_LOST = "games_lost";
+    final static String KEY_HIGHSCORE = "highscore";
+    final static String KEY_AVATAR_ID = "avatar_id";
 
     private String name;
     private long avatarId;
@@ -14,16 +17,7 @@ public class Profile extends FirebaseDocument{
     private long lostGames;
     private long highscore;
 
-    public Profile(String id, String name, long avatarId, long wonGames, long lostGames, long highscore) {
-        super(id);
-        this.name = name;
-        this.avatarId = avatarId;
-        this.wonGames = wonGames;
-        this.lostGames = lostGames;
-        this.highscore = highscore;
-    }
-
-    public Profile(String id) {
+    Profile(String id) {
         super(id);
         this.name = null;
         this.avatarId = -1;
@@ -59,7 +53,8 @@ public class Profile extends FirebaseDocument{
         return wonGames - lostGames;
     }
 
-    public void set(String key, Object value) throws FieldKeyUnknownException {
+    @Override
+    void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
             case KEY_NAME:
                 this.name = (String) value;
@@ -81,7 +76,18 @@ public class Profile extends FirebaseDocument{
         }
     }
 
-    public void addFinishedGame(boolean win, long score) {
+    @Override
+    Map<String, Object> getData() {
+        return new HashMap<String, Object>(){{
+            put(KEY_NAME, name);
+            put(KEY_AVATAR_ID, avatarId);
+            put(KEY_GAMES_WON, wonGames);
+            put(KEY_GAMES_LOST, lostGames);
+            put(KEY_HIGHSCORE, highscore);
+        }};
+    }
+
+    void addFinishedGame(boolean win, long score) {
         if(win) {
             wonGames++;
         } else {
