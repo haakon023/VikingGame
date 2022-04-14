@@ -1,90 +1,124 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.firebase.FirebaseGameCollection;
-import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.FirebaseDocument;
+import group22.viking.game.controller.firebase.GameCollection;
+import group22.viking.game.controller.firebase.Lobby;
+import group22.viking.game.controller.firebase.LobbyCollection;
+import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
+import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.view.MenuView;
+
 
 public class MenuState extends State {
-    private Texture background;
-    private Texture tutorialPlayBtn;
-    private Texture multiplayerPlayBtn;
-    private Texture leaderboardBtn;
-    private Texture muteSoundBtn;
 
-    private FirebaseProfileCollection firebaseProfileCollection;
-    private FirebaseGameCollection firebaseGameCollection;
+    private ProfileCollection profileCollection;
+    private LobbyCollection lobbyCollection;
 
-    public MenuState(GameStateManager gsm,
-                     FirebaseProfileCollection firebaseProfileCollection,
-                     FirebaseGameCollection firebaseGameCollection) {
-        super(gsm);
-        this.firebaseProfileCollection = firebaseProfileCollection;
-        this.firebaseGameCollection = firebaseGameCollection;
+    private Profile localPlayerProfile;
+
+    public MenuState(VikingGame game) {
+        super(new MenuView(game.getBatch(), game.getCamera()), game);
+
+        this.profileCollection = game.getProfileCollection();
+        this.lobbyCollection = game.getLobbyCollection();
+
+        localPlayerProfile = profileCollection.getLocalPlayerProfile();
+        refreshAvatar();
+
+        Gdx.input.setInputProcessor(view.getStage());
+        addListenersToButtons();
+
+        System.out.println("MENU STATE CREATED");
     }
 
     @Override
-    public void handleInput() {
-
+    public void reinitialize() {
+        super.reinitialize();
+        refreshAvatar();
     }
 
     @Override
-    public void update(float dt) {
-        handleInput();
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        sb.begin(); //Rendering goes below here
-
-        sb.end();
-    }
-
-    @Override
-    public void show() {
-        
-    }
-
-    @Override
-    public void render(float delta) {
+    protected void handleInput() {
 
     }
 
-    @Override
-    public void resize(int width, int height) {
+    public void update(float delta){
 
     }
 
-    @Override
-    public void pause() {
 
+    private void addListenersToButtons() {
+        ((MenuView) view).getTutorialButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                dispose();
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.TUTORIAL));
+            }
+        });
+
+        ((MenuView) view).getPracticeButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.PRACTICE));
+            }
+        });
+
+        ((MenuView) view).getHostButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance().push(new LobbyState(game));
+            }
+        });
+
+
+        ((MenuView) view).getJoinButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameStateManager.getInstance().push(new LobbyState(game));
+            }
+        });
+
+        ((MenuView) view).getProfileButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                System.out.println("Profile Pushed");
+                GameStateManager.getInstance().push(new ProfileSettingsState(game));
+            }
+        });
+
+        ((MenuView) view).getLeaderboardButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                System.out.println("Leaderboard Pushed");
+                GameStateManager.getInstance().push(new LeaderboardState(game));
+            }
+        });
+
+        ((MenuView) view).getExitButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+            }
+        });
+
+        ((MenuView) view).getMuteButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                //todo
+            }
+        });
     }
 
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        background.dispose();
-        tutorialPlayBtn.dispose();
-        multiplayerPlayBtn.dispose();
-        leaderboardBtn.dispose();
-        muteSoundBtn.dispose();
-    }
-
-    public void testFirestore() {
-        // test Firestore:
-        //firebaseGameCollection.setOnValueChangedGameListener("epmFTIiltmEyRenV24Li");
-        firebaseGameCollection.startGame(0, 0);
-        //firebaseGameCollection.getGame();
+    private void refreshAvatar() {
+        ((MenuView) view).setAvatar((int) localPlayerProfile.getAvatarId());
     }
 }

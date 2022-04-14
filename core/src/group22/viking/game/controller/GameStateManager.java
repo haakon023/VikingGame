@@ -1,27 +1,34 @@
 package group22.viking.game.controller;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.Stack;
 
 import group22.viking.game.controller.states.State;
 
 public class GameStateManager {
 
+    private static GameStateManager instance;
+
+    public static GameStateManager getInstance() {
+        if(instance == null) {
+            instance = new GameStateManager();
+        }
+        return instance;
+    }
+
     private Stack<State> states;
 
-    public GameStateManager(){
-        states = new Stack<State>();
+    private GameStateManager(){
+        states = new Stack<>();
     }
 
     public void push(State state){
-        VikingGame.instance.setScreen(state);
+        if(!states.isEmpty()) states.peek().pause();
         states.push(state);
     }
 
     public void pop(){
-        states.pop();
+        states.pop().dispose();
+        states.peek().reinitialize();
     }
 
     public State get(){
@@ -29,15 +36,11 @@ public class GameStateManager {
     }
 
     public void set(State state){
-        states.pop();
+        states.pop().dispose();
         states.push(state);
     }
 
-    public void update(float dt){
-        states.peek().update(dt);
-    }
-
-    public void render(SpriteBatch sb){
-        states.peek().render(sb);
+    public void render(float deltaTime){
+        states.peek().render(deltaTime);
     }
 }

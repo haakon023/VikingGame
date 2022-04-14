@@ -7,19 +7,23 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector3;
 
 import group22.viking.game.ECS.components.PlayerComponent;
+import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.VikingComponent;
+import group22.viking.game.models.Player;
 
 public class VikingSystem extends IteratingSystem {
     
     private ComponentMapper<TransformComponent> cmTransform;
     private ComponentMapper<VikingComponent> cmViking;
+    private ComponentMapper<TextureComponent> cmTexture;
     
     public VikingSystem() {
-        super(Family.all(VikingComponent.class, TransformComponent.class).get());
+        super(Family.all(VikingComponent.class, TransformComponent.class, TextureComponent.class).get());
         
         cmTransform = ComponentMapper.getFor(TransformComponent.class);
         cmViking = ComponentMapper.getFor(VikingComponent.class);
+        cmTexture = ComponentMapper.getFor(TextureComponent.class);
     }
 
     @Override
@@ -29,14 +33,29 @@ public class VikingSystem extends IteratingSystem {
         TransformComponent playerTransform = player.getComponent(TransformComponent.class);
         Vector3 playerPosition = playerTransform.position;
         
-        TransformComponent vikingTransform = entity.getComponent(TransformComponent.class);
+        TransformComponent vikingTransform = cmTransform.get(entity);
+        TextureComponent vikingTexture = cmTexture.get(entity);
+        VikingComponent viking = cmViking.get(entity);
+
+        viking.setTimeSinceLastAttack(viking.getTimeSinceLastAttack() + deltaTime);
+
         double distance = Math.sqrt((playerPosition.x - vikingTransform.position.x) * (playerPosition.y - vikingTransform.position.y));
-        System.out.println(distance + " | distance");    
-        if(distance > RenderingSystem.PixelsToMeters(vikingTransform.scale.x)) {
+        float vikingSize = vikingTexture.region.getRegionWidth() / 2f;
+        if(distance > vikingSize) {
             Vector3 direction = new Vector3(playerPosition.x - vikingTransform.position.x, playerPosition.y - vikingTransform.position.y, 0).nor();
             vikingTransform.position.mulAdd(direction, 100 * deltaTime);
+            return;
         }
 
-        
+        dealDamage(player.getComponent(PlayerComponent.class), viking);
+    }
+
+    private void dealDamage(PlayerComponent player, VikingComponent viking)
+    {
+        if(viking.getAttackRate() <= viking.getTimeSinceLastAttack())
+        {
+            player.dealDamage(viking.getDamage());
+            viking.setTimeSinceLastAttack(0);
+        }
     }
 }

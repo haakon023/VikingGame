@@ -1,46 +1,94 @@
 package group22.viking.game.controller.firebase;
 
-/**
- * Refers to data in database.
- */
-public class Profile {
+public class Profile extends FirebaseDocument{
 
-    private String id;
+    public final static String KEY_NAME = "name";
+    public final static String KEY_GAMES_WON = "games_won";
+    public final static String KEY_GAMES_LOST = "games_lost";
+    public final static String KEY_HIGHSCORE = "highscore";
+    public final static String KEY_AVATAR_ID = "avatar_id";
+
     private String name;
-    private int avatarId;
-    private int wonGames;
-    private int lostGames;
+    private long avatarId;
+    private long wonGames;
+    private long lostGames;
+    private long highscore;
 
-    public Profile(String id, String name, int avatarId, int wonGames, int lostGames) {
-        this.id = id;
+    public Profile(String id, String name, long avatarId, long wonGames, long lostGames, long highscore) {
+        super(id);
         this.name = name;
         this.avatarId = avatarId;
         this.wonGames = wonGames;
         this.lostGames = lostGames;
+        this.highscore = highscore;
     }
 
-    public String getId() {
-        return id;
+    public Profile(String id) {
+        super(id);
+        this.name = null;
+        this.avatarId = -1;
+        this.wonGames = -1;
+        this.lostGames = -1;
+        this.highscore = -1;
+
+        this.isLoaded = false;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getAvatarId() {
+    public long getAvatarId() {
         return avatarId;
     }
 
-    public int getWonGames() {
+    public long getWonGames() {
         return wonGames;
     }
 
-    public int getLostGames() {
+    public long getLostGames() {
         return lostGames;
+    }
+
+    public long getHighscore() {
+        return highscore;
     }
 
     public double getScore() {
         // TODO invent a more elaborated formula :)
         return wonGames - lostGames;
+    }
+
+    public void set(String key, Object value) throws FieldKeyUnknownException {
+        switch (key) {
+            case KEY_NAME:
+                this.name = (String) value;
+                break;
+            case KEY_GAMES_WON:
+                this.wonGames = (Long) value;
+                break;
+            case KEY_GAMES_LOST:
+                this.lostGames = (Long) value;
+                break;
+            case KEY_HIGHSCORE:
+                this.highscore = (Long) value;
+                break;
+            case KEY_AVATAR_ID:
+                this.avatarId = (Long) value;
+                break;
+            default:
+                throw new FieldKeyUnknownException(key);
+        }
+    }
+
+    public void addFinishedGame(boolean win, long score) {
+        if(win) {
+            wonGames++;
+        } else {
+            lostGames++;
+        }
+        if (score > highscore) {
+            highscore = score;
+        }
     }
 }

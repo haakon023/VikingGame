@@ -29,7 +29,11 @@ public class PlayerControlSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         PlayerComponent pComp = cmPlayerComponent.get(entity);
         TransformComponent tComp = cmTransformComponent.get(entity);
-        
+
+        //if health is below or equal 0
+        if(checkHealth(pComp))
+            return;
+
         if(input.isMouse1Down) {
             Vector2 pos = input.mouseLocation;
             tComp.rotation  = calculateAngle(pos, new Vector2(tComp.position.x, tComp.position.y));
@@ -39,9 +43,14 @@ public class PlayerControlSystem extends IteratingSystem {
         }
     }
 
+    private boolean checkHealth(PlayerComponent player)
+    {
+        return player.getHealth() <= 0;
+    }
+
     private void shootBullet()
     {
-
+        //make pewpew
     }
     
     private float calculateAngle(Vector2 mousePos, Vector2 playerPos)

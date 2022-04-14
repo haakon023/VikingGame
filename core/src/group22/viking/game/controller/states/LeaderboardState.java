@@ -1,65 +1,51 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
+import group22.viking.game.controller.VikingGame;
+import group22.viking.game.view.LeaderboardView;
 
-public class LeaderboardState extends State{
-    private Texture muteSoundBtn;
-    public LeaderboardState(GameStateManager gsm) {
-        super(gsm);
+
+public class LeaderboardState extends State {
+
+
+
+    public LeaderboardState(VikingGame game) {
+        super(new LeaderboardView(game.getBatch(), game.getCamera()), game);
+        Gdx.input.setInputProcessor(view.getStage());
+        addListenersToButtons();
+
+        System.out.println("LEADERBOARD STATE CREATED");
     }
 
     @Override
-    public void handleInput() {
+    protected void handleInput() {
 
     }
 
-    @Override
+
     public void update(float dt) {
 
     }
 
-    @Override
-    public void render(SpriteBatch sb) {
-        sb.begin(); //Render stuff goes below here
 
-        sb.end();
-    }
 
-    @Override
-    public void show() {
-        
-    }
+    private void addListenersToButtons() {
+        ((LeaderboardView) view).getExitButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                dispose();
+                System.out.println("EXIT BUTTON CLICKED");
+                GameStateManager.getInstance().pop();
+            }
+        });
 
-    @Override
-    public void render(float delta) {
 
     }
 
-    @Override
-    public void resize(int width, int height) {
 
-    }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
 }
