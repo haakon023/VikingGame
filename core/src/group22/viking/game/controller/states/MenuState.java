@@ -105,6 +105,19 @@ public class MenuState extends State {
                 //todo
             }
         });
+        // get clicks outside text field to close keyboard
+        getView().getStage().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                TextField textField = getView().getJoinTextField();
+                if ((x > textField.getX() &&
+                        x < textField.getX() + textField.getWidth() &&
+                        y > textField.getY() &&
+                        y < textField.getY() + textField.getHeight())
+                ) return;
+                textField.getOnscreenKeyboard().show(false);
+            }
+        });
     }
 
     private void initTextFieldLogic() {
@@ -123,8 +136,7 @@ public class MenuState extends State {
                     textField.setCursorPosition(textField.getText().length());
                 }
                 if(textField.getText().length() == Lobby.ID_LENGTH) {
-                    textField.getOnscreenKeyboard().show(false);
-                    userSubmitsJoinLobbyId();
+                    userSubmitsJoinLobbyId(textField);
                 }
             }
         });
@@ -137,15 +149,16 @@ public class MenuState extends State {
         });
     }
 
-    private void userSubmitsJoinLobbyId() {
+    private void userSubmitsJoinLobbyId(TextField textField) {
         String id = getView().getJoinTextField().getText();
         if (!lobbyCollection.validateId(id)) {
             // id is wrong
             System.out.println("Misspelling in ID");
-            //getView().getJoinTextField().setText("....");
+            getView().getJoinTextField().setText("");
             getView().makeErrorShakeOnTextField();
             return;
         }
+        textField.getOnscreenKeyboard().show(false);
         GameStateManager.getInstance().push(new LobbyState(game, id));
     }
 
