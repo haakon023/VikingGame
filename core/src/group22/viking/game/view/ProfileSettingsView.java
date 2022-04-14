@@ -32,7 +32,7 @@ public class ProfileSettingsView extends View {
     private TextButton submitChangesButton;
 
     //Text Fields
-    private TextField nameField;
+    private TextField nameTextField;
 
     public ProfileSettingsView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
@@ -52,9 +52,6 @@ public class ProfileSettingsView extends View {
                 VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-150);
         profileImage.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
         stage.addActor(profileImage);
-
-
-
 
         createButtons();
         createTextField();
@@ -102,8 +99,6 @@ public class ProfileSettingsView extends View {
                 new Vector2(600F / 3, 150)
         );
 
-
-
         stage.addActor(exitButton);
         stage.addActor(leftButton);
         stage.addActor(rightButton);
@@ -113,18 +108,13 @@ public class ProfileSettingsView extends View {
 
     private void createTextField() {
 
-        nameField = ViewComponentFactory.createTextField(
+        nameTextField = ViewComponentFactory.createTextField(
                 "",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + rightButton.getWidth() + 100,
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 150),
                 new Vector2(600, 150)
         );
-
-        //todo get name from Database or json log file
-        nameField.setText("Caio");
-
-        stage.addActor(nameField);
-
+        stage.addActor(nameTextField);
     }
 
 
@@ -138,7 +128,7 @@ public class ProfileSettingsView extends View {
         exitButton.addAction(fadeInAnimation);
         leftButton.addAction(fadeInAnimation);
         rightButton.addAction(fadeInAnimation);
-        nameField.addAction(fadeInAnimation);
+        nameTextField.addAction(fadeInAnimation);
         submitChangesButton.addAction(fadeInAnimation);
         profileImage.addAction(fadeInAnimation);
     }
@@ -173,7 +163,7 @@ public class ProfileSettingsView extends View {
         return submitChangesButton;
     }
 
-    public TextField getNameField() {
-        return nameField;
+    public TextField getNameTextField() {
+        return nameTextField;
     }
 }
