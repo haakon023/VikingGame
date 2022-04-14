@@ -1,18 +1,19 @@
 package group22.viking.game.controller.states;
 
-import group22.viking.game.ECS.EntityFactory;
 import group22.viking.game.controller.VikingGame;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
 import group22.viking.game.ECS.VikingSystem;
 import group22.viking.game.ECS.ZComparator;
 import group22.viking.game.ECS.PlayerControlSystem;
+import group22.viking.game.factory.PlayerFactory;
+import group22.viking.game.factory.TextureFactory;
+import group22.viking.game.factory.VikingFactory;
+
 
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
@@ -40,7 +41,6 @@ public class PlayState extends State {
     private InputController inputController;
 
     private PooledEngine engine;
-    private EntityFactory entityFactory;
 
     private Type type;
 
@@ -65,7 +65,6 @@ public class PlayState extends State {
         this.engine = new PooledEngine();
         this.playerControlSystem = new PlayerControlSystem(inputController);
         VikingSystem vikingSystem = new VikingSystem();
-        this.entityFactory = new EntityFactory(engine);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
 
         this.engine.addSystem(playerControlSystem);
@@ -73,11 +72,30 @@ public class PlayState extends State {
         this.engine.addSystem(renderingSystem);
 
         Gdx.input.setInputProcessor(inputController);
+        buildInitialEntities(engine);
+    }
 
-        Entity player = entityFactory.createPlayer();
-        Entity viking1 = entityFactory.createViking(new Vector2(0, 0));
-        Entity viking2 = entityFactory.createViking(new Vector2(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT));
-        ((PlayView) view).buildBackground(entityFactory);
+    /**
+     * Build background and Defender
+     *
+     * @param engine
+     */
+    private void buildInitialEntities(PooledEngine engine) {
+        TextureFactory textureFactory = new TextureFactory(engine);
+        engine.addEntity(textureFactory.createOceanback());
+        engine.addEntity(textureFactory.createOceantop());
+        engine.addEntity(textureFactory.createWavebottom());
+        engine.addEntity(textureFactory.createIsland());
+        engine.addEntity(textureFactory.createWavetop());
+        engine.addEntity(textureFactory.createMonastery());
+
+        PlayerFactory playerFactory = new PlayerFactory(engine);
+        engine.addEntity(playerFactory.createPlayerInScreenMiddle(0));
+
+        // TODO put code in wave logic:
+        VikingFactory vikingFactory = new VikingFactory(engine);
+        engine.addEntity(vikingFactory.createShip(0,0));
+        engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
     }
 
     private void onlineInit(final Lobby lobby) {
@@ -170,7 +188,6 @@ public class PlayState extends State {
     protected void handleInput() {
 
     }
-
 
     @Override
     public void reinitialize() {
