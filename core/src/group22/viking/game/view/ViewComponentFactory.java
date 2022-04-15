@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -36,8 +37,6 @@ public class ViewComponentFactory {
     public static final Vector2 BIG_BUTTON_SIZE =  new Vector2(700, 150);
     public static final Vector2 PROFILE_IMAGE_SIZE = new Vector2(500, 500);
 
-    public static final Action FADE_IN_ANIMATION = createFadeInAction();
-
     public static ImageButton createImageButton (
             TextureRegionDrawable profileTextureRegionDrawable,
             Vector2 position,
@@ -51,8 +50,12 @@ public class ViewComponentFactory {
         return button;
     }
 
+    public static ErrorDialog createErrorDialog(){
+        return new ErrorDialog("", createSkin48());
+    }
+
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
-        TextButton textButton = new TextButton(text, createSkin(), "default");
+        TextButton textButton = new TextButton(text, createSkin48(), "default");
         textButton.setSize(size.x, size.y);
         textButton.setPosition(position.x, position.y);
 
@@ -60,14 +63,28 @@ public class ViewComponentFactory {
     }
 
     public static TextField createTextField(String text, Vector2 position, Vector2 size) {
-        TextField textField = new TextField(text, createSkin(), "default");
+        TextField textField = new TextField(text, createSkin48(), "default");
         textField.setSize(size.x, size.y);
         textField.setPosition(position.x, position.y);
 
         return textField;
     }
 
-    private static Skin createSkin() {
+    public static Label createLabel48(String text, Vector2 position) {
+        Label label = new Label(text, createSkin48());
+        label.setPosition(position.x, position.y);
+
+        return label;
+    }
+
+    public static Label createLabel100(String text, Vector2 position) {
+        Label label = new Label(text, createSkin100());
+        label.setPosition(position.x, position.y);
+
+        return label;
+    }
+
+    private static Skin createSkin48() {
         Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
         skin.add("default-font", Assets.FONT48); //add font as default-font in json file
         skin.load(Gdx.files.internal("ui/uiskin.json"));
@@ -75,11 +92,29 @@ public class ViewComponentFactory {
         return skin;
     }
 
-    private static Action createFadeInAction() {
+    private static Skin createSkin100() {
+        Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
+        skin.add("default-font", Assets.FONT100); //add font as default-font in json file
+        skin.load(Gdx.files.internal("ui/uiskin.json"));
+
+        return skin;
+    }
+
+    private static Skin createSkin28() {
+        Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
+        skin.add("default-font", Assets.FONT28); //add font as default-font in json file
+        skin.load(Gdx.files.internal("ui/uiskin.json"));
+
+        return skin;
+    }
+
+
+    public static Action createFadeInAction() {
         return sequence(
                 alpha(0),
+                moveBy(0,20,0f, Interpolation.linear),
                 parallel(
-                        fadeIn(0.5f),
+                        fadeIn(.5f),
                         moveBy(0,-20,.5f, Interpolation.pow5Out)
                 )
         );
@@ -92,5 +127,7 @@ public class ViewComponentFactory {
 
         return generator.generateFont(parameter);
     }
+
+
 
 }

@@ -50,7 +50,7 @@ public class LeaderboardView extends View {
 
     @Override
     public void runInitialAnimations() {
-        exitButton.addAction(ViewComponentFactory.FADE_IN_ANIMATION);
+        exitButton.addAction(ViewComponentFactory.createFadeInAction());
     }
 
     @Override

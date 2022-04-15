@@ -2,17 +2,17 @@ package group22.viking.game.controller;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.I18NBundle;
 
-import java.util.Locale;
-
-import group22.viking.game.controller.firebase.FirebaseGameCollection;
+import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.FirebaseInterface;
-import group22.viking.game.controller.firebase.FirebaseProfileCollection;
+import group22.viking.game.controller.firebase.LobbyCollection;
+import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.controller.states.SplashState;
 import group22.viking.game.models.Assets;
+
 
 public class VikingGame extends Game {
 
@@ -24,43 +24,37 @@ public class VikingGame extends Game {
 
 	public GameStateManager gsm;			//TODO: or private?
 
-	private FirebaseProfileCollection firebaseProfileCollection;
-	private FirebaseGameCollection firebaseGameCollection;
+	private final ProfileCollection profileCollection;
+	private final PlayerStatusCollection playerStatusCollection;
+	private final LobbyCollection lobbyCollection;
 	// TODO more collections
 
 	public static VikingGame instance;
 	
-	public VikingGame(FirebaseInterface firebaseInterface) {
-		this.firebaseGameCollection = new FirebaseGameCollection(firebaseInterface);
-		this.firebaseProfileCollection = new FirebaseProfileCollection(firebaseInterface);
-		// TODO more collections
+	public VikingGame(FirebaseInterface firebaseInterface, Preferences preferences) {
+		this.playerStatusCollection = new PlayerStatusCollection(firebaseInterface);
+		this.profileCollection = new ProfileCollection(firebaseInterface, preferences);
+		this.lobbyCollection = new LobbyCollection(firebaseInterface);
 		
 		instance = this;
 	}
 
 	@Override
 	public void create () {
-		SCREEN_WIDTH=Gdx.graphics.getWidth();
-		SCREEN_HEIGHT=Gdx.graphics.getHeight();
+		SCREEN_WIDTH = Gdx.graphics.getWidth();
+		SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
 		batch = new SpriteBatch();
 
 		gsm = GameStateManager.getInstance();
 		gsm.push(new SplashState(this));
-
-		// TODO: Remove Test / example
-		System.out.println(Assets.LANGUAGE.get("app_name"));
 	}
 
 
 	@Override
 	public void render () {
-		// first, update the data
-		//gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(Gdx.graphics.getDeltaTime());
-		// then render the screen via Game
-		// super.render();
 	}
 	
 	@Override
@@ -75,5 +69,17 @@ public class VikingGame extends Game {
 
 	public SpriteBatch getBatch() {
 		return batch;
+	}
+
+	public PlayerStatusCollection getPlayerStatusCollection() {
+		return playerStatusCollection;
+	}
+
+	public LobbyCollection getLobbyCollection() {
+		return lobbyCollection;
+	}
+
+	public ProfileCollection getProfileCollection() {
+		return profileCollection;
 	}
 }

@@ -18,7 +18,7 @@ public class AndroidLauncher extends AndroidApplication {
 			hideVirtualButtons();
 		}
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new VikingGame(new AndroidInterfaceClass()), config);
+		initialize(new VikingGame(new AndroidInterfaceClass(), this.getPreferences("my-config")), config);
 	}
 	@TargetApi(19)
 	private void hideVirtualButtons() {
