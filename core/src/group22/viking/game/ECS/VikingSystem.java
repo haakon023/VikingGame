@@ -11,12 +11,15 @@ import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.VikingComponent;
+import group22.viking.game.factory.ProjectileFactory;
 
 public class VikingSystem extends IteratingSystem {
     
     private ComponentMapper<TransformComponent> cmTransform;
     private ComponentMapper<VikingComponent> cmViking;
     private ComponentMapper<TextureComponent> cmTexture;
+
+    private ProjectileFactory projectileFactory;
     
     public VikingSystem() {
         super(Family.all(VikingComponent.class, TransformComponent.class, TextureComponent.class).get());
@@ -65,9 +68,13 @@ public class VikingSystem extends IteratingSystem {
 
     private void SpawnProjectile(TransformComponent vikingTransform, com.badlogic.ashley.core.Entity target)
     {
-        EntityFactory factory = new EntityFactory((PooledEngine) getEngine());
+        if(projectileFactory == null)
+            projectileFactory = new ProjectileFactory((PooledEngine) getEngine());
 
-        com.badlogic.ashley.core.Entity projectile = factory.createProjectile(vikingTransform.position);
+        com.badlogic.ashley.core.Entity projectile = projectileFactory.createProjectile(vikingTransform.position.x, vikingTransform.position.y);
         projectile.getComponent(HomingProjectileComponent.class).setTarget(target);
+        getEngine().addEntity(projectile);
     }
+
+
 }

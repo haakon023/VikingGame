@@ -26,6 +26,7 @@ public class HomingProjectileSystem extends IteratingSystem {
         TransformComponent transformComponent = cmTransform.get(entity);
         TransformComponent targetTransform = cmTransform.get(projectileComponent.getTarget());
 
+        System.out.println("Processing projectile");
 
 
         double distance = Math.sqrt((targetTransform.position.x - transformComponent.position.x) * (targetTransform.position.y - transformComponent.position.y));
@@ -33,6 +34,7 @@ public class HomingProjectileSystem extends IteratingSystem {
             Vector3 direction = new Vector3(targetTransform.position.x - transformComponent.position.x, targetTransform.position.y - transformComponent.position.y, 0).nor();
 
             transformComponent.position.mulAdd(direction, projectileComponent.getSpeed() * deltaTime);
+            System.out.println("moving projectile");
             return;
         }
         getEngine().removeEntity(entity);
