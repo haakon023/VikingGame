@@ -1,7 +1,6 @@
 package group22.viking.game.ECS;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
 
 import java.util.Comparator;
 
@@ -40,8 +38,8 @@ public class RenderingSystem extends SortedIteratingSystem {
     }
     
     private SpriteBatch spriteBatch;
-    private Comparator<Entity> comparator;
-    private Array<Entity> renderQueue;
+    private Comparator<com.badlogic.ashley.core.Entity> comparator;
+    private Array<com.badlogic.ashley.core.Entity> renderQueue;
     private OrthographicCamera camera;
     
     private ComponentMapper<TransformComponent> cmTransformComp;
@@ -56,7 +54,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         cmTransformComp = ComponentMapper.getFor(TransformComponent.class);
         cmTextureComp = ComponentMapper.getFor(TextureComponent.class);
 
-        renderQueue = new Array<Entity>();
+        renderQueue = new Array<com.badlogic.ashley.core.Entity>();
         
         camera = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
         camera.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
@@ -74,7 +72,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         spriteBatch.begin();
         
         
-        for(Entity entity : renderQueue) {
+        for(com.badlogic.ashley.core.Entity entity : renderQueue) {
             TextureComponent texComp = cmTextureComp.get(entity);
             TransformComponent transComp = cmTransformComp.get(entity);
 
@@ -104,7 +102,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     }
     
     @Override
-    protected void processEntity(Entity entity, float deltaTime) {
+    protected void processEntity(com.badlogic.ashley.core.Entity entity, float deltaTime) {
         renderQueue.add(entity);
     }
 

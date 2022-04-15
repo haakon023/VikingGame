@@ -1,6 +1,7 @@
 package group22.viking.game.controller.states;
 
 import group22.viking.game.ECS.EntityFactory;
+import group22.viking.game.ECS.HomingProjectileSystem;
 import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.Entity;
@@ -19,6 +20,7 @@ import group22.viking.game.view.PlayView;
 
 public class PlayState extends State {
 
+
     public enum Type {
         TUTORIAL,
         PRACTICE,
@@ -29,6 +31,8 @@ public class PlayState extends State {
     
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
+    private final HomingProjectileSystem homingProjectileSystem;
+
 
     private boolean initialized;
     
@@ -53,10 +57,12 @@ public class PlayState extends State {
         VikingSystem vikingSystem = new VikingSystem();
         this.entityFactory = new EntityFactory(engine);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
+        this.homingProjectileSystem = new HomingProjectileSystem();
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(vikingSystem);
         this.engine.addSystem(renderingSystem);
+        this.engine.addSystem(homingProjectileSystem);
 
         Gdx.input.setInputProcessor(inputController);
 

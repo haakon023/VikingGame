@@ -2,6 +2,8 @@ package group22.viking.game.ECS.components;
 
 import com.badlogic.ashley.core.Component;
 
+//have damage and attackrate passed through Constructor?
+//In other words do we need setters?
 public class VikingComponent implements Component {
 
     public float getDamage() {

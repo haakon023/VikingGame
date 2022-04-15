@@ -1,6 +1,5 @@
 package group22.viking.game.ECS;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import group22.viking.game.ECS.components.HomingProjectileComponent;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
@@ -29,9 +29,9 @@ public class EntityFactory {
         this.screenSize = new Vector2(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT);
     }
 
-    public Entity createPlayer()
+    public com.badlogic.ashley.core.Entity createPlayer()
     {
-        Entity entity = engine.createEntity();
+        com.badlogic.ashley.core.Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
         StateComponent state = engine.createComponent(StateComponent.class);
@@ -54,9 +54,9 @@ public class EntityFactory {
         return entity;
     }
 
-    public Entity createViking(Vector2 spawnPosition)
+    public com.badlogic.ashley.core.Entity createViking(Vector2 spawnPosition)
     {
-        Entity entity = engine.createEntity();
+        com.badlogic.ashley.core.Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
         VikingComponent vc = engine.createComponent(VikingComponent.class);
@@ -74,9 +74,30 @@ public class EntityFactory {
         return entity;
     }
 
-    public Entity createTexture(Texture texture, Vector3 position, float scale)
+    public com.badlogic.ashley.core.Entity createProjectile(Vector3 position)
     {
-        Entity entity = engine.createEntity();
+        com.badlogic.ashley.core.Entity entity = engine.createEntity();
+
+        TransformComponent tc = engine.createComponent(TransformComponent.class);
+        HomingProjectileComponent hpc = engine.createComponent(HomingProjectileComponent.class);
+        TextureComponent txc = engine.createComponent(TextureComponent.class);
+
+        txc.region = new TextureRegion(new Texture(Assets.ARROW_SPRITE));
+        tc.position.set(position);
+
+        hpc.setSpeed(150);
+
+        entity.add(tc);
+        entity.add(hpc);
+        entity.add(txc);
+
+        engine.addEntity(entity);
+        return entity;
+    }
+
+    public com.badlogic.ashley.core.Entity createTexture(Texture texture, Vector3 position, float scale)
+    {
+        com.badlogic.ashley.core.Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
 

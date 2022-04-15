@@ -1,16 +1,16 @@
 package group22.viking.game.ECS;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector3;
 
+import group22.viking.game.ECS.components.HomingProjectileComponent;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.VikingComponent;
-import group22.viking.game.models.Player;
 
 public class VikingSystem extends IteratingSystem {
     
@@ -27,12 +27,12 @@ public class VikingSystem extends IteratingSystem {
     }
 
     @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        Entity player = getEngine().getEntitiesFor(Family.one( PlayerComponent.class).get()).first();
+    protected void processEntity(com.badlogic.ashley.core.Entity entity, float deltaTime) {
+        com.badlogic.ashley.core.Entity player = getEngine().getEntitiesFor(Family.one( PlayerComponent.class).get()).first();
 
-        TransformComponent playerTransform = player.getComponent(TransformComponent.class);
+        TransformComponent playerTransform = cmTransform.get(player);
         Vector3 playerPosition = playerTransform.position;
-        
+
         TransformComponent vikingTransform = cmTransform.get(entity);
         TextureComponent vikingTexture = cmTexture.get(entity);
         VikingComponent viking = cmViking.get(entity);
@@ -47,15 +47,27 @@ public class VikingSystem extends IteratingSystem {
             return;
         }
 
-        dealDamage(player.getComponent(PlayerComponent.class), viking);
+        boolean dealtDamage = dealDamage(player.getComponent(PlayerComponent.class), viking);
+        if (dealtDamage) {
+            SpawnProjectile(vikingTransform, player);
+        }
     }
 
-    private void dealDamage(PlayerComponent player, VikingComponent viking)
+    private boolean dealDamage(PlayerComponent player, VikingComponent viking)
     {
-        if(viking.getAttackRate() <= viking.getTimeSinceLastAttack())
-        {
-            player.dealDamage(viking.getDamage());
-            viking.setTimeSinceLastAttack(0);
+        if (!(viking.getAttackRate() <= viking.getTimeSinceLastAttack())) {
+            return false;
         }
+        player.dealDamage(viking.getDamage());
+        viking.setTimeSinceLastAttack(0);
+        return true;
+    }
+
+    private void SpawnProjectile(TransformComponent vikingTransform, com.badlogic.ashley.core.Entity target)
+    {
+        EntityFactory factory = new EntityFactory((PooledEngine) getEngine());
+
+        com.badlogic.ashley.core.Entity projectile = factory.createProjectile(vikingTransform.position);
+        projectile.getComponent(HomingProjectileComponent.class).setTarget(target);
     }
 }

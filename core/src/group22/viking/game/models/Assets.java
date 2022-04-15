@@ -43,6 +43,10 @@ public class Assets {
     public static final String WIZARDSPRITE = "img/WizardSprite.png";
     public static final String WIZARDSPRITEHEAD = "img/WizardSpriteHead.png";
 
+    //Projectile sprites
+    public static final String ARROW_SPRITE = "img/badlogic.jpg";
+
+
     // main game background
     public static final String OCEANBACK = "img/OceanBack.png";
     public static final String OCEANTOP = "img/OceanTop.png";
@@ -77,6 +81,10 @@ public class Assets {
         assetManager.load(WARRIORWOMANSPRITEHEAD, Texture.class);
         assetManager.load(WIZARDSPRITE, Texture.class);
         assetManager.load(WIZARDSPRITEHEAD, Texture.class);
+
+        //projectile sprites
+        assetManager.load(ARROW_SPRITE, Texture.class);
+
 
         //main game background
         assetManager.load(OCEANBACK, Texture.class);
