@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class Profile extends FirebaseDocument{
 
+    public final static int NAME_MAX_CHAR = 12;
+
     final static String KEY_NAME = "name";
     final static String KEY_GAMES_WON = "games_won";
     final static String KEY_GAMES_LOST = "games_lost";

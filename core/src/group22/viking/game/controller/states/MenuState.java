@@ -56,7 +56,6 @@ public class MenuState extends State {
         getView().getTutorialButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                dispose();
                 GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.TUTORIAL));
             }
         });
@@ -109,43 +108,65 @@ public class MenuState extends State {
 
     private void initTextFieldLogic() {
         final TextField textField = getView().getJoinTextField();
+
         textField.setTextFieldFilter(new TextField.TextFieldFilter() {
             @Override
             public boolean acceptChar(TextField textField, char c) {
                 return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
             }
         });
+
         textField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 if(c >= 'a' && c <= 'z') {
+                    int cursorPosition = textField.getCursorPosition();
                     textField.setText(textField.getText().toUpperCase(Locale.ROOT));
-                    textField.setCursorPosition(textField.getText().length());
+                    textField.setCursorPosition(cursorPosition);
                 }
                 if(textField.getText().length() == Lobby.ID_LENGTH) {
-                    textField.getOnscreenKeyboard().show(false);
-                    userSubmitsJoinLobbyId();
+                    userSubmitsJoinLobbyId(textField);
                 }
             }
         });
+
         textField.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                textField.setText("");
+                if(textField.getText().length() > Lobby.ID_LENGTH) {
+                    textField.setText("");
+                }
+            }
+        });
+
+        // get clicks outside text field to close keyboard
+        getView().getStage().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if ((x > textField.getX() &&
+                        x < textField.getX() + textField.getWidth() &&
+                        y > textField.getY() &&
+                        y < textField.getY() + textField.getHeight())
+                ) return;
+                textField.getOnscreenKeyboard().show(false);
+                if(textField.getText().isEmpty()) {
+                    getView().resetTextField();
+                }
             }
         });
     }
 
-    private void userSubmitsJoinLobbyId() {
+    private void userSubmitsJoinLobbyId(TextField textField) {
         String id = getView().getJoinTextField().getText();
         if (!lobbyCollection.validateId(id)) {
             // id is wrong
             System.out.println("Misspelling in ID");
-            //getView().getJoinTextField().setText("....");
+            getView().getJoinTextField().setText("");
             getView().makeErrorShakeOnTextField();
             return;
         }
+        textField.getOnscreenKeyboard().show(false);
         GameStateManager.getInstance().push(new LobbyState(game, id));
     }
 
