@@ -25,10 +25,13 @@ public class LeaderboardState extends State {
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
-        this.profileCollection = game.getProfileCollection();
-        loadLeaderboard(3);
-        leaderboard = profileCollection.getLeaderboard();   //TODO: from debugging I assume that it is called too early (all profiles are null)
 
+        this.profileCollection = game.getProfileCollection();
+
+        loadLeaderboard(3);
+        /*
+        leaderboard = profileCollection.getLeaderboard();   //TODO: from debugging I assume that it is called too early (all profiles are null)
+        */
         System.out.println("LEADERBOARD STATE CREATED");
         // System.out.println(leaderboard);        //TODO
     }
@@ -57,6 +60,7 @@ public class LeaderboardState extends State {
 
 
     }
+
 
     private void loadLeaderboard(int topPlaces) {
         profileCollection.loadLeaderboard(
