@@ -50,6 +50,7 @@ public class AndroidLauncher extends AndroidApplication {
 		if (hasFocus) {
 			// In KITKAT (4.4) and next releases, hide the virtual buttons
 			hideVirtualButtons();
+			hideActionBar();
 		}
 	}
 }
