@@ -1,5 +1,6 @@
 package group22.viking.game.controller.states;
 
+import group22.viking.game.ECS.HomingProjectileSystem;
 import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.PooledEngine;
@@ -27,14 +28,17 @@ public class PlayState extends State {
 
 
 
+
     public enum Type {
         TUTORIAL,
         PRACTICE,
         ONLINE
-    }
+    } 
 
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
+    private HomingProjectileSystem homingProjectileSystem;
+
 
     private boolean initialized;
 
@@ -66,10 +70,12 @@ public class PlayState extends State {
         this.playerControlSystem = new PlayerControlSystem(inputController);
         VikingSystem vikingSystem = new VikingSystem();
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
+        this.homingProjectileSystem = new HomingProjectileSystem();
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(vikingSystem);
         this.engine.addSystem(renderingSystem);
+        this.engine.addSystem(homingProjectileSystem);
 
         Gdx.input.setInputProcessor(inputController);
         buildInitialEntities(engine);

@@ -2,6 +2,7 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
@@ -23,7 +24,9 @@ public class ProfileSettingsState extends State {
     public ProfileSettingsState(final VikingGame game) {
         super(new ProfileSettingsView(game.getBatch(), game.getCamera()), game);
         Gdx.input.setInputProcessor(view.getStage());
+
         addListenersToButtons();
+        initTextFieldLogic();
 
         this.profileCollection = game.getProfileCollection();
         Profile profile = profileCollection.getLocalPlayerProfile();
@@ -31,7 +34,7 @@ public class ProfileSettingsState extends State {
         this.currentShownAvatarId = (int) profile.getAvatarId();
         updateShownAvatar();
 
-        ((ProfileSettingsView) view).getNameField().setText(profile.getName());
+        ((ProfileSettingsView) view).getNameTextField().setText(profile.getName());
 
         System.out.println("PROFILE STATE CREATED");
     }
@@ -39,15 +42,6 @@ public class ProfileSettingsState extends State {
 
     @Override
     protected void handleInput() {
-
-    }
-
-    public void update(float delta){
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 
@@ -82,14 +76,35 @@ public class ProfileSettingsState extends State {
                 userSubmitsChanges(view);
             }
         });
-        /*
-        view.getNameField().addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+    }
 
+    private void initTextFieldLogic() {
+        final TextField textField = getView().getNameTextField();
+
+        textField.setMaxLength(Profile.NAME_MAX_CHAR);
+
+        // only allow certain symbols
+        textField.setTextFieldFilter(new TextField.TextFieldFilter() {
+            @Override
+            public boolean acceptChar(TextField textField, char c) {
+                return (c >= 'a' && c <= 'z') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c >= '0' && c <= '9');
             }
         });
-        */
+
+        // get clicks outside text field to close keyboard
+        getView().getStage().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if ((x > textField.getX() &&
+                        x < textField.getX() + textField.getWidth() &&
+                        y > textField.getY() &&
+                        y < textField.getY() + textField.getHeight())
+                ) return;
+                textField.getOnscreenKeyboard().show(false);
+            }
+        });
     }
 
     private void updateShownAvatar() {
@@ -99,7 +114,7 @@ public class ProfileSettingsState extends State {
 
     private void userSubmitsChanges(ProfileSettingsView view) {
         profileCollection.updateLocalProfile(
-                view.getNameField().getText(),
+                view.getNameTextField().getText(),
                 currentShownAvatarId,
                 new OnCollectionUpdatedListener(){
                     @Override
@@ -118,5 +133,9 @@ public class ProfileSettingsState extends State {
     private void goBackToMenu() {
         dispose();
         GameStateManager.getInstance().pop();
+    }
+
+    private ProfileSettingsView getView() {
+        return (ProfileSettingsView) view;
     }
 }
