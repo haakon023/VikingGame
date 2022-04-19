@@ -1,7 +1,6 @@
 package group22.viking.game.ECS;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
@@ -19,11 +18,11 @@ public class CollisionSystem extends IteratingSystem {
     }
 
     @Override
-    protected void processEntity(Entity entity, float deltaTime) {
+    protected void processEntity(com.badlogic.ashley.core.Entity entity, float deltaTime) {
         // get player collision component
         CollisionComponent cc = componentMapper.get(entity);
 
-        Entity collidedEntity = cc.collisionEntity;
+        com.badlogic.ashley.core.Entity collidedEntity = cc.collisionEntity;
         if(collidedEntity != null){
             TypeComponent type = collidedEntity.getComponent(TypeComponent.class);
             if(type != null){

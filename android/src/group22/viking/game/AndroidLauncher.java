@@ -17,7 +17,6 @@ public class AndroidLauncher extends AndroidApplication {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			hideVirtualButtons();
 		}
-
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new VikingGame(new AndroidInterfaceClass(), this.getPreferences("my-config")), config);
 	}
@@ -37,9 +36,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
 			// In KITKAT (4.4) and next releases, hide the virtual buttons
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-				hideVirtualButtons();
-			}
+			hideVirtualButtons();
 		}
 	}
 }

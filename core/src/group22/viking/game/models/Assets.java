@@ -47,6 +47,10 @@ public class Assets {
     public static final String QUESTIONMARK = "img/Questionmark.png";
     public static final int NUMBER_OF_AVATARS = 3;
 
+    //Projectile sprites
+    public static final String ARROW_SPRITE = "img/badlogic.jpg";
+
+
     // main game background
     public static final String OCEANBACK = "img/OceanBack.png";
     public static final String OCEANTOP = "img/OceanTop.png";
@@ -82,6 +86,10 @@ public class Assets {
         assetManager.load(WIZARDSPRITE, Texture.class);
         assetManager.load(WIZARDSPRITEHEAD, Texture.class);
         assetManager.load(QUESTIONMARK, Texture.class);
+
+        //projectile sprites
+        assetManager.load(ARROW_SPRITE, Texture.class);
+
 
         //main game background
         assetManager.load(OCEANBACK, Texture.class);
