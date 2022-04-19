@@ -40,7 +40,7 @@ public class AndroidLauncher extends AndroidApplication {
 
 	@TargetApi(16)
 	private void hideActionBar() {
-		// also hide the action bar
+		// Hide the action bar: https://developer.android.com/training/system-ui/status#java
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
 	}
