@@ -1,21 +1,38 @@
 package group22.viking.game.controller.firebase;
 
 /*
-*       Tutorial: https://www.youtube.com/watch?v=WhuWqWVJ-_Y
-*
+  Tutorial: https://www.youtube.com/watch?v=WhuWqWVJ-_Y
  */
 
 import java.util.Map;
 
 public interface FirebaseInterface {
 
-    public void setOnValueChangedListener(String collection, String document_id);
+    void setOnValueChangedListener(String collection,
+                                   FirebaseDocument document,
+                                   OnGetDataListener listener);
 
-    public void addDocument(String collection, String document_id, Map<String, Object> values);
+    void removeOnValueChangedListener(FirebaseDocument document);
 
-    public void update(String collection, String document_id, Map<String, Object> values);
+    void addOrUpdateDocument(String collection,
+                     String document_id,
+                     Map<String, Object> values,
+                     OnPostDataListener listener);
 
-    public void get(String collection, String document_id);
+    void addDocumentWithGeneratedId(String collection,
+                                    Map<String, Object> values,
+                                    OnPostDataListener listener);
 
-    public void getAll(String collection);
+    void get(String collection,
+             String documentId,
+             OnGetDataListener listener);
+
+    void getAll(String collection,
+                String orderBy,
+                int limit,
+                OnGetDataListener listener);
+
+    void removeDocument(String collection,
+                        FirebaseDocument document,
+                        OnPostDataListener listener);
 }

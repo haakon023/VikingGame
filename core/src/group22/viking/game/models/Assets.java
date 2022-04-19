@@ -18,9 +18,11 @@ public class Assets {
     public static AssetManager assetManager = new AssetManager();
 
     // language
-    public static final I18NBundle LANGUAGE = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
+    @SuppressWarnings("ConstantLocale")
+    private static final I18NBundle TRANSLATION = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
 
     // fonts
+    public static final BitmapFont FONT28 = ViewComponentFactory.generateFont(28, 5);
     public static final BitmapFont FONT48 = ViewComponentFactory.generateFont(48, 5);
     public static final BitmapFont FONT100 = ViewComponentFactory.generateFont(100, 10);
 
@@ -42,6 +44,8 @@ public class Assets {
     public static final String WARRIORWOMANSPRITEHEAD = "img/WarriorWomanSpriteHead.png";
     public static final String WIZARDSPRITE = "img/WizardSprite.png";
     public static final String WIZARDSPRITEHEAD = "img/WizardSpriteHead.png";
+    public static final String QUESTIONMARK = "img/Questionmark.png";
+    public static final int NUMBER_OF_AVATARS = 3;
 
     // main game background
     public static final String OCEANBACK = "img/OceanBack.png";
@@ -77,6 +81,7 @@ public class Assets {
         assetManager.load(WARRIORWOMANSPRITEHEAD, Texture.class);
         assetManager.load(WIZARDSPRITE, Texture.class);
         assetManager.load(WIZARDSPRITEHEAD, Texture.class);
+        assetManager.load(QUESTIONMARK, Texture.class);
 
         //main game background
         assetManager.load(OCEANBACK, Texture.class);
@@ -114,6 +119,30 @@ public class Assets {
     //TODO: implement as necessary
     public static Sound getSound(String path) {
         return assetManager.get(path, Sound.class);
+    }
+
+    public static String getAvatar(int index) {
+        return new String[]{
+                Assets.KNIGHTSPRITE,
+                Assets.WIZARDSPRITE,
+                Assets.WARRIORWOMANSPRITE
+        }[index];
+    }
+
+    public static String getAvatarHead(int index) {
+        return new String[]{
+                Assets.KNIGHTSPRITEHEAD,
+                Assets.WIZARDSPRITEHEAD,
+                Assets.WARRIORWOMANSPRITEHEAD
+        }[index];
+    }
+
+    public static String translate(String key) {
+        return TRANSLATION.get(key);
+    }
+
+    public static String t(String key) {
+        return translate(key);
     }
 
 }
