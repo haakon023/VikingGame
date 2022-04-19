@@ -1,12 +1,16 @@
 package group22.viking.game;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
+import java.lang.annotation.Target;
+
 import group22.viking.game.controller.VikingGame;
 
 public class AndroidLauncher extends AndroidApplication {
@@ -16,11 +20,13 @@ public class AndroidLauncher extends AndroidApplication {
 		// In KITKAT (4.4) and next releases, hide the virtual buttons
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			hideVirtualButtons();
+			hideActionBar();
 		}
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new VikingGame(new AndroidInterfaceClass(), this.getPreferences("my-config")), config);
 	}
+
 	@TargetApi(19)
 	private void hideVirtualButtons() {
 		getWindow().getDecorView().setSystemUiVisibility(
@@ -32,6 +38,13 @@ public class AndroidLauncher extends AndroidApplication {
 						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 	}
 
+	@TargetApi(16)
+	private void hideActionBar() {
+		// also hide the action bar
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
+	}
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
@@ -39,6 +52,7 @@ public class AndroidLauncher extends AndroidApplication {
 			// In KITKAT (4.4) and next releases, hide the virtual buttons
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 				hideVirtualButtons();
+				hideActionBar();
 			}
 		}
 	}
