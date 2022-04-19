@@ -77,7 +77,7 @@ public class MenuState extends State {
         getView().getProfileButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                System.out.println("Profile Pushed");
+                System.out.println("Profile Clicked");
                 GameStateManager.getInstance().push(new ProfileSettingsState(game));
             }
         });
@@ -85,7 +85,7 @@ public class MenuState extends State {
         getView().getLeaderboardButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                System.out.println("Leaderboard Pushed");
+                System.out.println("Leaderboard Clicked");
                 GameStateManager.getInstance().push(new LeaderboardState(game));
 
             }
