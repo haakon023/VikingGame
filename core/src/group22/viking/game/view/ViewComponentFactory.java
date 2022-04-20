@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -95,7 +96,7 @@ public class ViewComponentFactory {
         return label;
     }
 
-    private static Skin createSkin48() {
+    public static Skin createSkin48() {
         Skin skin = new Skin(Assets.getTextureAtlas(Assets.UI_SKIN));
         skin.add("default-font", Assets.FONT48); //add font as default-font in json file
         skin.load(Gdx.files.internal("ui/uiskin.json"));
@@ -146,6 +147,10 @@ public class ViewComponentFactory {
         parameter.spaceX = letterSpacing; //letter spacing
 
         return generator.generateFont(parameter);
+    }
+
+    public static Table createTable() {
+        return new Table();
     }
 
 

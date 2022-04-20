@@ -1,10 +1,17 @@
 package group22.viking.game.controller.states;
 
+import group22.viking.game.ECS.ColliderListener;
+import group22.viking.game.ECS.CollisionSystem;
 import group22.viking.game.ECS.HomingProjectileSystem;
+import group22.viking.game.ECS.LinearProjectileSystem;
+import group22.viking.game.ECS.PhysicsDebugSystem;
+import group22.viking.game.ECS.PhysicsSystem;
 import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.audio.Sound;
 
 import group22.viking.game.ECS.InputController;
@@ -31,7 +38,6 @@ public class PlayState extends State {
 
 
 
-
     public enum Type {
         TUTORIAL,
         PRACTICE,
@@ -41,6 +47,14 @@ public class PlayState extends State {
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
     private HomingProjectileSystem homingProjectileSystem;
+    private CollisionSystem collisionSystem;
+    private PhysicsSystem physicsSystem;
+    private LinearProjectileSystem linearProjectileSystem;
+
+
+    private World world;
+    
+    public static World worldInstance;
 
 
     private boolean initialized;
@@ -48,7 +62,6 @@ public class PlayState extends State {
     private InputController inputController;
 
     private PooledEngine engine;
-
     private Type type;
 
     private PlayerStatusCollection playerStatusCollection;
@@ -65,22 +78,33 @@ public class PlayState extends State {
         super(Assets.playView, game);
         construct(Type.ONLINE);
         onlineInit(lobby);
+        SoundManager.playMusic(this, getGame().getPreferences());
     }
 
     private void construct(Type type) {
-        System.out.println("PLAYSTATE CONSTRUCTOR");
+        world = new World(new Vector2(0,0), true);
+        world.setContactListener(new ColliderListener());
+        
+
         this.type = type;
         this.inputController = new InputController();
         this.engine = new PooledEngine();
-        this.playerControlSystem = new PlayerControlSystem(inputController);
-        VikingSystem vikingSystem = new VikingSystem();
+        this.playerControlSystem = new PlayerControlSystem(inputController, world);
+        VikingSystem vikingSystem = new VikingSystem(world);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
+        this.collisionSystem = new CollisionSystem(world);
+        this.physicsSystem = new PhysicsSystem(world);
+        this.linearProjectileSystem = new LinearProjectileSystem(world);
 
         this.engine.addSystem(playerControlSystem);
+        this.engine.addSystem(physicsSystem);
         this.engine.addSystem(vikingSystem);
         this.engine.addSystem(renderingSystem);
+        this.engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
         this.engine.addSystem(homingProjectileSystem);
+        this.engine.addSystem(collisionSystem);
+        this.engine.addSystem(linearProjectileSystem);
 
         Gdx.input.setInputProcessor(inputController);
         buildInitialEntities(engine);
@@ -108,7 +132,7 @@ public class PlayState extends State {
         engine.addEntity(playerFactory.createRotatingWeapon());
 
         // TODO put code in wave logic:
-        VikingFactory vikingFactory = new VikingFactory(engine);
+        VikingFactory vikingFactory = new VikingFactory(engine, world);
         engine.addEntity(vikingFactory.createShip(0,0));
         engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
     }
