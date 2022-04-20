@@ -4,18 +4,35 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
 
+import group22.viking.game.view.LeaderboardView;
+import group22.viking.game.view.LobbyView;
+import group22.viking.game.view.MenuView;
+import group22.viking.game.view.PlayView;
+import group22.viking.game.view.ProfileSettingsView;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class Assets {
 
     public static AssetManager assetManager = new AssetManager();
+
+    /*
+    View need to be created here, that all GUI operations can also be called from server listeners,
+    which are not part of the main-thread.
+     */
+    public static LeaderboardView leaderboardView;
+    public static PlayView playView;
+    public static LobbyView lobbyView;
+    public static MenuView menuView;
+    public static ProfileSettingsView profileSettingsView;
 
     // language
     @SuppressWarnings("ConstantLocale")
@@ -102,6 +119,14 @@ public class Assets {
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);
 
+    }
+
+    public static void createViews(SpriteBatch spriteBatch, OrthographicCamera camera) {
+        leaderboardView = new LeaderboardView(spriteBatch, camera);
+        playView = new PlayView(spriteBatch, camera);
+        lobbyView = new LobbyView(spriteBatch, camera);
+        menuView = new MenuView(spriteBatch, camera);
+        profileSettingsView = new ProfileSettingsView(spriteBatch, camera);
     }
 
     public static void dispose(){ assetManager.dispose(); }

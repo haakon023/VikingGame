@@ -18,9 +18,8 @@ public class LoadingState extends State {
     public LoadingState(final VikingGame game){
         super(new LoadingView(game.getBatch(), game.getCamera()), game);
 
-        Assets.load();
-
         this.profileLoaded = false;
+        Assets.load();
 
         game.getProfileCollection().init(new OnCollectionUpdatedListener() {
             @Override
@@ -37,20 +36,18 @@ public class LoadingState extends State {
         view.init();
     }
 
-
     @Override
     protected void handleInput() {
 
     }
 
-
     public void render(float deltaTime) {
         //TODO Needs to make progressbar smooth (lerp function does NOT work somehow)
         progress = MathUtils.lerp(progress, Assets.getProgress(), 0.1f);
 
-
         //once done loading all assets, go to menu screen
         if(Assets.update() && progress <= Assets.getProgress()-.001f && profileLoaded){
+            Assets.createViews(game.getBatch(), game.getCamera());
             GameStateManager.getInstance().push(new MenuState(game));
         }
 
@@ -60,10 +57,6 @@ public class LoadingState extends State {
 
     @Override
     public void dispose() {
-
-    }
-
-    public void update() {
 
     }
 
