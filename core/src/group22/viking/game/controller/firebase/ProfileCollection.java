@@ -13,6 +13,7 @@ import java.util.Map;
 public class ProfileCollection extends FirebaseCollection{
 
     private static final String PREFERENCES_PROFILE_KEY = "local-profile-id";
+    public static final String PREFERENCES_SOUND_KEY = "sound_preference";
 
     private String hostId;
     private String guestId;
@@ -40,7 +41,6 @@ public class ProfileCollection extends FirebaseCollection{
             return;
         }
         this.localPlayerId = preferences.getString(PREFERENCES_PROFILE_KEY);
-        System.out.println("FOUND LOCAL PROFILE: " + localPlayerId);
         this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -101,6 +101,7 @@ public class ProfileCollection extends FirebaseCollection{
 
                         localPlayerId = documentId;
                         preferences.putString(PREFERENCES_PROFILE_KEY, documentId);
+                        preferences.putBoolean(PREFERENCES_SOUND_KEY, true);
                         preferences.flush();
 
                         readProfile(documentId, listener);
@@ -294,4 +295,7 @@ public class ProfileCollection extends FirebaseCollection{
 
     public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
 
+    public Preferences getPreferences() {
+        return preferences;
+    }
 }

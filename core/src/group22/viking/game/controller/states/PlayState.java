@@ -5,6 +5,7 @@ import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
@@ -24,6 +25,7 @@ import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.PlayView;
+import group22.viking.game.view.SoundManager;
 
 public class PlayState extends State {
 
@@ -55,6 +57,8 @@ public class PlayState extends State {
         super(Assets.playView, game);
         construct(type);
         beginGame(); //immediate begin
+
+        SoundManager.playMusic(this, getGame().getPreferences());
     }
 
     public PlayState (VikingGame game, Lobby lobby) {

@@ -13,6 +13,7 @@ import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.ProfileSettingsView;
+import group22.viking.game.view.SoundManager;
 
 
 public class ProfileSettingsState extends State {
@@ -51,6 +52,7 @@ public class ProfileSettingsState extends State {
         view.getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 System.out.println("EXIT BUTTON CLICKED");
                 goBackToMenu();
             }
@@ -59,6 +61,7 @@ public class ProfileSettingsState extends State {
         view.getLeftButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 currentShownAvatarId--;
                 updateShownAvatar();
             }
@@ -66,6 +69,7 @@ public class ProfileSettingsState extends State {
         view.getRightButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 currentShownAvatarId++;
                 updateShownAvatar();
             }
@@ -73,6 +77,7 @@ public class ProfileSettingsState extends State {
         view.getSubmitChangesButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 userSubmitsChanges(view);
             }
         });

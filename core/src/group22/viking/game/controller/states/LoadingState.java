@@ -8,6 +8,7 @@ import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LoadingView;
+import group22.viking.game.view.SoundManager;
 
 
 public class LoadingState extends State {
@@ -18,6 +19,12 @@ public class LoadingState extends State {
     public LoadingState(final VikingGame game){
         super(new LoadingView(game.getBatch(), game.getCamera()), game);
 
+<<<<<<< HEAD
+=======
+
+        Assets.load();
+
+>>>>>>> ec40f6d (Sound and Swoosh)
         this.profileLoaded = false;
         Assets.load();
 

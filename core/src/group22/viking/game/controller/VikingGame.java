@@ -19,6 +19,9 @@ public class VikingGame extends Game {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
+	private Preferences preferences;
+
+
 	public static float SCREEN_WIDTH;
 	public static float SCREEN_HEIGHT;
 
@@ -35,7 +38,8 @@ public class VikingGame extends Game {
 		this.playerStatusCollection = new PlayerStatusCollection(firebaseInterface);
 		this.profileCollection = new ProfileCollection(firebaseInterface, preferences);
 		this.lobbyCollection = new LobbyCollection(firebaseInterface);
-		
+		this.preferences = preferences;
+
 		instance = this;
 	}
 
@@ -50,6 +54,7 @@ public class VikingGame extends Game {
 		gsm = GameStateManager.getInstance();
 		gsm.push(new SplashState(this));
 	}
+
 
 
 	@Override
@@ -81,5 +86,9 @@ public class VikingGame extends Game {
 
 	public ProfileCollection getProfileCollection() {
 		return profileCollection;
+	}
+
+	public Preferences getPreferences() {
+		return preferences;
 	}
 }

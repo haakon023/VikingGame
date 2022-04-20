@@ -11,10 +11,13 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Interpolation;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.models.Assets;
+import group22.viking.game.view.SoundManager;
 import group22.viking.game.view.SplashView;
 
 
@@ -32,6 +35,8 @@ public class SplashState extends State {
                 delay(1.5f), fadeOut(1.25f), run(createTransitionRunnable())));
 
         view.init();
+
+
     }
 
     @Override

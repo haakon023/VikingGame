@@ -71,11 +71,16 @@ public class Assets {
     public static final String LEGOLAS_SPRITE_HEAD = "img/LegolasHead.png";
 
     public static final String QUESTIONMARK = "img/Questionmark.png";
+
     public static final int NUMBER_OF_AVATARS = 5;
+
+    public static final String MUTED_BUTTON_IMAGE = "img/mutedButton.png";
+    public static final String UNMUTED_BUTTON_IMAGE = "img/unmutedButton.png";
+    public static final String LEADERBOARD_BUTTON_IMAGE = "img/leaderboardButton.png";
+
 
     //Projectile sprites
     public static final String ARROW_SPRITE = "img/arrow-dummy.png";
-
 
     // main game background
     public static final String OCEAN_BACK = "img/OceanBack.png";
@@ -87,6 +92,19 @@ public class Assets {
 
     // ui files
     public static String UI_SKIN = "ui/uiskin.atlas";
+
+    //music files
+    public static final Music MENUMUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/menuMusic.mp3"));
+    public static final Music LOBBYMUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/lobbyMusic.mp3"));
+    public static final Music GAMEMUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/gameMusic.mp3"));
+
+    //sound files
+    public static final Sound SOUNDBOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundBowFire.mp3"));
+    public static final Sound SOUNDBUTTON = Gdx.audio.newSound(Gdx.files.internal("sound/soundButton.mp3"));
+    public static final Sound SOUNDSHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
+    public static final Sound SOUNDGOAT = Gdx.audio.newSound(Gdx.files.internal("sound/soundGoat.mp3"));
+    public static final Sound SOUNDERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
+
 
     public static void load() {
 
@@ -117,6 +135,11 @@ public class Assets {
         assetManager.load(LEGOLAS_SPRITE_HEAD, Texture.class);
 
         assetManager.load(QUESTIONMARK, Texture.class);
+
+        //button images
+        assetManager.load(UNMUTED_BUTTON_IMAGE, Texture.class);
+        assetManager.load(MUTED_BUTTON_IMAGE, Texture.class);
+        assetManager.load(LEADERBOARD_BUTTON_IMAGE, Texture.class);
 
         //projectile sprites
         assetManager.load(ARROW_SPRITE, Texture.class);
