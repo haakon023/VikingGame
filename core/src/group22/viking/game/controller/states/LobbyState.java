@@ -147,7 +147,8 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-
+                // lobby deleted
+                handleHostClosedLobby();
             }
         });
     }
@@ -247,6 +248,7 @@ public class LobbyState extends State {
     }
 
     private void userExits() {
+        // after leaving logic
         OnCollectionUpdatedListener whenExited = new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -266,6 +268,12 @@ public class LobbyState extends State {
         } else {
             lobbyCollection.leaveLobby(whenExited);
         }
+    }
+
+    private void handleHostClosedLobby() {
+        if(IS_HOST) return; // host has to call exit method by button
+        GameStateManager.getInstance().pop();
+        dispose();
     }
 
     private void hostConfirmsStart() {
