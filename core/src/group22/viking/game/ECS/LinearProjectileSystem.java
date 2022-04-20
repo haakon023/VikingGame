@@ -13,31 +13,34 @@ import group22.viking.game.ECS.components.LinearProjectileComponent;
 public class LinearProjectileSystem extends IteratingSystem {
 
 
-    private ComponentMapper<LinearProjectileComponent> pCm;
-    private ComponentMapper<B2dBodyComponent> bCm;
+    private ComponentMapper<LinearProjectileComponent> linearProjectileComponentMapper;
+    private ComponentMapper<B2dBodyComponent> bodyComponentComponentMapper;
     private World world;
 
 
     public LinearProjectileSystem(World world) {
         super(Family.all(LinearProjectileComponent.class).get());
         this.world = world;
-        bCm = ComponentMapper.getFor(B2dBodyComponent.class);
-        pCm = ComponentMapper.getFor(LinearProjectileComponent.class);
+        bodyComponentComponentMapper = ComponentMapper.getFor(B2dBodyComponent.class);
+        linearProjectileComponentMapper = ComponentMapper.getFor(LinearProjectileComponent.class);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        B2dBodyComponent b2d = bCm.get(entity);
-        LinearProjectileComponent lpc = pCm.get(entity);
+        B2dBodyComponent b2dBodyComponent = bodyComponentComponentMapper.get(entity);
+        LinearProjectileComponent linearProjectileComponent = linearProjectileComponentMapper.get(entity);
 
 
-        lpc.timeAlive += deltaTime;
+        linearProjectileComponent.timeAlive += deltaTime;
         //i have no clue why the projectile is moving so fucking sloooow
-        b2d.body.applyLinearImpulse(new Vector2(lpc.getDirection().x, lpc.getDirection().y).nor().scl(-10000), new Vector2(lpc.getDirection().x, lpc.getDirection().y).nor(), true);
+        b2dBodyComponent.body.applyLinearImpulse(
+                new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor().scl(-10000),
+                new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor(),
+                true);
 
-        if(lpc.timeAlive > lpc.maxTimeAlive){
-            lpc.timeAlive = 0;
-            world.destroyBody(b2d.body);
+        if(linearProjectileComponent.timeAlive > linearProjectileComponent.maxTimeAlive){
+            linearProjectileComponent.timeAlive = 0;
+            world.destroyBody(b2dBodyComponent.body);
             getEngine().removeEntity(entity);
         }
 

@@ -36,7 +36,7 @@ public class CollisionSystem extends IteratingSystem {
         TypeComponent thisType = entity.getComponent(TypeComponent.class);
         PlayerComponent pc = playerMapper.get(getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first());
         com.badlogic.ashley.core.Entity collidedEntity = cc.collisionEntity;
-        if(thisType.entityType == TypeComponent.EntityType.Bullet){
+        if(thisType.entityType == TypeComponent.EntityType.BULLET){
             if(collidedEntity != null){
                 TypeComponent type = collidedEntity.getComponent(TypeComponent.class);
                 if(type != null){
@@ -51,7 +51,7 @@ public class CollisionSystem extends IteratingSystem {
                             //give player the powerup
                             //PlayerComponent pc = playerMapper.get(collidedEntity);
                             break;
-                        case Bullet:
+                        case BULLET:
                             System.out.println("colliding with bullet");
                     }
                     cc.collisionEntity = null; // collision handled reset component

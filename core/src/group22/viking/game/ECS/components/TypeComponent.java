@@ -10,7 +10,7 @@ public class TypeComponent implements Component {
     public static enum EntityType {
         PLAYER,
         VIKING,
-        Bullet,
+        BULLET,
         POWER_UP,
     }
 }

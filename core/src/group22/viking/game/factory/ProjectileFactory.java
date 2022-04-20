@@ -36,7 +36,7 @@ public class ProjectileFactory extends AbstractFactory {
         TextureComponent tex = engine.createComponent(TextureComponent.class);
         TypeComponent tyc = engine.createComponent(TypeComponent.class  );
 
-        tyc.entityType = TypeComponent.EntityType.Bullet;
+        tyc.entityType = TypeComponent.EntityType.BULLET;
 
         tc.position.set(new Vector3(x,y,z));
         tc.scale.set(0.3f, 0.3f);
