@@ -180,6 +180,7 @@ public class LobbyView extends View {
         avatarHost.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
+        avatarHost.setPosition(-1000,0);
     }
 
     public void updateAvatarGuest(int avatarId) {
@@ -187,6 +188,7 @@ public class LobbyView extends View {
         avatarGuest.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
+        avatarGuest.setPosition(VikingGame.SCREEN_WIDTH,0);
     }
 
     public void enablePlayButton() {
@@ -222,5 +224,13 @@ public class LobbyView extends View {
         this.avatarGuest.setDrawable(new TextureRegionDrawable(Assets.getTexture(Assets.QUESTIONMARK)));
         nameLabelGuest.setVisible(false);
         scoreLabelGuest.setVisible(false);
+    }
+
+    public Image getAvatarHost() {
+        return avatarHost;
+    }
+
+    public Image getAvatarGuest() {
+        return avatarGuest;
     }
 }
