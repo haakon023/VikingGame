@@ -94,7 +94,7 @@ public class LobbyCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                System.out.println("LobbyCollection: listener on lobby not set.");
+                // lobby deleted
                 listener.onFailure();
             }
         });
