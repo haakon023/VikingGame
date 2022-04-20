@@ -9,8 +9,12 @@ public class PlayerComponent implements Component{
         return health;
     }
 
+    public float fireRate = 0.2f; // shoot every half secound
+
     public void dealDamage(float damageAmount)
     {
         this.health -= damageAmount;
     }
+    public float AttackDamage = 50;
+    
 }
