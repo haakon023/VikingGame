@@ -53,7 +53,7 @@ public class PlayState extends State {
 
     private PlayerStatusCollection playerStatusCollection;
 
-    private int time;
+    private float time;
 
     private SpawnerController spawnerController;
 
@@ -223,9 +223,9 @@ public class PlayState extends State {
         time += deltaTime;
         if (Math.round(time) == 30)
         {
-            System.out.println("DeltaTime: " + deltaTime);
-            int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(time);
+            int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner((int)Math.round(time));
             VikingFactory vikingFactory = new VikingFactory(engine);
+            System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size());
             for (int i=0; i < spawnerController.getSpawners().size(); i++)
             {
                 Spawner spawner = spawnerController.getSpawners().get(i);
@@ -233,7 +233,6 @@ public class PlayState extends State {
                 {
                     engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
                 }
-
             }
             time = 0;
         }
