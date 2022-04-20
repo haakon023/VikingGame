@@ -22,7 +22,7 @@ public class ProfileSettingsState extends State {
     private int currentShownAvatarId;
 
     public ProfileSettingsState(final VikingGame game) {
-        super(new ProfileSettingsView(game.getBatch(), game.getCamera()), game);
+        super(Assets.profileSettingsView, game);
         Gdx.input.setInputProcessor(view.getStage());
 
         addListenersToButtons();

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 
 
@@ -14,7 +15,7 @@ public class LeaderboardState extends State {
 
 
     public LeaderboardState(VikingGame game) {
-        super(new LeaderboardView(game.getBatch(), game.getCamera()), game);
+        super(Assets.leaderboardView, game);
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 

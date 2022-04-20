@@ -13,6 +13,7 @@ import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.MenuView;
 
 
@@ -22,7 +23,7 @@ public class MenuState extends State {
     private final Profile localPlayerProfile;
 
     public MenuState(VikingGame game) {
-        super(new MenuView(game.getBatch(), game.getCamera()), game);
+        super(Assets.menuView, game);
 
         this.lobbyCollection = game.getLobbyCollection();
 

@@ -12,6 +12,7 @@ import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.ErrorDialog;
 import group22.viking.game.view.LobbyView;
 import group22.viking.game.view.ViewComponentFactory;
@@ -30,7 +31,7 @@ public class LobbyState extends State {
      * @param game {VikingGame}
      */
     public LobbyState(final VikingGame game) {
-        super(new LobbyView(game.getBatch(), game.getCamera()), game);
+        super(Assets.lobbyView, game);
         this.IS_HOST = true;
 
         profileCollection = game.getProfileCollection();
@@ -253,7 +254,6 @@ public class LobbyState extends State {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 GameStateManager.getInstance().push(new PlayState(game, lobbyCollection.getLobby()));
-
             }
 
             @Override
