@@ -65,6 +65,7 @@ public class PlayState extends State {
         super(Assets.playView, game);
         construct(Type.ONLINE);
         onlineInit(lobby);
+        SoundManager.playMusic(this, getGame().getPreferences());
     }
 
     private void construct(Type type) {
