@@ -189,7 +189,7 @@ public class MenuView extends View {
     }
 
     private void createBackground() {
-        Image waveDark = new Image(Assets.getTexture(Assets.WAVEDARK));
+        Image waveDark = new Image(Assets.getTexture(Assets.WAVE_DARK));
         stage.addActor(waveDark);
 
         Image castle = new Image(Assets.getTexture(Assets.CASTLE));
@@ -197,18 +197,18 @@ public class MenuView extends View {
         castle.setHeight(500);
         stage.addActor(castle);
 
-        Image waveMedium = new Image(Assets.getTexture(Assets.WAVEMEDIUM));
+        Image waveMedium = new Image(Assets.getTexture(Assets.WAVE_MEDIUM));
         stage.addActor(waveMedium);
 
-        Image vikingShip = new Image(Assets.getTexture(Assets.VIKINGSHIP));
+        Image vikingShip = new Image(Assets.getTexture(Assets.VIKING_SHIP));
         vikingShip.setWidth(600);
         vikingShip.setHeight(500);
         stage.addActor(vikingShip);
 
-        Image waveLight = new Image(Assets.getTexture(Assets.WAVELIGHT));
+        Image waveLight = new Image(Assets.getTexture(Assets.WAVE_LIGHT));
         stage.addActor(waveLight);
 
-        Image waveVeryLight = new Image(Assets.getTexture(Assets.WAVEVERYLIGHT));
+        Image waveVeryLight = new Image(Assets.getTexture(Assets.WAVE_VERY_LIGHT));
         stage.addActor(waveVeryLight);
 
         this.animations = new Animation[]{
@@ -225,11 +225,11 @@ public class MenuView extends View {
 
     private void createHeader() {
         //header
-        Image vikingHeader = new Image(Assets.getTexture(Assets.VIKINGHEADER));
+        Image vikingHeader = new Image(Assets.getTexture(Assets.VIKING_HEADER));
         vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
-        Image stopHeader = new Image(Assets.getTexture(Assets.STOPHEADER));
+        Image stopHeader = new Image(Assets.getTexture(Assets.STOP_HEADER));
         stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);

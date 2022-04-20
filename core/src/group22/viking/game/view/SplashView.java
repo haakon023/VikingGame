@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
@@ -18,7 +16,7 @@ public class SplashView extends View {
     public SplashView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
         System.out.println("CONSTRUCTOR SPLASHVIEW");
-        goatIcon = new Image(new Texture(Assets.GOATICON));
+        goatIcon = new Image(new Texture(Assets.GOAT_ICON));
     }
 
     @Override

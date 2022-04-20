@@ -1,6 +1,5 @@
 package group22.viking.game.factory;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,6 +34,6 @@ public class VikingFactory extends AbstractFactory {
     }
 
     public Entity createShip(float x, float y) {
-        return createEntity(x, y, 0, Assets.getTexture(Assets.VIKINGSHIP));
+        return createEntity(x, y, 0, Assets.getTexture(Assets.VIKING_SHIP));
     }
 }
