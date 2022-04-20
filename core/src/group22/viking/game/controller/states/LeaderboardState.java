@@ -16,6 +16,7 @@ import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.LobbyView;
+import group22.viking.game.view.SoundManager;
 
 
 public class LeaderboardState extends State {
@@ -57,6 +58,7 @@ public class LeaderboardState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 System.out.println("EXIT BUTTON CLICKED");
                 GameStateManager.getInstance().pop();
             }
