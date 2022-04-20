@@ -5,11 +5,12 @@ import com.badlogic.ashley.core.Component;
 public class TypeComponent implements Component {
 
 
-    public EntityType EntityType;
+    public EntityType entityType;
 
-    public enum EntityType {
+    public static enum EntityType {
         PLAYER,
         VIKING,
-        Bullet
+        Bullet,
+        POWER_UP,
     }
 }

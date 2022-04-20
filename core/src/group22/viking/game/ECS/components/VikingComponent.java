@@ -35,4 +35,9 @@ public class VikingComponent implements Component {
     //attack at a rate of once per 2 secounds
     private float attackRate = 2f;
     private float timeSinceLastAttack;
+    private float health = 100; //set 100 as default, dunno.png
+
+    public void DealDamage(float amount){
+        health -= amount;
+    }
 }
