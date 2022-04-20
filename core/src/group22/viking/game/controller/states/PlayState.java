@@ -221,7 +221,7 @@ public class PlayState extends State {
     @Override
     public void render(float deltaTime) {
         time += deltaTime;
-        if (time == 30)
+        if (Math.round(time) == 30)
         {
             System.out.println("DeltaTime: " + deltaTime);
             int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(time);
