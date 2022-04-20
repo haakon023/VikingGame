@@ -48,7 +48,7 @@ public class Assets {
     public static final int NUMBER_OF_AVATARS = 3;
 
     //Projectile sprites
-    public static final String ARROW_SPRITE = "img/badlogic.jpg";
+    public static final String ARROW_SPRITE = "img/arrow-dummy.png";
 
 
     // main game background

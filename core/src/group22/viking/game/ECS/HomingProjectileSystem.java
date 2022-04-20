@@ -4,12 +4,16 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
 import group22.viking.game.ECS.components.HomingProjectileComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 
 public class HomingProjectileSystem extends IteratingSystem {
+
+    // rotation offset depends on rotation in resource image
+    private static float ROTATION_OFFSET = -80;
 
     private ComponentMapper<HomingProjectileComponent> cmProjectile;
     private ComponentMapper<TransformComponent> cmTransform;
@@ -30,9 +34,17 @@ public class HomingProjectileSystem extends IteratingSystem {
         if(distance > 2) {
             Vector3 direction = new Vector3(targetTransform.position.x - transformComponent.position.x, targetTransform.position.y - transformComponent.position.y, 0).nor();
 
+            transformComponent.rotation = calculateAngle(direction);
+
             transformComponent.position.mulAdd(direction, projectileComponent.getSpeed() * deltaTime);
             return;
         }
         getEngine().removeEntity(entity);
+    }
+
+    private float calculateAngle(Vector3 direction)
+    {
+        float radians = (float)Math.atan2(direction.x, direction.y);
+        return radians * MathUtils.radiansToDegrees + ROTATION_OFFSET;
     }
 }
