@@ -1,14 +1,18 @@
 package group22.viking.game.controller.spawnlogic;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+
 import java.util.ArrayList;
 
 public class SpawnerController {
     private ArrayList<Spawner> spawners = new ArrayList<Spawner>();
     private int cycle;
     private float factor;
-    public SpawnerController(ArrayList<Spawner> spawners)
+    public SpawnerController(int spawnerAmount)
     {
-        this.spawners = spawners;
+        this.spawners = createSpawners(spawnerAmount);
         this.cycle = 1;
         this.factor = 1;
     }
@@ -36,5 +40,25 @@ public class SpawnerController {
             return spawners.size(); //Ensures that some enemies will always spawn
         }
         return amountPerSpawner;
+    }
+
+    private ArrayList<Spawner> createSpawners(int amount)
+    {
+        Vector3 position = new Vector3(50,50,0);
+        Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
+        ArrayList<Spawner> spawners = new ArrayList<Spawner>();
+        for (int i=0; i<amount; i++)
+        {
+            spawners.add(spawner);
+        }
+        return spawners;
+    }
+
+    public ArrayList<Spawner> getSpawners() {
+        return spawners;
+    }
+
+    public void setSpawners(ArrayList<Spawner> spawners) {
+        this.spawners = spawners;
     }
 }

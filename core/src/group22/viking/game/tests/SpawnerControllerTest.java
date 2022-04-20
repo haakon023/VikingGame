@@ -14,14 +14,7 @@ public class SpawnerControllerTest {
 
     @Test
     public void amountOfAttackersToSpawn() {
-        Vector3 position = new Vector3(50,50,0);
-        Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
-        ArrayList<Spawner> spawners = new ArrayList<Spawner>();
-        for (int i=0; i<3; i++)
-        {
-            spawners.add(spawner);
-        }
-        SpawnerController spawnerController = new SpawnerController(spawners);
+        SpawnerController spawnerController = new SpawnerController(3);
         int expected = 6;
         int result = spawnerController.amountOfAttackersToSpawn(0);
         Assert.assertEquals(expected,result);
@@ -42,14 +35,7 @@ public class SpawnerControllerTest {
 
     @Test
     public void amountOfAttackersToSpawnForEachSpawner() {
-        Vector3 position = new Vector3(50,50,0);
-        Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
-        ArrayList<Spawner> spawners = new ArrayList<Spawner>();
-        for (int i=0; i<3; i++)
-        {
-            spawners.add(spawner);
-        }
-        SpawnerController spawnerController = new SpawnerController(spawners);
+        SpawnerController spawnerController = new SpawnerController(3);
         int expected = 2;
         int result = spawnerController.amountOfAttackersToSpawnForEachSpawner(0);
         Assert.assertEquals(expected,result);
@@ -65,5 +51,14 @@ public class SpawnerControllerTest {
         expected = 5;
         result = spawnerController.amountOfAttackersToSpawnForEachSpawner(360);
         Assert.assertEquals(expected,result);
+    }
+
+    @Test
+    public void createSpawners()
+    {
+        SpawnerController spawnerController = new SpawnerController(3);
+        int expected = 3;
+        int result = spawnerController.getSpawners().size();
+        Assert.assertEquals(expected, result);
     }
 }

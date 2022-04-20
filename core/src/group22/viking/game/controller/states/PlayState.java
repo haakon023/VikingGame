@@ -11,6 +11,8 @@ import group22.viking.game.ECS.RenderingSystem;
 import group22.viking.game.ECS.VikingSystem;
 import group22.viking.game.ECS.ZComparator;
 import group22.viking.game.ECS.PlayerControlSystem;
+import group22.viking.game.controller.spawnlogic.Spawner;
+import group22.viking.game.controller.spawnlogic.SpawnerController;
 import group22.viking.game.factory.PlayerFactory;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
@@ -51,6 +53,10 @@ public class PlayState extends State {
 
     private PlayerStatusCollection playerStatusCollection;
 
+    private int time;
+
+    private SpawnerController spawnerController;
+
     public PlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
         construct(type);
@@ -72,6 +78,8 @@ public class PlayState extends State {
         VikingSystem vikingSystem = new VikingSystem();
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
+        this.time = 0;
+        this.spawnerController = new SpawnerController(3);
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(vikingSystem);
@@ -212,6 +220,17 @@ public class PlayState extends State {
 
     @Override
     public void render(float deltaTime) {
+        time += deltaTime;
+        if (time%30 == 0)
+        {
+            int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(time);
+            VikingFactory vikingFactory = new VikingFactory(engine);
+            for (int i=0; i < amountToSpawnPerSpawner; i++)
+            {
+                Spawner spawner = spawnerController.getSpawners().get(i);
+                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+            }
+        }
         engine.update(deltaTime);
         //do here NOT use the screen render system
         //screen.render(deltaTime);
