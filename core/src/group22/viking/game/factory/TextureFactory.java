@@ -51,7 +51,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createOceanback() {
         return createEntity(
                 new Vector3(0, 0, -6).add(screenMiddle),
-                0.73F,
+                0.8F,
                 Assets.getTexture(Assets.OCEAN_BACK)
         );
     }
@@ -59,7 +59,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createOceantop() {
         return createEntity(
                 new Vector3(0, 0, -5).add(screenMiddle),
-                0.73F,
+                0.8F,
                 Assets.getTexture(Assets.OCEAN_TOP)
         );
     }
