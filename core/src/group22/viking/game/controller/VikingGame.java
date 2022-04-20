@@ -16,6 +16,9 @@ import group22.viking.game.models.Assets;
 
 public class VikingGame extends Game {
 
+	public static final String PREFERENCES_PROFILE_KEY = "local-profile-id";
+	public static final String PREFERENCES_SOUND_KEY = "sound_preference";
+
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 

@@ -1,7 +1,6 @@
 package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,7 +13,6 @@ import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
@@ -39,9 +37,9 @@ public class MenuState extends State {
         initTextFieldLogic();
 
         SoundManager.playMusic(this, getGame().getPreferences());
-        System.out.println("SET BUTTON TO: " + getGame().getPreferences().getBoolean(ProfileCollection.PREFERENCES_SOUND_KEY));
+        System.out.println("SET BUTTON TO: " + getGame().getPreferences().getBoolean(VikingGame.PREFERENCES_SOUND_KEY));
         getView().getMuteButton().setChecked(
-                !getGame().getPreferences().getBoolean(ProfileCollection.PREFERENCES_SOUND_KEY)
+                !getGame().getPreferences().getBoolean(VikingGame.PREFERENCES_SOUND_KEY)
         );
 
         System.out.println("MENU STATE CREATED");
@@ -121,11 +119,11 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if (getGame().getPreferences().getBoolean("sound_preference")){
-                    Assets.MENUMUSIC.pause();
-                    getGame().getPreferences().putBoolean(ProfileCollection.PREFERENCES_SOUND_KEY, false);
+                    Assets.MENU_MUSIC.pause();
+                    getGame().getPreferences().putBoolean(VikingGame.PREFERENCES_SOUND_KEY, false);
                 } else {
-                    Assets.MENUMUSIC.play();
-                    getGame().getPreferences().putBoolean(ProfileCollection.PREFERENCES_SOUND_KEY, true);
+                    Assets.MENU_MUSIC.play();
+                    getGame().getPreferences().putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true);
                 }
                 getGame().getPreferences().flush();
             }

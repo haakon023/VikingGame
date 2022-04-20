@@ -94,16 +94,15 @@ public class Assets {
     public static String UI_SKIN = "ui/uiskin.atlas";
 
     //music files
-    public static final Music MENUMUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/menuMusic.mp3"));
-    public static final Music LOBBYMUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/lobbyMusic.mp3"));
-    public static final Music GAMEMUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/gameMusic.mp3"));
+    public static final Music MENU_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/menuMusic.mp3"));
+    public static final Music LOBBY_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/lobbyMusic.mp3"));
+    public static final Music GAME_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/gameMusic.mp3"));
 
     //sound files
-    public static final Sound SOUNDBOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundBowFire.mp3"));
-    public static final Sound SOUNDBUTTON = Gdx.audio.newSound(Gdx.files.internal("sound/soundButton.mp3"));
-    public static final Sound SOUNDSHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
-    public static final Sound SOUNDGOAT = Gdx.audio.newSound(Gdx.files.internal("sound/soundGoat.mp3"));
-    public static final Sound SOUNDERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
+    public static final Sound SOUND_BOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundBowFire.mp3"));
+    public static final Sound SOUND_BUTTON = Gdx.audio.newSound(Gdx.files.internal("sound/soundButton.mp3"));
+    public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
+    public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
 
 
     public static void load() {
