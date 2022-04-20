@@ -234,6 +234,7 @@ public class ProfileCollection extends FirebaseCollection{
             public void onGetData(String documentId, Map<String, Object> data) {
                 Profile profile = new Profile(documentId);
                 leaderboard.add(documentId);
+                add(documentId, profile);
                 for(Map.Entry<String, Object> e : data.entrySet()) {
                     try {
                         profile.set(e.getKey(), e.getValue());

@@ -50,11 +50,6 @@ public class Profile extends FirebaseDocument{
         return highscore;
     }
 
-    public double getScore() {
-        // TODO invent a more elaborated formula :)
-        return wonGames - lostGames;
-    }
-
     @Override
     void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {

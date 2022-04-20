@@ -3,6 +3,7 @@ package group22.viking.game.controller.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
+import group22.viking.game.view.LobbyView;
 
 
 public class LeaderboardState extends State {
@@ -29,12 +31,8 @@ public class LeaderboardState extends State {
 
         this.profileCollection = game.getProfileCollection();
 
-        loadLeaderboard(3);
-        /*
-        leaderboard = profileCollection.getLeaderboard();   //TODO: from debugging I assume that it is called too early (all profiles are null)
-        */
+        loadLeaderboard(10);
         System.out.println("LEADERBOARD STATE CREATED");
-        // System.out.println(leaderboard);        //TODO
     }
 
     @Override
@@ -46,6 +44,11 @@ public class LeaderboardState extends State {
     public void update(float dt) {
 
     }
+
+    private LeaderboardView getView() {
+        return (LeaderboardView) view;
+    }
+
 
 
 
@@ -69,7 +72,16 @@ public class LeaderboardState extends State {
                 new OnCollectionUpdatedListener(){
                     @Override
                     public void onSuccess(FirebaseDocument document) {
-                        System.out.println("LOADED THE LEADERBOARD FROM STATE");
+                        leaderboard = profileCollection.getLeaderboard();
+                        Array<String> names = new Array<>();
+                        Array<String> highscores = new Array<>();
+                        for(Profile profile: leaderboard) {
+                            names.add(profile.getName());
+                            highscores.add("" + profile.getHighscore());
+
+                            System.out.println(profile.getName() + profile.getHighscore());
+                        }
+                        displayLeaderboard(names, highscores);
                     }
 
                     @Override
@@ -80,6 +92,9 @@ public class LeaderboardState extends State {
         );
     }
 
+    private void displayLeaderboard(Array<String> names, Array<String> highscores){
+        getView().printLeaderboard(names, highscores);
+    }
 
-
+    
 }
