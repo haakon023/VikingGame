@@ -100,8 +100,12 @@ public class PlayState extends State {
         engine.addEntity(textureFactory.createWavetop());
         engine.addEntity(textureFactory.createMonastery());
 
+        engine.addEntity(textureFactory.createDefender(
+                (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId()
+        ));
+
         PlayerFactory playerFactory = new PlayerFactory(engine);
-        engine.addEntity(playerFactory.createPlayerInScreenMiddle(0));
+        engine.addEntity(playerFactory.createRotatingWeapon());
 
         // TODO put code in wave logic:
         VikingFactory vikingFactory = new VikingFactory(engine);

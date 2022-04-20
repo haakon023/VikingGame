@@ -31,6 +31,7 @@ public class PlayerFactory extends AbstractFactory {
         state.set(StateComponent.STATE_NORMAL);
 
         tex.region = new TextureRegion(texture);
+        tc.scale.scl(3);
 
         entity.add(tc);
         entity.add(tex);
@@ -45,4 +46,13 @@ public class PlayerFactory extends AbstractFactory {
                 0,
                 Assets.getTexture(Assets.getAvatar(avatarId)));
     }
+
+    public Entity createRotatingWeapon() {
+        return createEntity(Gdx.graphics.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 + 70,
+                0,
+                Assets.getTexture(Assets.BOW));
+    }
+
+
 }

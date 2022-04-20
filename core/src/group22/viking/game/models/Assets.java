@@ -71,6 +71,7 @@ public class Assets {
     public static final String LEGOLAS_SPRITE_HEAD = "img/LegolasHead.png";
 
     public static final String QUESTIONMARK = "img/Questionmark.png";
+    public static final String BOW = "img/bow.png";
 
     public static final int NUMBER_OF_AVATARS = 5;
 
@@ -134,6 +135,7 @@ public class Assets {
         assetManager.load(LEGOLAS_SPRITE_HEAD, Texture.class);
 
         assetManager.load(QUESTIONMARK, Texture.class);
+        assetManager.load(BOW, Texture.class);
 
         //button images
         assetManager.load(UNMUTED_BUTTON_IMAGE, Texture.class);

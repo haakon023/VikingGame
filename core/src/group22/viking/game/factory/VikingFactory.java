@@ -17,13 +17,19 @@ public class VikingFactory extends AbstractFactory {
         super(engine);
     }
 
-    public Entity createEntity(float x, float y, float z, Texture texture) {
+    @Override
+    Entity createEntity(float x, float y, float z, Texture texture) {
+        return null;
+    }
+
+    public Entity createEntity(float x, float y, float z, float scale, Texture texture) {
         Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
         VikingComponent vc = engine.createComponent(VikingComponent.class);
 
         tc.position.set(x,y,z);
+        tc.scale.scl(scale);
 
         tex.region = new TextureRegion(texture);
 
@@ -34,6 +40,6 @@ public class VikingFactory extends AbstractFactory {
     }
 
     public Entity createShip(float x, float y) {
-        return createEntity(x, y, 0, Assets.getTexture(Assets.VIKING_SHIP));
+        return createEntity(x, y, 0, 0.8F, Assets.getTexture(Assets.VIKING_SHIP));
     }
 }
