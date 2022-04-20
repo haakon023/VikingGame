@@ -12,6 +12,7 @@ import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 
 
@@ -21,7 +22,7 @@ public class LeaderboardState extends State {
     private ArrayList<Profile> leaderboard;
 
     public LeaderboardState(VikingGame game) {
-        super(new LeaderboardView(game.getBatch(), game.getCamera()), game);
+        super(Assets.leaderboardView, game);
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 

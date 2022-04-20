@@ -22,6 +22,7 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.PlayView;
 
 public class PlayState extends State {
@@ -51,13 +52,13 @@ public class PlayState extends State {
     private PlayerStatusCollection playerStatusCollection;
 
     public PlayState(VikingGame game, Type type) {
-        super(new PlayView(game.getBatch(), game.getCamera()), game);
+        super(Assets.playView, game);
         construct(type);
         beginGame(); //immediate begin
     }
 
     public PlayState (VikingGame game, Lobby lobby) {
-        super(new PlayView(game.getBatch(), game.getCamera()), game);
+        super(Assets.playView, game);
         construct(Type.ONLINE);
         onlineInit(lobby);
     }
