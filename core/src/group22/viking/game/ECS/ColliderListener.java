@@ -35,7 +35,8 @@ public class ColliderListener implements ContactListener {
 
             if(col != null){
                 col.collisionEntity = colEnt;
-            }else if(colb != null){
+            }
+            if(colb != null){
                 colb.collisionEntity = ent;
             }
         }

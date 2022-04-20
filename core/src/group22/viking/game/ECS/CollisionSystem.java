@@ -1,9 +1,12 @@
 package group22.viking.game.ECS;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.physics.box2d.World;
 
+import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TransformComponent;
@@ -15,11 +18,14 @@ public class CollisionSystem extends IteratingSystem {
     ComponentMapper<CollisionComponent> componentMapper;
     ComponentMapper<VikingComponent> vikingMapper;
     ComponentMapper<PlayerComponent> playerMapper;
+    private World world;
 
-    public CollisionSystem() {
+    public CollisionSystem(World world) {
         super(Family.all(CollisionComponent.class, TransformComponent.class).get());
+        this.world = world;
         componentMapper = ComponentMapper.getFor(CollisionComponent.class);
         vikingMapper = ComponentMapper.getFor(VikingComponent.class);
+        playerMapper = ComponentMapper.getFor(PlayerComponent.class);
     }
 
     @Override
@@ -28,7 +34,7 @@ public class CollisionSystem extends IteratingSystem {
         CollisionComponent cc = componentMapper.get(entity);
 
         TypeComponent thisType = entity.getComponent(TypeComponent.class);
-
+        PlayerComponent pc = playerMapper.get(getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first());
         com.badlogic.ashley.core.Entity collidedEntity = cc.collisionEntity;
         if(thisType.entityType == TypeComponent.EntityType.Bullet){
             if(collidedEntity != null){
@@ -38,8 +44,8 @@ public class CollisionSystem extends IteratingSystem {
                         case VIKING:
                             //do player hit enemy thing
                             VikingComponent vc = vikingMapper.get(collidedEntity);
-                            vc.DealDamage(50);
-                            System.out.println("hiii");
+                            vc.DealDamage(pc.AttackDamage);
+                            destroyEntity(entity);
                             break;
                         case POWER_UP:
                             //give player the powerup
@@ -52,5 +58,10 @@ public class CollisionSystem extends IteratingSystem {
                 }
             }
         }
+    }
+
+    private void destroyEntity(Entity entity) {
+        world.destroyBody(entity.getComponent(B2dBodyComponent.class).body);
+        getEngine().removeEntity(entity);
     }
 }

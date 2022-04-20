@@ -9,14 +9,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import group22.viking.game.ECS.BodyFactory;
-import group22.viking.game.ECS.ColliderListener;
 import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.ECS.components.VikingComponent;
-import group22.viking.game.controller.states.PlayState;
 import group22.viking.game.models.Assets;
 
 public class VikingFactory extends AbstractFactory {
@@ -35,7 +33,7 @@ public class VikingFactory extends AbstractFactory {
         TextureComponent tex = engine.createComponent(TextureComponent.class);
         VikingComponent vc = engine.createComponent(VikingComponent.class);
         B2dBodyComponent b2d = engine.createComponent(B2dBodyComponent.class);
-        b2d.body = BodyFactory.getInstance(world).makeCirclePolyBody(x,y, 1, BodyDef.BodyType.DynamicBody, false);
+        b2d.body = BodyFactory.getInstance(world).makeCirclePolyBody(x,y, 250, BodyDef.BodyType.DynamicBody, false);
         b2d.body.setUserData(entity);
 
         TypeComponent tyc = engine.createComponent(TypeComponent.class);

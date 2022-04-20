@@ -48,6 +48,12 @@ public class VikingSystem extends IteratingSystem {
 
         B2dBodyComponent b2d = cmBody.get(entity);
 
+        if(viking.getHealth() <= 0) {
+            world.destroyBody(entity.getComponent(B2dBodyComponent.class).body);
+            getEngine().removeEntity(entity);
+            return;
+        }
+        
         viking.setTimeSinceLastAttack(viking.getTimeSinceLastAttack() + deltaTime);
 
         double distance = Math.sqrt((playerPosition.x - vikingTransform.position.x) * (playerPosition.y - vikingTransform.position.y));
@@ -57,6 +63,7 @@ public class VikingSystem extends IteratingSystem {
             b2d.body.setLinearVelocity(new Vector2(direction.x, direction.y).scl( 100));
             return;
         }
+        
         b2d.body.setLinearVelocity(0,0);
 
         boolean dealtDamage = dealDamage(player.getComponent(PlayerComponent.class), viking);

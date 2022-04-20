@@ -50,6 +50,8 @@ public class PlayState extends State {
 
 
     private World world;
+    
+    public static World worldInstance;
 
 
     private boolean initialized;
@@ -76,6 +78,7 @@ public class PlayState extends State {
     private void construct(Type type) {
         world = new World(new Vector2(0,0), true);
         world.setContactListener(new ColliderListener());
+        
 
         this.type = type;
         this.inputController = new InputController();
@@ -84,9 +87,9 @@ public class PlayState extends State {
         VikingSystem vikingSystem = new VikingSystem(world);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
-        this.collisionSystem = new CollisionSystem();
+        this.collisionSystem = new CollisionSystem(world);
         this.physicsSystem = new PhysicsSystem(world);
-        this.linearProjectileSystem = new LinearProjectileSystem();
+        this.linearProjectileSystem = new LinearProjectileSystem(world);
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(physicsSystem);
