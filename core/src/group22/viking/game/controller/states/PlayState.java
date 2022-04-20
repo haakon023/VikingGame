@@ -221,15 +221,21 @@ public class PlayState extends State {
     @Override
     public void render(float deltaTime) {
         time += deltaTime;
-        if (time%30 == 0)
+        if (time == 30)
         {
+            System.out.println("DeltaTime: " + deltaTime);
             int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(time);
             VikingFactory vikingFactory = new VikingFactory(engine);
-            for (int i=0; i < amountToSpawnPerSpawner; i++)
+            for (int i=0; i < spawnerController.getSpawners().size(); i++)
             {
                 Spawner spawner = spawnerController.getSpawners().get(i);
-                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+                for (int j=0; j < amountToSpawnPerSpawner; j++)
+                {
+                    engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+                }
+
             }
+            time = 0;
         }
         engine.update(deltaTime);
         //do here NOT use the screen render system
