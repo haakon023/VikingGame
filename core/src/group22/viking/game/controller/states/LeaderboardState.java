@@ -72,16 +72,7 @@ public class LeaderboardState extends State {
                 new OnCollectionUpdatedListener(){
                     @Override
                     public void onSuccess(FirebaseDocument document) {
-                        leaderboard = profileCollection.getLeaderboard();
-                        Array<String> names = new Array<>();
-                        Array<String> highscores = new Array<>();
-                        for(Profile profile: leaderboard) {
-                            names.add(profile.getName());
-                            highscores.add("" + profile.getHighscore());
-
-                            System.out.println(profile.getName() + profile.getHighscore());
-                        }
-                        displayLeaderboard(names, highscores);
+                        displayLeaderboard();
                     }
 
                     @Override
@@ -92,9 +83,20 @@ public class LeaderboardState extends State {
         );
     }
 
-    private void displayLeaderboard(Array<String> names, Array<String> highscores){
-        getView().printLeaderboard(names, highscores);
+    private void displayLeaderboard(){
+        leaderboard = profileCollection.getLeaderboard();
+        Array<String> names = new Array<>();
+        Array<String> highscores = new Array<>();
+        int localPlayerPosition = -1;
+        for(int i = 0; i < leaderboard.size(); i++) { //Profile profile: leaderboard) {
+            names.add(leaderboard.get(i).getName());
+            highscores.add("" + leaderboard.get(i).getHighscore());
+            if(leaderboard.get(i) == profileCollection.getLocalPlayerProfile()) {
+                localPlayerPosition = i;
+            }
+        }
+        getView().createLeaderboardTable(names, highscores, localPlayerPosition);
     }
 
-    
+
 }

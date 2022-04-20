@@ -71,7 +71,7 @@ public class LeaderboardView extends View {
         stage.addActor(highscoreLabel);
     }
 
-    private void createLeaderboardTable(Array<String> names, Array<String> highscores) {
+    public void createLeaderboardTable(Array<String> names, Array<String> highscores, int localPlayerPosition) {
         float paddingBottom = 40;
         float paddingLeft = 50;
 
@@ -81,11 +81,16 @@ public class LeaderboardView extends View {
         leaderboardTable.add(new Label("Name", ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft).padBottom(paddingBottom);
         leaderboardTable.add(new Label("Score", ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
 
-
         for(int i = 0; i < names.size; i++) {
             leaderboardTable.row();
             leaderboardTable.add(new Label("" + (i + 1), ViewComponentFactory.createSkin48()));
-            leaderboardTable.add(new Label(names.get(i), ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft);
+            if(i == localPlayerPosition) {
+                Label localPlayerLabel = new Label(names.get(i), ViewComponentFactory.createSkin48());
+                localPlayerLabel.setColor(new Color(128f/255f, 170f/255f, 85f/255f, 1f));
+                leaderboardTable.add(localPlayerLabel).width(500).padLeft(paddingLeft);
+            } else {
+                leaderboardTable.add(new Label(names.get(i), ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft);
+            }
             leaderboardTable.add(new Label(highscores.get(i), ViewComponentFactory.createSkin48()));
         }
 
@@ -109,9 +114,4 @@ public class LeaderboardView extends View {
     public TextButton getExitButton() {
         return exitButton;
     }
-
-    public void printLeaderboard(Array<String> names, Array<String> highscores) {
-        createLeaderboardTable(names, highscores);
-    }
-
 }
