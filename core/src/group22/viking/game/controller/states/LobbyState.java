@@ -1,6 +1,17 @@
 package group22.viking.game.controller.states;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -12,9 +23,13 @@ import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.ErrorDialog;
 import group22.viking.game.view.LobbyView;
+import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.SplashView;
 import group22.viking.game.view.ViewComponentFactory;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 
 public class LobbyState extends State {
@@ -30,7 +45,7 @@ public class LobbyState extends State {
      * @param game {VikingGame}
      */
     public LobbyState(final VikingGame game) {
-        super(new LobbyView(game.getBatch(), game.getCamera()), game);
+        super(Assets.lobbyView, game);
         this.IS_HOST = true;
 
         profileCollection = game.getProfileCollection();
@@ -43,6 +58,8 @@ public class LobbyState extends State {
 
         addListenersToButtons();
         getView().disablePlayButton();
+
+        SoundManager.playMusic(this, getGame().getPreferences());
 
         System.out.println("HOST LOBBY STATE CREATED");
     }
@@ -71,6 +88,8 @@ public class LobbyState extends State {
         displayLobbyId(joinLobbyId);
 
         displayGuest(profileCollection.getLocalPlayerProfile());
+
+        SoundManager.playMusic(this, getGame().getPreferences());
 
         System.out.println("GUEST LOBBY STATE CREATED");
     }
@@ -128,7 +147,8 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-
+                // lobby deleted
+                handleHostClosedLobby();
             }
         });
     }
@@ -186,6 +206,8 @@ public class LobbyState extends State {
     private void displayHost(Profile profile) {
         getView().updateNameLabelHost(profile.getName());
         getView().updateAvatarHost((int) profile.getAvatarId());
+        getView().getAvatarHost().addAction(ViewComponentFactory.createAvatarSwooshAnimation(1));
+        SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
     private void displayGuest(Profile profile) {
@@ -193,12 +215,15 @@ public class LobbyState extends State {
         getView().updateAvatarGuest((int) profile.getAvatarId());
         getView().getNameLabelGuest().setVisible(true);
         getView().getScoreLabelGuest().setVisible(true);
+        getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(-1));
+        SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
     private void addListenersToButtons() {
         getView().getPlayButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 hostConfirmsStart();
             }
         });
@@ -206,6 +231,7 @@ public class LobbyState extends State {
         getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                SoundManager.buttonClickSound(getGame().getPreferences());
                 userExits();
             }
         });
@@ -222,6 +248,7 @@ public class LobbyState extends State {
     }
 
     private void userExits() {
+        // after leaving logic
         OnCollectionUpdatedListener whenExited = new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -243,6 +270,12 @@ public class LobbyState extends State {
         }
     }
 
+    private void handleHostClosedLobby() {
+        if(IS_HOST) return; // host has to call exit method by button
+        GameStateManager.getInstance().pop();
+        dispose();
+    }
+
     private void hostConfirmsStart() {
         System.out.println("PLAY BUTTON CLICKED");
         if(!IS_HOST) return;
@@ -253,7 +286,6 @@ public class LobbyState extends State {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 GameStateManager.getInstance().push(new PlayState(game, lobbyCollection.getLobby()));
-
             }
 
             @Override

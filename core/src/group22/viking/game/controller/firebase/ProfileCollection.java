@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import group22.viking.game.controller.VikingGame;
+
 /**
  * The ProfileCollection follows the concept: First write data in the database, and save it to the
  * local collection AFTER a confirmation of the server.
  */
 public class ProfileCollection extends FirebaseCollection{
-
-    private static final String PREFERENCES_PROFILE_KEY = "local-profile-id";
 
     private String hostId;
     private String guestId;
@@ -32,15 +32,14 @@ public class ProfileCollection extends FirebaseCollection{
      * @param listener for synchronization
      */
     public void init(final OnCollectionUpdatedListener listener) {
-        if(!preferences.contains(PREFERENCES_PROFILE_KEY) ||
-                preferences.getString(PREFERENCES_PROFILE_KEY) == null ||
-                preferences.getString(PREFERENCES_PROFILE_KEY).isEmpty()) {
+        if(!preferences.contains(VikingGame.PREFERENCES_PROFILE_KEY) ||
+                preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY) == null ||
+                preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY).isEmpty()) {
             System.out.println("NO LOCAL PROFILE FOUND");
             createDefaultProfile(listener);
             return;
         }
-        this.localPlayerId = preferences.getString(PREFERENCES_PROFILE_KEY);
-        System.out.println("FOUND LOCAL PROFILE: " + localPlayerId);
+        this.localPlayerId = preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY);
         this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -100,7 +99,8 @@ public class ProfileCollection extends FirebaseCollection{
                         add(documentId, profile);
 
                         localPlayerId = documentId;
-                        preferences.putString(PREFERENCES_PROFILE_KEY, documentId);
+                        preferences.putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId);
+                        preferences.putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true);
                         preferences.flush();
 
                         readProfile(documentId, listener);
@@ -234,6 +234,7 @@ public class ProfileCollection extends FirebaseCollection{
             public void onGetData(String documentId, Map<String, Object> data) {
                 Profile profile = new Profile(documentId);
                 leaderboard.add(documentId);
+                add(documentId, profile);
                 for(Map.Entry<String, Object> e : data.entrySet()) {
                     try {
                         profile.set(e.getKey(), e.getValue());
@@ -294,4 +295,7 @@ public class ProfileCollection extends FirebaseCollection{
 
     public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
 
+    public Preferences getPreferences() {
+        return preferences;
+    }
 }

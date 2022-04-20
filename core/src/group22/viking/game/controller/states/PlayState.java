@@ -12,6 +12,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.audio.Sound;
 
 import group22.viking.game.ECS.InputController;
 import group22.viking.game.ECS.RenderingSystem;
@@ -29,7 +30,9 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.PlayView;
+import group22.viking.game.view.SoundManager;
 
 public class PlayState extends State {
 
@@ -64,15 +67,18 @@ public class PlayState extends State {
     private PlayerStatusCollection playerStatusCollection;
 
     public PlayState(VikingGame game, Type type) {
-        super(new PlayView(game.getBatch(), game.getCamera()), game);
+        super(Assets.playView, game);
         construct(type);
         beginGame(); //immediate begin
+
+        SoundManager.playMusic(this, getGame().getPreferences());
     }
 
     public PlayState (VikingGame game, Lobby lobby) {
-        super(new PlayView(game.getBatch(), game.getCamera()), game);
+        super(Assets.playView, game);
         construct(Type.ONLINE);
         onlineInit(lobby);
+        SoundManager.playMusic(this, getGame().getPreferences());
     }
 
     private void construct(Type type) {
