@@ -18,13 +18,6 @@ public class LoadingState extends State {
 
     public LoadingState(final VikingGame game){
         super(new LoadingView(game.getBatch(), game.getCamera()), game);
-
-<<<<<<< HEAD
-=======
-
-        Assets.load();
-
->>>>>>> ec40f6d (Sound and Swoosh)
         this.profileLoaded = false;
         Assets.load();
 
