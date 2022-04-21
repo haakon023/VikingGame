@@ -1,9 +1,7 @@
 package group22.viking.game.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -12,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.states.PlayState;
+import group22.viking.game.controller.states.OfflinePlayState;
 import group22.viking.game.models.Assets;
 
 public class TutorialInterruptView extends View {
@@ -22,8 +20,10 @@ public class TutorialInterruptView extends View {
     private Label content;
     private Image teacher;
 
-    public TutorialInterruptView(SpriteBatch batch, Camera camera) {
+    private Integer popUpCount;
+    public TutorialInterruptView(SpriteBatch batch, Camera camera, Integer popUpCount) {
         super(batch, camera);
+        this.popUpCount = popUpCount;
         System.out.println("CONSTRUCTOR Tutorial View");
         this.init();
     }
@@ -32,7 +32,9 @@ public class TutorialInterruptView extends View {
     public void init() {
         stage.clear();
         createButtons();
-        createLabels(Assets.t("tutorial_header" + PlayState.popUpCount), Assets.t("tutorial_content" + PlayState.popUpCount));
+        createLabels(
+                Assets.t("tutorial_header" + popUpCount),
+                Assets.t("tutorial_content" + popUpCount));
         runInitialAnimations();
         stage.act(0);
     }

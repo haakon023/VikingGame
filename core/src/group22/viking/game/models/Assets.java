@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
@@ -21,6 +22,8 @@ import group22.viking.game.view.ProfileSettingsView;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class Assets {
+
+    public static Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
 
     public static AssetManager assetManager = new AssetManager();
 

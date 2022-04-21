@@ -40,15 +40,6 @@ public class SplashState extends State {
     }
 
     @Override
-    protected void handleInput() {
-
-    }
-
-    public void update(float delta){
-
-    }
-
-    @Override
     public void dispose() {
 
     }

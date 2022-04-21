@@ -91,23 +91,31 @@ public class TextureFactory extends AbstractFactory {
         );
     }
 
-    public Entity createHeathBarLeft() {
+    public Entity createHealthBarLeft() {
         return create(
-                new Vector3(70, screenMiddle.y, 0),
+                new Vector3(70, screenMiddle.y, 50),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_WRAPPER)
         );
     }
 
-    public Entity createHeathFillingLeft() {
+    public Entity createHealthFillingLeft() {
         return create(
-                new Vector3(70, screenMiddle.y, 0),
+                new Vector3(70, screenMiddle.y, 50),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
     }
 
-    public Entity createHeathBarRight() {
+    public Entity createAvatarHeadLeft(int avatarId) {
+        return create(
+                new Vector3(70, 70, 50),
+                0.5F,
+                Assets.getTexture(Assets.getAvatarHead(avatarId))
+        );
+    }
+
+    public Entity createHealthBarRight() {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
                 HEALTH_BAR_SCALE,
@@ -115,11 +123,20 @@ public class TextureFactory extends AbstractFactory {
         );
     }
 
-    public Entity createHeathFillingRight() {
+    public Entity createHealthFillingRight() {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
+        );
+    }
+
+    public Entity createAvatarHeadRight(int avatarId) {
+        return create(
+                new Vector3(VikingGame.SCREEN_WIDTH - 70, 70, 50),
+                0.5F,
+                Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
     }
 }
+
