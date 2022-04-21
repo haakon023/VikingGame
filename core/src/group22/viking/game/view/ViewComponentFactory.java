@@ -35,6 +35,8 @@ public class ViewComponentFactory {
     private final static FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
     public static final Vector2 VERY_SMALL_BUTTON_SIZE = new Vector2(120, 120);
+    public static final Vector2 VERY_SMALL_RECT_BUTTON_SIZE = new Vector2(200, 120);
+    public static final Vector2 SMALL_RECT_BUTTON_SIZE = new Vector2(300, 120);
     public static final Vector2 SMALL_BUTTON_SIZE = new Vector2(150, 150);
     public static final Vector2 BIG_BUTTON_SIZE =  new Vector2(700, 150);
     public static final Vector2 PROFILE_IMAGE_SIZE = new Vector2(500, 500);

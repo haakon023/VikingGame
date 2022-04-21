@@ -41,12 +41,6 @@ public class ProfileSettingsState extends State {
         System.out.println("PROFILE STATE CREATED");
     }
 
-
-    @Override
-    protected void handleInput() {
-
-    }
-
     private void addListenersToButtons() {
         final ProfileSettingsView view = (ProfileSettingsView) this.view;
 

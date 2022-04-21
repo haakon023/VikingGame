@@ -38,15 +38,6 @@ public class LeaderboardState extends State {
         System.out.println("LEADERBOARD STATE CREATED");
     }
 
-    @Override
-    protected void handleInput() {
-
-    }
-
-
-    public void update(float dt) {
-
-    }
 
     private LeaderboardView getView() {
         return (LeaderboardView) view;
