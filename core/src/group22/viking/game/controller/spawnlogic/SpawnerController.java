@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import group22.viking.game.controller.VikingGame;
 
 import java.util.ArrayList;
 
@@ -61,12 +62,12 @@ public class SpawnerController {
         for(int i=0; i < spawners.size();i++)
         {
             if (i == 0) spawners.get(i).setPosition(new Vector3(0,0,0));
-            else if (i == 1) spawners.get(i).setPosition(new Vector3(Gdx.graphics.getWidth(),0,0));
-            else if (i == 2) spawners.get(i).setPosition(new Vector3(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),0));
-            else if (i == 3) spawners.get(i).setPosition(new Vector3(0,Gdx.graphics.getHeight(),0));
+            else if (i == 1) spawners.get(i).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,0,0));
+            else if (i == 2) spawners.get(i).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT,0));
+            else if (i == 3) spawners.get(i).setPosition(new Vector3(0,VikingGame.SCREEN_HEIGHT,0));
             else{
 
-                float x = Math.round(((float)Math.random())*(Gdx.graphics.getWidth())*100f)/100f;
+                float x = Math.round(((float)Math.random())*(VikingGame.SCREEN_WIDTH)*100f)/100f;
                 spawners.get(i).setPosition(new Vector3(x,0,0));
             }
         }
