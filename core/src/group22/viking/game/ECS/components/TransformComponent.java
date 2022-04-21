@@ -11,12 +11,12 @@ public class TransformComponent implements Component {
     public boolean isHidden = false;
 
     public TransformComponent setPosition(Vector3 position) {
-        position.set(position);
+        this.position.set(position);
         return this;
     }
 
     public TransformComponent setScale(Vector2 scale) {
-        scale.set(scale);
+        this.scale.set(scale);
         return this;
     }
 }
