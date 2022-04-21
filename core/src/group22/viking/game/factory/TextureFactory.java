@@ -25,13 +25,13 @@ public class TextureFactory extends AbstractFactory {
         return null;
     }
 
-    Entity createEntity(float x, float y, float z, float w, float h, Texture texture) {
+    Entity createEntity(float x, float y, float z, float scale, Texture texture) {
         Entity entity = engine.createEntity();
         TransformComponent tc = engine.createComponent(TransformComponent.class);
         TextureComponent tex = engine.createComponent(TextureComponent.class);
 
         tc.position.set(x,y,z);
-        tc.scale.set(w, h);
+        tc.scale.scl(scale);
         tex.region = new TextureRegion(texture);
 
         entity.add(tc);
@@ -44,56 +44,63 @@ public class TextureFactory extends AbstractFactory {
                 position.x,
                 position.y,
                 position.z,
-                VikingGame.SCREEN_WIDTH / texture.getWidth() * scale,
-                VikingGame.SCREEN_HEIGHT / texture.getHeight() * scale,
+                scale,
                 texture);
     }
 
     public Entity createOceanback() {
         return createEntity(
                 new Vector3(0, 0, -6).add(screenMiddle),
-                1.5F,
-                Assets.getTexture(Assets.OCEANBACK)
+                0.8F,
+                Assets.getTexture(Assets.OCEAN_BACK)
         );
     }
 
     public Entity createOceantop() {
         return createEntity(
                 new Vector3(0, 0, -5).add(screenMiddle),
-                1.5F,
-                Assets.getTexture(Assets.OCEANTOP)
+                0.8F,
+                Assets.getTexture(Assets.OCEAN_TOP)
         );
     }
 
     public Entity createWavebottom() {
         return createEntity(
                 new Vector3(0, 0, -4).add(screenMiddle),
-                0.4F,
-                Assets.getTexture(Assets.WAVEBOTTOM)
+                0.6F,
+                Assets.getTexture(Assets.WAVE_BOTTOM)
         );
     }
 
     public Entity createIsland() {
         return createEntity(
                 new Vector3(0, 0, -3).add(screenMiddle),
-                0.3F,
+                0.6F,
                 Assets.getTexture(Assets.ISLAND)
         );
     }
 
     public Entity createWavetop() {
         return createEntity(
-                new Vector3(0, -76, -2).add(screenMiddle),
-                0.3F,
-                Assets.getTexture(Assets.WAVETOP)
+                new Vector3(0, -60, -2).add(screenMiddle),
+                0.6F,
+                Assets.getTexture(Assets.WAVE_TOP)
         );
     }
 
     public Entity createMonastery() {
         return createEntity(
-                new Vector3(0, 200, -1).add(screenMiddle),
-                0.2F,
+                new Vector3(0, 170, -1).add(screenMiddle),
+                0.6F,
                 Assets.getTexture(Assets.MONASTERY)
+        );
+    }
+
+    public Entity createDefender(int avatarId) {
+        return createEntity(
+                new Vector3(0, 120, 0).add(screenMiddle),
+                0.7F,
+                Assets.getTexture(Assets.getAvatar(avatarId))
         );
     }
 }

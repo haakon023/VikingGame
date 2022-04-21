@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -24,17 +25,20 @@ public class MenuView extends View {
     private TextButton tutorialButton;
     private TextButton hostButton;
     private TextButton exitButton;
-    private TextButton leaderboardButton;
-    private TextButton muteButton;
     private TextButton practiceButton;
 
     private ImageButton profileButton;
+    private ImageButton muteButton;
+    private ImageButton leaderboardButton;
+
 
     private TextField joinTextField;
 
     private Animation[] animations;
 
     private TextureRegion profileTextureRegion;
+    private TextureRegion muteTextureRegion;
+    private TextureRegion leaderboardTextureRegion;
 
     /**
      * Simple storage class for animation info.
@@ -139,18 +143,21 @@ public class MenuView extends View {
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
-        muteButton = ViewComponentFactory.createTextButton(
-                "U",
+        //muteTextureRegion = new TextureRegion(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE));
+        muteButton = ViewComponentFactory.createCheckedImageButton(
+                new TextureRegionDrawable(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE)),
+                new TextureRegionDrawable(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE)),
+                new TextureRegionDrawable(Assets.getTexture(Assets.MUTED_BUTTON_IMAGE)),
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
-        leaderboardButton = ViewComponentFactory.createTextButton(
-                "L",
+        leaderboardTextureRegion = new TextureRegion(Assets.getTexture(Assets.LEADERBOARD_BUTTON_IMAGE));
+        leaderboardButton = ViewComponentFactory.createImageButton(
+                new TextureRegionDrawable(leaderboardTextureRegion),
                 new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
         profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.getAvatarHead(1)));
-
         profileButton = ViewComponentFactory.createImageButton(
                 new TextureRegionDrawable(profileTextureRegion),
                 // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
@@ -189,7 +196,7 @@ public class MenuView extends View {
     }
 
     private void createBackground() {
-        Image waveDark = new Image(Assets.getTexture(Assets.WAVEDARK));
+        Image waveDark = new Image(Assets.getTexture(Assets.WAVE_DARK));
         stage.addActor(waveDark);
 
         Image castle = new Image(Assets.getTexture(Assets.CASTLE));
@@ -197,18 +204,18 @@ public class MenuView extends View {
         castle.setHeight(500);
         stage.addActor(castle);
 
-        Image waveMedium = new Image(Assets.getTexture(Assets.WAVEMEDIUM));
+        Image waveMedium = new Image(Assets.getTexture(Assets.WAVE_MEDIUM));
         stage.addActor(waveMedium);
 
-        Image vikingShip = new Image(Assets.getTexture(Assets.VIKINGSHIP));
+        Image vikingShip = new Image(Assets.getTexture(Assets.VIKING_SHIP));
         vikingShip.setWidth(600);
         vikingShip.setHeight(500);
         stage.addActor(vikingShip);
 
-        Image waveLight = new Image(Assets.getTexture(Assets.WAVELIGHT));
+        Image waveLight = new Image(Assets.getTexture(Assets.WAVE_LIGHT));
         stage.addActor(waveLight);
 
-        Image waveVeryLight = new Image(Assets.getTexture(Assets.WAVEVERYLIGHT));
+        Image waveVeryLight = new Image(Assets.getTexture(Assets.WAVE_VERY_LIGHT));
         stage.addActor(waveVeryLight);
 
         this.animations = new Animation[]{
@@ -225,11 +232,11 @@ public class MenuView extends View {
 
     private void createHeader() {
         //header
-        Image vikingHeader = new Image(Assets.getTexture(Assets.VIKINGHEADER));
+        Image vikingHeader = new Image(Assets.getTexture(Assets.VIKING_HEADER));
         vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
-        Image stopHeader = new Image(Assets.getTexture(Assets.STOPHEADER));
+        Image stopHeader = new Image(Assets.getTexture(Assets.STOP_HEADER));
         stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);
@@ -282,11 +289,11 @@ public class MenuView extends View {
         return exitButton;
     }
 
-    public TextButton getLeaderboardButton() {
+    public ImageButton getLeaderboardButton() {
         return leaderboardButton;
     }
 
-    public TextButton getMuteButton() {
+    public ImageButton getMuteButton() {
         return muteButton;
     }
 
@@ -301,6 +308,7 @@ public class MenuView extends View {
     public ImageButton getProfileButton() {
         return profileButton;
     }
+
 
     public void resetTextField() {
         joinTextField.setMaxLength(1000);

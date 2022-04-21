@@ -13,6 +13,7 @@ public class Profile extends FirebaseDocument{
     final static String KEY_HIGHSCORE = "highscore";
     final static String KEY_AVATAR_ID = "avatar_id";
 
+
     private String name;
     private long avatarId;
     private long wonGames;
@@ -48,11 +49,6 @@ public class Profile extends FirebaseDocument{
 
     public long getHighscore() {
         return highscore;
-    }
-
-    public double getScore() {
-        // TODO invent a more elaborated formula :)
-        return wonGames - lostGames;
     }
 
     @Override

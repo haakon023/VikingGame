@@ -130,7 +130,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
         Query query = db.collection(collection);
 
         if(orderBy != null && !orderBy.isEmpty()) {
-            query = query.orderBy(orderBy);
+            query = query.orderBy(orderBy, Query.Direction.DESCENDING);
         }
 
         if(limit > 0 ) {

@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
