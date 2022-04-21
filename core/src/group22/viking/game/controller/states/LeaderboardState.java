@@ -16,6 +16,7 @@ import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.LobbyView;
+import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
 import group22.viking.game.view.ViewComponentFactory;
 
@@ -51,11 +52,8 @@ public class LeaderboardState extends State {
         return (LeaderboardView) view;
     }
 
-
-
-
     private void addListenersToButtons() {
-        ((LeaderboardView) view).getExitButton().addListener(new ClickListener() {
+        getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
@@ -100,6 +98,7 @@ public class LeaderboardState extends State {
         getView().createLeaderboardTable(names, highscores, localPlayerPosition);
         getView().getLeaderboardTable().addAction(ViewComponentFactory.createFadeInAction());
     }
+
 
 
 }

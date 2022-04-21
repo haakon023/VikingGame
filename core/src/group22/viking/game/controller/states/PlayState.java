@@ -1,5 +1,6 @@
 package group22.viking.game.controller.states;
 
+import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.ECS.utils.ColliderListener;
 import group22.viking.game.ECS.systems.CollisionSystem;
@@ -9,6 +10,7 @@ import group22.viking.game.ECS.systems.PhysicsDebugSystem;
 import group22.viking.game.ECS.systems.PhysicsSystem;
 import group22.viking.game.controller.VikingGame;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -41,6 +43,7 @@ public class PlayState extends State {
 
 
 
+
     public enum Type {
         TUTORIAL,
         PRACTICE,
@@ -53,6 +56,7 @@ public class PlayState extends State {
     private CollisionSystem collisionSystem;
     private PhysicsSystem physicsSystem;
     private LinearProjectileSystem linearProjectileSystem;
+    public static int popUpCount;
 
 
     private World world;
@@ -73,8 +77,9 @@ public class PlayState extends State {
         super(Assets.playView, game);
         construct(type);
         beginGame(); //immediate begin
-
+        popUpCount = 1;
         SoundManager.playMusic(this, getGame().getPreferences());
+
     }
 
     public PlayState (VikingGame game, Lobby lobby) {
@@ -119,6 +124,7 @@ public class PlayState extends State {
      * @param engine
      */
     private void buildInitialEntities(PooledEngine engine) {
+        // background
         TextureFactory textureFactory = new TextureFactory(engine);
         engine.addEntity(textureFactory.createOceanback());
         engine.addEntity(textureFactory.createOceantop());
@@ -128,15 +134,22 @@ public class PlayState extends State {
         engine.addEntity(textureFactory.createMonastery());
 
         PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-        
+
         engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
+        // health bars
+        engine.addEntity(textureFactory.createHeathBarLeft());
+        engine.addEntity(textureFactory.createHeathBarRight());
+        Entity healthBar = textureFactory.createHeathFillingLeft();
+        engine.addEntity(healthBar);
+        engine.addEntity(textureFactory.createHeathFillingRight());
+
+        // Defender
         engine.addEntity(textureFactory.createDefender(
                 (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId()
         ));
-
         PlayerFactory playerFactory = new PlayerFactory(engine);
-        engine.addEntity(playerFactory.createRotatingWeapon());
+        engine.addEntity(playerFactory.createRotatingWeapon(healthBar));
 
         // TODO put code in wave logic:
         VikingFactory vikingFactory = new VikingFactory(engine, world);
@@ -265,5 +278,11 @@ public class PlayState extends State {
     public void dispose() {
         //REVIEW: remove the renderingSystem once the state is not used anymore
         engine.removeSystem(renderingSystem);
+    }
+
+    //for Tutorial
+    private void openTutorialInterrupt(){
+        popUpCount++;
+        GameStateManager.getInstance().push(new TutorialInterruptState(game));
     }
 }
