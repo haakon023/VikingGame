@@ -36,7 +36,6 @@ public class SplashState extends State {
 
         view.init();
 
-
     }
 
     @Override

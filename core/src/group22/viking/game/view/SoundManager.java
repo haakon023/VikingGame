@@ -1,6 +1,8 @@
 package group22.viking.game.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 
 import group22.viking.game.controller.states.State;
 import group22.viking.game.models.Assets;
@@ -10,7 +12,7 @@ public class SoundManager {
     public static void buttonClickSound(Preferences preferences){
         if(preferences.getBoolean("sound_preference")){
             long soundButtonId = Assets.SOUND_BUTTON.play(1f);
-            Assets.SOUND_BUTTON.setPitch(soundButtonId,2f);
+            Assets.SOUND_BUTTON.setPitch(soundButtonId,1f);
             Assets.SOUND_BUTTON.setLooping(soundButtonId,false);
         }
     }
@@ -18,7 +20,7 @@ public class SoundManager {
     public static void avatarSwooshSound(Preferences preferences){
         if(preferences.getBoolean("sound_preference")){
             long swooshId = Assets.SOUND_SHWOOSH.play(1f);
-            Assets.SOUND_SHWOOSH.setPitch(swooshId,2f);
+            Assets.SOUND_SHWOOSH.setPitch(swooshId,1f);
             Assets.SOUND_SHWOOSH.setLooping(swooshId,false);
         }
     }
@@ -26,8 +28,16 @@ public class SoundManager {
     public static void errorSound(Preferences preferences){
         if(preferences.getBoolean("sound_preference")){
             long swooshId = Assets.SOUND_ERROR.play(1f);
-            Assets.SOUND_ERROR.setPitch(swooshId,2f);
+            Assets.SOUND_ERROR.setPitch(swooshId,1f);
             Assets.SOUND_ERROR.setLooping(swooshId,false);
+        }
+    }
+
+    public static void mumbleSound(Preferences preferences){
+        if(preferences.getBoolean("sound_preference")){
+            long mumbleId = Assets.SOUND_MUMBLE.play(1f);
+            Assets.SOUND_MUMBLE.setPitch(mumbleId,1f);
+            Assets.SOUND_MUMBLE.setLooping(mumbleId,false);
         }
     }
 

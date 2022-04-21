@@ -113,6 +113,8 @@ public class Assets {
     public static final Sound SOUND_BUTTON = Gdx.audio.newSound(Gdx.files.internal("sound/soundButton.mp3"));
     public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
+    public static final Sound SOUND_MUMBLE = Gdx.audio.newSound(Gdx.files.internal("sound/mumble.wav"));
+
 
     //health bar
     public static final String HEALTH_BAR_WRAPPER = "img/healthBarFrame.png";
