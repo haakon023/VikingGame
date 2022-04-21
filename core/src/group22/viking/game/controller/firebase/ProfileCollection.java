@@ -109,6 +109,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -139,6 +140,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -172,6 +174,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }
@@ -252,6 +255,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }

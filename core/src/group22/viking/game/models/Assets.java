@@ -53,6 +53,7 @@ public class Assets {
     public static final String WAVE_MEDIUM = "img/waveMedium.png";
     public static final String WAVE_LIGHT = "img/waveLight.png";
     public static final String WAVE_VERY_LIGHT = "img/waveVeryLight.png";
+    public static final String MEDAL = "img/medal.png";
 
     // character sprites
     public static final String KNIGHT_SPRITE = "img/KnightSprite.png";
@@ -61,8 +62,10 @@ public class Assets {
     public static final String WARRIOR_WOMAN_SPRITE = "img/WarriorWomanSprite.png";
     public static final String WARRIOR_WOMAN_SPRITE_HEAD = "img/WarriorWomanSpriteHead.png";
 
+
     public static final String WIZARD_SPRITE = "img/WizardSprite.png";
     public static final String WIZARD_SPRITE_HEAD = "img/WizardSpriteHead.png";
+    public static final String WIZARD_SPRITE_SURPRISED = "img/WizardSpriteSurprised.png";
 
     public static final String ROBIN_HOOD_SPRITE = "img/RobinHoodSprite.png";
     public static final String ROBIN_HOOD_SPRITE_HEAD = "img/RobinHoodSpriteHead.png";
@@ -82,6 +85,9 @@ public class Assets {
 
     //Projectile sprites
     public static final String ARROW_SPRITE = "img/arrow-dummy.png";
+
+    //inGame Viking Ship Sprite
+    public static final String VIKING_SHIP_SPRITE = "img/VikingShipFull.png";
 
     // main game background
     public static final String OCEAN_BACK = "img/OceanBack.png";
@@ -108,6 +114,9 @@ public class Assets {
     public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
 
+    //health bar
+    public static final String HEALTH_BAR_WRAPPER = "img/healthBarFrame.png";
+    public static final String HEALTH_BAR_FILLING = "img/HealthBarFilling.png";
 
     public static void load() {
 
@@ -124,6 +133,7 @@ public class Assets {
         assetManager.load(WAVE_MEDIUM, Texture.class);
         assetManager.load(WAVE_LIGHT, Texture.class);
         assetManager.load(WAVE_VERY_LIGHT, Texture.class);
+        assetManager.load(MEDAL, Texture.class);
 
         //character sprites
         assetManager.load(KNIGHT_SPRITE, Texture.class);
@@ -132,6 +142,7 @@ public class Assets {
         assetManager.load(WARRIOR_WOMAN_SPRITE_HEAD, Texture.class);
         assetManager.load(WIZARD_SPRITE, Texture.class);
         assetManager.load(WIZARD_SPRITE_HEAD, Texture.class);
+        assetManager.load(WIZARD_SPRITE_SURPRISED, Texture.class);
         assetManager.load(ROBIN_HOOD_SPRITE, Texture.class);
         assetManager.load(ROBIN_HOOD_SPRITE_HEAD, Texture.class);
         assetManager.load(LEGOLAS_SPRITE, Texture.class);
@@ -151,6 +162,8 @@ public class Assets {
         //temp
         assetManager.load(BAD_LOGIC, Texture.class);
 
+        //inGame Viking Ship Sprite
+        assetManager.load(VIKING_SHIP_SPRITE, Texture.class);
 
         //main game background
         assetManager.load(OCEAN_BACK, Texture.class);
@@ -159,6 +172,8 @@ public class Assets {
         assetManager.load(ISLAND, Texture.class);
         assetManager.load(WAVE_TOP, Texture.class);
         assetManager.load(MONASTERY, Texture.class);
+        assetManager.load(HEALTH_BAR_WRAPPER, Texture.class);
+        assetManager.load(HEALTH_BAR_FILLING, Texture.class);
 
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);

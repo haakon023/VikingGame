@@ -7,8 +7,10 @@ import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.models.Assets;
+import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.LoadingView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class LoadingState extends State {
@@ -29,7 +31,7 @@ public class LoadingState extends State {
 
             @Override
             public void onFailure() {
-                // TODO throw some warning (no internet etc.)
+                ViewComponentFactory.createErrorDialog().show(getView().getStage());
             }
         });
 
@@ -64,4 +66,8 @@ public class LoadingState extends State {
         return Assets.getProgress();
     }
 
+
+    private LoadingView getView() {
+        return (LoadingView) view;
+    }
 }

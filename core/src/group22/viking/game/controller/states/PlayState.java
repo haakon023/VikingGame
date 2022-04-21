@@ -10,6 +10,7 @@ import group22.viking.game.ECS.systems.PhysicsDebugSystem;
 import group22.viking.game.ECS.systems.PhysicsSystem;
 import group22.viking.game.controller.VikingGame;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -33,7 +34,10 @@ import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
+import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.View;
+import group22.viking.game.view.ViewComponentFactory;
 
 public class PlayState extends State {
 
@@ -120,6 +124,7 @@ public class PlayState extends State {
      * @param engine
      */
     private void buildInitialEntities(PooledEngine engine) {
+        // background
         TextureFactory textureFactory = new TextureFactory(engine);
         engine.addEntity(textureFactory.createOceanback());
         engine.addEntity(textureFactory.createOceantop());
@@ -129,15 +134,22 @@ public class PlayState extends State {
         engine.addEntity(textureFactory.createMonastery());
 
         PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-        
+
         engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
+        // health bars
+        engine.addEntity(textureFactory.createHeathBarLeft());
+        engine.addEntity(textureFactory.createHeathBarRight());
+        Entity healthBar = textureFactory.createHeathFillingLeft();
+        engine.addEntity(healthBar);
+        engine.addEntity(textureFactory.createHeathFillingRight());
+
+        // Defender
         engine.addEntity(textureFactory.createDefender(
                 (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId()
         ));
-
         PlayerFactory playerFactory = new PlayerFactory(engine);
-        engine.addEntity(playerFactory.createRotatingWeapon());
+        engine.addEntity(playerFactory.createRotatingWeapon(healthBar));
 
         // TODO put code in wave logic:
         VikingFactory vikingFactory = new VikingFactory(engine, world);
@@ -164,7 +176,7 @@ public class PlayState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO network error
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 }
         );
@@ -191,10 +203,15 @@ public class PlayState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO network error
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 }
         );
+    }
+
+    private PlayView getView() {
+        return (PlayView) view;
+
     }
 
     /**
