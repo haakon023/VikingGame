@@ -1,7 +1,11 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
+import group22.viking.game.ECS.components.TextureComponent;
+import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
@@ -15,13 +19,19 @@ import group22.viking.game.view.ViewComponentFactory;
 public class OnlinePlayState extends AbstractPlayState{
 
     private PlayerStatusCollection playerStatusCollection;
-    private ProfileCollection profileCollection;
+
+    // opponent health bar
     private Entity opponentHealthBar;
+    private ComponentMapper<TransformComponent> cmTransformComponent;
+    private ComponentMapper<TextureComponent> cmTextureComponent;
 
     public OnlinePlayState(VikingGame game, Lobby lobby) {
         super(game);
         this.playerStatusCollection = game.getPlayerStatusCollection();
         this.profileCollection = game.getProfileCollection();
+
+        this.cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
+        this.cmTextureComponent = ComponentMapper.getFor(TextureComponent.class);
         onlineInit(lobby);
     }
 
@@ -84,7 +94,9 @@ public class OnlinePlayState extends AbstractPlayState{
     }
 
     private void displayOpponentHealth(long health) {
+        System.out.println("OPPONENT:" + health);
         // TODO gui call
+
     }
 
     /**

@@ -17,6 +17,7 @@ import group22.viking.game.ECS.systems.VikingSystem;
 import group22.viking.game.ECS.utils.ColliderListener;
 import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.factory.PlayerFactory;
 import group22.viking.game.factory.PowerUpFactory;
 import group22.viking.game.factory.TextureFactory;
@@ -28,6 +29,8 @@ import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 
 public abstract class AbstractPlayState extends State{
+
+    protected ProfileCollection profileCollection;
 
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
@@ -49,6 +52,8 @@ public abstract class AbstractPlayState extends State{
 
     protected AbstractPlayState(VikingGame game) {
         super(Assets.playView, game);
+
+        this.profileCollection = game.getProfileCollection();
 
         world = new World(new Vector2(0,0), true);
         world.setContactListener(new ColliderListener());
@@ -103,12 +108,12 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(healthBar);
         engine.addEntity(textureFactory.createHealthBarLeft());
         engine.addEntity(textureFactory.createAvatarHeadLeft(
-                (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId())
+                (int) profileCollection.getLocalPlayerProfile().getAvatarId())
         );
 
         // Defender
         engine.addEntity(textureFactory.createDefender(
-                (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId()
+                (int) profileCollection.getLocalPlayerProfile().getAvatarId()
         ));
         PlayerFactory playerFactory = new PlayerFactory(engine);
         engine.addEntity(playerFactory.createRotatingWeapon(healthBar));
