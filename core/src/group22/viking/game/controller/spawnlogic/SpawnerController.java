@@ -15,7 +15,7 @@ public class SpawnerController {
     public SpawnerController(int spawnerAmount)
     {
         createSpawners(spawnerAmount);
-        //updateSpawnerPositions();
+        updateSpawnerPositions();
         this.cycle = 1;
         this.factor = 1;
     }
@@ -54,8 +54,8 @@ public class SpawnerController {
             spawners.add(spawner);
         }
     }
-/*
-    public void updateSpawnerPositions()
+
+    public void updateSpawnerPositions() //Works
     {
         for(int i=0; i < spawners.size();i++)
         {
@@ -70,7 +70,7 @@ public class SpawnerController {
             }
         }
     }
-*/
+
     public ArrayList<Spawner> getSpawners() {
         return spawners;
     }
