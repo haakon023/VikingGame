@@ -20,7 +20,6 @@ import group22.viking.game.models.Assets;
 
 public class VikingFactory extends AbstractFactory {
 
-
     private final World world;
 
     public VikingFactory(PooledEngine engine, World world) {
@@ -50,7 +49,7 @@ public class VikingFactory extends AbstractFactory {
     public Entity createShip(float x, float y) {
         return create(
                 new Vector3(x, y, 0),
-                0.8F,
+                0.5F,
                 Assets.getTexture(Assets.VIKING_SHIP)
         );
     }
