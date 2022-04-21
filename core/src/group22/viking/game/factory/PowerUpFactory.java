@@ -43,7 +43,7 @@ public class PowerUpFactory extends AbstractFactory {
                 )
                 .add(engine.createComponent(B2dBodyComponent.class)
                     .setBody(BodyFactory.getInstance(world).makeCirclePolyBody(
-                            position.x, position.y, texture.getWidth() / 2,
+                            position.x, position.y, texture.getWidth() * 0.5f,
                             BodyDef.BodyType.StaticBody, true), entity)
                 );
     }
