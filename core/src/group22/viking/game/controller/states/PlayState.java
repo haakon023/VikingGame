@@ -198,7 +198,7 @@ public class PlayState extends State {
         if(type != Type.ONLINE) return;
         playerStatusCollection.waveCompleted();
     }
-/*
+
     private void spawnVikings()
     {
         int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
@@ -213,7 +213,7 @@ public class PlayState extends State {
             }
         }
         time = 0;
-    }*/
+    }
 
     @Override
     protected void handleInput() {
@@ -237,7 +237,7 @@ public class PlayState extends State {
     @Override
     public void render(float deltaTime) {
         time += deltaTime;
-        //if (Math.round(time) == 30) spawnVikings();
+        if (Math.round(time) == 30) spawnVikings();
         engine.update(deltaTime);
         //do here NOT use the screen render system
         //screen.render(deltaTime);
