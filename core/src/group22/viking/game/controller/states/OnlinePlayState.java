@@ -9,23 +9,26 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
 
     private PlayerStatusCollection playerStatusCollection;
+    private ProfileCollection profileCollection;
     private Entity opponentHealthBar;
 
     public OnlinePlayState(VikingGame game, Lobby lobby) {
         super(game);
         this.playerStatusCollection = game.getPlayerStatusCollection();
+        this.profileCollection = game.getProfileCollection();
         onlineInit(lobby);
     }
 
     private void onlineInit(final Lobby lobby) {
         initOpponent(lobby.isHost() ?
-                game.getProfileCollection().getHostProfile() :
-                game.getProfileCollection().getGuestProfile());
+                game.getProfileCollection().getGuestProfile() :
+                game.getProfileCollection().getHostProfile());
 
         playerStatusCollection.createOwnStatus(
                 lobby.getOwnId(),
@@ -76,7 +79,8 @@ public class OnlinePlayState extends AbstractPlayState{
         opponentHealthBar = textureFactory.createHealthFillingRight();
         engine.addEntity(opponentHealthBar);
         engine.addEntity(textureFactory.createHealthBarRight());
-        //engine.addEntity((textureFactory.createAvatarHeadRight((int) profile.getAvatarId())));
+        System.out.println(profile.getName());
+        engine.addEntity((textureFactory.createAvatarHeadRight((int) profile.getAvatarId())));
     }
 
     private void displayOpponentHealth(long health) {

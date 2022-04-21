@@ -110,7 +110,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createAvatarHeadLeft(int avatarId) {
         return create(
                 new Vector3(70, 70, 50),
-                0.5F,
+                0.2F,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
     }
@@ -134,7 +134,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createAvatarHeadRight(int avatarId) {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, 70, 50),
-                0.5F,
+                0.2F,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
     }

@@ -102,7 +102,9 @@ public abstract class AbstractPlayState extends State{
         Entity healthBar = textureFactory.createHealthFillingLeft();
         engine.addEntity(healthBar);
         engine.addEntity(textureFactory.createHealthBarLeft());
-
+        engine.addEntity(textureFactory.createAvatarHeadLeft(
+                (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId())
+        );
 
         // Defender
         engine.addEntity(textureFactory.createDefender(
