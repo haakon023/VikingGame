@@ -4,11 +4,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import group22.viking.game.ECS.BodyFactory;
+import group22.viking.game.ECS.utils.BodyFactory;
 import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.HomingProjectileComponent;
@@ -28,50 +29,41 @@ public class ProjectileFactory extends AbstractFactory {
         this.world = world;
     }
 
-    @Override
-    Entity createEntity(float x, float y, float z, Texture texture) {
-        Entity entity = engine.createEntity();
-
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        TypeComponent tyc = engine.createComponent(TypeComponent.class  );
-
-        tyc.entityType = TypeComponent.EntityType.BULLET;
-
-        tc.position.set(new Vector3(x,y,z));
-        tc.scale.set(0.3f, 0.3f);
-        tex.region = new TextureRegion(texture);
-
-        entity.add(tyc) ;
-        entity.add(tc);
-        entity.add(tex);
-
-        return entity;
+    Entity create(Vector3 position, float scale, Texture texture) {
+        return super.createEntity(TypeComponent.EntityType.BULLET)
+                .add(engine.createComponent(TransformComponent.class)
+                        .setPosition(position)
+                        .setScale(new Vector2(scale, scale))
+                )
+                .add(engine.createComponent(TextureComponent.class)
+                        .setTextureRegion(new TextureRegion(texture))
+                );
     }
 
     public Entity createProjectile(float x, float y){
-        Entity entity = createEntity(x,y,0, Assets.getTexture(Assets.ARROW_SPRITE));
-        HomingProjectileComponent hpc = engine.createComponent(HomingProjectileComponent.class );
-        hpc.setSpeed(200);
-        entity.add(hpc);
-        return entity;
+        Entity entity = create(
+                new Vector3(x, y, 0),
+                0.3F,
+                Assets.getTexture(Assets.ARROW_SPRITE)
+        );
+        return entity.add(engine.createComponent(HomingProjectileComponent.class).setSpeed(200));
     }
 
     public Entity createLinearProjectile(float x, float y)
     {
-        Entity entity = createEntity(x,y,0, Assets.getTexture(Assets.ARROW_SPRITE));
+        Entity entity = create(
+                new Vector3(x, y, 0),
+                0.3F,
+                Assets.getTexture(Assets.ARROW_SPRITE)
+        );
 
-        B2dBodyComponent b2d = engine.createComponent(B2dBodyComponent.class);
-
-        b2d.body = BodyFactory.getInstance(world).makeCirclePolyBody(x, y, 1f, BodyDef.BodyType.DynamicBody, false);
-        b2d.body.setUserData(entity);
-
-        entity.add(engine.createComponent(CollisionComponent.class));
-        entity.add(b2d);
-
-        LinearProjectileComponent lpc = engine.createComponent(LinearProjectileComponent.class);
-        lpc.setSpeed(700);
-        entity.add(lpc);
-        return entity;
+        return entity
+                .add(engine.createComponent(B2dBodyComponent.class)
+                        .setBody(BodyFactory.getInstance(world).makeCirclePolyBody(x, y, 1f, BodyDef.BodyType.DynamicBody, false), entity)
+                )
+                .add(engine.createComponent(LinearProjectileComponent.class)
+                        .setSpeed(700)
+                )
+                .add(engine.createComponent(CollisionComponent.class));
     }
 }

@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -30,7 +30,7 @@ public class AnimationSystem extends IteratingSystem {
 
         if(anim.animations.containsKey(state.get())){
             TextureComponent tComp = cmTexture.get(entity);
-            tComp.region = (TextureRegion) anim.animations.get(state.get()).getKeyFrame(state.time, state.isLooping);
+            tComp.textureRegion = (TextureRegion) anim.animations.get(state.get()).getKeyFrame(state.time, state.isLooping);
         }
         state.time += deltaTime;
     }

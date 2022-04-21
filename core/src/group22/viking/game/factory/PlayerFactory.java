@@ -5,11 +5,14 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.models.Assets;
 
 public class PlayerFactory extends AbstractFactory {
@@ -19,39 +22,36 @@ public class PlayerFactory extends AbstractFactory {
         super(engine);
     }
 
-    public Entity createEntity(float x, float y, float z, Texture texture) {
-
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        StateComponent state = engine.createComponent(StateComponent.class);
-        PlayerComponent plc = engine.createComponent(PlayerComponent.class);
-
-        tc.position.set(x, y,z);
-        state.set(StateComponent.STATE_NORMAL);
-
-        tex.region = new TextureRegion(texture);
-        tc.scale.scl(3);
-
-        entity.add(tc);
-        entity.add(tex);
-        entity.add(state);
-        entity.add(plc);
-        return entity;
+    Entity create(Vector3 position, float scale, Texture texture) {
+        return super.createEntity(TypeComponent.EntityType.PLAYER)
+                .add(engine.createComponent(TransformComponent.class)
+                        .setPosition(position)
+                        .setScale(new Vector2(scale, scale))
+                )
+                .add(engine.createComponent(TextureComponent.class)
+                        .setTextureRegion(new TextureRegion(texture))
+                )
+                .add(engine.createComponent(StateComponent.class)
+                        .set(StateComponent.STATE_NORMAL)
+                )
+                .add(engine.createComponent(PlayerComponent.class));
     }
 
+    // depreciated ?
     public Entity createPlayerInScreenMiddle(int avatarId) {
-        return createEntity(Gdx.graphics.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2,
-                0,
-                Assets.getTexture(Assets.getAvatar(avatarId)));
+        return create(
+                new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0),
+                3.0F,
+                Assets.getTexture(Assets.getAvatar(avatarId))
+        );
     }
 
     public Entity createRotatingWeapon() {
-        return createEntity(Gdx.graphics.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 + 70,
-                0,
-                Assets.getTexture(Assets.BOW));
+        return create(
+                new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 70, 0),
+                3.0F,
+                Assets.getTexture(Assets.BOW)
+        );
     }
 
 

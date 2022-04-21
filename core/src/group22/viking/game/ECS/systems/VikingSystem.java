@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Family;
@@ -57,7 +57,7 @@ public class VikingSystem extends IteratingSystem {
         viking.setTimeSinceLastAttack(viking.getTimeSinceLastAttack() + deltaTime);
 
         double distance = Math.sqrt((playerPosition.x - vikingTransform.position.x) * (playerPosition.y - vikingTransform.position.y));
-        float vikingSize = vikingTexture.region.getRegionWidth() / 2f;
+        float vikingSize = vikingTexture.textureRegion.getRegionWidth() / 2f;
         if(distance > vikingSize) {
             Vector3 direction = new Vector3(playerPosition.x - vikingTransform.position.x, playerPosition.y - vikingTransform.position.y, 0).nor();
             b2d.body.setLinearVelocity(new Vector2(direction.x, direction.y).scl( 100));
@@ -66,8 +66,7 @@ public class VikingSystem extends IteratingSystem {
         
         b2d.body.setLinearVelocity(0,0);
 
-        boolean dealtDamage = dealDamage(player.getComponent(PlayerComponent.class), viking);
-        if (dealtDamage) {
+        if (dealDamage(player.getComponent(PlayerComponent.class), viking)) {
             SpawnProjectile(vikingTransform, player);
         }
     }
@@ -77,7 +76,7 @@ public class VikingSystem extends IteratingSystem {
         if (!(viking.getAttackRate() <= viking.getTimeSinceLastAttack())) {
             return false;
         }
-        player.dealDamage(viking.getDamage());
+        player.modifyHealth(-viking.getDamage());
         viking.setTimeSinceLastAttack(0);
         return true;
     }

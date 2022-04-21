@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Family;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.Comparator;
 
+import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 
@@ -76,16 +77,16 @@ public class RenderingSystem extends SortedIteratingSystem {
             TextureComponent texComp = cmTextureComp.get(entity);
             TransformComponent transComp = cmTransformComp.get(entity);
 
-            if(texComp.region == null || transComp.isHidden)
+            if(texComp.textureRegion == null || transComp.isHidden)
                 continue;
 
-            float width = texComp.region.getRegionWidth();
-            float height = texComp.region.getRegionHeight();
+            float width = texComp.textureRegion.getRegionWidth();
+            float height = texComp.textureRegion.getRegionHeight();
 
             float originX = width / 2;
             float originY = height / 2;
 
-            spriteBatch.draw(texComp.region,
+            spriteBatch.draw(texComp.textureRegion,
                     transComp.position.x - originX,
                     transComp.position.y - originY,
                     originX, originY,
