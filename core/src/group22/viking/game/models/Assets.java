@@ -108,6 +108,11 @@ public class Assets {
     public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
 
+    //powerup files
+    public static final String HEALTH_POTION = "img/health_potion.png";
+    public static final String ENERGY_POTION = "img/energy_potion.png";
+
+
 
     public static void load() {
 
@@ -159,6 +164,10 @@ public class Assets {
         assetManager.load(ISLAND, Texture.class);
         assetManager.load(WAVE_TOP, Texture.class);
         assetManager.load(MONASTERY, Texture.class);
+
+        //powerups
+        assetManager.load(HEALTH_POTION, Texture.class);
+        assetManager.load(ENERGY_POTION, Texture.class);
 
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);

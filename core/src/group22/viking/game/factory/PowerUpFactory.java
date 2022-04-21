@@ -55,7 +55,7 @@ public class PowerUpFactory extends AbstractFactory {
     
     public Entity createHealthPowerUp(float x, float y, IPowerUp powerUp)
     {
-        Entity entity = createEntity(x,y,0, Assets.getTexture(Assets.BAD_LOGIC));
+        Entity entity = createEntity(x,y,0, Assets.getTexture(Assets.HEALTH_POTION));
         entity.getComponent(PowerUpComponent.class).setPowerUp(powerUp);
         
         return entity;
