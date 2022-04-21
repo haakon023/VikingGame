@@ -57,7 +57,7 @@ public class VikingSystem extends IteratingSystem {
         viking.setTimeSinceLastAttack(viking.getTimeSinceLastAttack() + deltaTime);
 
         double distance = Math.sqrt((playerPosition.x - vikingTransform.position.x) * (playerPosition.y - vikingTransform.position.y));
-        float vikingSize = vikingTexture.region.getRegionWidth() / 2f;
+        float vikingSize = vikingTexture.textureRegion.getRegionWidth() / 2f;
         if(distance > vikingSize) {
             Vector3 direction = new Vector3(playerPosition.x - vikingTransform.position.x, playerPosition.y - vikingTransform.position.y, 0).nor();
             b2d.body.setLinearVelocity(new Vector2(direction.x, direction.y).scl( 100));
