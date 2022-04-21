@@ -77,7 +77,7 @@ public class PlayerControlSystem extends IteratingSystem {
     {
         float radians = (float)Math.atan2(mousePos.x - playerPos.x, mousePos.y - playerPos.y);
         //add 90 degrees offset to correct the angle
-        return radians * MathUtils.radiansToDegrees - 90 - 60;
+        return radians * MathUtils.radiansToDegrees - 150;
     }
 
     private Vector2 getLookVector(Vector2 mousePos, Vector2 playerPos)
