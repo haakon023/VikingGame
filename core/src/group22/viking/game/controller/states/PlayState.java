@@ -79,7 +79,7 @@ public class PlayState extends State {
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
         this.time = 0;
-        this.spawnerController = new SpawnerController(3);
+        this.spawnerController = new SpawnerController(4);
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(vikingSystem);
