@@ -8,8 +8,9 @@ public class HomingProjectileComponent implements Component {
     private com.badlogic.ashley.core.Entity target;
 
 
-    public void setSpeed(float speed) {
+    public HomingProjectileComponent setSpeed(float speed) {
         this.speed = speed;
+        return this;
     }
 
     public void setTarget(com.badlogic.ashley.core.Entity target) {

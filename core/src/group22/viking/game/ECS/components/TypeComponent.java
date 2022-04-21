@@ -12,5 +12,11 @@ public class TypeComponent implements Component {
         VIKING,
         BULLET,
         POWER_UP,
+        TEXTURE
+    }
+
+    public TypeComponent set(EntityType entityType) {
+        this.entityType = entityType;
+        return this;
     }
 }
