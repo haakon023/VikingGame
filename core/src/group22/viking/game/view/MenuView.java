@@ -139,9 +139,9 @@ public class MenuView extends View {
         );
 
         exitButton = ViewComponentFactory.createTextButton(
-                "Exit",
+                Assets.t("menu_button_exit"),
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
-                ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
+                ViewComponentFactory.SMALL_RECT_BUTTON_SIZE);
 
         //muteTextureRegion = new TextureRegion(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE));
         muteButton = ViewComponentFactory.createCheckedImageButton(
