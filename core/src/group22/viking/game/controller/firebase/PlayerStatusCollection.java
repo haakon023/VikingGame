@@ -147,16 +147,15 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
 
     /**
-     * Update own health, load to server and return new value.
+     * Update own health, load to server.
      *
      * NOTE: Does not wait for server success.
      *
-     * @param damage {long}
-     * @return {long} new health
+     * @param health {long}
      */
-    public long reduceOwnHealth(long damage) {
+    public void sendHealth(long health) {
         PlayerStatus status = getLocalPlayerStatus();
-        long health = status.reduceOwnHealth(damage);
+        status.setHealth(health);
 
         firebaseInterface.addOrUpdateDocument(
                 identifier,
@@ -173,8 +172,6 @@ public class PlayerStatusCollection extends FirebaseCollection{
                         System.out.println("PlayerStatusCollection: Failed updating health!");
                     }
                 });
-
-        return health;
     }
 
     /**

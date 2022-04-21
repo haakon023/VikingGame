@@ -64,9 +64,9 @@ public class PlayerStatus extends FirebaseDocument{
         this.wonGames = wonGames;
     }
 
-    synchronized long reduceOwnHealth(long damage) {
-        if(!isWriting) return -1L; // error
-        return health -= damage;
+    public void setHealth(long health) {
+        if(!isWriting) return; // error
+        this.health = health;
     }
 
     @Override

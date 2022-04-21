@@ -30,6 +30,14 @@ import group22.viking.game.view.SoundManager;
 
 public abstract class AbstractPlayState extends State{
 
+    public enum Type {
+        TUTORIAL,
+        PRACTICE,
+        ONLINE
+    }
+
+    private Type type;
+
     protected ProfileCollection profileCollection;
 
     private PlayerControlSystem playerControlSystem;
@@ -50,8 +58,9 @@ public abstract class AbstractPlayState extends State{
     protected PooledEngine engine;
     protected TextureFactory textureFactory;
 
-    protected AbstractPlayState(VikingGame game) {
+    protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
+        this.type = type;
 
         this.profileCollection = game.getProfileCollection();
 
@@ -116,7 +125,8 @@ public abstract class AbstractPlayState extends State{
                 (int) profileCollection.getLocalPlayerProfile().getAvatarId()
         ));
         PlayerFactory playerFactory = new PlayerFactory(engine);
-        engine.addEntity(playerFactory.createRotatingWeapon(healthBar));
+        engine.addEntity(playerFactory.createRotatingWeapon(healthBar,
+                type == Type.ONLINE ? game.getPlayerStatusCollection() : null));
 
         // TODO put code in wave logic:
         VikingFactory vikingFactory = new VikingFactory(engine, world);

@@ -1,6 +1,5 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
@@ -13,7 +12,6 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
@@ -26,7 +24,7 @@ public class OnlinePlayState extends AbstractPlayState{
     private ComponentMapper<TextureComponent> cmTextureComponent;
 
     public OnlinePlayState(VikingGame game, Lobby lobby) {
-        super(game);
+        super(game, Type.ONLINE);
         this.playerStatusCollection = game.getPlayerStatusCollection();
         this.profileCollection = game.getProfileCollection();
 
@@ -97,16 +95,6 @@ public class OnlinePlayState extends AbstractPlayState{
         System.out.println("OPPONENT:" + health);
         // TODO gui call
 
-    }
-
-    /**
-     * Reduce own health. Different behavior depending on type (online vs offline).
-     *
-     * @param damage {long}
-     * @return {long} new health
-     */
-    private long reduceOwnHealth(long damage) {
-        return playerStatusCollection.reduceOwnHealth(damage);
     }
 
 }
