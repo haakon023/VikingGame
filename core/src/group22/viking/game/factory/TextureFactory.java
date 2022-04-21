@@ -15,7 +15,9 @@ import group22.viking.game.models.Assets;
 
 public class TextureFactory extends AbstractFactory {
 
-    Vector3 screenMiddle;
+    public static final float HEALTH_BAR_SCALE = 0.5F;
+
+    private Vector3 screenMiddle;
 
     public TextureFactory(PooledEngine engine) {
         super(engine);
@@ -92,7 +94,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createHeathBarLeft() {
         return create(
                 new Vector3(70, screenMiddle.y, 0),
-                0.5F,
+                HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_WRAPPER)
         );
     }
@@ -100,7 +102,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createHeathFillingLeft() {
         return create(
                 new Vector3(70, screenMiddle.y, 0),
-                0.5F,
+                HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
     }
@@ -108,7 +110,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createHeathBarRight() {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
-                0.5F,
+                HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_WRAPPER)
         );
     }
@@ -116,7 +118,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createHeathFillingRight() {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
-                0.5F,
+                HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
     }
