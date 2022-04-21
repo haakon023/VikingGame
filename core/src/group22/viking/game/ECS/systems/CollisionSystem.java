@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -9,16 +9,19 @@ import com.badlogic.gdx.physics.box2d.World;
 import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.PlayerComponent;
+import group22.viking.game.ECS.components.PowerUpComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.ECS.components.VikingComponent;
 
 public class CollisionSystem extends IteratingSystem {
 
-    ComponentMapper<CollisionComponent> componentMapper;
-    ComponentMapper<VikingComponent> vikingMapper;
-    ComponentMapper<PlayerComponent> playerMapper;
-    private World world;
+    private final ComponentMapper<CollisionComponent> componentMapper;
+    private final ComponentMapper<VikingComponent> vikingMapper;
+    private final ComponentMapper<PlayerComponent> playerMapper;
+    private final ComponentMapper<PowerUpComponent> powerUpMapper;
+
+    private final World world;
 
     public CollisionSystem(World world) {
         super(Family.all(CollisionComponent.class, TransformComponent.class).get());
@@ -26,15 +29,17 @@ public class CollisionSystem extends IteratingSystem {
         componentMapper = ComponentMapper.getFor(CollisionComponent.class);
         vikingMapper = ComponentMapper.getFor(VikingComponent.class);
         playerMapper = ComponentMapper.getFor(PlayerComponent.class);
+        powerUpMapper = ComponentMapper.getFor(PowerUpComponent.class);
     }
 
     @Override
     protected void processEntity(com.badlogic.ashley.core.Entity entity, float deltaTime) {
         // get player collision component
         CollisionComponent cc = componentMapper.get(entity);
-
         TypeComponent thisType = entity.getComponent(TypeComponent.class);
-        PlayerComponent pc = playerMapper.get(getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first());
+        
+        Entity player = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+        PlayerComponent pc = playerMapper.get(player);
         com.badlogic.ashley.core.Entity collidedEntity = cc.collisionEntity;
         if(thisType.entityType == TypeComponent.EntityType.BULLET){
             if(collidedEntity != null){
@@ -48,11 +53,11 @@ public class CollisionSystem extends IteratingSystem {
                             destroyEntity(entity);
                             break;
                         case POWER_UP:
-                            //give player the powerup
-                            //PlayerComponent pc = playerMapper.get(collidedEntity);
+                            PowerUpComponent powerComponent = powerUpMapper.get(collidedEntity);
+                            powerComponent.getPowerUp().givePowerUp(player);
+                            destroyEntity(collidedEntity);
+                            destroyEntity(entity);
                             break;
-                        case BULLET:
-                            System.out.println("colliding with bullet");
                     }
                     cc.collisionEntity = null; // collision handled reset component
                 }

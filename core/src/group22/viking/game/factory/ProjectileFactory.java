@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import group22.viking.game.ECS.BodyFactory;
+import group22.viking.game.ECS.utils.BodyFactory;
 import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.HomingProjectileComponent;

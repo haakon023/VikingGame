@@ -91,6 +91,9 @@ public class Assets {
     public static final String WAVE_TOP = "img/WaveTop.png";
     public static final String MONASTERY = "img/Monastery.png";
 
+    //temp files
+    public static final String BAD_LOGIC = "img/badlogic.jpg";
+    
     // ui files
     public static String UI_SKIN = "ui/uiskin.atlas";
 
@@ -144,6 +147,9 @@ public class Assets {
 
         //projectile sprites
         assetManager.load(ARROW_SPRITE, Texture.class);
+        
+        //temp
+        assetManager.load(BAD_LOGIC, Texture.class);
 
 
         //main game background

@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Family;
@@ -66,8 +66,7 @@ public class VikingSystem extends IteratingSystem {
         
         b2d.body.setLinearVelocity(0,0);
 
-        boolean dealtDamage = dealDamage(player.getComponent(PlayerComponent.class), viking);
-        if (dealtDamage) {
+        if (dealDamage(player.getComponent(PlayerComponent.class), viking)) {
             SpawnProjectile(vikingTransform, player);
         }
     }
@@ -77,7 +76,7 @@ public class VikingSystem extends IteratingSystem {
         if (!(viking.getAttackRate() <= viking.getTimeSinceLastAttack())) {
             return false;
         }
-        player.dealDamage(viking.getDamage());
+        player.modifyHealth(-viking.getDamage());
         viking.setTimeSinceLastAttack(0);
         return true;
     }
