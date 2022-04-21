@@ -58,10 +58,10 @@ public class SpawnerController {
     public void updateSpawnerPositions() //Works
     {
 
-        spawners.get(0).setPosition(new Vector3(0+100f,0+100f,0));
-        spawners.get(1).setPosition(new Vector3(VikingGame.SCREEN_WIDTH-100f,0+100f,0));
-        spawners.get(2).setPosition(new Vector3(VikingGame.SCREEN_WIDTH-100f,VikingGame.SCREEN_HEIGHT-100f,0));
-        spawners.get(3).setPosition(new Vector3(0+100f,VikingGame.SCREEN_HEIGHT-100f,0));
+        spawners.get(0).setPosition(new Vector3(0+150f,0+150f,0));
+        spawners.get(1).setPosition(new Vector3(VikingGame.SCREEN_WIDTH-150f,0+150f,0));
+        spawners.get(2).setPosition(new Vector3(VikingGame.SCREEN_WIDTH-150f,VikingGame.SCREEN_HEIGHT-150f,0));
+        spawners.get(3).setPosition(new Vector3(0+150f,VikingGame.SCREEN_HEIGHT-150f,0));
 
         //float x = Math.round(((float)Math.random())*(VikingGame.SCREEN_WIDTH)*100f)/100f;
         //spawners.get(t).setPosition(new Vector3(x,0,0));
