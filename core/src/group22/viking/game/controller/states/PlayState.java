@@ -11,6 +11,10 @@ import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+
+import group22.viking.game.controller.spawnlogic.Spawner;
+import group22.viking.game.controller.spawnlogic.SpawnerController;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -20,6 +24,7 @@ import group22.viking.game.ECS.systems.RenderingSystem;
 import group22.viking.game.ECS.systems.VikingSystem;
 import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.ECS.systems.PlayerControlSystem;
+
 import group22.viking.game.factory.PlayerFactory;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
@@ -66,6 +71,10 @@ public class PlayState extends State {
 
     private PlayerStatusCollection playerStatusCollection;
 
+    private float time;
+
+    private SpawnerController spawnerController;
+
     public PlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
         construct(type);
@@ -93,9 +102,14 @@ public class PlayState extends State {
         VikingSystem vikingSystem = new VikingSystem(world);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
+
+        this.time = 0;
+        this.spawnerController = new SpawnerController(4);
+
         this.collisionSystem = new CollisionSystem(world);
         this.physicsSystem = new PhysicsSystem(world);
         this.linearProjectileSystem = new LinearProjectileSystem(world);
+
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(physicsSystem);
@@ -227,6 +241,22 @@ public class PlayState extends State {
         playerStatusCollection.waveCompleted();
     }
 
+    private void spawnVikings()
+    {
+        int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
+        VikingFactory vikingFactory = new VikingFactory(engine);
+        System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
+        for (int i=0; i < spawnerController.getSpawners().size(); i++)
+        {
+            Spawner spawner = spawnerController.getSpawners().get(i);
+            for (int j=0; j < amountToSpawnPerSpawner; j++)
+            {
+                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+            }
+        }
+        time = 0;
+    }
+
     @Override
     protected void handleInput() {
 
@@ -248,6 +278,8 @@ public class PlayState extends State {
 
     @Override
     public void render(float deltaTime) {
+        time += deltaTime;
+        if (Math.round(time) == 30) spawnVikings();
         engine.update(deltaTime);
         //do here NOT use the screen render system
         //screen.render(deltaTime);

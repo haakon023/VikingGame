@@ -3,6 +3,7 @@ package group22.viking.game.tests;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.spawnlogic.Spawner;
 import group22.viking.game.controller.spawnlogic.SpawnerController;
 import org.junit.Assert;
@@ -14,14 +15,7 @@ public class SpawnerControllerTest {
 
     @Test
     public void amountOfAttackersToSpawn() {
-        Vector3 position = new Vector3(50,50,0);
-        Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
-        ArrayList<Spawner> spawners = new ArrayList<Spawner>();
-        for (int i=0; i<3; i++)
-        {
-            spawners.add(spawner);
-        }
-        SpawnerController spawnerController = new SpawnerController(spawners);
+        SpawnerController spawnerController = new SpawnerController(3);
         int expected = 6;
         int result = spawnerController.amountOfAttackersToSpawn(0);
         Assert.assertEquals(expected,result);
@@ -42,14 +36,7 @@ public class SpawnerControllerTest {
 
     @Test
     public void amountOfAttackersToSpawnForEachSpawner() {
-        Vector3 position = new Vector3(50,50,0);
-        Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
-        ArrayList<Spawner> spawners = new ArrayList<Spawner>();
-        for (int i=0; i<3; i++)
-        {
-            spawners.add(spawner);
-        }
-        SpawnerController spawnerController = new SpawnerController(spawners);
+        SpawnerController spawnerController = new SpawnerController(3);
         int expected = 2;
         int result = spawnerController.amountOfAttackersToSpawnForEachSpawner(0);
         Assert.assertEquals(expected,result);
@@ -65,5 +52,38 @@ public class SpawnerControllerTest {
         expected = 5;
         result = spawnerController.amountOfAttackersToSpawnForEachSpawner(360);
         Assert.assertEquals(expected,result);
+    }
+
+    @Test
+    public void createSpawners()
+    {
+        SpawnerController spawnerController = new SpawnerController(3);
+        int expected = 3;
+        int result = spawnerController.getSpawners().size();
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void updateSpawnerPositions()
+    {
+        SpawnerController spawnerController = new SpawnerController(4);
+        SpawnerController spawnerController2 = new SpawnerController(4);
+        ArrayList<Spawner> spawners = spawnerController.getSpawners();
+
+        for(int i=0;i < spawnerController.getSpawners().size();i++){
+            if (i == 0) spawners.get(i).setPosition(new Vector3(0,0,0));
+            else if (i == 1) spawners.get(i).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,0,0));
+            else if (i == 2) spawners.get(i).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT,0));
+            else if (i == 3) spawners.get(i).setPosition(new Vector3(0,VikingGame.SCREEN_HEIGHT,0));
+            else{
+
+                float x = Math.round(((float)Math.random())*(VikingGame.SCREEN_WIDTH)*100f)/100f;
+                spawners.get(i).setPosition(new Vector3(x,0,0));
+            }
+        }
+        for (int i=0; i < spawnerController.getSpawners().size();i++)
+        {
+                Assert.assertEquals(spawnerController.getSpawners().get(i).getPosition(),spawnerController2.getSpawners().get(i).getPosition());
+        }
     }
 }
