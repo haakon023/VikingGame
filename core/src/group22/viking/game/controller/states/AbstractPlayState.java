@@ -27,7 +27,7 @@ import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 
-public class AbstractPlayState extends State{
+public abstract class AbstractPlayState extends State{
 
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
