@@ -89,6 +89,7 @@ public class LobbyState extends State {
         displayLobbyId(joinLobbyId);
 
         displayGuest(profileCollection.getLocalPlayerProfile());
+        profileCollection.setGuestId(profileCollection.getLocalPlayerProfile().getId());
 
         SoundManager.playMusic(this, getGame().getPreferences());
 
@@ -140,7 +141,7 @@ public class LobbyState extends State {
                         if(IS_HOST) {
                             return; // self started, nothing to do
                         }
-                        GameStateManager.getInstance().push(new PlayState(game, lobby));
+                        GameStateManager.getInstance().push(new OnlinePlayState(game, lobby));
                         return;
                 }
                 getOpponentInformationAndDisplay(lobby.getGuestId());
@@ -165,11 +166,14 @@ public class LobbyState extends State {
         profileCollection.readProfile(profileId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
+                Profile profile = (Profile) document;
                 if(IS_HOST) {
-                    displayGuest((Profile) document);
+                    displayGuest(profile);
+                    profileCollection.setGuestId(profile.getId());
                     getView().enablePlayButton();
                 } else {
-                    displayHost((Profile) document);
+                    displayHost(profile);
+                    profileCollection.setHostId(profile.getId());
                 }
             }
 
@@ -246,11 +250,6 @@ public class LobbyState extends State {
 
     }
 
-    @Override
-    protected void handleInput() {
-
-    }
-
     private LobbyView getView() {
         return (LobbyView) view;
     }
@@ -292,7 +291,7 @@ public class LobbyState extends State {
         lobbyCollection.setLobbyToStarted(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                GameStateManager.getInstance().push(new PlayState(game, lobbyCollection.getLobby()));
+                GameStateManager.getInstance().push(new OnlinePlayState(game, lobbyCollection.getLobby()));
             }
 
             @Override

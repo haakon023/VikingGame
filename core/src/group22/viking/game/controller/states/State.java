@@ -21,8 +21,6 @@ public abstract class State {
         this.view = view;
     }
 
-    protected abstract void handleInput();
-
     public void reinitialize() {
         view.runInitialAnimations();
         Gdx.input.setInputProcessor(view.getStage());

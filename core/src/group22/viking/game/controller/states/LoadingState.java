@@ -38,11 +38,6 @@ public class LoadingState extends State {
         view.init();
     }
 
-    @Override
-    protected void handleInput() {
-
-    }
-
     public void render(float deltaTime) {
         //TODO Needs to make progressbar smooth (lerp function does NOT work somehow)
         progress = MathUtils.lerp(progress, Assets.getProgress(), 0.1f);
