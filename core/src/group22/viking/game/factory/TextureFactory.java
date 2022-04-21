@@ -88,4 +88,36 @@ public class TextureFactory extends AbstractFactory {
                 Assets.getTexture(Assets.getAvatar(avatarId))
         );
     }
+
+    public Entity createHeathBarLeft() {
+        return create(
+                new Vector3(70, screenMiddle.y, 0),
+                0.5F,
+                Assets.getTexture(Assets.HEALTH_BAR_WRAPPER)
+        );
+    }
+
+    public Entity createHeathFillingLeft() {
+        return create(
+                new Vector3(70, screenMiddle.y, 0),
+                0.5F,
+                Assets.getTexture(Assets.HEALTH_BAR_FILLING)
+        );
+    }
+
+    public Entity createHeathBarRight() {
+        return create(
+                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
+                0.5F,
+                Assets.getTexture(Assets.HEALTH_BAR_WRAPPER)
+        );
+    }
+
+    public Entity createHeathFillingRight() {
+        return create(
+                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
+                0.5F,
+                Assets.getTexture(Assets.HEALTH_BAR_FILLING)
+        );
+    }
 }

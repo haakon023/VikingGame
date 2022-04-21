@@ -119,6 +119,7 @@ public class PlayState extends State {
      * @param engine
      */
     private void buildInitialEntities(PooledEngine engine) {
+        // background
         TextureFactory textureFactory = new TextureFactory(engine);
         engine.addEntity(textureFactory.createOceanback());
         engine.addEntity(textureFactory.createOceantop());
@@ -128,15 +129,21 @@ public class PlayState extends State {
         engine.addEntity(textureFactory.createMonastery());
 
         PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-        
+
         engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
+        // Defender
         engine.addEntity(textureFactory.createDefender(
                 (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId()
         ));
-
         PlayerFactory playerFactory = new PlayerFactory(engine);
         engine.addEntity(playerFactory.createRotatingWeapon());
+
+        // health bars
+        engine.addEntity(textureFactory.createHeathBarLeft());
+        engine.addEntity(textureFactory.createHeathBarRight());
+        engine.addEntity(textureFactory.createHeathFillingLeft());
+        engine.addEntity(textureFactory.createHeathFillingRight());
 
         // TODO put code in wave logic:
         VikingFactory vikingFactory = new VikingFactory(engine, world);
