@@ -9,13 +9,23 @@ public class PlayerComponent implements Component{
 
     public Entity healthBar = null;
 
-    public float fireRate = 0.2f; // shoot every half secound
+    public float fireRate = 0.2f; // shoot every half second
     public float attackDamage = 50;
-    
-    public void modifyHealth(float amount)
+
+    /**
+     * Increase or reduce health, but follow health rules.
+     *
+     * @param amount damage if negative
+     */
+    public void addToHealth(float amount)
     {
+        // no rise from death
         if(health == 0) return;
+
+        // modify health
         health += amount;
+
+        // keep value in borders
         if (health > MAX_HEALTH) health = MAX_HEALTH;
         if (health < 0) health = 0;
     }

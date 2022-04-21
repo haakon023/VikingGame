@@ -46,7 +46,7 @@ public class PlayerControlSystem extends IteratingSystem {
         TransformComponent tComp = cmTransformComponent.get(entity);
 
         //if health is below or equal 0
-        if(checkHealth(pComp)){
+        if(isDead(pComp)){
             //return;
         }
 
@@ -77,7 +77,7 @@ public class PlayerControlSystem extends IteratingSystem {
                                 0.5F)); // half sprite reduction
     }
 
-    private boolean checkHealth(PlayerComponent player)
+    private boolean isDead(PlayerComponent player)
     {
         return player.getHealth() <= 0;
     }
