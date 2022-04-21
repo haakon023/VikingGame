@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.view.ViewComponentFactory;
 
 /**
  * The ProfileCollection follows the concept: First write data in the database, and save it to the
