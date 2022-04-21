@@ -73,7 +73,8 @@ public class LobbyView extends View {
 
     @Override
     public void runInitialAnimations() {
-
+        exitButton.addAction(ViewComponentFactory.createFadeInAction());
+        playButton.addAction(ViewComponentFactory.createFadeInAction());
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.view.ViewComponentFactory;
 
 /**
  * The ProfileCollection follows the concept: First write data in the database, and save it to the
@@ -109,6 +110,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -139,6 +141,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -172,6 +175,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }
@@ -252,6 +256,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }

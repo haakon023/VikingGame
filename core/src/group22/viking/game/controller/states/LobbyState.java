@@ -12,6 +12,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -111,7 +112,7 @@ public class LobbyState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO Notify that problems with server. No lobby created
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 }
         );
@@ -149,6 +150,7 @@ public class LobbyState extends State {
             public void onFailure() {
                 // lobby deleted
                 handleHostClosedLobby();
+                ViewComponentFactory.createErrorDialog().show(getView().getStage());
             }
         });
     }
@@ -173,7 +175,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                // TODO display server broken warning or sth.
+                ViewComponentFactory.createErrorDialog().show(getView().getStage());
             }
         });
     }
@@ -198,7 +200,7 @@ public class LobbyState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO Lobby not found. Return to Main Menu.
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 });
     }
@@ -206,7 +208,10 @@ public class LobbyState extends State {
     private void displayHost(Profile profile) {
         getView().updateNameLabelHost(profile.getName());
         getView().updateAvatarHost((int) profile.getAvatarId());
-        getView().getAvatarHost().addAction(ViewComponentFactory.createAvatarSwooshAnimation(1));
+        getView().getAvatarHost().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(1,0),
+                new Vector2(1000,0)
+        ));
         SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
@@ -215,7 +220,10 @@ public class LobbyState extends State {
         getView().updateAvatarGuest((int) profile.getAvatarId());
         getView().getNameLabelGuest().setVisible(true);
         getView().getScoreLabelGuest().setVisible(true);
-        getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(-1));
+        getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(1,0),
+                new Vector2(1000,0)
+        ));
         SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
@@ -258,8 +266,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                ErrorDialog errorDialog = ViewComponentFactory.createErrorDialog();
-                errorDialog.show(getView().getStage());
+                ViewComponentFactory.createErrorDialog().show(getView().getStage());
             }
         };
 
@@ -290,7 +297,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                // TODO Network error
+                ViewComponentFactory.createErrorDialog().show(getView().getStage());
             }
         });
     }

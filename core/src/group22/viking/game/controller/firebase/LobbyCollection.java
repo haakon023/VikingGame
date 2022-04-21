@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import group22.viking.game.view.ViewComponentFactory;
+
 /**
  * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
  * to the server.
@@ -44,6 +46,7 @@ public class LobbyCollection extends FirebaseCollection{
             public void onFailure() {
                 System.out.println("Lobby Collection: error when reading.");
                 listener.onFailure();
+
             }
         });
     }
@@ -72,6 +75,7 @@ public class LobbyCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("LobbyCollection: new lobby not added to server.");
                         listener.onFailure();
+
                     }
                 }
         );
@@ -138,6 +142,7 @@ public class LobbyCollection extends FirebaseCollection{
             public void onFailure() {
                 System.out.println("LobbyCollection: No lobby found.");
                 listener.onFailure();
+
             }
         });
     }
@@ -164,6 +169,7 @@ public class LobbyCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("LobbyCollection: Joining lobby failed.");
                         listener.onFailure();
+
                     }
                 }
         );
@@ -198,6 +204,7 @@ public class LobbyCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("LobbyCollection: Set Lobby to started failed.");
                         listener.onFailure();
+
                     }
                 }
         );
@@ -226,6 +233,7 @@ public class LobbyCollection extends FirebaseCollection{
             public void onFailure() {
                 System.out.println("LobbyCollection: Set Lobby to started failed.");
                 listener.onFailure();
+
             }
         });
     }
@@ -243,6 +251,7 @@ public class LobbyCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }
@@ -269,6 +278,7 @@ public class LobbyCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("Lobby Collection: Failed leaving lobby.");
                         listener.onFailure();
+
                     }
                 }
         );
