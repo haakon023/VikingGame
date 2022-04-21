@@ -14,7 +14,7 @@ public class SpawnerController {
     private float factor;
     public SpawnerController(int spawnerAmount)
     {
-        this.spawners = createSpawners(spawnerAmount);
+        createSpawners(spawnerAmount);
         updateSpawnerPositions();
         this.cycle = 1;
         this.factor = 1;
@@ -45,19 +45,17 @@ public class SpawnerController {
         return amountPerSpawner;
     }
 
-    private ArrayList<Spawner> createSpawners(int amount)
+    private void createSpawners(int amount)
     {
         Vector3 position = new Vector3(50,50,0);
         Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
-        ArrayList<Spawner> spawners = new ArrayList<Spawner>();
         for (int i=0; i<amount; i++)
         {
             spawners.add(spawner);
         }
-        return spawners;
     }
 
-    private void updateSpawnerPositions()
+    public void updateSpawnerPositions()
     {
         for(int i=0; i < spawners.size();i++)
         {
