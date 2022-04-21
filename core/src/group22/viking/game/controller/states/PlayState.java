@@ -1,24 +1,25 @@
 package group22.viking.game.controller.states;
 
-import group22.viking.game.ECS.ColliderListener;
-import group22.viking.game.ECS.CollisionSystem;
-import group22.viking.game.ECS.HomingProjectileSystem;
-import group22.viking.game.ECS.LinearProjectileSystem;
-import group22.viking.game.ECS.PhysicsDebugSystem;
-import group22.viking.game.ECS.PhysicsSystem;
+import group22.viking.game.powerups.HealthPowerUp;
+import group22.viking.game.ECS.utils.ColliderListener;
+import group22.viking.game.ECS.systems.CollisionSystem;
+import group22.viking.game.ECS.systems.HomingProjectileSystem;
+import group22.viking.game.ECS.systems.LinearProjectileSystem;
+import group22.viking.game.ECS.systems.PhysicsDebugSystem;
+import group22.viking.game.ECS.systems.PhysicsSystem;
 import group22.viking.game.controller.VikingGame;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.audio.Sound;
 
-import group22.viking.game.ECS.InputController;
-import group22.viking.game.ECS.RenderingSystem;
-import group22.viking.game.ECS.VikingSystem;
-import group22.viking.game.ECS.ZComparator;
-import group22.viking.game.ECS.PlayerControlSystem;
+import group22.viking.game.factory.PowerUpFactory;
+import group22.viking.game.input.InputController;
+import group22.viking.game.ECS.systems.RenderingSystem;
+import group22.viking.game.ECS.systems.VikingSystem;
+import group22.viking.game.ECS.utils.ZComparator;
+import group22.viking.game.ECS.systems.PlayerControlSystem;
 import group22.viking.game.factory.PlayerFactory;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
@@ -31,7 +32,6 @@ import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 
 public class PlayState extends State {
@@ -123,6 +123,10 @@ public class PlayState extends State {
         engine.addEntity(textureFactory.createIsland());
         engine.addEntity(textureFactory.createWavetop());
         engine.addEntity(textureFactory.createMonastery());
+
+        PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
+        
+        engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
         engine.addEntity(textureFactory.createDefender(
                 (int) game.getProfileCollection().getLocalPlayerProfile().getAvatarId()

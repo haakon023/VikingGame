@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.input;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;

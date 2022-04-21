@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Family;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 
-import group22.viking.game.ECS.components.HomingProjectileComponent;
+import group22.viking.game.input.InputController;
 import group22.viking.game.ECS.components.LinearProjectileComponent;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TransformComponent;

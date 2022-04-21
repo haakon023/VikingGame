@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.utils;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Contact;

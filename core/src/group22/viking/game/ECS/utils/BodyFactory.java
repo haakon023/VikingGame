@@ -1,4 +1,4 @@
-package group22.viking.game.ECS;
+package group22.viking.game.ECS.utils;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import group22.viking.game.ECS.BodyFactory;
+import group22.viking.game.ECS.utils.BodyFactory;
 import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.TextureComponent;
