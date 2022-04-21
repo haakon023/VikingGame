@@ -244,7 +244,7 @@ public class PlayState extends State {
     private void spawnVikings()
     {
         int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
-        VikingFactory vikingFactory = new VikingFactory(engine);
+        VikingFactory vikingFactory = new VikingFactory(engine, world);
         System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
         for (int i=0; i < spawnerController.getSpawners().size(); i++)
         {
