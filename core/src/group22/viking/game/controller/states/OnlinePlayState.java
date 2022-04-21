@@ -3,6 +3,7 @@ package group22.viking.game.controller.states;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
+import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.controller.VikingGame;
@@ -12,6 +13,7 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
@@ -20,16 +22,12 @@ public class OnlinePlayState extends AbstractPlayState{
 
     // opponent health bar
     private Entity opponentHealthBar;
-    private ComponentMapper<TransformComponent> cmTransformComponent;
-    private ComponentMapper<TextureComponent> cmTextureComponent;
-
     public OnlinePlayState(VikingGame game, Lobby lobby) {
         super(game, Type.ONLINE);
+
         this.playerStatusCollection = game.getPlayerStatusCollection();
         this.profileCollection = game.getProfileCollection();
 
-        this.cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
-        this.cmTextureComponent = ComponentMapper.getFor(TextureComponent.class);
         onlineInit(lobby);
     }
 
@@ -94,7 +92,7 @@ public class OnlinePlayState extends AbstractPlayState{
     private void displayOpponentHealth(long health) {
         System.out.println("OPPONENT:" + health);
         // TODO gui call
-
+        textureFactory.updateHealthBar(opponentHealthBar, health);
     }
 
 }
