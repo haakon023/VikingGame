@@ -98,15 +98,15 @@ public class LobbyView extends View {
     private void createButtons() {
 
         playButton = ViewComponentFactory.createTextButton(
-                "Play",
+                Assets.t("lobby_button_play"),
                 new Vector2(VikingGame.SCREEN_WIDTH / 2 - 700F / 2, VikingGame.SCREEN_HEIGHT / 2 - 150F / 2),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
         exitButton = ViewComponentFactory.createTextButton(
-                "Exit",
+                Assets.t("all_button_exit"),
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
-                ViewComponentFactory.VERY_SMALL_BUTTON_SIZE
+                ViewComponentFactory.VERY_SMALL_RECT_BUTTON_SIZE
         );
 
         stage.addActor(playButton);

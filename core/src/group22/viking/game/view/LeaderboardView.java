@@ -68,9 +68,9 @@ public class LeaderboardView extends View {
     private void createButtons() {
 
         exitButton = ViewComponentFactory.createTextButton(
-                "Exit",
+                Assets.t("all_button_exit"),
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
-                ViewComponentFactory.VERY_SMALL_BUTTON_SIZE
+                ViewComponentFactory.VERY_SMALL_RECT_BUTTON_SIZE
         );
 
         stage.addActor(exitButton);
@@ -79,7 +79,7 @@ public class LeaderboardView extends View {
 
     private void createLabels() {
         highscoreLabel = ViewComponentFactory.createLabel100(
-                "Highscore",
+                Assets.t("leaderboard_label_highscore"),
                 new Vector2(VikingGame.SCREEN_WIDTH/2-260,VikingGame.SCREEN_HEIGHT - 200)
         );
         highscoreLabel.setColor(Color.WHITE);
@@ -94,9 +94,9 @@ public class LeaderboardView extends View {
 
         leaderboardTable = ViewComponentFactory.createTable();
 
-        leaderboardTable.add(new Label("Rank", ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
-        leaderboardTable.add(new Label("Name", ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft).padBottom(paddingBottom);
-        leaderboardTable.add(new Label("Score", ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
+        leaderboardTable.add(new Label(Assets.t("leaderboard_label_rank"), ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
+        leaderboardTable.add(new Label(Assets.t("leaderboard_label_name"), ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft).padBottom(paddingBottom);
+        leaderboardTable.add(new Label(Assets.t("leaderboard_label_score"), ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
 
         for(int i = 0; i < names.size; i++) {
             leaderboardTable.row();
