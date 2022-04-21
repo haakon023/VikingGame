@@ -49,7 +49,7 @@ public class PlayerFactory extends AbstractFactory {
     public Entity createRotatingWeapon() {
         return create(
                 new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 70, 0),
-                3.0F,
+                1.0F,
                 Assets.getTexture(Assets.BOW)
         );
     }

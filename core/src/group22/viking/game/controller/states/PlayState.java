@@ -32,7 +32,10 @@ import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
+import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.View;
+import group22.viking.game.view.ViewComponentFactory;
 
 public class PlayState extends State {
 
@@ -160,7 +163,7 @@ public class PlayState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO network error
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 }
         );
@@ -187,10 +190,15 @@ public class PlayState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO network error
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 }
         );
+    }
+
+    private PlayView getView() {
+        return (PlayView) view;
+
     }
 
     /**

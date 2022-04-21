@@ -39,6 +39,7 @@ public class ProfileCollectionTest {
             @Override
             public void onFailure() {
                 Assert.assertTrue(false);
+
             }
         });
     }

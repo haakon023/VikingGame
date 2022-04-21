@@ -17,6 +17,7 @@ import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.LobbyView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class LeaderboardState extends State {
@@ -59,7 +60,6 @@ public class LeaderboardState extends State {
             public void clicked(InputEvent event, float x, float y){
                 dispose();
                 SoundManager.buttonClickSound(getGame().getPreferences());
-                System.out.println("EXIT BUTTON CLICKED");
                 GameStateManager.getInstance().pop();
             }
         });
@@ -79,7 +79,7 @@ public class LeaderboardState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO error message
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 }
         );
@@ -98,6 +98,7 @@ public class LeaderboardState extends State {
             }
         }
         getView().createLeaderboardTable(names, highscores, localPlayerPosition);
+        getView().getLeaderboardTable().addAction(ViewComponentFactory.createFadeInAction());
     }
 
 

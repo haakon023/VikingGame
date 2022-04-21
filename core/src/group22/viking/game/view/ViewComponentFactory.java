@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 
@@ -63,7 +64,9 @@ public class ViewComponentFactory {
     }
 
     public static ErrorDialog createErrorDialog(){
+        SoundManager.errorSound(VikingGame.instance.getPreferences());
         return new ErrorDialog("", createSkin48());
+
     }
 
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
@@ -132,14 +135,15 @@ public class ViewComponentFactory {
         );
     }
 
-    public static Action createAvatarSwooshAnimation(int direction) {
+    public static Action createAvatarSwooshAnimation(Vector2 direction, Vector2 moveBy) {
         return sequence(alpha(0),
                 parallel(
                         fadeIn(.5f),
-                        moveBy(direction * 1000,0,.5f, Interpolation.pow5Out)
+                        moveBy(direction.x * moveBy.x,direction.y * moveBy.y,.5f, Interpolation.pow5Out)
                 ));
 
     }
+
 
     public static BitmapFont generateFont(int fontSize, int letterSpacing) {
         parameter.size = fontSize;

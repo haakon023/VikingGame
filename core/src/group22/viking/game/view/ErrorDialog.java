@@ -18,11 +18,13 @@ public class ErrorDialog extends Dialog {
     }
 
     {
-        text("\n   Server Error.   \n   Kindly contact support under:   \n   alf.inge.wang@ntnu.no   \n");
+        text("\n   An unexpected error has occurred.   " +
+                "\n   Kindly contact support under:   " +
+                "\n   alf.inge.wang@ntnu.no   " +
+                "\n");
         button("\n    O.K.    \n");
 
-
-        //setSize(4000,4000);
+        setSize(4000,4000);
 
 
     }
