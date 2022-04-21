@@ -199,6 +199,22 @@ public class PlayState extends State {
         playerStatusCollection.waveCompleted();
     }
 
+    private void spawnVikings()
+    {
+        int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
+        VikingFactory vikingFactory = new VikingFactory(engine);
+        System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
+        for (int i=0; i < spawnerController.getSpawners().size(); i++)
+        {
+            Spawner spawner = spawnerController.getSpawners().get(i);
+            for (int j=0; j < amountToSpawnPerSpawner; j++)
+            {
+                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+            }
+        }
+        time = 0;
+    }
+
     @Override
     protected void handleInput() {
 
@@ -221,21 +237,7 @@ public class PlayState extends State {
     @Override
     public void render(float deltaTime) {
         time += deltaTime;
-        if (Math.round(time) == 30)
-        {
-            int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner((int)Math.round(time));
-            VikingFactory vikingFactory = new VikingFactory(engine);
-            System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size());
-            for (int i=0; i < spawnerController.getSpawners().size(); i++)
-            {
-                Spawner spawner = spawnerController.getSpawners().get(i);
-                for (int j=0; j < amountToSpawnPerSpawner; j++)
-                {
-                    engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
-                }
-            }
-            time = 0;
-        }
+        if (Math.round(time) == 30) spawnVikings();
         engine.update(deltaTime);
         //do here NOT use the screen render system
         //screen.render(deltaTime);

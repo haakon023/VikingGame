@@ -1,5 +1,6 @@
 package group22.viking.game.controller.spawnlogic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -13,6 +14,7 @@ public class SpawnerController {
     public SpawnerController(int spawnerAmount)
     {
         this.spawners = createSpawners(spawnerAmount);
+        updateSpawnerPositions();
         this.cycle = 1;
         this.factor = 1;
     }
@@ -52,6 +54,22 @@ public class SpawnerController {
             spawners.add(spawner);
         }
         return spawners;
+    }
+
+    private void updateSpawnerPositions()
+    {
+        for(int i=0; i < spawners.size();i++)
+        {
+            if (i == 0) spawners.get(i).setPosition(new Vector3(0,0,0));
+            else if (i == 1) spawners.get(i).setPosition(new Vector3(Gdx.graphics.getWidth(),0,0));
+            else if (i == 2) spawners.get(i).setPosition(new Vector3(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),0));
+            else if (i == 3) spawners.get(i).setPosition(new Vector3(0,Gdx.graphics.getHeight(),0));
+            else{
+
+                float x = Math.round(((float)Math.random())*(Gdx.graphics.getWidth())*100f)/100f;
+                spawners.get(i).setPosition(new Vector3(x,0,0));
+            }
+        }
     }
 
     public ArrayList<Spawner> getSpawners() {

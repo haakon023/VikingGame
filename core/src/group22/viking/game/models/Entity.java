@@ -42,5 +42,25 @@ public abstract class Entity {
     public float getSpeed() {
         return speed;
     }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public void setPosition(Vector3 position) {
+        this.position = position;
+    }
+
+    public void setSize(Vector2 size) {
+        this.size = size;
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 }
 
