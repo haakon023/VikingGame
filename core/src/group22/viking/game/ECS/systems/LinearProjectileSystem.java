@@ -34,7 +34,7 @@ public class LinearProjectileSystem extends IteratingSystem {
         linearProjectileComponent.timeAlive += deltaTime;
         //i have no clue why the projectile is moving so fucking sloooow
         b2dBodyComponent.body.applyLinearImpulse(
-                new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor().scl(-10000),
+                new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor().scl(-10000*4),
                 new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor(),
                 true);
 

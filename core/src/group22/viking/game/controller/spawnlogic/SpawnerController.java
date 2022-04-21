@@ -48,27 +48,23 @@ public class SpawnerController {
     private void createSpawners(int amount)
     {
         Vector3 position = new Vector3(50,50,0);
-        Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
         for (int i=0; i<amount; i++)
         {
+            Spawner spawner = new Spawner(new Sprite(),position,new Vector2(20,20),new Vector2(0,0),0);
             spawners.add(spawner);
         }
     }
 
     public void updateSpawnerPositions() //Works
     {
-        for(int i=0; i < spawners.size();i++)
-        {
-            if (i == 0) spawners.get(i).setPosition(new Vector3(0,0,0));
-            else if (i == 1) spawners.get(i).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,0,0));
-            else if (i == 2) spawners.get(i).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT,0));
-            else if (i == 3) spawners.get(i).setPosition(new Vector3(0,VikingGame.SCREEN_HEIGHT,0));
-            else{
 
-                float x = Math.round(((float)Math.random())*(VikingGame.SCREEN_WIDTH)*100f)/100f;
-                spawners.get(i).setPosition(new Vector3(x,0,0));
-            }
-        }
+        spawners.get(0).setPosition(new Vector3(0,0,0));
+        spawners.get(1).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,0,0));
+        spawners.get(2).setPosition(new Vector3(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT,0));
+        spawners.get(3).setPosition(new Vector3(0,VikingGame.SCREEN_HEIGHT,0));
+
+        //float x = Math.round(((float)Math.random())*(VikingGame.SCREEN_WIDTH)*100f)/100f;
+        //spawners.get(t).setPosition(new Vector3(x,0,0));
     }
 
     public ArrayList<Spawner> getSpawners() {

@@ -251,6 +251,7 @@ public class PlayState extends State {
             Spawner spawner = spawnerController.getSpawners().get(i);
             for (int j=0; j < amountToSpawnPerSpawner; j++)
             {
+                System.out.println(spawner.getPosition() + " | position of ship");
                 engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
             }
         }
@@ -279,7 +280,10 @@ public class PlayState extends State {
     @Override
     public void render(float deltaTime) {
         time += deltaTime;
-        if (Math.round(time) == 30) spawnVikings();
+        if (Math.round(time) == 30) {
+            spawnVikings();
+            time = 0;
+        }
         engine.update(deltaTime);
         //do here NOT use the screen render system
         //screen.render(deltaTime);

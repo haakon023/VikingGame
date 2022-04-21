@@ -37,8 +37,6 @@ public class VikingFactory extends AbstractFactory {
         TextureComponent tex = engine.createComponent(TextureComponent.class);
         VikingComponent vc = engine.createComponent(VikingComponent.class);
         B2dBodyComponent b2d = engine.createComponent(B2dBodyComponent.class);
-        b2d.body = BodyFactory.getInstance(world).makeCirclePolyBody(x,y, 250, BodyDef.BodyType.DynamicBody, false);
-        b2d.body.setUserData(entity);
 
         TypeComponent tyc = engine.createComponent(TypeComponent.class);
         CollisionComponent cc = engine.createComponent(CollisionComponent.class);
@@ -47,6 +45,8 @@ public class VikingFactory extends AbstractFactory {
         tc.scale.scl(scale);
 
         tex.region = new TextureRegion(texture);
+        b2d.body = BodyFactory.getInstance(world).makeCirclePolyBody(x,y, tex.region.getRegionWidth() / 2, BodyDef.BodyType.DynamicBody, true);
+        b2d.body.setUserData(entity);
 
         entity.add(tyc);
         entity.add(cc);
