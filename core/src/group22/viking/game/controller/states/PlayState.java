@@ -32,6 +32,7 @@ import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
+import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 import group22.viking.game.view.View;
 import group22.viking.game.view.ViewComponentFactory;
