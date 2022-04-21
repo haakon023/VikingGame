@@ -12,7 +12,8 @@ public class PowerUpComponent implements Component {
         return powerUp;
     }
 
-    public void setPowerUp(IPowerUp powerUp) {
+    public PowerUpComponent setPowerUp(IPowerUp powerUp) {
         this.powerUp = powerUp;
+        return this;
     }
 }

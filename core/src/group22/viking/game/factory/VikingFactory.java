@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -18,7 +20,6 @@ import group22.viking.game.models.Assets;
 
 public class VikingFactory extends AbstractFactory {
 
-
     private final World world;
 
     public VikingFactory(PooledEngine engine, World world) {
@@ -26,38 +27,30 @@ public class VikingFactory extends AbstractFactory {
         this.world = world;
     }
 
-    @Override
-    Entity createEntity(float x, float y, float z, Texture texture) {
-        return null;
-    }
-
-    public Entity createEntity(float x, float y, float z, float scale, Texture texture) {
-        Entity entity = engine.createEntity();
-        TransformComponent tc = engine.createComponent(TransformComponent.class);
-        TextureComponent tex = engine.createComponent(TextureComponent.class);
-        VikingComponent vc = engine.createComponent(VikingComponent.class);
-        B2dBodyComponent b2d = engine.createComponent(B2dBodyComponent.class);
-
-        TypeComponent tyc = engine.createComponent(TypeComponent.class);
-        CollisionComponent cc = engine.createComponent(CollisionComponent.class);
-        tyc.entityType = TypeComponent.EntityType.VIKING;
-        tc.position.set(x,y,z);
-        tc.scale.scl(scale);
-
-        tex.region = new TextureRegion(texture);
-        b2d.body = BodyFactory.getInstance(world).makeCirclePolyBody(x,y, tex.region.getRegionWidth() / 2, BodyDef.BodyType.DynamicBody, true);
-        b2d.body.setUserData(entity);
-
-        entity.add(tyc);
-        entity.add(cc);
-        entity.add(b2d);
-        entity.add(tc);
-        entity.add(tex);
-        entity.add(vc);
-        return entity;
+    Entity create(Vector3 position, float scale, Texture texture) {
+        Entity entity = super.createEntity(TypeComponent.EntityType.VIKING);
+        return entity
+                .add(engine.createComponent(TransformComponent.class)
+                        .setPosition(position)
+                        .setScale(new Vector2(scale, scale))
+                )
+                .add(engine.createComponent(TextureComponent.class)
+                        .setTextureRegion(new TextureRegion(texture))
+                )
+                .add(engine.createComponent(VikingComponent.class))
+                .add(engine.createComponent(B2dBodyComponent.class)
+                        .setBody(BodyFactory.getInstance(world).makeCirclePolyBody(
+                                position.x, position.y, 250, BodyDef.BodyType.DynamicBody, false),
+                                entity)
+                )
+                .add(engine.createComponent(CollisionComponent.class));
     }
 
     public Entity createShip(float x, float y) {
-        return createEntity(x, y, 0, 0.8F, Assets.getTexture(Assets.VIKING_SHIP));
+        return create(
+                new Vector3(x, y, 0),
+                0.5F,
+                Assets.getTexture(Assets.VIKING_SHIP)
+        );
     }
 }
