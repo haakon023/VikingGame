@@ -49,7 +49,7 @@ public class CollisionSystem extends IteratingSystem {
                         case VIKING:
                             //do player hit enemy thing
                             VikingComponent vc = vikingMapper.get(collidedEntity);
-                            vc.DealDamage(pc.AttackDamage);
+                            vc.DealDamage(pc.attackDamage);
                             destroyEntity(entity);
                             break;
                         case POWER_UP:
