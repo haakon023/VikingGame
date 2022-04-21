@@ -69,6 +69,7 @@ public class MenuState extends State {
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound(getGame().getPreferences());
                 GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.TUTORIAL));
+                GameStateManager.getInstance().push(new TutorialInterruptState(game));
             }
         });
 

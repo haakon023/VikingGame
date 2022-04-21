@@ -1,5 +1,6 @@
 package group22.viking.game.controller.states;
 
+import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.ECS.utils.ColliderListener;
 import group22.viking.game.ECS.systems.CollisionSystem;
@@ -38,6 +39,7 @@ public class PlayState extends State {
 
 
 
+
     public enum Type {
         TUTORIAL,
         PRACTICE,
@@ -50,6 +52,7 @@ public class PlayState extends State {
     private CollisionSystem collisionSystem;
     private PhysicsSystem physicsSystem;
     private LinearProjectileSystem linearProjectileSystem;
+    public static int popUpCount;
 
 
     private World world;
@@ -70,8 +73,9 @@ public class PlayState extends State {
         super(Assets.playView, game);
         construct(type);
         beginGame(); //immediate begin
-
+        popUpCount = 1;
         SoundManager.playMusic(this, getGame().getPreferences());
+
     }
 
     public PlayState (VikingGame game, Lobby lobby) {
@@ -257,5 +261,11 @@ public class PlayState extends State {
     public void dispose() {
         //REVIEW: remove the renderingSystem once the state is not used anymore
         engine.removeSystem(renderingSystem);
+    }
+
+    //for Tutorial
+    private void openTutorialInterrupt(){
+        popUpCount++;
+        GameStateManager.getInstance().push(new TutorialInterruptState(game));
     }
 }
