@@ -3,9 +3,14 @@ package group22.viking.game.ECS.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 
+import group22.viking.game.controller.firebase.PlayerStatusCollection;
+
 public class PlayerComponent implements Component{
-    public static final float MAX_HEALTH = 100;
-    private float health = MAX_HEALTH;
+
+    private PlayerStatusCollection playerStatusCollection;
+
+    public static final long MAX_HEALTH = 1000;
+    private long health = MAX_HEALTH;
 
     public Entity healthBar = null;
 
@@ -13,7 +18,7 @@ public class PlayerComponent implements Component{
     public float attackDamage = 50;
 
     /**
-     * Increase or reduce health, but follow health rules.
+     * Increase or reduce health, but follow health rules. Send to opponent if online mode (not null)
      *
      * @param amount damage if negative
      */
@@ -24,12 +29,15 @@ public class PlayerComponent implements Component{
 
         // modify health
         health += amount;
+        if (playerStatusCollection != null) {
+            playerStatusCollection.sendHealth(health);
+        }
 
         // keep value in borders
         if (health > MAX_HEALTH) health = MAX_HEALTH;
         if (health < 0) health = 0;
     }
-    public float getHealth() {
+    public long getHealth() {
         return health;
     }
 
@@ -38,5 +46,8 @@ public class PlayerComponent implements Component{
         return this;
     }
 
-
+    public PlayerComponent setPlayerStatusCollection(PlayerStatusCollection playerStatusCollection) {
+        this.playerStatusCollection = playerStatusCollection;
+        return this;
+    }
 }

@@ -226,7 +226,7 @@ public class LobbyState extends State {
         getView().getScoreLabelGuest().setVisible(true);
         getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
                 new Vector2(1,0),
-                new Vector2(1000,0)
+                new Vector2(-1000,0)
         ));
         SoundManager.avatarSwooshSound(getGame().getPreferences());
     }

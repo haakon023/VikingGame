@@ -23,7 +23,8 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private final ComponentMapper<PlayerComponent> cmPlayerComponent;
     private final ComponentMapper<TransformComponent> cmTransformComponent;
-    private final ComponentMapper<TextureComponent> cmTextureComponent;
+
+    private TextureFactory textureFactory;
 
     private final InputController input;
     private ProjectileFactory projectileFactory;
@@ -36,7 +37,7 @@ public class PlayerControlSystem extends IteratingSystem {
         this.world = world;
         cmPlayerComponent = ComponentMapper.getFor(PlayerComponent.class);
         cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
-        cmTextureComponent = ComponentMapper.getFor(TextureComponent.class);
+        textureFactory = new TextureFactory((PooledEngine) getEngine());
         input = controller;
     }
 
@@ -50,7 +51,7 @@ public class PlayerControlSystem extends IteratingSystem {
             //return;
         }
 
-        updateHealthBar(pComp.healthBar, pComp.getHealth());
+        textureFactory.updateHealthBar(pComp.healthBar, pComp.getHealth());
 
         timeSinceFired += deltaTime;
         if(input.isMouse1Down) {
@@ -60,21 +61,6 @@ public class PlayerControlSystem extends IteratingSystem {
             if(timeSinceFired > pComp.fireRate)
                 shootBullet(tComp, getLookVector(pos, new Vector2(tComp.position.x, tComp.position.y)));
         }
-    }
-
-    private void updateHealthBar(Entity healthBar, float health) {
-        System.out.println("UPDATE HEALTH BAR: " + health);
-        TransformComponent transformComponent = cmTransformComponent.get(healthBar);
-        TextureComponent textureComponent = cmTextureComponent.get(healthBar);
-
-        transformComponent.scale.y = health / PlayerComponent.MAX_HEALTH *
-                TextureFactory.HEALTH_BAR_SCALE;
-
-        transformComponent.position.y = (VikingGame.SCREEN_HEIGHT / 2) - //screen middle
-                ((1 - (health / PlayerComponent.MAX_HEALTH)) * // inverted health
-                        (textureComponent.textureRegion.getRegionHeight() *
-                                TextureFactory.HEALTH_BAR_SCALE * // sprite size
-                                0.5F)); // half sprite reduction
     }
 
     private boolean isDead(PlayerComponent player)

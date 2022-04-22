@@ -6,16 +6,8 @@ public class OfflinePlayState extends AbstractPlayState{
 
     public Integer popUpCount;
 
-    public enum Type {
-        TUTORIAL,
-        PRACTICE
-    }
-
-    private Type type;
-
     public OfflinePlayState(VikingGame game, Type type, Integer popUpCount) {
-        super(game);
-        this.type = type;
+        super(game, type);
         this.popUpCount = popUpCount;
     }
 }

@@ -64,7 +64,7 @@ public class MenuState extends State {
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound(getGame().getPreferences());
                 Integer popUpCounter = 1; // wrapper object for same reference
-                GameStateManager.getInstance().push(new OfflinePlayState(game, OfflinePlayState.Type.TUTORIAL, popUpCounter));
+                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.TUTORIAL, popUpCounter));
                 GameStateManager.getInstance().push(new TutorialInterruptState(game, popUpCounter));
             }
         });
@@ -73,7 +73,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound(getGame().getPreferences());
-                GameStateManager.getInstance().push(new OfflinePlayState(game, OfflinePlayState.Type.PRACTICE, null));
+                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.PRACTICE, null));
             }
         });
 
