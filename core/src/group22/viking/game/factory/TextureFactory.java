@@ -110,7 +110,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createHealthFillingLeft() {
         return create(
-                new Vector3(70, screenMiddle.y, 50),
+                new Vector3(70, screenMiddle.y, 49),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
@@ -134,7 +134,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createHealthFillingRight() {
         return create(
-                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
+                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 49),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
