@@ -13,8 +13,8 @@ public class BodyFactory {
     private final World world;
 
     public static final short BULLET_ENTITY = 0x1;
-    public static final short POWER_UP_ENTITY = 0x1;
-    public static final short VIKING_ENTITY = 0x2;
+    public static final short POWER_UP_ENTITY = 0x2;
+    public static final short VIKING_ENTITY = 0x3;
 
     private BodyFactory(World world){
         this.world = world;
@@ -52,7 +52,6 @@ public class BodyFactory {
         fixtureDef.density = 1f;
         fixtureDef.friction = 0.3f;
         fixtureDef.restitution = 0.1f;
-        fixtureDef.filter.categoryBits = 0x1;
 
         return fixtureDef;
     }
