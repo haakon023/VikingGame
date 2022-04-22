@@ -124,13 +124,13 @@ public class LobbyView extends View {
 
         //player 1
         nameLabelHost = ViewComponentFactory.createLabel48(
-                "Player 1",
+                "...",
                 new Vector2(50,20)
         );
         nameLabelHost.setColor(Color.WHITE);
 
         scoreLabelHost = ViewComponentFactory.createLabel100(
-                "0",
+                "-",
                 new Vector2(VikingGame.SCREEN_WIDTH/2-100-100,20)
         );
         scoreLabelHost.setColor(Color.WHITE);
@@ -139,7 +139,7 @@ public class LobbyView extends View {
 
         //player 2
         nameLabelGuest = ViewComponentFactory.createLabel48(
-                "Player 2",
+                "...",
                 new Vector2(VikingGame.SCREEN_WIDTH-400-20,20)
         );
 
@@ -147,7 +147,7 @@ public class LobbyView extends View {
         nameLabelGuest.setVisible(false);
 
         scoreLabelGuest = ViewComponentFactory.createLabel100(
-                "0",
+                "-",
                 new Vector2(VikingGame.SCREEN_WIDTH/2+100,20)
         );
         scoreLabelGuest.setColor(Color.WHITE);

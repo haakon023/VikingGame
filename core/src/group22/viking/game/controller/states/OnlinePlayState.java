@@ -29,8 +29,8 @@ public class OnlinePlayState extends AbstractPlayState{
 
     private void onlineInit(final Lobby lobby) {
         initOpponent(lobby.isHost() ?
-                game.getProfileCollection().getGuestProfile() :
-                game.getProfileCollection().getHostProfile());
+                game.getProfileCollection().getProfile(lobby.getGuestId()) :
+                game.getProfileCollection().getProfile(lobby.getHostId()));
 
         playerStatusCollection.addListenerToOpponentStatus(
                 lobby.getOwnId(),

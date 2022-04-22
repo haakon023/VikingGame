@@ -87,6 +87,55 @@ public class PlayerStatusCollection extends FirebaseCollection{
      * @param opponentId profile ID
      * @param listener {OnCollectionUpdatedListener}
      */
+    public void loadDuelStats(
+            String localPlayerId,
+            String opponentId,
+            final OnCollectionUpdatedListener listener)
+    {
+        PlayerStatus ownStatus = new PlayerStatus(localPlayerId, opponentId, true);
+        this.add(ownStatus.getId(), ownStatus);
+        this.localStatusId = ownStatus.getId();
+        loadPlayerStatus(ownStatus, listener);
+
+        PlayerStatus opponentStatus = new PlayerStatus(opponentId, localPlayerId, false);
+        this.add(opponentStatus.getId(), opponentStatus);
+        this.opponentStatusId = opponentStatus.getId();
+        loadPlayerStatus(opponentStatus, listener);
+    }
+
+    private void loadPlayerStatus(final PlayerStatus playerStatus, final OnCollectionUpdatedListener listener) {
+        firebaseInterface.get(
+                identifier,
+                playerStatus.getId(),
+                new OnGetDataListener() {
+                    @Override
+                    public void onGetData(String documentId, Map<String, Object> data) {
+                        for (Map.Entry<String, Object> e : data.entrySet()) {
+                            try {
+                                playerStatus.set(e.getKey(), e.getValue());
+                            } catch (FieldKeyUnknownException exception) {
+                                exception.printStackTrace();
+                            }
+                        }
+                        playerStatus.setIsLoaded(true);
+                        listener.onSuccess(playerStatus);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        listener.onFailure();
+                    }
+                }
+        );
+    }
+
+    /**
+     * Add listener to opponent status when starting game.
+     *
+     * @param localPlayerId profile ID
+     * @param opponentId profile ID
+     * @param listener {OnCollectionUpdatedListener}
+     */
     public void addListenerToOpponentStatus(
             String localPlayerId,
             String opponentId,
@@ -195,16 +244,21 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
     
     public PlayerStatus getLocalPlayerStatus() {
-        if (this.localStatusId == null) return null;
+        if (this.localStatusId == null || !get(localStatusId).isLoaded()) return null;
         return (PlayerStatus) get(localStatusId);
     }
 
     public PlayerStatus getOpponentPlayerStatus() {
-        if (this.opponentStatusId == null) return null;
+        if (this.opponentStatusId == null || !get(opponentStatusId).isLoaded()) return null;
         return (PlayerStatus) get(opponentStatusId);
     }
 
-    public PlayerStatus getHostOrGuestPlayerStatus(boolean host) {
-        return host ? getLocalPlayerStatus() : getOpponentPlayerStatus();
+    public PlayerStatus getHostOrGuestPlayerStatus(boolean isHost, boolean host) {
+        return (host && isHost) || (!host && !isHost) ?
+                getLocalPlayerStatus() : getOpponentPlayerStatus();
+    }
+
+    public void resetGuest() {
+        this.opponentStatusId = null;
     }
 }

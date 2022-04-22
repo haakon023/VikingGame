@@ -14,8 +14,6 @@ import group22.viking.game.controller.VikingGame;
  */
 public class ProfileCollection extends FirebaseCollection{
 
-    private String hostId;
-    private String guestId;
     private String localPlayerId;
     private final Preferences preferences;
 
@@ -274,32 +272,17 @@ public class ProfileCollection extends FirebaseCollection{
         return leaderboardProfiles;
     }
 
-    public void setHostId(String hostId) {
-        this.hostId = hostId;
-    }
-
-    public void setGuestId(String guestId) {
-        this.guestId = guestId;
-    }
-
-    public Profile getProfileById(String id) {
+    public Profile getProfile(String id) {
         if (isKeyNotExistingLocally(id)) {
             return null;
         }
         return (Profile) get(id);
     }
 
-    public Profile getHostProfile() {
-        return getProfileById(hostId);
-    }
-
-    public Profile getGuestProfile() {
-        return getProfileById(guestId);
-    }
-
-    public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
+    public Profile getLocalPlayerProfile() {return getProfile(localPlayerId);}
 
     public Preferences getPreferences() {
         return preferences;
     }
+
 }

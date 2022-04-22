@@ -93,7 +93,6 @@ public class PlayerStatus extends FirebaseDocument{
     }
 
     void finish(boolean win) {
-        if(!isWriting) return; // error
         if(win) wonGames++;
         health = PlayerComponent.MAX_HEALTH;
     }

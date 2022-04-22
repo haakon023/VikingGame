@@ -22,6 +22,7 @@ import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
+import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
@@ -53,15 +54,14 @@ public class LobbyState extends State {
         this.IS_HOST = true;
 
         profileCollection = game.getProfileCollection();
-        profileCollection.setHostId(profileCollection.getLocalPlayerProfile().getId());
         lobbyCollection = game.getLobbyCollection();
-
         playerStatusCollection = game.getPlayerStatusCollection();
 
         Gdx.input.setInputProcessor(view.getStage());
 
         createLobbyOnServer();
         displayHost(profileCollection.getLocalPlayerProfile());
+        getView().resetGuest();
 
         addListenersToButtons();
         getView().disablePlayButton();
@@ -82,7 +82,6 @@ public class LobbyState extends State {
         this.IS_HOST = false;
 
         profileCollection = game.getProfileCollection();
-        profileCollection.setGuestId(profileCollection.getLocalPlayerProfile().getId());
         lobbyCollection = game.getLobbyCollection();
 
         playerStatusCollection = game.getPlayerStatusCollection();
@@ -98,7 +97,6 @@ public class LobbyState extends State {
         displayLobbyId(joinLobbyId);
 
         displayGuest(profileCollection.getLocalPlayerProfile());
-        profileCollection.setGuestId(profileCollection.getLocalPlayerProfile().getId());
 
         SoundManager.playMusic(this, getGame().getPreferences());
 
@@ -110,8 +108,8 @@ public class LobbyState extends State {
         Gdx.input.setInputProcessor(view.getStage());
         System.out.println("RE-INIT LOBBY STATE");
         System.out.println(IS_HOST);
-        displayHost(profileCollection.getHostProfile());
-        displayGuest(profileCollection.getGuestProfile());
+        displayHost(profileCollection.getProfile(lobbyCollection.getLobby().getHostId()));
+        displayGuest(profileCollection.getProfile(lobbyCollection.getLobby().getGuestId()));
 
     }
 
@@ -150,13 +148,17 @@ public class LobbyState extends State {
                     case UNDEFINED:
                         return;
                     case GUEST_LEFT:
+                        playerStatusCollection.resetGuest();
                         getView().resetGuest();
+                        displayHostScore(null);
+                        displayGuestScore(null);
                         return;
                     case GUEST_READY:
                     case GUEST_JOINED:
                         if(!IS_HOST) return;
                         getOpponentInformationAndDisplay(lobby.getGuestId());
                         prepareGameStatusDocument(lobby);
+                        getDuelStatsAndDisplay();
                         return;
                     case RUNNING:
                         if(IS_HOST) {
@@ -165,7 +167,6 @@ public class LobbyState extends State {
                         GameStateManager.getInstance().push(new OnlinePlayState(game, lobby));
                         return;
                 }
-                getOpponentInformationAndDisplay(lobby.getGuestId());
             }
 
             @Override
@@ -190,11 +191,9 @@ public class LobbyState extends State {
                 Profile profile = (Profile) document;
                 if(IS_HOST) {
                     displayGuest(profile);
-                    profileCollection.setGuestId(profile.getId());
                     getView().enablePlayButton();
                 } else {
                     displayHost(profile);
-                    profileCollection.setHostId(profile.getId());
                 }
             }
 
@@ -203,6 +202,25 @@ public class LobbyState extends State {
                 ViewComponentFactory.createErrorDialog().show(getView().getStage());
             }
         });
+    }
+
+    private void getDuelStatsAndDisplay() {
+        playerStatusCollection.loadDuelStats(
+                profileCollection.getLocalPlayerProfile().getId(),
+                lobbyCollection.getLobby().getOpponentId(),
+                new OnCollectionUpdatedListener() {
+                    @Override
+                    public void onSuccess(FirebaseDocument document) {
+                        displayHostScore(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, true));
+                        displayGuestScore(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false));
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        // TODO server issues
+                    }
+                }
+        );
     }
 
     /**
@@ -222,6 +240,7 @@ public class LobbyState extends State {
                         getOpponentInformationAndDisplay(lobby.getHostId());
                         setLobbyListener(lobby);
                         prepareGameStatusDocument(lobby);
+                        getDuelStatsAndDisplay();
                     }
 
                     @Override
@@ -252,7 +271,6 @@ public class LobbyState extends State {
     private void displayHost(Profile profile) {
         getView().updateNameLabelHost(profile.getName());
         getView().updateAvatarHost((int) profile.getAvatarId());
-        getView().updateScoreLabelHost(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST));
         getView().getAvatarHost().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
                 new Vector2(1,0),
                 new Vector2(1000,0)
@@ -260,10 +278,14 @@ public class LobbyState extends State {
         SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
+    private void displayHostScore(PlayerStatus playerStatus) {
+        getView().updateScoreLabelHost(playerStatus);
+    }
+
     private void displayGuest(Profile profile) {
         getView().updateNameLabelGuest(profile.getName());
         getView().updateAvatarGuest((int) profile.getAvatarId());
-        getView().updateScoreLabelGuest(playerStatusCollection.getHostOrGuestPlayerStatus(!IS_HOST));
+        getView().updateScoreLabelGuest(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false));
         getView().getNameLabelGuest().setVisible(true);
         getView().getScoreLabelGuest().setVisible(true);
         getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
@@ -271,6 +293,10 @@ public class LobbyState extends State {
                 new Vector2(-1000,0)
         ));
         SoundManager.avatarSwooshSound(getGame().getPreferences());
+    }
+
+    private void displayGuestScore(PlayerStatus playerStatus) {
+        getView().updateScoreLabelGuest(playerStatus);
     }
 
     private void addListenersToButtons() {
