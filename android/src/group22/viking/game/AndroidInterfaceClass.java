@@ -47,9 +47,6 @@ public class AndroidInterfaceClass implements FirebaseInterface {
 
         isOnline = reachGoogle();
 
-        System.out.println("INTERNET AVAILABLE: " + isOnline);
-
-
         mAuth.signInAnonymously()
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
