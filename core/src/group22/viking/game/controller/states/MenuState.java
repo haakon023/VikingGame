@@ -16,6 +16,7 @@ import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class MenuState extends State {

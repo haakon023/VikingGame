@@ -7,8 +7,9 @@ import group22.viking.game.models.Assets;
 
 public class ErrorDialog extends Dialog {
 
-    public ErrorDialog(String title, Skin skin) {
+    public ErrorDialog(String title, String content, Skin skin) {
         super(title, skin);
+<<<<<<< Updated upstream
     }
 
     public ErrorDialog(String title, Skin skin, String windowStyleName) {
@@ -27,6 +28,10 @@ public class ErrorDialog extends Dialog {
         button("\n    " + Assets.t("error_dialog_confirmation") + "    \n");
 
         setSize(4000,4000);
+=======
+        text("\n  " + content + "  \n");
+        button("\n    O.K.    \n");
+>>>>>>> Stashed changes
     }
 
     @Override

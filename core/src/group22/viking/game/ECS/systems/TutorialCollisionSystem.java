@@ -1,43 +1,31 @@
 package group22.viking.game.ECS.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.World;
 
-import group22.viking.game.ECS.components.B2dBodyComponent;
 import group22.viking.game.ECS.components.CollisionComponent;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.PowerUpComponent;
-import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.ECS.components.VikingComponent;
+import group22.viking.game.controller.GameStateManager;
+import group22.viking.game.controller.states.OfflinePlayState;
+import group22.viking.game.controller.states.TutorialInterruptState;
 
-public class CollisionSystem extends IteratingSystem {
+public class TutorialCollisionSystem extends CollisionSystem{
 
-    protected final ComponentMapper<CollisionComponent> componentMapper;
-    protected final ComponentMapper<VikingComponent> vikingMapper;
-    protected final ComponentMapper<PlayerComponent> playerMapper;
-    protected final ComponentMapper<PowerUpComponent> powerUpMapper;
-
-    private final World world;
-
-    public CollisionSystem(World world) {
-        super(Family.all(CollisionComponent.class, TransformComponent.class).get());
-        this.world = world;
-        componentMapper = ComponentMapper.getFor(CollisionComponent.class);
-        vikingMapper = ComponentMapper.getFor(VikingComponent.class);
-        playerMapper = ComponentMapper.getFor(PlayerComponent.class);
-        powerUpMapper = ComponentMapper.getFor(PowerUpComponent.class);
+    OfflinePlayState offlinePlayState;
+    public TutorialCollisionSystem(World world, OfflinePlayState offlinePlayState) {
+        super(world);
+        this.offlinePlayState = offlinePlayState;
     }
 
-    @Override
     protected void processEntity(com.badlogic.ashley.core.Entity entity, float deltaTime) {
         // get player collision component
         CollisionComponent cc = componentMapper.get(entity);
         TypeComponent thisType = entity.getComponent(TypeComponent.class);
-        
+
         Entity player = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
         PlayerComponent pc = playerMapper.get(player);
         com.badlogic.ashley.core.Entity collidedEntity = cc.collisionEntity;
@@ -55,6 +43,9 @@ public class CollisionSystem extends IteratingSystem {
                         case POWER_UP:
                             PowerUpComponent powerComponent = powerUpMapper.get(collidedEntity);
                             powerComponent.getPowerUp().givePowerUp(player);
+                            GameStateManager.getInstance().push(new TutorialInterruptState(offlinePlayState.getGame(),
+                                    offlinePlayState.popUpCount+1));
+                            System.out.println("SecondScreen: " + offlinePlayState.popUpCount);
                             destroyEntity(collidedEntity);
                             destroyEntity(entity);
                             break;
@@ -65,8 +56,5 @@ public class CollisionSystem extends IteratingSystem {
         }
     }
 
-    public void destroyEntity(Entity entity) {
-        world.destroyBody(entity.getComponent(B2dBodyComponent.class).body);
-        getEngine().removeEntity(entity);
-    }
+
 }

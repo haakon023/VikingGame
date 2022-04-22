@@ -20,7 +20,7 @@ public class VikingSystem extends IteratingSystem {
 
     private final World world;
     private ComponentMapper<TransformComponent> cmTransform;
-    private ComponentMapper<VikingComponent> cmViking;
+    protected ComponentMapper<VikingComponent> cmViking;
     private ComponentMapper<TextureComponent> cmTexture;
     private ComponentMapper<B2dBodyComponent> cmBody;
 

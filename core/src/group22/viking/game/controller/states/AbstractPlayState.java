@@ -43,12 +43,12 @@ public abstract class AbstractPlayState extends State{
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
     private HomingProjectileSystem homingProjectileSystem;
-    private CollisionSystem collisionSystem;
+    protected CollisionSystem collisionSystem;
     private PhysicsSystem physicsSystem;
     private LinearProjectileSystem linearProjectileSystem;
-    private VikingSystem vikingSystem;
+    protected VikingSystem vikingSystem;
 
-    private World world;
+    protected World world;
 
     public static World worldInstance;
 
@@ -70,7 +70,7 @@ public abstract class AbstractPlayState extends State{
         this.inputController = new InputController();
         this.engine = new PooledEngine();
         this.playerControlSystem = new PlayerControlSystem(inputController, world);
-        VikingSystem vikingSystem = new VikingSystem(world);
+        this.vikingSystem = new VikingSystem(world);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
         this.collisionSystem = new CollisionSystem(world);
@@ -108,12 +108,13 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(textureFactory.createWavetop());
         engine.addEntity(textureFactory.createMonastery());
 
-        PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-
-        engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
+        //PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
+        //engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
         // health bars
+
         Entity healthBar = textureFactory.createHealthFillingLeft();
+
         engine.addEntity(healthBar);
         engine.addEntity(textureFactory.createHealthBarLeft());
         engine.addEntity(textureFactory.createAvatarHeadLeft(
@@ -129,9 +130,9 @@ public abstract class AbstractPlayState extends State{
                 type == Type.ONLINE ? game.getPlayerStatusCollection() : null));
 
         // TODO put code in wave logic:
-        VikingFactory vikingFactory = new VikingFactory(engine, world);
-        engine.addEntity(vikingFactory.createShip(0,0));
-        engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
+        //VikingFactory vikingFactory = new VikingFactory(engine, world);
+        //engine.addEntity(vikingFactory.createShip(0,0));
+        //engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
     }
 
     protected PlayView getView() {

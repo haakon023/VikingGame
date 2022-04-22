@@ -116,7 +116,7 @@ public class ProfileSettingsState extends State {
 
                     @Override
                     public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                        ViewComponentFactory.createErrorDialog(Assets.t("profile_cannot_be_updated_error")).show(getView().getStage());
                     }
                 }
         );

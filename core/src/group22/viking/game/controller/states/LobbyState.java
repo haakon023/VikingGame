@@ -113,7 +113,7 @@ public class LobbyState extends State {
 
                     @Override
                     public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                        ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
                     }
                 }
         );
@@ -151,7 +151,7 @@ public class LobbyState extends State {
             public void onFailure() {
                 // lobby deleted
                 handleHostClosedLobby();
-                ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                ViewComponentFactory.createErrorDialog(Assets.t("lobby_closed_error")).show(getView().getStage());
             }
         });
     }
@@ -179,7 +179,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
             }
         });
     }
@@ -204,7 +204,7 @@ public class LobbyState extends State {
 
                     @Override
                     public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                        ViewComponentFactory.createErrorDialog(Assets.t("lobby_cannot_be_joined_error")).show(getView().getStage());
                     }
                 });
     }
@@ -265,7 +265,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
             }
         };
 
@@ -296,7 +296,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                ViewComponentFactory.createErrorDialog(Assets.t("game_cannot_be_started_error")).show(getView().getStage());
             }
         });
     }

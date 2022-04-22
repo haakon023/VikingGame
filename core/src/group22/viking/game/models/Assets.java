@@ -37,6 +37,7 @@ public class Assets {
     public static MenuView menuView;
     public static ProfileSettingsView profileSettingsView;
 
+
     // language
     @SuppressWarnings("ConstantLocale")
     private static final I18NBundle TRANSLATION = I18NBundle.createBundle(Gdx.files.internal("i18n/app"), Locale.getDefault());
