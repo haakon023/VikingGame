@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.GL20;
 
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {
@@ -174,6 +175,22 @@ public class LobbyView extends View {
 
     public void updateNameLabelHost(String name) {
         nameLabelHost.setText(name);
+    }
+
+    public void updateScoreLabelGuest(PlayerStatus playerStatus) {
+        if(playerStatus == null) {
+            scoreLabelGuest.setText("-");
+            return;
+        }
+        scoreLabelGuest.setText(String.valueOf(playerStatus.getWonGames()));
+    }
+
+    public void updateScoreLabelHost(PlayerStatus playerStatus) {
+        if(playerStatus == null) {
+            scoreLabelHost.setText("-");
+            return;
+        }
+        scoreLabelHost.setText(String.valueOf(playerStatus.getWonGames()));
     }
 
     public void updateAvatarHost(int avatarId) {

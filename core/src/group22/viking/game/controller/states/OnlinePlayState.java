@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
@@ -62,7 +63,9 @@ public class OnlinePlayState extends AbstractPlayState{
                     public void onSuccess(FirebaseDocument document) {
                         PlayerStatus opponent = (PlayerStatus) document;
                         if(opponent.isDead()) {
+                            System.out.println("OPPONENT DEAD: " + opponent.isDead());
                             // TODO end game
+                            handleOpponentDeath();
                             return;
                         }
                         displayOpponentHealth(opponent.getHealth());
@@ -98,5 +101,10 @@ public class OnlinePlayState extends AbstractPlayState{
     @Override
     public void handleLocalDeath() {
         playerStatusCollection.setOwnDeath();
+        GameStateManager.getInstance().pop();
+    }
+
+    public void handleOpponentDeath() {
+        GameStateManager.getInstance().pop();
     }
 }

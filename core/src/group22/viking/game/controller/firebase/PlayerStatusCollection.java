@@ -2,8 +2,6 @@ package group22.viking.game.controller.firebase;
 
 import java.util.Map;
 
-import group22.viking.game.view.ViewComponentFactory;
-
 /**
  * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
  * to the server.
@@ -177,6 +175,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
     public void setOwnDeath() {
         PlayerStatus status = getLocalPlayerStatus();
         status.setIsAlive(false);
+        status.finish(false);
 
         firebaseInterface.addOrUpdateDocument(
                 identifier,
@@ -204,5 +203,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
     public PlayerStatus getOpponentPlayerStatus() {
         if (this.opponentStatusId == null) return null;
         return (PlayerStatus) get(opponentStatusId);
+    }
+
+    public PlayerStatus getHostOrGuestPlayerStatus(boolean host) {
+        return host ? getLocalPlayerStatus() : getOpponentPlayerStatus();
     }
 }

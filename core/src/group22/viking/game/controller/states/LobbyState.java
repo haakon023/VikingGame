@@ -22,6 +22,7 @@ import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
+import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
@@ -38,6 +39,8 @@ public class LobbyState extends State {
     ProfileCollection profileCollection;
     LobbyCollection lobbyCollection;
 
+    PlayerStatusCollection playerStatusCollection;
+
     private final boolean IS_HOST;
 
     /**
@@ -51,6 +54,8 @@ public class LobbyState extends State {
 
         profileCollection = game.getProfileCollection();
         lobbyCollection = game.getLobbyCollection();
+
+        playerStatusCollection = game.getPlayerStatusCollection();
 
         Gdx.input.setInputProcessor(view.getStage());
 
@@ -78,6 +83,8 @@ public class LobbyState extends State {
         profileCollection = game.getProfileCollection();
         lobbyCollection = game.getLobbyCollection();
 
+        playerStatusCollection = game.getPlayerStatusCollection();
+
         Gdx.input.setInputProcessor(view.getStage());
 
         tryJoinLobby(joinLobbyId);
@@ -94,6 +101,15 @@ public class LobbyState extends State {
         SoundManager.playMusic(this, getGame().getPreferences());
 
         System.out.println("GUEST LOBBY STATE CREATED");
+    }
+
+    public void reinitialize() {
+        Gdx.input.setInputProcessor(view.getStage());
+        System.out.println("RE-INIT LOBBY STATE");
+        System.out.println(IS_HOST);
+        displayHost(profileCollection.getHostProfile());
+        displayGuest(profileCollection.getGuestProfile());
+
     }
 
     /**
@@ -212,6 +228,7 @@ public class LobbyState extends State {
     private void displayHost(Profile profile) {
         getView().updateNameLabelHost(profile.getName());
         getView().updateAvatarHost((int) profile.getAvatarId());
+        getView().updateScoreLabelHost(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST));
         getView().getAvatarHost().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
                 new Vector2(1,0),
                 new Vector2(1000,0)
@@ -222,6 +239,7 @@ public class LobbyState extends State {
     private void displayGuest(Profile profile) {
         getView().updateNameLabelGuest(profile.getName());
         getView().updateAvatarGuest((int) profile.getAvatarId());
+        getView().updateScoreLabelGuest(playerStatusCollection.getHostOrGuestPlayerStatus(!IS_HOST));
         getView().getNameLabelGuest().setVisible(true);
         getView().getScoreLabelGuest().setVisible(true);
         getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
