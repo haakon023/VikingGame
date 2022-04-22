@@ -20,7 +20,8 @@ public class TextureFactory extends AbstractFactory {
     private ComponentMapper<TransformComponent> cmTransformComponent;
     private ComponentMapper<TextureComponent> cmTextureComponent;
 
-    public static final float HEALTH_BAR_SCALE = 0.5F;
+    public static final float HEALTH_BAR_SCALE = 0.6F;
+    private static final float SCALE_AVATAR_HEAD = 0.35F;
 
     private Vector3 screenMiddle;
 
@@ -46,7 +47,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createOceanback() {
         return create(
                 new Vector3(0, 0, -6).add(screenMiddle),
-                0.8F,
+                1.0F,
                 Assets.getTexture(Assets.OCEAN_BACK)
         );
     }
@@ -54,7 +55,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createOceantop() {
         return create(
                 new Vector3(0, 0, -5).add(screenMiddle),
-                0.8F,
+                1.0F,
                 Assets.getTexture(Assets.OCEAN_TOP)
         );
     }
@@ -77,7 +78,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createWavetop() {
         return create(
-                new Vector3(0, -60, -2).add(screenMiddle),
+                new Vector3(0, -50, -2).add(screenMiddle),
                 0.6F,
                 Assets.getTexture(Assets.WAVE_TOP)
         );
@@ -93,7 +94,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createDefender(int avatarId) {
         return create(
-                new Vector3(0, 120, 0).add(screenMiddle),
+                new Vector3(0, 110, 0).add(screenMiddle),
                 0.7F,
                 Assets.getTexture(Assets.getAvatar(avatarId))
         );
@@ -109,7 +110,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createHealthFillingLeft() {
         return create(
-                new Vector3(70, screenMiddle.y, 50),
+                new Vector3(70, screenMiddle.y, 49),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
@@ -118,7 +119,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createAvatarHeadLeft(int avatarId) {
         return create(
                 new Vector3(70, 70, 50),
-                0.2F,
+                SCALE_AVATAR_HEAD,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
     }
@@ -133,7 +134,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createHealthFillingRight() {
         return create(
-                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
+                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 49),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
@@ -142,7 +143,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createAvatarHeadRight(int avatarId) {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, 70, 50),
-                0.2F,
+                SCALE_AVATAR_HEAD,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
     }
@@ -157,6 +158,7 @@ public class TextureFactory extends AbstractFactory {
         transformComponent.position.y = (VikingGame.SCREEN_HEIGHT / 2) - //screen middle
                 ((1 - (health / PlayerComponent.MAX_HEALTH)) * // inverted health
                         (textureComponent.textureRegion.getRegionHeight() *
+                                TextureComponent.RENDER_SCALE *
                                 HEALTH_BAR_SCALE * // sprite size
                                 0.5F)); // half sprite reduction
     }

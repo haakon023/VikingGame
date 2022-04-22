@@ -35,6 +35,8 @@ public class VikingGame extends Game {
 	private final LobbyCollection lobbyCollection;
 	// TODO more collections
 
+	private boolean isOnline;
+
 	public static VikingGame instance;
 	
 	public VikingGame(FirebaseInterface firebaseInterface, Preferences preferences) {
@@ -42,6 +44,9 @@ public class VikingGame extends Game {
 		this.profileCollection = new ProfileCollection(firebaseInterface, preferences);
 		this.lobbyCollection = new LobbyCollection(firebaseInterface);
 		this.preferences = preferences;
+
+		this.isOnline = firebaseInterface.isOnline();
+		System.out.println("VIKING GAME ONLINE: " + isOnline);
 
 		instance = this;
 	}

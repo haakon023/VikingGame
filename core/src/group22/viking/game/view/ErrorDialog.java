@@ -3,6 +3,8 @@ package group22.viking.game.view;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import group22.viking.game.models.Assets;
+
 public class ErrorDialog extends Dialog {
 
     public ErrorDialog(String title, Skin skin) {
@@ -18,15 +20,13 @@ public class ErrorDialog extends Dialog {
     }
 
     {
-        text("\n   An unexpected error has occurred.   " +
-                "\n   Kindly contact support under:   " +
-                "\n   alf.inge.wang@ntnu.no   " +
+        text("\n   " + Assets.t("error_dialog_line1") + "   " +
+                "\n   " + Assets.t("error_dialog_line2") + "   " +
+                "\n   " + Assets.t("error_dialog_mail") + "   " +
                 "\n");
-        button("\n    O.K.    \n");
+        button("\n    " + Assets.t("error_dialog_confirmation") + "    \n");
 
         setSize(4000,4000);
-
-
     }
 
     @Override

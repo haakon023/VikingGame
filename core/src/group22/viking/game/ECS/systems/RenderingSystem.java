@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Comparator;
 
 import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.controller.VikingGame;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
@@ -42,7 +45,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private Comparator<com.badlogic.ashley.core.Entity> comparator;
     private Array<com.badlogic.ashley.core.Entity> renderQueue;
     private OrthographicCamera camera;
-    
+
     private ComponentMapper<TransformComponent> cmTransformComp;
     private ComponentMapper<TextureComponent> cmTextureComp;
 
@@ -80,8 +83,8 @@ public class RenderingSystem extends SortedIteratingSystem {
             if(texComp.textureRegion == null || transComp.isHidden)
                 continue;
 
-            float width = texComp.textureRegion.getRegionWidth();
-            float height = texComp.textureRegion.getRegionHeight();
+            float width = texComp.textureRegion.getRegionWidth() * TextureComponent.RENDER_SCALE;
+            float height = texComp.textureRegion.getRegionHeight() * TextureComponent.RENDER_SCALE;
 
             float originX = width / 2;
             float originY = height / 2;
