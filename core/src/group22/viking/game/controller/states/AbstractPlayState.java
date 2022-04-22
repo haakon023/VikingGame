@@ -58,9 +58,13 @@ public abstract class AbstractPlayState extends State{
     protected PooledEngine engine;
     protected TextureFactory textureFactory;
 
+    protected boolean isRendering;
+
     protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
         this.type = type;
+
+        this.isRendering = false;
 
         this.profileCollection = game.getProfileCollection();
 
@@ -69,7 +73,7 @@ public abstract class AbstractPlayState extends State{
 
         this.inputController = new InputController();
         this.engine = new PooledEngine();
-        this.playerControlSystem = new PlayerControlSystem(inputController, world);
+        this.playerControlSystem = new PlayerControlSystem(this, inputController, world);
         this.vikingSystem = new VikingSystem(world);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
@@ -92,6 +96,8 @@ public abstract class AbstractPlayState extends State{
         buildInitialEntities(engine);
 
         SoundManager.playMusic(this, getGame().getPreferences());
+
+        this.isRendering = true;
     }
 
     /**
@@ -146,32 +152,40 @@ public abstract class AbstractPlayState extends State{
 
         engine.addSystem(playerControlSystem);
         engine.addSystem(renderingSystem);
+
+        isRendering = true;
     }
 
     public void pause() {
+        this.isRendering = false;
         engine.removeSystem(playerControlSystem);
         engine.removeSystem(renderingSystem);
     }
 
     @Override
     public void render(float deltaTime) {
+        if (!isRendering) return;
         engine.update(deltaTime);
         //do here NOT use the stage-view render system
     }
 
     @Override
     public void dispose() {
+        this.isRendering = false;
         // reset engine
-        engine.removeAllEntities();
+        // engine.removeAllEntities();
         engine.removeSystem(renderingSystem);
         engine.removeSystem(playerControlSystem);
         engine.removeSystem(physicsSystem);
         engine.removeSystem(vikingSystem);
-        engine.removeSystem(renderingSystem);
         engine.removeSystem(homingProjectileSystem);
         engine.removeSystem(collisionSystem);
         engine.removeSystem(linearProjectileSystem);
+        engine.removeSystem(engine.getSystem(PhysicsDebugSystem.class));
+        engine.removeAllEntities();
     }
+
+    public abstract void handleLocalDeath();
 
 
 }

@@ -174,12 +174,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 });
     }
 
-    /**
-     * Save, that wave was completed, and send status to database.
-     */
-    public void waveCompleted() {
+    public void setOwnDeath() {
         PlayerStatus status = getLocalPlayerStatus();
-        status.increaseWave();
+        status.setIsAlive(false);
 
         firebaseInterface.addOrUpdateDocument(
                 identifier,
@@ -188,14 +185,15 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("PlayerStatusCollection: Wave updated.");
+                        System.out.println("PlayerStatusCollection: Set own death.");
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("PlayerStatusCollection: Failed updating wave!");
+                        System.out.println("PlayerStatusCollection: Failed setting own death!");
                     }
-                });
+                }
+        );
     }
     
     public PlayerStatus getLocalPlayerStatus() {

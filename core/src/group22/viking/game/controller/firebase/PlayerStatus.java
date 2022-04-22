@@ -48,6 +48,10 @@ public class PlayerStatus extends FirebaseDocument{
         return !isAlive;
     }
 
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
     public long getWonGames() {
         return wonGames;
     }

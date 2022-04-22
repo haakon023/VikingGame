@@ -50,4 +50,9 @@ public class OfflinePlayState extends AbstractPlayState{
         engine.addEntity(powerUpFactory.createHealthPowerUp(position.x,position.y, iPowerUp));
     }
 
+    @Override
+    public void handleLocalDeath() {
+        GameStateManager.getInstance().pop();
+        // GameStateManager.getInstance().set(new GameOverState(game));
+    }
 }

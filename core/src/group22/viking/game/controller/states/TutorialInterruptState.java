@@ -9,16 +9,19 @@ import java.util.ArrayList;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.SoundManager;
-import group22.viking.game.view.TutorialInterruptView;
+import group22.viking.game.view.InformationOverlayView;
 
-public class TutorialInterruptState extends State {
+
+public class TutorialInterruptState extends AbstractInformationOverlayState {
 
     public TutorialInterruptState(VikingGame game, Integer popUpCount) {
-        super(new TutorialInterruptView(game.getBatch(), game.getCamera(), popUpCount), game);
+        super(game);
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
         SoundManager.mumbleSound(getGame().getPreferences());
+        setViewTexts(popUpCount);
     }
 
     private void addListenersToButtons() {
@@ -29,17 +32,13 @@ public class TutorialInterruptState extends State {
                 GameStateManager.getInstance().pop();
             }
         });
-
-
     }
 
-    @Override
-    public void dispose() {
-
-    }
-
-    private TutorialInterruptView getView() {
-        return (TutorialInterruptView) view;
+    private void setViewTexts(int popUpCount) {
+        getView().setTexts(
+                Assets.t("tutorial_header" + popUpCount),
+                Assets.t("tutorial_content" + popUpCount)
+        );
     }
 
 }
