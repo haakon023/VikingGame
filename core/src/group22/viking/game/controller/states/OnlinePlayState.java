@@ -1,7 +1,11 @@
 package group22.viking.game.controller.states;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
+import group22.viking.game.ECS.components.PlayerComponent;
+import group22.viking.game.ECS.components.TextureComponent;
+import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
@@ -9,23 +13,28 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
 
     private PlayerStatusCollection playerStatusCollection;
-    private Entity opponentHealthBar;
 
+    // opponent health bar
+    private Entity opponentHealthBar;
     public OnlinePlayState(VikingGame game, Lobby lobby) {
-        super(game);
+        super(game, Type.ONLINE);
+
         this.playerStatusCollection = game.getPlayerStatusCollection();
+        this.profileCollection = game.getProfileCollection();
+
         onlineInit(lobby);
     }
 
     private void onlineInit(final Lobby lobby) {
         initOpponent(lobby.isHost() ?
-                game.getProfileCollection().getHostProfile() :
-                game.getProfileCollection().getGuestProfile());
+                game.getProfileCollection().getGuestProfile() :
+                game.getProfileCollection().getHostProfile());
 
         playerStatusCollection.createOwnStatus(
                 lobby.getOwnId(),
@@ -76,21 +85,14 @@ public class OnlinePlayState extends AbstractPlayState{
         opponentHealthBar = textureFactory.createHealthFillingRight();
         engine.addEntity(opponentHealthBar);
         engine.addEntity(textureFactory.createHealthBarRight());
-        //engine.addEntity((textureFactory.createAvatarHeadRight((int) profile.getAvatarId())));
+        System.out.println(profile.getName());
+        engine.addEntity((textureFactory.createAvatarHeadRight((int) profile.getAvatarId())));
     }
 
     private void displayOpponentHealth(long health) {
+        System.out.println("OPPONENT:" + health);
         // TODO gui call
-    }
-
-    /**
-     * Reduce own health. Different behavior depending on type (online vs offline).
-     *
-     * @param damage {long}
-     * @return {long} new health
-     */
-    private long reduceOwnHealth(long damage) {
-        return playerStatusCollection.reduceOwnHealth(damage);
+        textureFactory.updateHealthBar(opponentHealthBar, health);
     }
 
 }

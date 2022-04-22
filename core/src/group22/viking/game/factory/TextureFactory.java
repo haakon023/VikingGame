@@ -1,5 +1,6 @@
 package group22.viking.game.factory;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import group22.viking.game.ECS.components.PlayerComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
@@ -15,6 +17,9 @@ import group22.viking.game.models.Assets;
 
 public class TextureFactory extends AbstractFactory {
 
+    private ComponentMapper<TransformComponent> cmTransformComponent;
+    private ComponentMapper<TextureComponent> cmTextureComponent;
+
     public static final float HEALTH_BAR_SCALE = 0.5F;
 
     private Vector3 screenMiddle;
@@ -22,6 +27,9 @@ public class TextureFactory extends AbstractFactory {
     public TextureFactory(PooledEngine engine) {
         super(engine);
         screenMiddle = new Vector3(VikingGame.SCREEN_WIDTH / 2, VikingGame.SCREEN_HEIGHT / 2, 0);
+
+        this.cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
+        this.cmTextureComponent = ComponentMapper.getFor(TextureComponent.class);
     }
 
     Entity create(Vector3 position, float scale, Texture texture) {
@@ -110,7 +118,7 @@ public class TextureFactory extends AbstractFactory {
     public Entity createAvatarHeadLeft(int avatarId) {
         return create(
                 new Vector3(70, 70, 50),
-                0.5F,
+                0.2F,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
     }
@@ -134,9 +142,23 @@ public class TextureFactory extends AbstractFactory {
     public Entity createAvatarHeadRight(int avatarId) {
         return create(
                 new Vector3(VikingGame.SCREEN_WIDTH - 70, 70, 50),
-                0.5F,
+                0.2F,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
+    }
+
+    public void updateHealthBar(Entity healthBar, float health) {
+        TransformComponent transformComponent = cmTransformComponent.get(healthBar);
+        TextureComponent textureComponent = cmTextureComponent.get(healthBar);
+
+        transformComponent.scale.y = health / PlayerComponent.MAX_HEALTH *
+                HEALTH_BAR_SCALE;
+
+        transformComponent.position.y = (VikingGame.SCREEN_HEIGHT / 2) - //screen middle
+                ((1 - (health / PlayerComponent.MAX_HEALTH)) * // inverted health
+                        (textureComponent.textureRegion.getRegionHeight() *
+                                HEALTH_BAR_SCALE * // sprite size
+                                0.5F)); // half sprite reduction
     }
 }
 
