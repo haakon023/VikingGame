@@ -14,6 +14,7 @@ import java.util.Comparator;
 import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.controller.VikingGame;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
@@ -80,8 +81,8 @@ public class RenderingSystem extends SortedIteratingSystem {
             if(texComp.textureRegion == null || transComp.isHidden)
                 continue;
 
-            float width = texComp.textureRegion.getRegionWidth();
-            float height = texComp.textureRegion.getRegionHeight();
+            float width = texComp.textureRegion.getRegionWidth() * TextureComponent.RENDER_SCALE;
+            float height = texComp.textureRegion.getRegionHeight() * TextureComponent.RENDER_SCALE;
 
             float originX = width / 2;
             float originY = height / 2;
