@@ -9,7 +9,7 @@ public class PlayerComponent implements Component{
 
     private PlayerStatusCollection playerStatusCollection;
 
-    public static final long MAX_HEALTH = 1000;
+    public static final long MAX_HEALTH = 100;
     private long health = MAX_HEALTH;
 
     public Entity healthBar = null;

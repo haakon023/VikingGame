@@ -10,34 +10,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.states.OfflinePlayState;
-import group22.viking.game.models.Assets;
 
 public class InformationOverlayView extends View {
 
     private TextButton confirmButton;
-    private Label heading;
-    private Label content;
+    private Label headingLabel;
+    private Label contentLabel;
     private Image teacher;
 
-    private Integer popUpCount;
     public InformationOverlayView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
         System.out.println("CONSTRUCTOR Tutorial View");
         this.init();
     }
 
-    public void setPopUpCount(Integer popUpCount) {
-        this.popUpCount = popUpCount;
-    }
-
     @Override
     public void init() {
         stage.clear();
         createButtons();
-        createLabels(
-                Assets.t("tutorial_header" + popUpCount),
-                Assets.t("tutorial_content" + popUpCount));
+        createLabels();
         runInitialAnimations();
         stage.act(0);
     }
@@ -53,35 +44,40 @@ public class InformationOverlayView extends View {
 
     }
 
-    private void createLabels(String headingText, String contentText) {
-        heading = ViewComponentFactory.createLabel100(
-                headingText,
+    private void createLabels() {
+        headingLabel = ViewComponentFactory.createLabel100(
+                "",
                 new Vector2(200,VikingGame.SCREEN_HEIGHT-300)
         );
-        heading.setColor(Color.WHITE);
-        heading.setAlignment(Align.topLeft);
+        headingLabel.setColor(Color.WHITE);
+        headingLabel.setAlignment(Align.topLeft);
 
-        heading.setWrap(true);
+        headingLabel.setWrap(true);
 
-        content = ViewComponentFactory.createLabel48(
-                contentText,
+        contentLabel = ViewComponentFactory.createLabel48(
+                "",
                 new Vector2(200,20)
         );
-        content.setColor(Color.WHITE);
+        contentLabel.setColor(Color.WHITE);
 
-        content.setSize(VikingGame.SCREEN_WIDTH/2, VikingGame.SCREEN_HEIGHT-350);
-        content.setAlignment(Align.topLeft);
-        content.setWrap(true);
+        contentLabel.setSize(VikingGame.SCREEN_WIDTH/2, VikingGame.SCREEN_HEIGHT-350);
+        contentLabel.setAlignment(Align.topLeft);
+        contentLabel.setWrap(true);
 
-        stage.addActor(heading);
-        stage.addActor(content);
+        stage.addActor(headingLabel);
+        stage.addActor(contentLabel);
+    }
+
+    public void setTexts(String headingText, String contentText) {
+        headingLabel.setText(headingText);
+        contentLabel.setText(contentText);
     }
 
     @Override
     public void runInitialAnimations() {
         confirmButton.addAction(ViewComponentFactory.createFadeInAction());
-        heading.addAction(ViewComponentFactory.createFadeInAction());
-        content.addAction(ViewComponentFactory.createFadeInAction());
+        headingLabel.addAction(ViewComponentFactory.createFadeInAction());
+        contentLabel.addAction(ViewComponentFactory.createFadeInAction());
     }
 
     @Override
@@ -94,12 +90,12 @@ public class InformationOverlayView extends View {
         return confirmButton;
     }
 
-    public Label getHeading() {
-        return heading;
+    public Label getHeadingLabel() {
+        return headingLabel;
     }
 
     public Label getContent() {
-        return content;
+        return contentLabel;
     }
 
     public Image getTeacher() {

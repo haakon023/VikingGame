@@ -95,4 +95,8 @@ public class OnlinePlayState extends AbstractPlayState{
         textureFactory.updateHealthBar(opponentHealthBar, health);
     }
 
+    @Override
+    public void handleLocalDeath() {
+        playerStatusCollection.setOwnDeath();
+    }
 }
