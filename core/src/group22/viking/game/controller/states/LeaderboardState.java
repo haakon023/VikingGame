@@ -81,7 +81,7 @@ public class LeaderboardState extends State {
         int localPlayerPosition = -1;
         for(int i = 0; i < leaderboard.size(); i++) { //Profile profile: leaderboard) {
             names.add(leaderboard.get(i).getName());
-            highscores.add("" + leaderboard.get(i).getHighscore());
+            highscores.add(String.valueOf(leaderboard.get(i).getHighscore()));
             if(leaderboard.get(i) == profileCollection.getLocalPlayerProfile()) {
                 localPlayerPosition = i;
             }
