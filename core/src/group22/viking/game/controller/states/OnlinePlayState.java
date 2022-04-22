@@ -1,11 +1,7 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
-import group22.viking.game.ECS.components.PlayerComponent;
-import group22.viking.game.ECS.components.TextureComponent;
-import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
@@ -14,7 +10,6 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
@@ -81,7 +76,7 @@ public class OnlinePlayState extends AbstractPlayState{
 
     @Override
     public void handleLocalDeath() {
-        playerStatusCollection.setOwnDeath();
+        playerStatusCollection.setOwnDeathAndFinish();
         GameStateManager.getInstance().pop();
     }
 

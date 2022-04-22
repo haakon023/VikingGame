@@ -172,27 +172,25 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 });
     }
 
-    public void setOwnDeath() {
+    public void setOwnDeathAndFinish() {
         PlayerStatus status = getLocalPlayerStatus();
+
         status.setIsAlive(false);
         status.finish(false);
 
-        firebaseInterface.addOrUpdateDocument(
-                identifier,
-                status.getId(),
-                status.getData(),
-                new OnPostDataListener() {
-                    @Override
-                    public void onSuccess(String documentId) {
-                        System.out.println("PlayerStatusCollection: Set own death.");
-                    }
+        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 
-                    @Override
-                    public void onFailure() {
-                        System.out.println("PlayerStatusCollection: Failed setting own death!");
-                    }
-                }
-        );
+        writeStatusToServer(status, new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("PlayerStatusCollection: Set own death.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("PlayerStatusCollection: Failed setting own death!");
+            }
+        });
     }
     
     public PlayerStatus getLocalPlayerStatus() {
