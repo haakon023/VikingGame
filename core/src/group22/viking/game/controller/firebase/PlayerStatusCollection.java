@@ -110,6 +110,10 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 new OnGetDataListener() {
                     @Override
                     public void onGetData(String documentId, Map<String, Object> data) {
+                        if(data == null) {
+                            listener.onSuccess(playerStatus);
+                            return;
+                        }
                         for (Map.Entry<String, Object> e : data.entrySet()) {
                             try {
                                 playerStatus.set(e.getKey(), e.getValue());
@@ -244,12 +248,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
     
     public PlayerStatus getLocalPlayerStatus() {
-        if (this.localStatusId == null || !get(localStatusId).isLoaded()) return null;
+        if (this.localStatusId == null) return null;
         return (PlayerStatus) get(localStatusId);
     }
 
     public PlayerStatus getOpponentPlayerStatus() {
-        if (this.opponentStatusId == null || !get(opponentStatusId).isLoaded()) return null;
+        if (this.opponentStatusId == null) return null;
         return (PlayerStatus) get(opponentStatusId);
     }
 

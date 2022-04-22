@@ -62,6 +62,7 @@ public class LobbyState extends State {
         createLobbyOnServer();
         displayHost(profileCollection.getLocalPlayerProfile());
         getView().resetGuest();
+        getView().updateScoreLabelHost(null);
 
         addListenersToButtons();
         getView().disablePlayButton();
