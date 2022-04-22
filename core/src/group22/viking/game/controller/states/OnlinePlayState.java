@@ -39,9 +39,10 @@ public class OnlinePlayState extends AbstractPlayState{
                     @Override
                     public void onSuccess(FirebaseDocument document) {
                         PlayerStatus opponent = (PlayerStatus) document;
+                        if(!opponent.isLoaded()) return;
                         if(opponent.isDead()) {
                             System.out.println("OPPONENT DEAD: " + opponent.isDead());
-                            handleOpponentDeath();
+                            //handleOpponentDeath();
                             return;
                         }
                         displayOpponentHealth(opponent.getHealth());

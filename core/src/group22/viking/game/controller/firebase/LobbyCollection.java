@@ -119,6 +119,11 @@ public class LobbyCollection extends FirebaseCollection{
         firebaseInterface.get(identifier, id, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
+                if(data == null) {
+                    System.out.println("LobbyCollection: Lobby does not exist.");
+                    listener.onFailure();
+                    return;
+                }
                 Lobby lobby = new Lobby(documentId);
                 for(Map.Entry<String, Object> e : data.entrySet()) {
                     try {

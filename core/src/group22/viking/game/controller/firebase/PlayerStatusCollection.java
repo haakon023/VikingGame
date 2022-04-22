@@ -111,6 +111,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
                     System.out.println("PlayerStatusCollection: Opponent dead.");
                     finishGame(true);
                 }
+                status.setIsLoaded(true);
                 listener.onSuccess(status);
             }
 
