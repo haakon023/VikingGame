@@ -42,7 +42,7 @@ public class OnlinePlayState extends AbstractPlayState{
                         if(!opponent.isLoaded()) return;
                         if(opponent.isDead()) {
                             System.out.println("OPPONENT DEAD: " + opponent.isDead());
-                            //handleOpponentDeath();
+                            handleOpponentDeath();
                             return;
                         }
                         displayOpponentHealth(opponent.getHealth());
