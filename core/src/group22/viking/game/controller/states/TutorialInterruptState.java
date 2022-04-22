@@ -7,13 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.SoundManager;
-import group22.viking.game.view.TutorialInterruptView;
+import group22.viking.game.view.InformationOverlayView;
 
 
-public class TutorialInterruptState extends State {
+public class TutorialInterruptState extends AbstractInformationOverlayState {
 
     public TutorialInterruptState(VikingGame game, Integer popUpCount) {
-        super(new TutorialInterruptView(game.getBatch(), game.getCamera(), popUpCount), game);
+        super(game);
         Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
     }
@@ -26,8 +26,6 @@ public class TutorialInterruptState extends State {
                 GameStateManager.getInstance().pop();
             }
         });
-
-
     }
 
     @Override
@@ -35,8 +33,8 @@ public class TutorialInterruptState extends State {
 
     }
 
-    private TutorialInterruptView getView() {
-        return (TutorialInterruptView) view;
+    private InformationOverlayView getView() {
+        return (InformationOverlayView) view;
     }
 
 

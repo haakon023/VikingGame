@@ -13,7 +13,7 @@ import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.OfflinePlayState;
 import group22.viking.game.models.Assets;
 
-public class TutorialInterruptView extends View {
+public class InformationOverlayView extends View {
 
     private TextButton confirmButton;
     private Label heading;
@@ -21,11 +21,14 @@ public class TutorialInterruptView extends View {
     private Image teacher;
 
     private Integer popUpCount;
-    public TutorialInterruptView(SpriteBatch batch, Camera camera, Integer popUpCount) {
+    public InformationOverlayView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
-        this.popUpCount = popUpCount;
         System.out.println("CONSTRUCTOR Tutorial View");
         this.init();
+    }
+
+    public void setPopUpCount(Integer popUpCount) {
+        this.popUpCount = popUpCount;
     }
 
     @Override
