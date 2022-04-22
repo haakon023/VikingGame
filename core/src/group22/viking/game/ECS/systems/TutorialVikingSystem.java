@@ -26,8 +26,8 @@ public class TutorialVikingSystem extends VikingSystem{
         if(viking.getHealth() <= 0){
             System.out.println("SUNK!");
 
-            GameStateManager.getInstance().push(new TutorialInterruptState(offlinePlayState.getGame(),
-                    offlinePlayState.popUpCount+1));
+            offlinePlayState.nextTutorialInterruption();
+
             offlinePlayState.renderAPowerUp(new Vector2(VikingGame.SCREEN_WIDTH-300,100), new HealthPowerUp());
 
         }

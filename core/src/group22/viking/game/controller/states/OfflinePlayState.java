@@ -2,32 +2,28 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.math.Vector2;
 
-import group22.viking.game.ECS.systems.TutorialCollisionSystem;
 import group22.viking.game.ECS.systems.TutorialVikingSystem;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.factory.PowerUpFactory;
 import group22.viking.game.factory.VikingFactory;
-import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.powerups.IPowerUp;
-import group22.viking.game.view.SplashView;
 
 public class OfflinePlayState extends AbstractPlayState{
 
-    public Integer popUpCount;
+    public int popUpCount;
 
-    public OfflinePlayState(VikingGame game, Type type, Integer popUpCount) {
+    public OfflinePlayState(VikingGame game, Type type) {
         super(game, type);
-        this.popUpCount = popUpCount;
+        this.popUpCount = 2;
         if(type == Type.TUTORIAL){
 
             //switch systems
             this.engine.removeSystem(vikingSystem);
             this.vikingSystem = new TutorialVikingSystem(world, this);
             this.engine.addSystem(vikingSystem);
-            this.engine.removeSystem(collisionSystem);
-            this.collisionSystem = new TutorialCollisionSystem(world, this);
-            this.engine.addSystem(collisionSystem);
+
+            this.collisionSystem.addTutorialReference(this);
 
             tutorialInit();
         }
@@ -52,7 +48,13 @@ public class OfflinePlayState extends AbstractPlayState{
 
     @Override
     public void handleLocalDeath() {
-        GameStateManager.getInstance().pop();
+        System.out.println("dead");
+        //GameStateManager.getInstance().pop();
         // GameStateManager.getInstance().set(new GameOverState(game));
+    }
+
+    public void nextTutorialInterruption() {
+        GameStateManager.getInstance().push(new TutorialInterruptState(game, popUpCount));
+        popUpCount++;
     }
 }

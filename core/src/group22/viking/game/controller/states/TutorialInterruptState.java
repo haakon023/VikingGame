@@ -16,22 +16,10 @@ import group22.viking.game.view.InformationOverlayView;
 
 public class TutorialInterruptState extends AbstractInformationOverlayState {
 
-    public TutorialInterruptState(VikingGame game, Integer popUpCount) {
+    public TutorialInterruptState(VikingGame game, int popUpCount) {
         super(game);
-        Gdx.input.setInputProcessor(view.getStage());
-        addListenersToButtons();
-        SoundManager.mumbleSound(getGame().getPreferences());
+        System.out.println("TUTORIAL INTERRUPTION STATE: " + popUpCount);
         setViewTexts(popUpCount);
-    }
-
-    private void addListenersToButtons() {
-        getView().getConfirmButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
-                GameStateManager.getInstance().pop();
-            }
-        });
     }
 
     private void setViewTexts(int popUpCount) {

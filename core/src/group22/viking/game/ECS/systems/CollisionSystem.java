@@ -13,6 +13,7 @@ import group22.viking.game.ECS.components.PowerUpComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.ECS.components.VikingComponent;
+import group22.viking.game.controller.states.OfflinePlayState;
 
 public class CollisionSystem extends IteratingSystem {
 
@@ -22,6 +23,7 @@ public class CollisionSystem extends IteratingSystem {
     protected final ComponentMapper<PowerUpComponent> powerUpMapper;
 
     private final World world;
+    private OfflinePlayState offlinePlayState;
 
     public CollisionSystem(World world) {
         super(Family.all(CollisionComponent.class, TransformComponent.class).get());
@@ -30,6 +32,10 @@ public class CollisionSystem extends IteratingSystem {
         vikingMapper = ComponentMapper.getFor(VikingComponent.class);
         playerMapper = ComponentMapper.getFor(PlayerComponent.class);
         powerUpMapper = ComponentMapper.getFor(PowerUpComponent.class);
+    }
+
+    public void addTutorialReference(OfflinePlayState offlinePlayState) {
+        this.offlinePlayState = offlinePlayState;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class CollisionSystem extends IteratingSystem {
                         case POWER_UP:
                             PowerUpComponent powerComponent = powerUpMapper.get(collidedEntity);
                             powerComponent.getPowerUp().givePowerUp(player);
+                            if(offlinePlayState != null) offlinePlayState.nextTutorialInterruption();
                             destroyEntity(collidedEntity);
                             destroyEntity(entity);
                             break;
