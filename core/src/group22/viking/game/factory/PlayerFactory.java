@@ -13,6 +13,7 @@ import group22.viking.game.ECS.components.StateComponent;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
+import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.models.Assets;
 
 public class PlayerFactory extends AbstractFactory {
@@ -22,7 +23,8 @@ public class PlayerFactory extends AbstractFactory {
         super(engine);
     }
 
-    Entity create(Vector3 position, float scale, Texture texture) {
+    Entity create(Vector3 position, float scale, Texture texture,
+                  Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return super.createEntity(TypeComponent.EntityType.PLAYER)
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
@@ -34,23 +36,19 @@ public class PlayerFactory extends AbstractFactory {
                 .add(engine.createComponent(StateComponent.class)
                         .set(StateComponent.STATE_NORMAL)
                 )
-                .add(engine.createComponent(PlayerComponent.class));
+                .add(engine.createComponent(PlayerComponent.class)
+                    .setHealthBar(relatedHealthBar)
+                        .setPlayerStatusCollection(playerStatusCollection)
+                );
     }
 
-    // depreciated ?
-    public Entity createPlayerInScreenMiddle(int avatarId) {
-        return create(
-                new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0),
-                3.0F,
-                Assets.getTexture(Assets.getAvatar(avatarId))
-        );
-    }
-
-    public Entity createRotatingWeapon() {
+    public Entity createRotatingWeapon(Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return create(
                 new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 70, 0),
                 1.0F,
-                Assets.getTexture(Assets.BOW)
+                Assets.getTexture(Assets.BOW),
+                relatedHealthBar,
+                playerStatusCollection
         );
     }
 

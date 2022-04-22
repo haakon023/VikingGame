@@ -3,9 +3,9 @@ package group22.viking.game.controller.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerStatus extends FirebaseDocument{
+import group22.viking.game.ECS.components.PlayerComponent;
 
-    private static final long INITIAL_HEALTH = 1000;
+public class PlayerStatus extends FirebaseDocument{
 
     private static final String ID_SEPARATOR = "-";
 
@@ -40,7 +40,7 @@ public class PlayerStatus extends FirebaseDocument{
         this.isWriting = isWriting;
         this.isAlive = true;
         this.wonGames = 0;
-        this.health = INITIAL_HEALTH;
+        this.health = PlayerComponent.MAX_HEALTH;
         this.wave = 0;
     }
 
@@ -64,9 +64,9 @@ public class PlayerStatus extends FirebaseDocument{
         this.wonGames = wonGames;
     }
 
-    synchronized long reduceOwnHealth(long damage) {
-        if(!isWriting) return -1L; // error
-        return health -= damage;
+    public void setHealth(long health) {
+        if(!isWriting) return; // error
+        this.health = health;
     }
 
     @Override

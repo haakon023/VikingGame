@@ -58,17 +58,14 @@ public class MenuState extends State {
         getView().setAvatar((int) localPlayerProfile.getAvatarId());
     }
 
-    @Override
-    protected void handleInput() {
-
-    }
-
     private void addListenersToButtons() {
         getView().getTutorialButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound(getGame().getPreferences());
-                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.TUTORIAL));
+                Integer popUpCounter = 1; // wrapper object for same reference
+                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.TUTORIAL, popUpCounter));
+                GameStateManager.getInstance().push(new TutorialInterruptState(game, popUpCounter));
             }
         });
 
@@ -76,7 +73,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound(getGame().getPreferences());
-                GameStateManager.getInstance().push(new PlayState(game, PlayState.Type.PRACTICE));
+                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.PRACTICE, null));
             }
         });
 

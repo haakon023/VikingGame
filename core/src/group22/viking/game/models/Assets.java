@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.I18NBundle;
 
 import java.util.Locale;
@@ -21,6 +22,8 @@ import group22.viking.game.view.ProfileSettingsView;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class Assets {
+
+    public static Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
 
     public static AssetManager assetManager = new AssetManager();
 
@@ -114,6 +117,9 @@ public class Assets {
     public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
 
+    //health bar
+    public static final String HEALTH_BAR_WRAPPER = "img/healthBarFrame.png";
+    public static final String HEALTH_BAR_FILLING = "img/HealthBarFilling.png";
 
     public static void load() {
 
@@ -169,6 +175,8 @@ public class Assets {
         assetManager.load(ISLAND, Texture.class);
         assetManager.load(WAVE_TOP, Texture.class);
         assetManager.load(MONASTERY, Texture.class);
+        assetManager.load(HEALTH_BAR_WRAPPER, Texture.class);
+        assetManager.load(HEALTH_BAR_FILLING, Texture.class);
 
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);

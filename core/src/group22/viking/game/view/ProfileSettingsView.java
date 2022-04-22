@@ -90,7 +90,7 @@ public class ProfileSettingsView extends View {
         );
 
         submitChangesButton = ViewComponentFactory.createTextButton(
-                "Save and Exit",
+                Assets.t("profile_button_saveAndExit"),
                 new Vector2(leftButton.getX(),
                         VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 500),
                 new Vector2(2*leftButton.getWidth()+profileImage.getWidth()+100+600, 150)
@@ -115,7 +115,7 @@ public class ProfileSettingsView extends View {
 
     private void createLabels() {
         profileLabel = ViewComponentFactory.createLabel100(
-                "Profile",
+                Assets.t("profile_label_profile"),
                 new Vector2(VikingGame.SCREEN_WIDTH/2-150,VikingGame.SCREEN_HEIGHT - 200)
         );
         profileLabel.setColor(Color.WHITE);
@@ -137,7 +137,6 @@ public class ProfileSettingsView extends View {
     void drawElements(float deltaTime) {
         stage.act(deltaTime);
         stage.draw();
-
     }
 
     public void updateShownAvatarId(int avatarId) {
