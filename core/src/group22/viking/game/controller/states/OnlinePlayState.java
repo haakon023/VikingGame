@@ -37,24 +37,6 @@ public class OnlinePlayState extends AbstractPlayState{
                 game.getProfileCollection().getGuestProfile() :
                 game.getProfileCollection().getHostProfile());
 
-        playerStatusCollection.createOwnStatus(
-                lobby.getOwnId(),
-                lobby.getOpponentId(),
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        addOpponentListener(lobby);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
-                    }
-                }
-        );
-    }
-
-    private void addOpponentListener(Lobby lobby) {
         playerStatusCollection.addListenerToOpponentStatus(
                 lobby.getOwnId(),
                 lobby.getOpponentId(),
@@ -64,7 +46,6 @@ public class OnlinePlayState extends AbstractPlayState{
                         PlayerStatus opponent = (PlayerStatus) document;
                         if(opponent.isDead()) {
                             System.out.println("OPPONENT DEAD: " + opponent.isDead());
-                            // TODO end game
                             handleOpponentDeath();
                             return;
                         }

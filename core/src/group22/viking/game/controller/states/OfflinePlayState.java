@@ -15,6 +15,6 @@ public class OfflinePlayState extends AbstractPlayState{
     @Override
     public void handleLocalDeath() {
         // GameStateManager.getInstance().pop();
-        GameStateManager.getInstance().set(new GameOverState(game));
+        GameStateManager.getInstance().set(new GameOverState(game, false));
     }
 }

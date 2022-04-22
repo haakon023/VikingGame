@@ -53,6 +53,7 @@ public class LobbyState extends State {
         this.IS_HOST = true;
 
         profileCollection = game.getProfileCollection();
+        profileCollection.setHostId(profileCollection.getLocalPlayerProfile().getId());
         lobbyCollection = game.getLobbyCollection();
 
         playerStatusCollection = game.getPlayerStatusCollection();
@@ -81,6 +82,7 @@ public class LobbyState extends State {
         this.IS_HOST = false;
 
         profileCollection = game.getProfileCollection();
+        profileCollection.setGuestId(profileCollection.getLocalPlayerProfile().getId());
         lobbyCollection = game.getLobbyCollection();
 
         playerStatusCollection = game.getPlayerStatusCollection();
@@ -102,6 +104,7 @@ public class LobbyState extends State {
 
         System.out.println("GUEST LOBBY STATE CREATED");
     }
+
 
     public void reinitialize() {
         Gdx.input.setInputProcessor(view.getStage());
@@ -151,7 +154,9 @@ public class LobbyState extends State {
                         return;
                     case GUEST_READY:
                     case GUEST_JOINED:
-                        if(IS_HOST) getOpponentInformationAndDisplay(lobby.getGuestId());
+                        if(!IS_HOST) return;
+                        getOpponentInformationAndDisplay(lobby.getGuestId());
+                        prepareGameStatusDocument(lobby);
                         return;
                     case RUNNING:
                         if(IS_HOST) {
@@ -216,6 +221,7 @@ public class LobbyState extends State {
                         Lobby lobby = (Lobby) document;
                         getOpponentInformationAndDisplay(lobby.getHostId());
                         setLobbyListener(lobby);
+                        prepareGameStatusDocument(lobby);
                     }
 
                     @Override
@@ -223,6 +229,24 @@ public class LobbyState extends State {
                         ViewComponentFactory.createErrorDialog().show(getView().getStage());
                     }
                 });
+    }
+
+    private void prepareGameStatusDocument(Lobby lobby) {
+        playerStatusCollection.createOwnStatus(
+                lobby.getOwnId(),
+                lobby.getOpponentId(),
+                new OnCollectionUpdatedListener() {
+                    @Override
+                    public void onSuccess(FirebaseDocument document) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                    }
+                }
+        );
     }
 
     private void displayHost(Profile profile) {
