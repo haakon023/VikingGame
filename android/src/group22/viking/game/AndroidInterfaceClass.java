@@ -37,11 +37,17 @@ public class AndroidInterfaceClass implements FirebaseInterface {
 
     private final Map<FirebaseDocument, ListenerRegistration> serverListeners;
 
+    private boolean isOnline;
+
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
         serverListeners = new HashMap<>();
+
+        isOnline = reachGoogle();
+
+        System.out.println("INTERNET AVAILABLE: " + isOnline);
 
 
         mAuth.signInAnonymously()
@@ -56,6 +62,24 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                         Log.w(TAG, "signInAnonymously:failure", e);
                     }
                 });
+    }
+
+    /**
+     * https://codegrepr.com/question/check-for-active-internet-connection-android/
+     *
+     * @return boolean
+     */
+    public boolean reachGoogle() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            return reachable;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -185,5 +209,10 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                     Log.w(TAG, "Error deleting document", e);
                     listener.onFailure();
                 });
+    }
+
+    @Override
+    public boolean isOnline() {
+        return isOnline;
     }
 }
