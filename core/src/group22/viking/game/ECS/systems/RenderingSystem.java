@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Comparator;
 
@@ -42,7 +44,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private Comparator<com.badlogic.ashley.core.Entity> comparator;
     private Array<com.badlogic.ashley.core.Entity> renderQueue;
     private OrthographicCamera camera;
-    
+
     private ComponentMapper<TransformComponent> cmTransformComp;
     private ComponentMapper<TextureComponent> cmTextureComp;
 

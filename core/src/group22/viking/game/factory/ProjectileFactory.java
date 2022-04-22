@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 import group22.viking.game.ECS.utils.BodyFactory;
@@ -56,10 +58,16 @@ public class ProjectileFactory extends AbstractFactory {
                 0.3F,
                 Assets.getTexture(Assets.ARROW_SPRITE)
         );
+        Body body = BodyFactory.getInstance(world).makeCirclePolyBody(
+                x, y, 10, BodyDef.BodyType.DynamicBody, false);
+        Filter filter = new Filter();
+        filter.categoryBits = BodyFactory.BULLET_ENTITY;
+        filter.maskBits = BodyFactory.VIKING_ENTITY | BodyFactory.POWER_UP_ENTITY;
+        body.getFixtureList().first().setFilterData(filter);
 
         return entity
                 .add(engine.createComponent(B2dBodyComponent.class)
-                        .setBody(BodyFactory.getInstance(world).makeCirclePolyBody(x, y, 1f, BodyDef.BodyType.DynamicBody, false), entity)
+                        .setBody(body, entity)
                 )
                 .add(engine.createComponent(LinearProjectileComponent.class)
                         .setSpeed(700)
