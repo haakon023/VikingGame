@@ -100,7 +100,7 @@ public class LeaderboardView extends View {
 
         for(int i = 0; i < names.size; i++) {
             leaderboardTable.row();
-            leaderboardTable.add(new Label("" + (i + 1), ViewComponentFactory.createSkin48()));
+            leaderboardTable.add(new Label(String.valueOf(i + 1), ViewComponentFactory.createSkin48()));
             if(i == localPlayerPosition) {
                 Label localPlayerLabel = new Label(names.get(i), ViewComponentFactory.createSkin48());
                 localPlayerLabel.setColor(new Color(128f/255f, 170f/255f, 85f/255f, 1f));
