@@ -30,15 +30,6 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
         });
     }
 
-    @Override
-    public void dispose() {
-
-    }
-
-    private InformationOverlayView getView() {
-        return (InformationOverlayView) view;
-    }
-
     private void setViewTexts(int popUpCount) {
         getView().setTexts(
                 Assets.t("tutorial_header" + popUpCount),

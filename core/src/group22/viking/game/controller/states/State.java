@@ -33,7 +33,7 @@ public abstract class State {
     }
 
     public void dispose() {
-        view.dispose();
+        //view.dispose();
     }
 
     public VikingGame getGame() {
