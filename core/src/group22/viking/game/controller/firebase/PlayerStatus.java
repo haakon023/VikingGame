@@ -12,13 +12,11 @@ public class PlayerStatus extends FirebaseDocument{
     final static String KEY_IS_ALIVE = "is_alive";
     final static String KEY_WON = "won";
     final static String KEY_HEALTH = "health";
-    final static String KEY_WAVE = "wave";
 
     private boolean isAlive;
     private final boolean isWriting;
     private long wonGames;
     private long health;
-    private long wave;
 
     /**
      * Constructor for dummy instance.
@@ -41,7 +39,6 @@ public class PlayerStatus extends FirebaseDocument{
         this.isAlive = true;
         this.wonGames = 0;
         this.health = PlayerComponent.MAX_HEALTH;
-        this.wave = 0;
     }
 
     public boolean isDead() {
@@ -58,10 +55,6 @@ public class PlayerStatus extends FirebaseDocument{
 
     public long getHealth() {
         return health;
-    }
-
-    public long getWave() {
-        return wave;
     }
 
     void setWonGames(long wonGames) {
@@ -85,9 +78,6 @@ public class PlayerStatus extends FirebaseDocument{
             case KEY_HEALTH:
                 this.health = (Long) value;
                 break;
-            case KEY_WAVE:
-                this.wave = (Long) value;
-                break;
             default:
                 throw new FieldKeyUnknownException(key);
         }
@@ -99,17 +89,13 @@ public class PlayerStatus extends FirebaseDocument{
             put(KEY_IS_ALIVE, isAlive);
             put(KEY_WON, wonGames);
             put(KEY_HEALTH, health);
-            put(KEY_WAVE, wave);
         }};
     }
 
     void finish(boolean win) {
         if(!isWriting) return; // error
         if(win) wonGames++;
-        health = -1;
+        health = PlayerComponent.MAX_HEALTH;
     }
 
-    void increaseWave() {
-        wave++;
-    }
 }
