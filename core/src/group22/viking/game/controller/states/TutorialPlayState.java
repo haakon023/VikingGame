@@ -3,6 +3,7 @@ package group22.viking.game.controller.states;
 import com.badlogic.gdx.math.Vector2;
 
 import group22.viking.game.ECS.systems.TutorialVikingSystem;
+import group22.viking.game.ECS.systems.VikingSystem;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.factory.PowerUpFactory;
@@ -16,11 +17,11 @@ public class TutorialPlayState extends OfflinePlayState {
         this.popUpCount = 2;
 
         //switch systems
-        this.engine.removeSystem(vikingSystem);
-        this.vikingSystem = new TutorialVikingSystem(world, this);
-        this.engine.addSystem(vikingSystem);
+        engine.removeSystem(vikingSystem);
+        vikingSystem = new TutorialVikingSystem(world, this);
+        engine.addSystem(vikingSystem);
 
-        this.collisionSystem.addTutorialReference(this);
+        collisionSystem.addTutorialReference(this);
 
         init();
     }
@@ -45,4 +46,12 @@ public class TutorialPlayState extends OfflinePlayState {
         popUpCount++;
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        engine.removeSystem(vikingSystem);
+        vikingSystem = new VikingSystem(world);
+        engine.addSystem(vikingSystem);
+    }
 }

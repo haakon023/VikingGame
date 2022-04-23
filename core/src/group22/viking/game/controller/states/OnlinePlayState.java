@@ -17,6 +17,8 @@ public class OnlinePlayState extends AbstractPlayState{
 
     private PlayerStatusCollection playerStatusCollection;
 
+    private long score ;
+
     // opponent health bar
     private Entity opponentHealthBar;
     public OnlinePlayState(VikingGame game, Lobby lobby) {
@@ -24,11 +26,10 @@ public class OnlinePlayState extends AbstractPlayState{
 
         this.playerStatusCollection = game.getPlayerStatusCollection();
         this.profileCollection = game.getProfileCollection();
+        this.score = 0;
 
-        onlineInit(lobby);
-    }
+        collisionSystem.addOnlineReference(this);
 
-    private void onlineInit(final Lobby lobby) {
         initOpponent(lobby.isHost() ?
                 game.getProfileCollection().getProfile(lobby.getGuestId()) :
                 game.getProfileCollection().getProfile(lobby.getHostId()));
@@ -78,11 +79,18 @@ public class OnlinePlayState extends AbstractPlayState{
     @Override
     public void handleLocalDeath() {
         playerStatusCollection.setOwnDeathAndFinish();
+        profileCollection.setScore(score);
         GameStateManager.getInstance().pop();
     }
 
     public void handleOpponentDeath() {
         playerStatusCollection.setOpponentDeathAndFinish();
+
         GameStateManager.getInstance().pop();
+    }
+
+    public void addScore(long reward) {
+        this.score += reward;
+        System.out.println(score);
     }
 }
