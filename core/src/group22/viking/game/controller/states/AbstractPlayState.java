@@ -3,6 +3,10 @@ package group22.viking.game.controller.states;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+
+import group22.viking.game.controller.spawnlogic.Spawner;
+import group22.viking.game.controller.spawnlogic.SpawnerController;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -19,12 +23,10 @@ import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.factory.PlayerFactory;
-import group22.viking.game.factory.PowerUpFactory;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
 import group22.viking.game.input.InputController;
 import group22.viking.game.models.Assets;
-import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 
@@ -36,22 +38,19 @@ public abstract class AbstractPlayState extends State{
         ONLINE
     }
 
-    private Type type;
+    private final Type type;
 
     protected ProfileCollection profileCollection;
 
     private PlayerControlSystem playerControlSystem;
     private RenderingSystem renderingSystem;
     private HomingProjectileSystem homingProjectileSystem;
-    private CollisionSystem collisionSystem;
+    protected CollisionSystem collisionSystem;
     private PhysicsSystem physicsSystem;
     private LinearProjectileSystem linearProjectileSystem;
-    private VikingSystem vikingSystem;
+    protected VikingSystem vikingSystem;
 
-    private World world;
-
-    public static World worldInstance;
-
+    protected World world;
 
     private InputController inputController;
 
@@ -59,6 +58,10 @@ public abstract class AbstractPlayState extends State{
     protected TextureFactory textureFactory;
 
     protected boolean isRendering;
+
+    private float time;
+
+    private SpawnerController spawnerController;
 
     protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
@@ -77,9 +80,14 @@ public abstract class AbstractPlayState extends State{
         this.vikingSystem = new VikingSystem(world);
         this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
         this.homingProjectileSystem = new HomingProjectileSystem();
+
+        this.time = 0;
+        this.spawnerController = new SpawnerController(4);
+
         this.collisionSystem = new CollisionSystem(world);
         this.physicsSystem = new PhysicsSystem(world);
         this.linearProjectileSystem = new LinearProjectileSystem(world);
+
 
         this.engine.addSystem(playerControlSystem);
         this.engine.addSystem(physicsSystem);
@@ -114,12 +122,13 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(textureFactory.createWavetop());
         engine.addEntity(textureFactory.createMonastery());
 
-        PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-
-        engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
+        //PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
+        //engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
         // health bars
+
         Entity healthBar = textureFactory.createHealthFillingLeft();
+
         engine.addEntity(healthBar);
         engine.addEntity(textureFactory.createHealthBarLeft());
         engine.addEntity(textureFactory.createAvatarHeadLeft(
@@ -134,10 +143,25 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(playerFactory.createRotatingWeapon(healthBar,
                 type == Type.ONLINE ? game.getPlayerStatusCollection() : null));
 
-        // TODO put code in wave logic:
+        // first Vikings
+        spawnVikingWave();
+    }
+
+    private void spawnVikingWave()
+    {
+        if(type == Type.TUTORIAL) return;
+        int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
         VikingFactory vikingFactory = new VikingFactory(engine, world);
-        engine.addEntity(vikingFactory.createShip(0,0));
-        engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
+        System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
+        for (int i=0; i < spawnerController.getSpawners().size(); i++)
+        {
+            Spawner spawner = spawnerController.getSpawners().get(i);
+            for (int j=0; j < amountToSpawnPerSpawner; j++)
+            {
+                System.out.println(spawner.getPosition() + " | position of ship");
+                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+            }
+        }
     }
 
     protected PlayView getView() {
@@ -164,6 +188,11 @@ public abstract class AbstractPlayState extends State{
     @Override
     public void render(float deltaTime) {
         if (!isRendering) return;
+        time += deltaTime;
+        if (Math.round(time) >= 30) {
+            spawnVikingWave();
+            time = 0;
+        }
         engine.update(deltaTime);
         //do here NOT use the stage-view render system
     }

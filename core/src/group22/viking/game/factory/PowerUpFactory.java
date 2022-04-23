@@ -67,7 +67,7 @@ public class PowerUpFactory extends AbstractFactory {
         return create(
                 new Vector3(x, y, 0),
                 1.0F,
-                Assets.getTexture(Assets.BAD_LOGIC), // TODO
+                Assets.getTexture(Assets.POWER_UP), // TODO
                 powerUp
         );
     }

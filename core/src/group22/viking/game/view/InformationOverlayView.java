@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.models.Assets;
 
 public class InformationOverlayView extends View {
 
@@ -27,16 +28,26 @@ public class InformationOverlayView extends View {
     @Override
     public void init() {
         stage.clear();
+        createBackground();
         createButtons();
         createLabels();
         runInitialAnimations();
         stage.act(0);
     }
 
+    private void createBackground(){
+        teacher = new Image(Assets.getTexture(Assets.WIZARD_SPRITE));
+        teacher.setSize(900,900);
+        teacher.setPosition(250,-1200);
+        teacher.rotateBy(20f);
+
+        stage.addActor(teacher);
+    }
+
     private void createButtons() {
         confirmButton = ViewComponentFactory.createTextButton(
-                "Understood !",
-                new Vector2(200, 150),
+                Assets.t("overlay_button_okay"),
+                new Vector2(VikingGame.SCREEN_WIDTH/2-100, 100),
                 new Vector2(500,150)
         );
 
@@ -44,23 +55,23 @@ public class InformationOverlayView extends View {
 
     }
 
+
     private void createLabels() {
         headingLabel = ViewComponentFactory.createLabel100(
                 "",
-                new Vector2(200,VikingGame.SCREEN_HEIGHT-300)
+                new Vector2(VikingGame.SCREEN_WIDTH/2-100,VikingGame.SCREEN_HEIGHT-200)
         );
         headingLabel.setColor(Color.WHITE);
         headingLabel.setAlignment(Align.topLeft);
-
+        headingLabel.setWidth(1000);
         headingLabel.setWrap(true);
 
         contentLabel = ViewComponentFactory.createLabel48(
                 "",
-                new Vector2(200,20)
+                new Vector2(VikingGame.SCREEN_WIDTH/2-100,300)
         );
         contentLabel.setColor(Color.WHITE);
-
-        contentLabel.setSize(VikingGame.SCREEN_WIDTH/2, VikingGame.SCREEN_HEIGHT-350);
+        contentLabel.setSize(VikingGame.SCREEN_WIDTH/2, VikingGame.SCREEN_HEIGHT-650);
         contentLabel.setAlignment(Align.topLeft);
         contentLabel.setWrap(true);
 
@@ -78,6 +89,10 @@ public class InformationOverlayView extends View {
         confirmButton.addAction(ViewComponentFactory.createFadeInAction());
         headingLabel.addAction(ViewComponentFactory.createFadeInAction());
         contentLabel.addAction(ViewComponentFactory.createFadeInAction());
+        teacher.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(0,1),
+                new Vector2(0,900)
+        ));
     }
 
     @Override

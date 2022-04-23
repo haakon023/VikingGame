@@ -10,6 +10,7 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
@@ -50,7 +51,7 @@ public class OnlinePlayState extends AbstractPlayState{
 
                     @Override
                     public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                        ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
                     }
                 }
         );

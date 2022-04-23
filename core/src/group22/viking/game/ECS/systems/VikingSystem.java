@@ -20,7 +20,7 @@ public class VikingSystem extends IteratingSystem {
 
     private final World world;
     private ComponentMapper<TransformComponent> cmTransform;
-    private ComponentMapper<VikingComponent> cmViking;
+    protected ComponentMapper<VikingComponent> cmViking;
     private ComponentMapper<TextureComponent> cmTexture;
     private ComponentMapper<B2dBodyComponent> cmBody;
 
@@ -56,11 +56,12 @@ public class VikingSystem extends IteratingSystem {
         
         viking.setTimeSinceLastAttack(viking.getTimeSinceLastAttack() + deltaTime);
 
-        double distance = Math.sqrt((playerPosition.x - vikingTransform.position.x) * (playerPosition.y - vikingTransform.position.y));
+        double distance = distance(new Vector2(playerPosition.x, playerPosition.y), new Vector2(vikingTransform.position.x, vikingTransform.position.y));
+
         float vikingSize = vikingTexture.textureRegion.getRegionWidth() / 2f;
         if(distance > vikingSize) {
             Vector3 direction = new Vector3(playerPosition.x - vikingTransform.position.x, playerPosition.y - vikingTransform.position.y, 0).nor();
-            b2d.body.setLinearVelocity(new Vector2(direction.x, direction.y).scl( 100));
+            b2d.body.setLinearVelocity(new Vector2(direction.x, direction.y).scl( 1000));
             return;
         }
         
@@ -69,6 +70,10 @@ public class VikingSystem extends IteratingSystem {
         if (dealDamage(player.getComponent(PlayerComponent.class), viking)) {
             SpawnProjectile(vikingTransform, player);
         }
+    }
+
+    double distance(Vector2 object1, Vector2 object2){
+        return Math.sqrt(Math.pow((object2.x - object1.x), 2) + Math.pow((object2.y - object1.y), 2));
     }
 
     private boolean dealDamage(PlayerComponent player, VikingComponent viking)

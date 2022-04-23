@@ -65,10 +65,9 @@ public class ViewComponentFactory {
         return button;
     }
 
-    public static ErrorDialog createErrorDialog(){
+    public static ErrorDialog createErrorDialog(String content){
         SoundManager.errorSound();
-        return new ErrorDialog("", createSkin48());
-
+        return new ErrorDialog("", content, createSkin48());
     }
 
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {

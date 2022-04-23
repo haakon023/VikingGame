@@ -33,6 +33,7 @@ public class ProfileCollectionTest {
                 Assert.assertEquals(profile.getLostGames(), 0L);
                 Assert.assertEquals(profile.getWonGames(), 0L);
                 //Assert.assertEquals(profile.getScore(), 0.0);
+
                 profileId = profile.getId();
             }
 

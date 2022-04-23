@@ -16,6 +16,7 @@ import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class MenuState extends State {
@@ -60,9 +61,9 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
-                Integer popUpCounter = 1; // wrapper object for same reference
-                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.TUTORIAL, popUpCounter));
-                GameStateManager.getInstance().push(new TutorialInterruptState(game, popUpCounter));
+                TutorialPlayState tutorialPlayState = new TutorialPlayState(game);
+                GameStateManager.getInstance().push(tutorialPlayState);
+                GameStateManager.getInstance().push(new TutorialInterruptState(game, tutorialPlayState, 1));
             }
         });
 
@@ -70,7 +71,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
-                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.PRACTICE, null));
+                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.PRACTICE));
             }
         });
 

@@ -11,7 +11,7 @@ public class SoundManager {
     public static void buttonClickSound(){
         if(isSoundOn()){
             long soundButtonId = Assets.SOUND_BUTTON.play(1f);
-            Assets.SOUND_BUTTON.setPitch(soundButtonId,2f);
+            Assets.SOUND_BUTTON.setPitch(soundButtonId,1f);
             Assets.SOUND_BUTTON.setLooping(soundButtonId,false);
         }
     }
@@ -19,7 +19,7 @@ public class SoundManager {
     public static void avatarSwooshSound(){
         if(isSoundOn()){
             long swooshId = Assets.SOUND_SHWOOSH.play(1f);
-            Assets.SOUND_SHWOOSH.setPitch(swooshId,2f);
+            Assets.SOUND_SHWOOSH.setPitch(swooshId,1f);
             Assets.SOUND_SHWOOSH.setLooping(swooshId,false);
         }
     }
@@ -27,8 +27,16 @@ public class SoundManager {
     public static void errorSound(){
         if(isSoundOn()){
             long swooshId = Assets.SOUND_ERROR.play(1f);
-            Assets.SOUND_ERROR.setPitch(swooshId,2f);
+            Assets.SOUND_ERROR.setPitch(swooshId,1f);
             Assets.SOUND_ERROR.setLooping(swooshId,false);
+        }
+    }
+
+    public static void mumbleSound(){
+        if(isSoundOn()){
+            long mumbleId = Assets.SOUND_MUMBLE.play(1f);
+            Assets.SOUND_MUMBLE.setPitch(mumbleId,1f);
+            Assets.SOUND_MUMBLE.setLooping(mumbleId,false);
         }
     }
 
