@@ -17,6 +17,11 @@ public class PlayerComponent implements Component{
     public float fireRate = 0.2f; // shoot every half second
     public float attackDamage = 50;
 
+    public PlayerComponent init() {
+        this.health = MAX_HEALTH;
+        return this;
+    }
+
     /**
      * Increase or reduce health, but follow health rules. Send to opponent if online mode (not null)
      *

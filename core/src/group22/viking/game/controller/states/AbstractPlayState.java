@@ -8,7 +8,9 @@ import group22.viking.game.controller.spawnlogic.Spawner;
 import group22.viking.game.controller.spawnlogic.SpawnerController;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import group22.viking.game.ECS.systems.CollisionSystem;
 import group22.viking.game.ECS.systems.HomingProjectileSystem;
@@ -42,26 +44,26 @@ public abstract class AbstractPlayState extends State{
 
     protected ProfileCollection profileCollection;
 
-    private PlayerControlSystem playerControlSystem;
-    private RenderingSystem renderingSystem;
-    private HomingProjectileSystem homingProjectileSystem;
-    protected CollisionSystem collisionSystem;
-    private PhysicsSystem physicsSystem;
-    private LinearProjectileSystem linearProjectileSystem;
-    protected VikingSystem vikingSystem;
+    private static PlayerControlSystem playerControlSystem;
+    private static RenderingSystem renderingSystem;
+    private static HomingProjectileSystem homingProjectileSystem;
+    protected static CollisionSystem collisionSystem;
+    private static PhysicsSystem physicsSystem;
+    private static LinearProjectileSystem linearProjectileSystem;
+    protected static VikingSystem vikingSystem;
 
-    protected World world;
+    protected static World world;
 
     private InputController inputController;
 
-    protected PooledEngine engine;
+    protected static PooledEngine engine;
     protected TextureFactory textureFactory;
 
     protected boolean isRendering;
 
     private float time;
 
-    private SpawnerController spawnerController;
+    private final SpawnerController spawnerController;
 
     protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
@@ -71,32 +73,38 @@ public abstract class AbstractPlayState extends State{
 
         this.profileCollection = game.getProfileCollection();
 
-        world = new World(new Vector2(0,0), true);
-        world.setContactListener(new ColliderListener());
-
         this.inputController = new InputController();
-        this.engine = new PooledEngine();
-        this.playerControlSystem = new PlayerControlSystem(this, inputController, world);
-        this.vikingSystem = new VikingSystem(world);
-        this.renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
-        this.homingProjectileSystem = new HomingProjectileSystem();
-
+        if (engine == null) {
+            world = new World(new Vector2(0,0), true);
+            world.setContactListener(new ColliderListener());
+            engine = new PooledEngine();
+            playerControlSystem = new PlayerControlSystem(this, inputController, world);
+            vikingSystem = new VikingSystem(world);
+            renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
+            homingProjectileSystem = new HomingProjectileSystem();
+            collisionSystem = new CollisionSystem(world);
+            physicsSystem = new PhysicsSystem(world);
+            linearProjectileSystem = new LinearProjectileSystem(world);
+            engine.addSystem(playerControlSystem);
+            engine.addSystem(physicsSystem);
+            engine.addSystem(vikingSystem);
+            engine.addSystem(renderingSystem);
+            engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+            engine.addSystem(homingProjectileSystem);
+            engine.addSystem(collisionSystem);
+            engine.addSystem(linearProjectileSystem);
+        } else {
+            engine.getSystem(PlayerControlSystem.class).updateInputController(inputController);
+            world.clearForces();
+            Array<Body> bodies = new Array<>();
+            world.getBodies(bodies);
+            for(Body body : bodies){
+                System.out.println("DELETE BODY");
+                world.destroyBody(body);
+            }
+        }
         this.time = 0;
         this.spawnerController = new SpawnerController(4);
-
-        this.collisionSystem = new CollisionSystem(world);
-        this.physicsSystem = new PhysicsSystem(world);
-        this.linearProjectileSystem = new LinearProjectileSystem(world);
-
-
-        this.engine.addSystem(playerControlSystem);
-        this.engine.addSystem(physicsSystem);
-        this.engine.addSystem(vikingSystem);
-        this.engine.addSystem(renderingSystem);
-        this.engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
-        this.engine.addSystem(homingProjectileSystem);
-        this.engine.addSystem(collisionSystem);
-        this.engine.addSystem(linearProjectileSystem);
 
         Gdx.input.setInputProcessor(inputController);
 
@@ -201,7 +209,8 @@ public abstract class AbstractPlayState extends State{
     public void dispose() {
         this.isRendering = false;
         // reset engine
-        // engine.removeAllEntities();
+        engine.removeAllEntities();
+        engine.clearPools();
         /*
         engine.removeSystem(renderingSystem);
         engine.removeSystem(playerControlSystem);
