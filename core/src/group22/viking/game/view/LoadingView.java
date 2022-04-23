@@ -64,12 +64,12 @@ public class LoadingView extends View {
 
         //shapeRenderer (use it like a batch)
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.rect(32,VikingGame.SCREEN_HEIGHT/4-8,
-                VikingGame.SCREEN_WIDTH-64,16);
         shapeRenderer.setColor(Color.GRAY);
+        shapeRenderer.rect(32,VikingGame.SCREEN_HEIGHT/4,
+                VikingGame.SCREEN_WIDTH-64,16);
 
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(32,VikingGame.SCREEN_HEIGHT/4-8,
+        shapeRenderer.rect(32,VikingGame.SCREEN_HEIGHT/4,
                 progress*(VikingGame.SCREEN_WIDTH-64),16);
 
         shapeRenderer.end();

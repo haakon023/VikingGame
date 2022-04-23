@@ -22,7 +22,7 @@ public class VikingGame extends Game {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
-	private Preferences preferences;
+	private static Preferences preferences;
 
 
 	public static float SCREEN_WIDTH;
@@ -35,13 +35,18 @@ public class VikingGame extends Game {
 	private final LobbyCollection lobbyCollection;
 	// TODO more collections
 
+	private boolean isOnline;
+
 	public static VikingGame instance;
 	
 	public VikingGame(FirebaseInterface firebaseInterface, Preferences preferences) {
-		this.playerStatusCollection = new PlayerStatusCollection(firebaseInterface);
-		this.profileCollection = new ProfileCollection(firebaseInterface, preferences);
-		this.lobbyCollection = new LobbyCollection(firebaseInterface);
 		this.preferences = preferences;
+		this.playerStatusCollection = new PlayerStatusCollection(firebaseInterface);
+		this.profileCollection = new ProfileCollection(firebaseInterface);
+		this.lobbyCollection = new LobbyCollection(firebaseInterface);
+
+		this.isOnline = firebaseInterface.isOnline();
+		System.out.println("VIKING GAME ONLINE: " + isOnline);
 
 		instance = this;
 	}
@@ -91,7 +96,7 @@ public class VikingGame extends Game {
 		return profileCollection;
 	}
 
-	public Preferences getPreferences() {
+	public static Preferences getPreferences() {
 		return preferences;
 	}
 }

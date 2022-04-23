@@ -81,7 +81,7 @@ public class VikingSystem extends IteratingSystem {
         if (!(viking.getAttackRate() <= viking.getTimeSinceLastAttack())) {
             return false;
         }
-        player.modifyHealth(-viking.getDamage());
+        player.addToHealth(-viking.getDamage());
         viking.setTimeSinceLastAttack(0);
         return true;
     }

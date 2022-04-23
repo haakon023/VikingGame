@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 import group22.viking.game.ECS.utils.BodyFactory;
@@ -29,6 +31,12 @@ public class VikingFactory extends AbstractFactory {
 
     Entity create(Vector3 position, float scale, Texture texture) {
         Entity entity = super.createEntity(TypeComponent.EntityType.VIKING);
+        Body body = BodyFactory.getInstance(world).makeCirclePolyBody(
+                position.x, position.y, 250, BodyDef.BodyType.DynamicBody, false);
+        Filter filter = new Filter();
+        filter.categoryBits = BodyFactory.VIKING_ENTITY;
+        filter.maskBits = BodyFactory.BULLET_ENTITY;
+        body.getFixtureList().first().setFilterData(filter);
         return entity
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
@@ -39,10 +47,11 @@ public class VikingFactory extends AbstractFactory {
                 )
                 .add(engine.createComponent(VikingComponent.class))
                 .add(engine.createComponent(B2dBodyComponent.class)
-                        .setBody(BodyFactory.getInstance(world).makeCirclePolyBody(
-                                position.x, position.y, 250, BodyDef.BodyType.DynamicBody, false),
-                                entity)
+                        .setBody(body, entity)
+
+
                 )
+
                 .add(engine.createComponent(CollisionComponent.class));
     }
 

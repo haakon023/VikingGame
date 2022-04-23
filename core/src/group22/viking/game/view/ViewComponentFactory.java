@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 
 
@@ -34,6 +35,8 @@ public class ViewComponentFactory {
     private final static FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
     public static final Vector2 VERY_SMALL_BUTTON_SIZE = new Vector2(120, 120);
+    public static final Vector2 VERY_SMALL_RECT_BUTTON_SIZE = new Vector2(200, 120);
+    public static final Vector2 SMALL_RECT_BUTTON_SIZE = new Vector2(300, 120);
     public static final Vector2 SMALL_BUTTON_SIZE = new Vector2(150, 150);
     public static final Vector2 BIG_BUTTON_SIZE =  new Vector2(700, 150);
     public static final Vector2 PROFILE_IMAGE_SIZE = new Vector2(500, 500);
@@ -63,7 +66,9 @@ public class ViewComponentFactory {
     }
 
     public static ErrorDialog createErrorDialog(){
+        SoundManager.errorSound();
         return new ErrorDialog("", createSkin48());
+
     }
 
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
@@ -132,14 +137,15 @@ public class ViewComponentFactory {
         );
     }
 
-    public static Action createAvatarSwooshAnimation(int direction) {
+    public static Action createAvatarSwooshAnimation(Vector2 direction, Vector2 moveBy) {
         return sequence(alpha(0),
                 parallel(
                         fadeIn(.5f),
-                        moveBy(direction * 1000,0,.5f, Interpolation.pow5Out)
+                        moveBy(direction.x * moveBy.x,direction.y * moveBy.y,.5f, Interpolation.pow5Out)
                 ));
 
     }
+
 
     public static BitmapFont generateFont(int fontSize, int letterSpacing) {
         parameter.size = fontSize;

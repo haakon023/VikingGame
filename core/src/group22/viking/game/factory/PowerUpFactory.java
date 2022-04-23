@@ -4,7 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -30,6 +32,12 @@ public class PowerUpFactory extends AbstractFactory {
 
     Entity create(Vector3 position, float scale, Texture texture, IPowerUp powerUp) {
         Entity entity = super.createEntity(TypeComponent.EntityType.POWER_UP);
+        Body body = BodyFactory.getInstance(world).makeCirclePolyBody(
+                position.x, position.y, 250, BodyDef.BodyType.DynamicBody, false);
+        Filter filter = new Filter();
+        filter.categoryBits = BodyFactory.POWER_UP_ENTITY;
+        filter.maskBits = BodyFactory.BULLET_ENTITY;
+        body.getFixtureList().first().setFilterData(filter);
         return entity
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
@@ -42,9 +50,7 @@ public class PowerUpFactory extends AbstractFactory {
                     .setPowerUp(powerUp) // TODO
                 )
                 .add(engine.createComponent(B2dBodyComponent.class)
-                    .setBody(BodyFactory.getInstance(world).makeCirclePolyBody(
-                            position.x, position.y, texture.getWidth() * 0.5f,
-                            BodyDef.BodyType.StaticBody, true), entity)
+                    .setBody(body, entity)
                 );
     }
 

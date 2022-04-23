@@ -14,16 +14,12 @@ import group22.viking.game.controller.VikingGame;
  */
 public class ProfileCollection extends FirebaseCollection{
 
-    private String hostId;
-    private String guestId;
     private String localPlayerId;
-    private final Preferences preferences;
 
     private ArrayList<String> leaderboard;
 
-    public ProfileCollection(FirebaseInterface firebaseInterface, Preferences preferences) {
+    public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null), "profile");
-        this.preferences = preferences;
     }
 
     /**
@@ -32,6 +28,7 @@ public class ProfileCollection extends FirebaseCollection{
      * @param listener for synchronization
      */
     public void init(final OnCollectionUpdatedListener listener) {
+        Preferences preferences = VikingGame.getPreferences();
         if(!preferences.contains(VikingGame.PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY) == null ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY).isEmpty()) {
@@ -99,9 +96,11 @@ public class ProfileCollection extends FirebaseCollection{
                         add(documentId, profile);
 
                         localPlayerId = documentId;
-                        preferences.putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId);
-                        preferences.putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true);
-                        preferences.flush();
+
+                        VikingGame.getPreferences()
+                                .putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId)
+                                .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true)
+                                .flush();
 
                         readProfile(documentId, listener);
                     }
@@ -109,6 +108,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -139,6 +139,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -172,6 +173,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }
@@ -252,6 +254,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }
@@ -270,32 +273,14 @@ public class ProfileCollection extends FirebaseCollection{
         return leaderboardProfiles;
     }
 
-    public void setHostId(String hostId) {
-        this.hostId = hostId;
-    }
-
-    public void setGuestId(String guestId) {
-        this.guestId = guestId;
-    }
-
-    public Profile getProfileById(String id) {
+    public Profile getProfile(String id) {
         if (isKeyNotExistingLocally(id)) {
             return null;
         }
         return (Profile) get(id);
     }
 
-    public Profile getHostProfile() {
-        return getProfileById(hostId);
-    }
-
-    public Profile getGuestProfile() {
-        return getProfileById(guestId);
-    }
-
-    public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
-
-    public Preferences getPreferences() {
-        return preferences;
+    public Profile getLocalPlayerProfile() {
+        return getProfile(localPlayerId);
     }
 }

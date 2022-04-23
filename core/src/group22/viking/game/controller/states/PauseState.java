@@ -8,9 +8,4 @@ public class PauseState extends State {
     protected PauseState(View view, VikingGame game) {
         super(view, game);
     }
-
-    @Override
-    protected void handleInput() {
-
-    }
 }

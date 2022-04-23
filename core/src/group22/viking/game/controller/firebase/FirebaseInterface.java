@@ -35,4 +35,6 @@ public interface FirebaseInterface {
     void removeDocument(String collection,
                         FirebaseDocument document,
                         OnPostDataListener listener);
+
+    boolean isOnline();
 }
