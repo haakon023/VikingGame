@@ -252,7 +252,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
 
     public PlayerStatus getHostOrGuestPlayerStatus(boolean isHost, boolean host) {
-        return (host && isHost) || (!host && !isHost) ?
+        return isHost == host ?
                 getLocalPlayerStatus() : getOpponentPlayerStatus();
     }
 
