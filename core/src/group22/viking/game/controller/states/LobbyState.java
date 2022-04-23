@@ -376,7 +376,6 @@ public class LobbyState extends State {
         lobbyCollection.setLobbyToStarted(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                playerStatusCollection.setOpponentDeathAndFinish();
                 GameStateManager.getInstance().push(new OnlinePlayState(game, lobbyCollection.getLobby()));
             }
 
