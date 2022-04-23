@@ -12,7 +12,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
     private String opponentStatusId; // opponent status
 
     public PlayerStatusCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface, new PlayerStatus(), "game");
+        super(firebaseInterface, new PlayerStatus(), "player_status");
         this.opponentStatusId = null;
         this.localStatusId = null;
     }
@@ -229,7 +229,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
     public void setOwnDeathAndFinish() {
         PlayerStatus status = getLocalPlayerStatus();
 
-        status.setIsAlive(false);
+        status.setHealth(0);
         status.finish(false);
 
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());

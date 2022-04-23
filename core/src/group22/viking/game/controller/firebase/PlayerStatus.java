@@ -9,14 +9,12 @@ public class PlayerStatus extends FirebaseDocument{
 
     private static final String ID_SEPARATOR = "-";
 
-    final static String KEY_IS_ALIVE = "is_alive";
     final static String KEY_WON = "won";
     final static String KEY_HEALTH = "health";
 
-    private boolean isAlive;
     private final boolean isWriting;
     private long wonGames;
-    private long health;
+    private long health; // -1 is default, 0 is dead, > 0 is alive
 
     /**
      * Constructor for dummy instance.
@@ -36,17 +34,12 @@ public class PlayerStatus extends FirebaseDocument{
         super(writer + ID_SEPARATOR + listener);
         super.isLoaded = false;
         this.isWriting = isWriting;
-        this.isAlive = true;
         this.wonGames = 0;
-        this.health = PlayerComponent.MAX_HEALTH;
+        this.health = -1;
     }
 
     public boolean isDead() {
-        return !isAlive;
-    }
-
-    public void setIsAlive(boolean isAlive) {
-        this.isAlive = isAlive;
+        return health == 0;
     }
 
     public long getWonGames() {
@@ -69,9 +62,6 @@ public class PlayerStatus extends FirebaseDocument{
     @Override
     void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {
-            case KEY_IS_ALIVE:
-                this.isAlive = (Boolean) value;
-                break;
             case KEY_WON:
                 this.wonGames= (Long) value;
                 break;
@@ -86,7 +76,6 @@ public class PlayerStatus extends FirebaseDocument{
     @Override
     Map<String, Object> getData() {
         return new HashMap<String, Object>(){{
-            put(KEY_IS_ALIVE, isAlive);
             put(KEY_WON, wonGames);
             put(KEY_HEALTH, health);
         }};
@@ -94,7 +83,7 @@ public class PlayerStatus extends FirebaseDocument{
 
     void finish(boolean win) {
         if(win) wonGames++;
-        health = PlayerComponent.MAX_HEALTH;
+        health = -1;
     }
 
 }
