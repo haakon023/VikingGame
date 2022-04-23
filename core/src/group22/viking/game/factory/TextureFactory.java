@@ -149,6 +149,7 @@ public class TextureFactory extends AbstractFactory {
     }
 
     public void updateHealthBar(Entity healthBar, float health) {
+        if(health < 0) health = PlayerComponent.MAX_HEALTH; // default value
         TransformComponent transformComponent = cmTransformComponent.get(healthBar);
         TextureComponent textureComponent = cmTextureComponent.get(healthBar);
 

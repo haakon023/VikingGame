@@ -95,7 +95,7 @@ public abstract class AbstractPlayState extends State{
         textureFactory = new TextureFactory(engine);
         buildInitialEntities(engine);
 
-        SoundManager.playMusic(this, getGame().getPreferences());
+        SoundManager.playMusic(this);
 
         this.isRendering = true;
     }
@@ -174,6 +174,7 @@ public abstract class AbstractPlayState extends State{
         this.isRendering = false;
         // reset engine
         // engine.removeAllEntities();
+        /*
         engine.removeSystem(renderingSystem);
         engine.removeSystem(playerControlSystem);
         engine.removeSystem(physicsSystem);
@@ -183,6 +184,8 @@ public abstract class AbstractPlayState extends State{
         engine.removeSystem(linearProjectileSystem);
         engine.removeSystem(engine.getSystem(PhysicsDebugSystem.class));
         engine.removeAllEntities();
+        */
+
     }
 
     public abstract void handleLocalDeath();

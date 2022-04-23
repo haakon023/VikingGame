@@ -53,6 +53,7 @@ public class PlayerControlSystem extends IteratingSystem {
         if(isDead(pComp)){
             // offline and online
             state.handleLocalDeath();
+            // System.out.println("PROCESS ENTITY: " + isDead(pComp));
             return;
         }
 

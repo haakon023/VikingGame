@@ -18,14 +18,14 @@ public abstract class AbstractInformationOverlayState extends State{
         super(Assets.informationOverlayView, game);
         //addListenersToButtons();
         Gdx.input.setInputProcessor(view.getStage());
-        SoundManager.mumbleSound(getGame().getPreferences());
+        SoundManager.mumbleSound();
     }
 
     protected void addListenersToButtons() {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
         };

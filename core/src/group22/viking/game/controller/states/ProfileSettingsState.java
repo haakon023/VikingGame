@@ -47,7 +47,7 @@ public class ProfileSettingsState extends State {
         view.getLeftButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 currentShownAvatarId--;
                 updateShownAvatar();
             }
@@ -55,7 +55,7 @@ public class ProfileSettingsState extends State {
         view.getRightButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 currentShownAvatarId++;
                 updateShownAvatar();
             }
@@ -63,7 +63,7 @@ public class ProfileSettingsState extends State {
         view.getSubmitChangesButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 userSubmitsChanges(view);
                 goBackToMenu();
             }

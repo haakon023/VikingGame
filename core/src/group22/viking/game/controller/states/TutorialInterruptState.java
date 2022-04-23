@@ -41,7 +41,7 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
         };
@@ -53,7 +53,7 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
                 GameStateManager.getInstance().pop();
 
@@ -66,7 +66,7 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
                 offlinePlayState.nextTutorialInterruption();
                 offlinePlayState.popUpCount++;

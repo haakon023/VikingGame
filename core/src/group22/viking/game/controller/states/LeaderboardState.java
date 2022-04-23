@@ -48,7 +48,7 @@ public class LeaderboardState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
         });

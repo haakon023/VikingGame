@@ -10,6 +10,7 @@ public class Lobby extends FirebaseDocument{
     public enum State {
         UNDEFINED("undefined"),
         OPEN("open"),
+        GUEST_JOINED_AND_READY("guest_joined_ready"),
         GUEST_JOINED("guest_joined"),
         GUEST_READY("guest_ready"),
         GUEST_LEFT("guest_left"),
@@ -117,7 +118,7 @@ public class Lobby extends FirebaseDocument{
     }
 
     public boolean isGuestReady() {
-        return state == State.GUEST_READY;
+        return state == State.GUEST_READY || state == State.GUEST_JOINED_AND_READY;
     }
 
     public State getState() {
