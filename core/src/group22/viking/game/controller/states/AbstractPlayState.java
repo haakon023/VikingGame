@@ -95,13 +95,6 @@ public abstract class AbstractPlayState extends State{
             engine.addSystem(linearProjectileSystem);
         } else {
             engine.getSystem(PlayerControlSystem.class).updateInputController(inputController);
-            world.clearForces();
-            Array<Body> bodies = new Array<>();
-            world.getBodies(bodies);
-            for(Body body : bodies){
-                System.out.println("DELETE BODY");
-                world.destroyBody(body);
-            }
         }
         this.time = 0;
         this.spawnerController = new SpawnerController(4);
@@ -211,18 +204,14 @@ public abstract class AbstractPlayState extends State{
         // reset engine
         engine.removeAllEntities();
         engine.clearPools();
-        /*
-        engine.removeSystem(renderingSystem);
-        engine.removeSystem(playerControlSystem);
-        engine.removeSystem(physicsSystem);
-        engine.removeSystem(vikingSystem);
-        engine.removeSystem(homingProjectileSystem);
-        engine.removeSystem(collisionSystem);
-        engine.removeSystem(linearProjectileSystem);
-        engine.removeSystem(engine.getSystem(PhysicsDebugSystem.class));
-        engine.removeAllEntities();
-        */
 
+        world.clearForces();
+        Array<Body> bodies = new Array<>();
+        world.getBodies(bodies);
+        for(Body body : bodies){
+            System.out.println("DELETE BODY");
+            world.destroyBody(body);
+        }
     }
 
     public abstract void handleLocalDeath();

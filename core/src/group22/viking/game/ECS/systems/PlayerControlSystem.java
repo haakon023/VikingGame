@@ -19,6 +19,8 @@ import group22.viking.game.factory.ProjectileFactory;
 
 public class PlayerControlSystem extends IteratingSystem {
 
+    private static float ROTATION_OFFSET = 180;
+
     private final ComponentMapper<PlayerComponent> cmPlayerComponent;
     private final ComponentMapper<TransformComponent> cmTransformComponent;
 
@@ -93,7 +95,7 @@ public class PlayerControlSystem extends IteratingSystem {
     {
         float radians = (float)Math.atan2(mousePos.x - playerPos.x, mousePos.y - playerPos.y);
         //add 90 degrees offset to correct the angle
-        return radians * MathUtils.radiansToDegrees - 150;
+        return radians * MathUtils.radiansToDegrees - ROTATION_OFFSET;
     }
 
     private Vector2 getLookVector(Vector2 mousePos, Vector2 playerPos)
