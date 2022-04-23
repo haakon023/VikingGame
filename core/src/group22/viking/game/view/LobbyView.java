@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.PlayerStatus;
+import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {
@@ -207,6 +208,22 @@ public class LobbyView extends View {
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
         avatarGuest.setPosition(VikingGame.SCREEN_WIDTH,0);
+    }
+
+    public void runHostAnimation() {
+        avatarHost.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(1,0),
+                new Vector2(1000,0)
+        ));
+        SoundManager.avatarSwooshSound();
+    }
+
+    public void runGuestAnimation() {
+        avatarGuest.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(1,0),
+                new Vector2(-1000,0)
+        ));
+        SoundManager.avatarSwooshSound();
     }
 
     public void enablePlayButton() {

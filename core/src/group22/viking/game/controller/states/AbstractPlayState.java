@@ -95,7 +95,7 @@ public abstract class AbstractPlayState extends State{
         textureFactory = new TextureFactory(engine);
         buildInitialEntities(engine);
 
-        SoundManager.playMusic(this, getGame().getPreferences());
+        SoundManager.playMusic(this);
 
         this.isRendering = true;
     }

@@ -24,7 +24,7 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
         getView().getConfirmButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
         });

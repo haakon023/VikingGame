@@ -15,13 +15,11 @@ import group22.viking.game.controller.VikingGame;
 public class ProfileCollection extends FirebaseCollection{
 
     private String localPlayerId;
-    private final Preferences preferences;
 
     private ArrayList<String> leaderboard;
 
-    public ProfileCollection(FirebaseInterface firebaseInterface, Preferences preferences) {
+    public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null), "profile");
-        this.preferences = preferences;
     }
 
     /**
@@ -30,6 +28,7 @@ public class ProfileCollection extends FirebaseCollection{
      * @param listener for synchronization
      */
     public void init(final OnCollectionUpdatedListener listener) {
+        Preferences preferences = VikingGame.getPreferences();
         if(!preferences.contains(VikingGame.PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY) == null ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY).isEmpty()) {
@@ -97,9 +96,11 @@ public class ProfileCollection extends FirebaseCollection{
                         add(documentId, profile);
 
                         localPlayerId = documentId;
-                        preferences.putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId);
-                        preferences.putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true);
-                        preferences.flush();
+
+                        VikingGame.getPreferences()
+                                .putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId)
+                                .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true)
+                                .flush();
 
                         readProfile(documentId, listener);
                     }
@@ -279,10 +280,7 @@ public class ProfileCollection extends FirebaseCollection{
         return (Profile) get(id);
     }
 
-    public Profile getLocalPlayerProfile() {return getProfile(localPlayerId);}
-
-    public Preferences getPreferences() {
-        return preferences;
+    public Profile getLocalPlayerProfile() {
+        return getProfile(localPlayerId);
     }
-
 }

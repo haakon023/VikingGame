@@ -47,14 +47,15 @@ public class LobbyState extends State {
         Gdx.input.setInputProcessor(view.getStage());
 
         createLobbyOnServer();
-        displayHost(profileCollection.getLocalPlayerProfile());
+
+        updateHost(profileCollection.getLocalPlayerProfile());
+        addListenersToButtons();
         getView().resetGuest();
         getView().updateScoreLabelHost(null);
-
-        addListenersToButtons();
+        getView().runHostAnimation();
         getView().disablePlayButton();
 
-        SoundManager.playMusic(this, getGame().getPreferences());
+        SoundManager.playMusic(this);
 
         System.out.println("HOST LOBBY STATE CREATED");
     }
@@ -86,19 +87,19 @@ public class LobbyState extends State {
 
         displayGuest(profileCollection.getLocalPlayerProfile());
 
-        SoundManager.playMusic(this, getGame().getPreferences());
+        SoundManager.playMusic(this);
 
         System.out.println("GUEST LOBBY STATE CREATED");
     }
 
 
     public void reinitialize() {
-        Gdx.input.setInputProcessor(view.getStage());
+        super.reinitialize();
         System.out.println("RE-INIT LOBBY STATE");
         System.out.println(IS_HOST);
-        displayHost(profileCollection.getProfile(lobbyCollection.getLobby().getHostId()));
+        updateHost(profileCollection.getProfile(lobbyCollection.getLobby().getHostId()));
+        getView().runHostAnimation();
         displayGuest(profileCollection.getProfile(lobbyCollection.getLobby().getGuestId()));
-
     }
 
     /**
@@ -181,7 +182,8 @@ public class LobbyState extends State {
                     displayGuest(profile);
                     getView().enablePlayButton();
                 } else {
-                    displayHost(profile);
+                    updateHost(profile);
+                    getView().runHostAnimation();
                 }
             }
 
@@ -256,14 +258,9 @@ public class LobbyState extends State {
         );
     }
 
-    private void displayHost(Profile profile) {
+    private void updateHost(Profile profile) {
         getView().updateNameLabelHost(profile.getName());
         getView().updateAvatarHost((int) profile.getAvatarId());
-        getView().getAvatarHost().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
-                new Vector2(1,0),
-                new Vector2(1000,0)
-        ));
-        SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
     private void displayHostScore(PlayerStatus playerStatus) {
@@ -276,11 +273,6 @@ public class LobbyState extends State {
         getView().updateScoreLabelGuest(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false));
         getView().getNameLabelGuest().setVisible(true);
         getView().getScoreLabelGuest().setVisible(true);
-        getView().getAvatarGuest().addAction(ViewComponentFactory.createAvatarSwooshAnimation(
-                new Vector2(1,0),
-                new Vector2(-1000,0)
-        ));
-        SoundManager.avatarSwooshSound(getGame().getPreferences());
     }
 
     private void displayGuestScore(PlayerStatus playerStatus) {
@@ -291,7 +283,7 @@ public class LobbyState extends State {
         getView().getPlayButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 hostConfirmsStart();
             }
         });
@@ -299,7 +291,7 @@ public class LobbyState extends State {
         getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 userExits();
             }
         });
