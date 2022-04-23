@@ -85,7 +85,7 @@ public class OnlinePlayState extends AbstractPlayState{
 
     public void handleOpponentDeath() {
         playerStatusCollection.setOpponentDeathAndFinish();
-
+        profileCollection.setScore(score);
         GameStateManager.getInstance().pop();
     }
 
