@@ -8,6 +8,7 @@ public class GameOverState extends AbstractInformationOverlayState{
     protected GameOverState(VikingGame game, boolean win) {
         super(game);
         setViewTexts(win);
+        addListenersToButtons();
     }
 
     private void setViewTexts(boolean win) {

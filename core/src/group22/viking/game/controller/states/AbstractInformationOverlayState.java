@@ -12,16 +12,16 @@ import group22.viking.game.view.SoundManager;
 
 public abstract class AbstractInformationOverlayState extends State{
 
-    private ClickListener confirmButtonClickListener;
+    protected ClickListener confirmButtonClickListener;
 
     protected AbstractInformationOverlayState(VikingGame game) {
         super(Assets.informationOverlayView, game);
+        //addListenersToButtons();
         Gdx.input.setInputProcessor(view.getStage());
-        addListenersToButtons();
         SoundManager.mumbleSound(getGame().getPreferences());
     }
 
-    private void addListenersToButtons() {
+    protected void addListenersToButtons() {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -39,6 +39,9 @@ public abstract class AbstractInformationOverlayState extends State{
     @Override
     public void dispose() {
         super.dispose();
-        getView().getConfirmButton().removeListener(confirmButtonClickListener);
+        if(confirmButtonClickListener != null){
+            getView().getConfirmButton().removeListener(confirmButtonClickListener);
+        }
+
     }
 }

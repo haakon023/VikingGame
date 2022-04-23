@@ -28,7 +28,7 @@ public class TutorialVikingSystem extends VikingSystem{
 
             offlinePlayState.nextTutorialInterruption();
 
-            offlinePlayState.renderAPowerUp(new Vector2(VikingGame.SCREEN_WIDTH-300,100), new HealthPowerUp());
+            offlinePlayState.renderAPowerUp(new Vector2(VikingGame.SCREEN_WIDTH - 500,700), new HealthPowerUp());
 
         }
     }

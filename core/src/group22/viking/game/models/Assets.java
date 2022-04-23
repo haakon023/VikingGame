@@ -105,6 +105,7 @@ public class Assets {
 
     //temp files
     public static final String BAD_LOGIC = "img/badlogic.jpg";
+    public static final String POWER_UP = "img/rubberDuck.png";
     
     // ui files
     public static String UI_SKIN = "ui/uiskin.atlas";
@@ -155,6 +156,7 @@ public class Assets {
         assetManager.load(ROBIN_HOOD_SPRITE_HEAD, Texture.class);
         assetManager.load(LEGOLAS_SPRITE, Texture.class);
         assetManager.load(LEGOLAS_SPRITE_HEAD, Texture.class);
+        assetManager.load(POWER_UP, Texture.class);
 
         assetManager.load(QUESTIONMARK, Texture.class);
         assetManager.load(BOW, Texture.class);

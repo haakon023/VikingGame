@@ -54,7 +54,7 @@ public class OfflinePlayState extends AbstractPlayState{
     }
 
     public void nextTutorialInterruption() {
-        GameStateManager.getInstance().push(new TutorialInterruptState(game, popUpCount));
+        GameStateManager.getInstance().push(new TutorialInterruptState(game, this, popUpCount));
         popUpCount++;
     }
 }

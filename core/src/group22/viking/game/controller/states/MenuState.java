@@ -64,8 +64,9 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound(getGame().getPreferences());
-                GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.TUTORIAL));
-                GameStateManager.getInstance().push(new TutorialInterruptState(game, 1));
+                OfflinePlayState offlinePlayState = new OfflinePlayState(game, AbstractPlayState.Type.TUTORIAL);
+                GameStateManager.getInstance().push(offlinePlayState);
+                GameStateManager.getInstance().push(new TutorialInterruptState(game, offlinePlayState, 1));
             }
         });
 

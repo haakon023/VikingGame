@@ -59,10 +59,11 @@ public class InformationOverlayView extends View {
     private void createLabels() {
         headingLabel = ViewComponentFactory.createLabel100(
                 "",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-100,VikingGame.SCREEN_HEIGHT-300)
+                new Vector2(VikingGame.SCREEN_WIDTH/2-100,VikingGame.SCREEN_HEIGHT-200)
         );
         headingLabel.setColor(Color.WHITE);
         headingLabel.setAlignment(Align.topLeft);
+        headingLabel.setWidth(1000);
         headingLabel.setWrap(true);
 
         contentLabel = ViewComponentFactory.createLabel48(

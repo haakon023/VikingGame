@@ -61,9 +61,9 @@ public class CollisionSystem extends IteratingSystem {
                         case POWER_UP:
                             PowerUpComponent powerComponent = powerUpMapper.get(collidedEntity);
                             powerComponent.getPowerUp().givePowerUp(player);
-                            if(offlinePlayState != null) offlinePlayState.nextTutorialInterruption();
                             destroyEntity(collidedEntity);
                             destroyEntity(entity);
+                            if(offlinePlayState != null) offlinePlayState.nextTutorialInterruption();
                             break;
                     }
                     cc.collisionEntity = null; // collision handled reset component
@@ -72,7 +72,7 @@ public class CollisionSystem extends IteratingSystem {
         }
     }
 
-    public void destroyEntity(Entity entity) {
+    private void destroyEntity(Entity entity) {
         world.destroyBody(entity.getComponent(B2dBodyComponent.class).body);
         getEngine().removeEntity(entity);
     }

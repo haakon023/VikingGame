@@ -16,17 +16,76 @@ import group22.viking.game.view.InformationOverlayView;
 
 public class TutorialInterruptState extends AbstractInformationOverlayState {
 
-    public TutorialInterruptState(VikingGame game, int popUpCount) {
+    OfflinePlayState offlinePlayState;
+
+    public TutorialInterruptState(VikingGame game, OfflinePlayState offlinePlayState, int popUpCount) {
         super(game);
-        System.out.println("TUTORIAL INTERRUPTION STATE: " + popUpCount);
+        this.offlinePlayState = offlinePlayState;
+        if(popUpCount < 3){
+            addListenersToButtons();
+
+        }else if(popUpCount == 3){
+            System.out.println("POPUP ADDED" + popUpCount);
+            showNextSlide();
+        }else if(popUpCount ==4){
+            System.out.println("RETURN ADDED" + popUpCount);
+            returnToMenu();
+        }
+
         setViewTexts(popUpCount);
+
+    }
+
+    @Override
+    protected void addListenersToButtons() {
+        confirmButtonClickListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                SoundManager.buttonClickSound(getGame().getPreferences());
+                GameStateManager.getInstance().pop();
+            }
+        };
+        getView().getConfirmButton().addListener(confirmButtonClickListener);
+
+    }
+
+    protected void returnToMenu() {
+        confirmButtonClickListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                SoundManager.buttonClickSound(getGame().getPreferences());
+                GameStateManager.getInstance().pop();
+                GameStateManager.getInstance().pop();
+
+            }
+        };
+        getView().getConfirmButton().addListener(confirmButtonClickListener);
+    }
+
+    protected void showNextSlide() {
+        confirmButtonClickListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                SoundManager.buttonClickSound(getGame().getPreferences());
+                GameStateManager.getInstance().pop();
+                offlinePlayState.nextTutorialInterruption();
+                offlinePlayState.popUpCount++;
+            }
+        };
+        getView().getConfirmButton().addListener(confirmButtonClickListener);
+
     }
 
     private void setViewTexts(int popUpCount) {
-        getView().setTexts(
-                Assets.t("tutorial_header" + popUpCount),
-                Assets.t("tutorial_content" + popUpCount)
-        );
+        if(popUpCount <5){
+            getView().setTexts(
+                    Assets.t("tutorial_header" + popUpCount),
+                    Assets.t("tutorial_content" + popUpCount)
+            );
+        }
+
+
+
     }
 
 }
