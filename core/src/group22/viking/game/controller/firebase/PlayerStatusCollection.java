@@ -162,7 +162,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 System.out.println("PlayerStatusCollection: Opponents status updated.");
                 if(status.isDead()){
                     System.out.println("PlayerStatusCollection: Opponent dead.");
-                    finishGame(true);
+                    finishGameAfterOpponentDead();
                 }
                 status.setIsLoaded(true);
                 listener.onSuccess(status);
@@ -178,11 +178,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
 
     /**
      * Finish game: Save stats, remove opponent status listener, and write to server.
-     *
-     * @param isWin {boolean} if local player won
      */
-    private void finishGame(boolean isWin) {
-        getLocalPlayerStatus().finish(isWin); // mark win
+    private void finishGameAfterOpponentDead() {
+        getLocalPlayerStatus().finish(true);
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 
         this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
@@ -231,6 +229,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
 
         status.setHealth(0);
         status.finish(false);
+        getOpponentPlayerStatus().finish(true);
 
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 
