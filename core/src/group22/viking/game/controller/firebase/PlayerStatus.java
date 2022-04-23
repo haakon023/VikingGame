@@ -81,9 +81,8 @@ public class PlayerStatus extends FirebaseDocument{
         }};
     }
 
-    void finish(boolean win) {
-        if(win) wonGames++;
-        health = 0;
+    void addWonGame() {
+        wonGames++;
     }
 
 }

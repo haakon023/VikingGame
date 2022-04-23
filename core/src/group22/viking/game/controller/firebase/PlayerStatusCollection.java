@@ -173,27 +173,6 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
 
     /**
-     * Finish game: Save stats, remove opponent status listener, and write to server.
-     */
-    public void setOpponentDeathAndFinish() {
-        getLocalPlayerStatus().finish(true);
-        getOpponentPlayerStatus().finish(false); // temporary changes
-        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
-
-        this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
-            @Override
-            public void onSuccess(FirebaseDocument document) {
-                System.out.println("PlayerStatusCollection: PlayerStatus finished on server.");
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("PlayerStatusCollection: Error while finishing game.");
-            }
-        });
-    }
-
-    /**
      * Update own health, load to server.
      *
      * NOTE: Does not wait for server success.
@@ -221,12 +200,31 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 });
     }
 
+    /**
+     * Finish game: Save stats, remove opponent status listener, and write to server.
+     */
+    public void setOpponentDeathAndFinish() {
+        getLocalPlayerStatus().addWonGame();
+        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
+
+        this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("PlayerStatusCollection: PlayerStatus finished on server.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("PlayerStatusCollection: Error while finishing game.");
+            }
+        });
+    }
+
     public void setOwnDeathAndFinish() {
         PlayerStatus status = getLocalPlayerStatus();
 
         status.setHealth(0);
-        status.finish(false);
-        getOpponentPlayerStatus().finish(true); // temporary changes
+        getOpponentPlayerStatus().addWonGame(); // temporary changes
 
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 

@@ -100,16 +100,20 @@ public class LobbyState extends State {
      */
     public void reinitialize() {
         super.reinitialize();
+
         if(IS_HOST) {
             setLobbyGameEnded();
             getView().disablePlayButton();
-            getView().getPlayButton().setText("Wait...");
+            getView().getPlayButton().setText(Assets.t("lobby_button_host_wait"));
         } else {
             getView().showPlayButton();
             getView().enablePlayButton();
         }
+
         updateHost(profileCollection.getProfile(lobbyCollection.getLobby().getHostId()));
         updateGuest(profileCollection.getProfile(lobbyCollection.getLobby().getGuestId()));
+        updateScoreLabels();
+
         getView().runHostAnimation();
         getView().runGuestAnimation();
     }
@@ -232,12 +236,7 @@ public class LobbyState extends State {
                 new OnCollectionUpdatedListener() {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
-                        getView().updateScoreLabelHost(
-                                playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, true)
-                        );
-                        getView().updateScoreLabelGuest(
-                                playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false)
-                        );
+                        updateScoreLabels();
                     }
 
                     @Override
@@ -245,6 +244,15 @@ public class LobbyState extends State {
                         // TODO server issues
                     }
                 }
+        );
+    }
+
+    private void updateScoreLabels() {
+        getView().updateScoreLabelHost(
+                playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, true)
+        );
+        getView().updateScoreLabelGuest(
+                playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false)
         );
     }
 
@@ -301,7 +309,6 @@ public class LobbyState extends State {
     private void updateGuest(Profile profile) {
         getView().updateNameLabelGuest(profile.getName());
         getView().updateAvatarGuest((int) profile.getAvatarId());
-        getView().updateScoreLabelGuest(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false));
         getView().getNameLabelGuest().setVisible(true);
         getView().getScoreLabelGuest().setVisible(true);
     }
@@ -369,6 +376,7 @@ public class LobbyState extends State {
         lobbyCollection.setLobbyToStarted(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
+                playerStatusCollection.setOpponentDeathAndFinish();
                 GameStateManager.getInstance().push(new OnlinePlayState(game, lobbyCollection.getLobby()));
             }
 

@@ -42,7 +42,6 @@ public class OnlinePlayState extends AbstractPlayState{
                         if(!opponent.isLoaded()) return;
                         if(opponent.isDead()) {
                             System.out.println("OPPONENT DEAD: " + opponent.isDead());
-                            playerStatusCollection.setOpponentDeathAndFinish();
                             handleOpponentDeath();
                             return;
                         }
@@ -82,6 +81,7 @@ public class OnlinePlayState extends AbstractPlayState{
     }
 
     public void handleOpponentDeath() {
+        playerStatusCollection.setOpponentDeathAndFinish();
         GameStateManager.getInstance().pop();
     }
 }
