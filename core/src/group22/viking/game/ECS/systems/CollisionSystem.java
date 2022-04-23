@@ -13,6 +13,7 @@ import group22.viking.game.ECS.components.PowerUpComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.ECS.components.VikingComponent;
+import group22.viking.game.controller.states.OnlinePlayState;
 import group22.viking.game.controller.states.TutorialPlayState;
 
 public class CollisionSystem extends IteratingSystem {
@@ -24,6 +25,7 @@ public class CollisionSystem extends IteratingSystem {
 
     private final World world;
     private TutorialPlayState tutorialPlayState;
+    private OnlinePlayState onlinePlayState;
 
     public CollisionSystem(World world) {
         super(Family.all(CollisionComponent.class, TransformComponent.class).get());
@@ -34,8 +36,12 @@ public class CollisionSystem extends IteratingSystem {
         powerUpMapper = ComponentMapper.getFor(PowerUpComponent.class);
     }
 
-    public void addTutorialReference(TutorialPlayState offlinePlayState) {
-        this.tutorialPlayState = offlinePlayState;
+    public void addTutorialReference(TutorialPlayState tutorialPlayState) {
+        this.tutorialPlayState = tutorialPlayState;
+    }
+
+    public void addOnlineReference(OnlinePlayState onlinePlayState) {
+        this.onlinePlayState = onlinePlayState;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class CollisionSystem extends IteratingSystem {
                         case VIKING:
                             //do player hit enemy thing
                             VikingComponent vc = vikingMapper.get(collidedEntity);
+                            if(onlinePlayState != null) onlinePlayState.addScore(vc.scoreReward);
                             vc.DealDamage(pc.attackDamage);
                             destroyEntity(entity);
                             break;

@@ -37,7 +37,8 @@ public class PlayerFactory extends AbstractFactory {
                         .set(StateComponent.STATE_NORMAL)
                 )
                 .add(engine.createComponent(PlayerComponent.class)
-                    .setHealthBar(relatedHealthBar)
+                        .init()
+                        .setHealthBar(relatedHealthBar)
                         .setPlayerStatusCollection(playerStatusCollection)
                 );
     }

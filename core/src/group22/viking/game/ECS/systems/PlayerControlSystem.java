@@ -1,7 +1,6 @@
 package group22.viking.game.ECS.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
@@ -10,8 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 
-import group22.viking.game.ECS.components.TextureComponent;
-import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.AbstractPlayState;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.input.InputController;
@@ -22,26 +19,32 @@ import group22.viking.game.factory.ProjectileFactory;
 
 public class PlayerControlSystem extends IteratingSystem {
 
+    private static float ROTATION_OFFSET = 180;
+
     private final ComponentMapper<PlayerComponent> cmPlayerComponent;
     private final ComponentMapper<TransformComponent> cmTransformComponent;
 
     private TextureFactory textureFactory;
 
-    private final InputController input;
+    private InputController inputController;
     private ProjectileFactory projectileFactory;
     private final World world;
     private AbstractPlayState state;
 
     private float timeSinceFired = 0;
 
-    public PlayerControlSystem(AbstractPlayState state, InputController controller, World world) {
+    public PlayerControlSystem(AbstractPlayState state, InputController inputController, World world) {
         super(Family.all(PlayerComponent.class, TransformComponent.class).get());
         this.world = world;
         this.state = state;
         this.cmPlayerComponent = ComponentMapper.getFor(PlayerComponent.class);
         this.cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
         this.textureFactory = new TextureFactory((PooledEngine) getEngine());
-        this.input = controller;
+        this.inputController = inputController;
+    }
+
+    public void updateInputController(InputController inputController) {
+        this.inputController = inputController;
     }
 
     @Override
@@ -60,8 +63,8 @@ public class PlayerControlSystem extends IteratingSystem {
         textureFactory.updateHealthBar(pComp.healthBar, pComp.getHealth());
 
         timeSinceFired += deltaTime;
-        if(input.isMouse1Down) {
-            Vector2 pos = input.mouseLocation;
+        if(inputController.isMouse1Down) {
+            Vector2 pos = inputController.mouseLocation;
             tComp.rotation  = calculateAngle(pos, new Vector2(tComp.position.x, tComp.position.y));
 
             if(timeSinceFired > pComp.fireRate)
@@ -92,7 +95,7 @@ public class PlayerControlSystem extends IteratingSystem {
     {
         float radians = (float)Math.atan2(mousePos.x - playerPos.x, mousePos.y - playerPos.y);
         //add 90 degrees offset to correct the angle
-        return radians * MathUtils.radiansToDegrees - 150;
+        return radians * MathUtils.radiansToDegrees - ROTATION_OFFSET;
     }
 
     private Vector2 getLookVector(Vector2 mousePos, Vector2 playerPos)

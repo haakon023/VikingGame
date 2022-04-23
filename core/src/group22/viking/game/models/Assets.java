@@ -90,7 +90,7 @@ public class Assets {
 
 
     //Projectile sprites
-    public static final String ARROW_SPRITE = "img/arrow-dummy.png";
+    public static final String ARROW_SPRITE = "img/arrow.png";
 
     //inGame Viking Ship Sprite
     public static final String VIKING_SHIP_SPRITE = "img/VikingShipFull.png";

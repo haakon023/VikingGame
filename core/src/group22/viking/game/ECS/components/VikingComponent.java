@@ -15,6 +15,7 @@ public class VikingComponent implements Component {
     }
 
     private float damage = 10;
+    public long scoreReward = 10;
 
     public float getAttackRate() {
         return attackRate;
