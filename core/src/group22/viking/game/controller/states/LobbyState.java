@@ -178,6 +178,8 @@ public class LobbyState extends State {
                         getOpponentInformationAndDisplay(lobby.getGuestId());
                         prepareGameStatusDocument(lobby);
                         getDuelStatsAndDisplay();
+                        getView().enablePlayButton();
+                        getView().getPlayButton().setText(Assets.t("lobby_button_play"));
                         return;
                     case GUEST_READY:
                         if(!IS_HOST) return;
