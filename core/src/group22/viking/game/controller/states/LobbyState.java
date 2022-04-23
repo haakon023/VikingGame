@@ -179,6 +179,7 @@ public class LobbyState extends State {
                         if(!IS_HOST) return;
                         getView().enablePlayButton();
                         getView().getPlayButton().setText(Assets.t("lobby_button_play"));
+                        playerStatusCollection.resetHealthValues();
                         return;
                     case RUNNING:
                         if(IS_HOST) return; // self started, nothing to do
@@ -382,6 +383,7 @@ public class LobbyState extends State {
         if(IS_HOST) return;
         if(!lobbyCollection.getLobby().isFull()) return;
 
+        playerStatusCollection.resetHealthValues();
         lobbyCollection.setGuestReady(new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {

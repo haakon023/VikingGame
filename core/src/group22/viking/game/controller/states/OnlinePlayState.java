@@ -42,6 +42,7 @@ public class OnlinePlayState extends AbstractPlayState{
                         if(!opponent.isLoaded()) return;
                         if(opponent.isDead()) {
                             System.out.println("OPPONENT DEAD: " + opponent.isDead());
+                            playerStatusCollection.setOpponentDeathAndFinish();
                             handleOpponentDeath();
                             return;
                         }
@@ -71,7 +72,6 @@ public class OnlinePlayState extends AbstractPlayState{
 
     private void displayOpponentHealth(long health) {
         System.out.println("OPPONENT:" + health);
-        // TODO gui call
         textureFactory.updateHealthBar(opponentHealthBar, health);
     }
 

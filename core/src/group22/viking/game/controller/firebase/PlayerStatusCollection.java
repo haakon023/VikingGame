@@ -160,10 +160,6 @@ public class PlayerStatusCollection extends FirebaseCollection{
                     }
                 }
                 System.out.println("PlayerStatusCollection: Opponents status updated.");
-                if(status.isDead()){
-                    System.out.println("PlayerStatusCollection: Opponent dead.");
-                    finishGameAfterOpponentDead();
-                }
                 status.setIsLoaded(true);
                 listener.onSuccess(status);
             }
@@ -179,8 +175,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
     /**
      * Finish game: Save stats, remove opponent status listener, and write to server.
      */
-    private void finishGameAfterOpponentDead() {
+    public void setOpponentDeathAndFinish() {
         getLocalPlayerStatus().finish(true);
+        getOpponentPlayerStatus().finish(false); // temporary changes
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 
         this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
@@ -229,7 +226,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
 
         status.setHealth(0);
         status.finish(false);
-        getOpponentPlayerStatus().finish(true);
+        getOpponentPlayerStatus().finish(true); // temporary changes
 
         firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
 
@@ -263,5 +260,21 @@ public class PlayerStatusCollection extends FirebaseCollection{
 
     public void resetGuest() {
         this.opponentStatusId = null;
+    }
+
+    public void resetHealthValues () {
+        getOpponentPlayerStatus().setHealth(-1);
+        getLocalPlayerStatus().setHealth(-1);
+        writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                // nothing
+            }
+
+            @Override
+            public void onFailure() {
+                // nothing
+            }
+        });
     }
 }
