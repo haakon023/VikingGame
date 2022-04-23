@@ -4,18 +4,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import group22.viking.game.ECS.components.VikingComponent;
-import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.OfflinePlayState;
-import group22.viking.game.controller.states.TutorialInterruptState;
+import group22.viking.game.controller.states.TutorialPlayState;
 import group22.viking.game.powerups.HealthPowerUp;
 
 public class TutorialVikingSystem extends VikingSystem{
 
-    OfflinePlayState offlinePlayState;
-    public TutorialVikingSystem(World world, OfflinePlayState offlinePlayState) {
+    private TutorialPlayState tutorialPlayState;
+    public TutorialVikingSystem(World world, TutorialPlayState tutorialPlayState) {
         super(world);
-        this.offlinePlayState = offlinePlayState;
+        this.tutorialPlayState = tutorialPlayState;
     }
 
     protected void processEntity(com.badlogic.ashley.core.Entity entity, float deltaTime) {
@@ -26,9 +25,9 @@ public class TutorialVikingSystem extends VikingSystem{
         if(viking.getHealth() <= 0){
             System.out.println("SUNK!");
 
-            offlinePlayState.nextTutorialInterruption();
+            tutorialPlayState.nextInterruption();
 
-            offlinePlayState.renderAPowerUp(new Vector2(VikingGame.SCREEN_WIDTH - 500,700), new HealthPowerUp());
+            tutorialPlayState.createTutorialPowerUp(new Vector2(VikingGame.SCREEN_WIDTH - 500,700), new HealthPowerUp());
 
         }
     }

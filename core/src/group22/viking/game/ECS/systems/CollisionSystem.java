@@ -13,17 +13,17 @@ import group22.viking.game.ECS.components.PowerUpComponent;
 import group22.viking.game.ECS.components.TransformComponent;
 import group22.viking.game.ECS.components.TypeComponent;
 import group22.viking.game.ECS.components.VikingComponent;
-import group22.viking.game.controller.states.OfflinePlayState;
+import group22.viking.game.controller.states.TutorialPlayState;
 
 public class CollisionSystem extends IteratingSystem {
 
-    protected final ComponentMapper<CollisionComponent> componentMapper;
-    protected final ComponentMapper<VikingComponent> vikingMapper;
-    protected final ComponentMapper<PlayerComponent> playerMapper;
-    protected final ComponentMapper<PowerUpComponent> powerUpMapper;
+    private final ComponentMapper<CollisionComponent> componentMapper;
+    private final ComponentMapper<VikingComponent> vikingMapper;
+    private final ComponentMapper<PlayerComponent> playerMapper;
+    private final ComponentMapper<PowerUpComponent> powerUpMapper;
 
     private final World world;
-    private OfflinePlayState offlinePlayState;
+    private TutorialPlayState tutorialPlayState;
 
     public CollisionSystem(World world) {
         super(Family.all(CollisionComponent.class, TransformComponent.class).get());
@@ -34,8 +34,8 @@ public class CollisionSystem extends IteratingSystem {
         powerUpMapper = ComponentMapper.getFor(PowerUpComponent.class);
     }
 
-    public void addTutorialReference(OfflinePlayState offlinePlayState) {
-        this.offlinePlayState = offlinePlayState;
+    public void addTutorialReference(TutorialPlayState offlinePlayState) {
+        this.tutorialPlayState = offlinePlayState;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CollisionSystem extends IteratingSystem {
                             powerComponent.getPowerUp().givePowerUp(player);
                             destroyEntity(collidedEntity);
                             destroyEntity(entity);
-                            if(offlinePlayState != null) offlinePlayState.nextTutorialInterruption();
+                            if(tutorialPlayState != null) tutorialPlayState.nextInterruption();
                             break;
                     }
                     cc.collisionEntity = null; // collision handled reset component

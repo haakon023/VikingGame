@@ -1,43 +1,39 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.ArrayList;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.SoundManager;
-import group22.viking.game.view.InformationOverlayView;
 
 
 public class TutorialInterruptState extends AbstractInformationOverlayState {
 
-    OfflinePlayState offlinePlayState;
+    TutorialPlayState tutorialPlayState;
 
-    public TutorialInterruptState(VikingGame game, OfflinePlayState offlinePlayState, int popUpCount) {
+    public TutorialInterruptState(VikingGame game, TutorialPlayState offlinePlayState, int popUpCount) {
         super(game);
-        this.offlinePlayState = offlinePlayState;
-        if(popUpCount < 3){
-            addListenersToButtons();
-
-        }else if(popUpCount == 3){
-            System.out.println("POPUP ADDED" + popUpCount);
-            showNextSlide();
-        }else if(popUpCount ==4){
-            System.out.println("RETURN ADDED" + popUpCount);
-            returnToMenu();
-        }
+        this.tutorialPlayState = offlinePlayState;
 
         setViewTexts(popUpCount);
-
+        switch (popUpCount){
+            case 0:
+            case 1:
+            case 2:
+                addListenerPopOneState();
+                break;
+            case 3:
+                addListenerPopAndNextTutorialInterruption();
+                break;
+            case 4:
+                addListenerPopTwoStates();
+                break;
+        }
     }
 
-    @Override
-    protected void addListenersToButtons() {
+    protected void addListenerPopOneState() {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -49,7 +45,7 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
 
     }
 
-    protected void returnToMenu() {
+    protected void addListenerPopTwoStates() {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -62,14 +58,14 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
         getView().getConfirmButton().addListener(confirmButtonClickListener);
     }
 
-    protected void showNextSlide() {
+    protected void addListenerPopAndNextTutorialInterruption() {
         confirmButtonClickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
-                offlinePlayState.nextTutorialInterruption();
-                offlinePlayState.popUpCount++;
+                tutorialPlayState.nextInterruption();
+                //tutorialPlayState.popUpCount++;
             }
         };
         getView().getConfirmButton().addListener(confirmButtonClickListener);
@@ -77,15 +73,10 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
     }
 
     private void setViewTexts(int popUpCount) {
-        if(popUpCount <5){
-            getView().setTexts(
-                    Assets.t("tutorial_header" + popUpCount),
-                    Assets.t("tutorial_content" + popUpCount)
-            );
-        }
-
-
-
+        getView().setTexts(
+                Assets.t("tutorial_header" + popUpCount),
+                Assets.t("tutorial_content" + popUpCount)
+        );
     }
 
 }

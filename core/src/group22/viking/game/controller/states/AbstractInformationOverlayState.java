@@ -16,20 +16,8 @@ public abstract class AbstractInformationOverlayState extends State{
 
     protected AbstractInformationOverlayState(VikingGame game) {
         super(Assets.informationOverlayView, game);
-        //addListenersToButtons();
         Gdx.input.setInputProcessor(view.getStage());
         SoundManager.mumbleSound();
-    }
-
-    protected void addListenersToButtons() {
-        confirmButtonClickListener = new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound();
-                GameStateManager.getInstance().pop();
-            }
-        };
-        getView().getConfirmButton().addListener(confirmButtonClickListener);
     }
 
     protected InformationOverlayView getView() {
@@ -42,6 +30,5 @@ public abstract class AbstractInformationOverlayState extends State{
         if(confirmButtonClickListener != null){
             getView().getConfirmButton().removeListener(confirmButtonClickListener);
         }
-
     }
 }

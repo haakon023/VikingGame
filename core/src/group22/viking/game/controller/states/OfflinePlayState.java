@@ -15,45 +15,11 @@ public class OfflinePlayState extends AbstractPlayState{
 
     public OfflinePlayState(VikingGame game, Type type) {
         super(game, type);
-        this.popUpCount = 2;
-        if(type == Type.TUTORIAL){
-
-            //switch systems
-            this.engine.removeSystem(vikingSystem);
-            this.vikingSystem = new TutorialVikingSystem(world, this);
-            this.engine.addSystem(vikingSystem);
-
-            this.collisionSystem.addTutorialReference(this);
-
-            tutorialInit();
-        }
-    }
-
-    private void tutorialInit(){
-
-        renderABoat(new Vector2(0,0));
-        //renderAPowerUp(new Vector2(800,100), new HealthPowerUp());
-    }
-
-
-    private void renderABoat(Vector2 position){
-        VikingFactory vikingFactory = new VikingFactory(engine, world);
-        engine.addEntity(vikingFactory.createShip(position.x, position.y));
-    }
-
-    public void renderAPowerUp(Vector2 position, IPowerUp iPowerUp){
-        PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-        engine.addEntity(powerUpFactory.createHealthPowerUp(position.x,position.y, iPowerUp));
     }
 
     @Override
     public void handleLocalDeath() {
         System.out.println("dead");
         GameStateManager.getInstance().set(new GameOverState(game, false));
-    }
-
-    public void nextTutorialInterruption() {
-        GameStateManager.getInstance().push(new TutorialInterruptState(game, this, popUpCount));
-        popUpCount++;
     }
 }

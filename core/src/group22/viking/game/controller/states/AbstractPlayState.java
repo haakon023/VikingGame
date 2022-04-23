@@ -23,12 +23,10 @@ import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.factory.PlayerFactory;
-import group22.viking.game.factory.PowerUpFactory;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
 import group22.viking.game.input.InputController;
 import group22.viking.game.models.Assets;
-import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 
@@ -40,7 +38,7 @@ public abstract class AbstractPlayState extends State{
         ONLINE
     }
 
-    private Type type;
+    private final Type type;
 
     protected ProfileCollection profileCollection;
 
@@ -53,9 +51,6 @@ public abstract class AbstractPlayState extends State{
     protected VikingSystem vikingSystem;
 
     protected World world;
-
-    public static World worldInstance;
-
 
     private InputController inputController;
 
@@ -147,10 +142,14 @@ public abstract class AbstractPlayState extends State{
         PlayerFactory playerFactory = new PlayerFactory(engine);
         engine.addEntity(playerFactory.createRotatingWeapon(healthBar,
                 type == Type.ONLINE ? game.getPlayerStatusCollection() : null));
+
+        // first Vikings
+        spawnVikingWave();
     }
 
-    private void spawnVikings()
+    private void spawnVikingWave()
     {
+        if(type == Type.TUTORIAL) return;
         int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
         VikingFactory vikingFactory = new VikingFactory(engine, world);
         System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
@@ -191,7 +190,7 @@ public abstract class AbstractPlayState extends State{
         if (!isRendering) return;
         time += deltaTime;
         if (Math.round(time) >= 30) {
-            spawnVikings();
+            spawnVikingWave();
             time = 0;
         }
         engine.update(deltaTime);

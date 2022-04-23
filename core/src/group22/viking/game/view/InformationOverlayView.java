@@ -46,7 +46,7 @@ public class InformationOverlayView extends View {
 
     private void createButtons() {
         confirmButton = ViewComponentFactory.createTextButton(
-                "Understood !",
+                Assets.t("overlay_button_okay"),
                 new Vector2(VikingGame.SCREEN_WIDTH/2-100, 100),
                 new Vector2(500,150)
         );
