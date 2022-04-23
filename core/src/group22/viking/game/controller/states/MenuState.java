@@ -104,7 +104,7 @@ public class MenuState extends State {
         getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound());
+                SoundManager.buttonClickSound();
                 Gdx.app.exit();
             }
         });

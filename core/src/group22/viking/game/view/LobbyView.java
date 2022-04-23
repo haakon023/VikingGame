@@ -199,7 +199,6 @@ public class LobbyView extends View {
         avatarHost.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
-        avatarHost.setPosition(-1000,0);
     }
 
     public void updateAvatarGuest(int avatarId) {
@@ -207,10 +206,10 @@ public class LobbyView extends View {
         avatarGuest.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
-        avatarGuest.setPosition(VikingGame.SCREEN_WIDTH,0);
     }
 
     public void runHostAnimation() {
+        avatarHost.setPosition(-1000,0);
         avatarHost.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
                 new Vector2(1,0),
                 new Vector2(1000,0)
@@ -219,6 +218,7 @@ public class LobbyView extends View {
     }
 
     public void runGuestAnimation() {
+        avatarGuest.setPosition(VikingGame.SCREEN_WIDTH,0);
         avatarGuest.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
                 new Vector2(1,0),
                 new Vector2(-1000,0)

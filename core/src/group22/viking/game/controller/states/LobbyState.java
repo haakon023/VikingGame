@@ -80,12 +80,14 @@ public class LobbyState extends State {
         tryJoinLobby(joinLobbyId);
 
         addListenersToButtons();
+        getView().getPlayButton().setText(Assets.t("lobby_button_guest_ready"));
         getView().disablePlayButton();
         getView().hidePlayButton();
 
         displayLobbyId(joinLobbyId);
 
-        displayGuest(profileCollection.getLocalPlayerProfile());
+        updateGuest(profileCollection.getLocalPlayerProfile());
+        getView().runGuestAnimation();
 
         SoundManager.playMusic(this);
 
@@ -93,13 +95,37 @@ public class LobbyState extends State {
     }
 
 
+    /**
+     * Reinitialize after Game
+     */
     public void reinitialize() {
         super.reinitialize();
-        System.out.println("RE-INIT LOBBY STATE");
-        System.out.println(IS_HOST);
+        if(IS_HOST) {
+            setLobbyGameEnded();
+            getView().disablePlayButton();
+            getView().getPlayButton().setText("Wait...");
+        } else {
+            getView().showPlayButton();
+            getView().enablePlayButton();
+        }
         updateHost(profileCollection.getProfile(lobbyCollection.getLobby().getHostId()));
+        updateGuest(profileCollection.getProfile(lobbyCollection.getLobby().getGuestId()));
         getView().runHostAnimation();
-        displayGuest(profileCollection.getProfile(lobbyCollection.getLobby().getGuestId()));
+        getView().runGuestAnimation();
+    }
+
+    private void setLobbyGameEnded() {
+        lobbyCollection.setLobbyToGameEnded(new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                // nothing
+            }
+
+            @Override
+            public void onFailure() {
+                // TODO error message
+            }
+        });
     }
 
     /**
@@ -134,25 +160,28 @@ public class LobbyState extends State {
                 System.out.println(lobby.getState());
                 switch (lobby.getState()) {
                     case OPEN:
+                    case GUEST_JOINED:
                     case UNDEFINED:
                         return;
                     case GUEST_LEFT:
                         playerStatusCollection.resetGuest();
                         getView().resetGuest();
-                        displayHostScore(null);
-                        displayGuestScore(null);
+                        getView().updateScoreLabelHost(null);
+                        getView().updateScoreLabelGuest(null);
                         return;
-                    case GUEST_READY:
-                    case GUEST_JOINED:
+                    case GUEST_JOINED_AND_READY: // initial joining
                         if(!IS_HOST) return;
                         getOpponentInformationAndDisplay(lobby.getGuestId());
                         prepareGameStatusDocument(lobby);
                         getDuelStatsAndDisplay();
                         return;
+                    case GUEST_READY:
+                        if(!IS_HOST) return;
+                        getView().enablePlayButton();
+                        getView().getPlayButton().setText(Assets.t("lobby_button_play"));
+                        return;
                     case RUNNING:
-                        if(IS_HOST) {
-                            return; // self started, nothing to do
-                        }
+                        if(IS_HOST) return; // self started, nothing to do
                         GameStateManager.getInstance().push(new OnlinePlayState(game, lobby));
                         return;
                 }
@@ -179,8 +208,9 @@ public class LobbyState extends State {
             public void onSuccess(FirebaseDocument document) {
                 Profile profile = (Profile) document;
                 if(IS_HOST) {
-                    displayGuest(profile);
+                    updateGuest(profile);
                     getView().enablePlayButton();
+                    getView().runGuestAnimation();
                 } else {
                     updateHost(profile);
                     getView().runHostAnimation();
@@ -201,8 +231,12 @@ public class LobbyState extends State {
                 new OnCollectionUpdatedListener() {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
-                        displayHostScore(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, true));
-                        displayGuestScore(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false));
+                        getView().updateScoreLabelHost(
+                                playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, true)
+                        );
+                        getView().updateScoreLabelGuest(
+                                playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false)
+                        );
                     }
 
                     @Override
@@ -263,11 +297,7 @@ public class LobbyState extends State {
         getView().updateAvatarHost((int) profile.getAvatarId());
     }
 
-    private void displayHostScore(PlayerStatus playerStatus) {
-        getView().updateScoreLabelHost(playerStatus);
-    }
-
-    private void displayGuest(Profile profile) {
+    private void updateGuest(Profile profile) {
         getView().updateNameLabelGuest(profile.getName());
         getView().updateAvatarGuest((int) profile.getAvatarId());
         getView().updateScoreLabelGuest(playerStatusCollection.getHostOrGuestPlayerStatus(IS_HOST, false));
@@ -275,16 +305,16 @@ public class LobbyState extends State {
         getView().getScoreLabelGuest().setVisible(true);
     }
 
-    private void displayGuestScore(PlayerStatus playerStatus) {
-        getView().updateScoreLabelGuest(playerStatus);
-    }
-
     private void addListenersToButtons() {
         getView().getPlayButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
-                hostConfirmsStart();
+                if(IS_HOST) {
+                    hostConfirmsStart();
+                } else {
+                    guestConfirmsReady();
+                }
             }
         });
 
@@ -331,7 +361,6 @@ public class LobbyState extends State {
     }
 
     private void hostConfirmsStart() {
-        System.out.println("PLAY BUTTON CLICKED");
         if(!IS_HOST) return;
         if(!lobbyCollection.getLobby().isFull()) return;
         if(!lobbyCollection.getLobby().isGuestReady()) return;
@@ -340,6 +369,24 @@ public class LobbyState extends State {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 GameStateManager.getInstance().push(new OnlinePlayState(game, lobbyCollection.getLobby()));
+            }
+
+            @Override
+            public void onFailure() {
+                ViewComponentFactory.createErrorDialog().show(getView().getStage());
+            }
+        });
+    }
+
+    private void guestConfirmsReady() {
+        if(IS_HOST) return;
+        if(!lobbyCollection.getLobby().isFull()) return;
+
+        lobbyCollection.setGuestReady(new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                getView().disablePlayButton();
+                getView().hidePlayButton();
             }
 
             @Override
