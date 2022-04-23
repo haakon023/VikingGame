@@ -146,11 +146,6 @@ public abstract class AbstractPlayState extends State{
         PlayerFactory playerFactory = new PlayerFactory(engine);
         engine.addEntity(playerFactory.createRotatingWeapon(healthBar,
                 type == Type.ONLINE ? game.getPlayerStatusCollection() : null));
-
-        // TODO put code in wave logic:
-        VikingFactory vikingFactory = new VikingFactory(engine, world);
-        engine.addEntity(vikingFactory.createShip(0,0));
-        engine.addEntity(vikingFactory.createShip(VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT));
     }
 
     private void spawnVikings()
