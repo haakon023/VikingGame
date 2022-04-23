@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.controller.states.AbstractPlayState;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.input.InputController;
 import group22.viking.game.ECS.components.LinearProjectileComponent;
@@ -29,16 +30,18 @@ public class PlayerControlSystem extends IteratingSystem {
     private final InputController input;
     private ProjectileFactory projectileFactory;
     private final World world;
+    private AbstractPlayState state;
 
     private float timeSinceFired = 0;
 
-    public PlayerControlSystem(InputController controller, World world) {
+    public PlayerControlSystem(AbstractPlayState state, InputController controller, World world) {
         super(Family.all(PlayerComponent.class, TransformComponent.class).get());
         this.world = world;
-        cmPlayerComponent = ComponentMapper.getFor(PlayerComponent.class);
-        cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
-        textureFactory = new TextureFactory((PooledEngine) getEngine());
-        input = controller;
+        this.state = state;
+        this.cmPlayerComponent = ComponentMapper.getFor(PlayerComponent.class);
+        this.cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
+        this.textureFactory = new TextureFactory((PooledEngine) getEngine());
+        this.input = controller;
     }
 
     @Override
@@ -48,7 +51,10 @@ public class PlayerControlSystem extends IteratingSystem {
 
         //if health is below or equal 0
         if(isDead(pComp)){
-            //return;
+            // offline and online
+            state.handleLocalDeath();
+            // System.out.println("PROCESS ENTITY: " + isDead(pComp));
+            return;
         }
 
         textureFactory.updateHealthBar(pComp.healthBar, pComp.getHealth());

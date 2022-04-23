@@ -9,7 +9,7 @@ public class PlayerComponent implements Component{
 
     private PlayerStatusCollection playerStatusCollection;
 
-    public static final long MAX_HEALTH = 1000;
+    public static final long MAX_HEALTH = 100;
     private long health = MAX_HEALTH;
 
     public Entity healthBar = null;
@@ -29,13 +29,14 @@ public class PlayerComponent implements Component{
 
         // modify health
         health += amount;
-        if (playerStatusCollection != null) {
-            playerStatusCollection.sendHealth(health);
-        }
 
         // keep value in borders
         if (health > MAX_HEALTH) health = MAX_HEALTH;
         if (health < 0) health = 0;
+
+        if (playerStatusCollection != null) {
+            playerStatusCollection.sendHealth(health);
+        }
     }
     public long getHealth() {
         return health;

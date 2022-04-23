@@ -1,11 +1,8 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 
-import group22.viking.game.ECS.components.PlayerComponent;
-import group22.viking.game.ECS.components.TextureComponent;
-import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
@@ -13,7 +10,6 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
@@ -33,27 +29,9 @@ public class OnlinePlayState extends AbstractPlayState{
 
     private void onlineInit(final Lobby lobby) {
         initOpponent(lobby.isHost() ?
-                game.getProfileCollection().getGuestProfile() :
-                game.getProfileCollection().getHostProfile());
+                game.getProfileCollection().getProfile(lobby.getGuestId()) :
+                game.getProfileCollection().getProfile(lobby.getHostId()));
 
-        playerStatusCollection.createOwnStatus(
-                lobby.getOwnId(),
-                lobby.getOpponentId(),
-                new OnCollectionUpdatedListener() {
-                    @Override
-                    public void onSuccess(FirebaseDocument document) {
-                        addOpponentListener(lobby);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
-                    }
-                }
-        );
-    }
-
-    private void addOpponentListener(Lobby lobby) {
         playerStatusCollection.addListenerToOpponentStatus(
                 lobby.getOwnId(),
                 lobby.getOpponentId(),
@@ -61,8 +39,10 @@ public class OnlinePlayState extends AbstractPlayState{
                     @Override
                     public void onSuccess(FirebaseDocument document) {
                         PlayerStatus opponent = (PlayerStatus) document;
+                        if(!opponent.isLoaded()) return;
                         if(opponent.isDead()) {
-                            // TODO end game
+                            System.out.println("OPPONENT DEAD: " + opponent.isDead());
+                            handleOpponentDeath();
                             return;
                         }
                         displayOpponentHealth(opponent.getHealth());
@@ -91,8 +71,17 @@ public class OnlinePlayState extends AbstractPlayState{
 
     private void displayOpponentHealth(long health) {
         System.out.println("OPPONENT:" + health);
-        // TODO gui call
         textureFactory.updateHealthBar(opponentHealthBar, health);
     }
 
+    @Override
+    public void handleLocalDeath() {
+        playerStatusCollection.setOwnDeathAndFinish();
+        GameStateManager.getInstance().pop();
+    }
+
+    public void handleOpponentDeath() {
+        playerStatusCollection.setOpponentDeathAndFinish();
+        GameStateManager.getInstance().pop();
+    }
 }

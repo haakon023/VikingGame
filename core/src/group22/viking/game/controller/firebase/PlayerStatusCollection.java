@@ -2,8 +2,6 @@ package group22.viking.game.controller.firebase;
 
 import java.util.Map;
 
-import group22.viking.game.view.ViewComponentFactory;
-
 /**
  * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
  * to the server.
@@ -14,7 +12,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
     private String opponentStatusId; // opponent status
 
     public PlayerStatusCollection(FirebaseInterface firebaseInterface) {
-        super(firebaseInterface, new PlayerStatus(), "game");
+        super(firebaseInterface, new PlayerStatus(), "player_status");
         this.opponentStatusId = null;
         this.localStatusId = null;
     }
@@ -51,13 +49,13 @@ public class PlayerStatusCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                System.out.println("PlayerStatusCollection: PlayerStatus does not exist yet.");
+                /*System.out.println("PlayerStatusCollection: PlayerStatus does not exist yet.");
                 status.setWonGames(0);
                 status.setIsLoaded(true);
 
                 // 3b) Save to database
-                writeStatusToServer(status, listener);
-
+                writeStatusToServer(status, listener);*/
+                listener.onFailure();
             }
         });
     }
@@ -89,6 +87,59 @@ public class PlayerStatusCollection extends FirebaseCollection{
      * @param opponentId profile ID
      * @param listener {OnCollectionUpdatedListener}
      */
+    public void loadDuelStats(
+            String localPlayerId,
+            String opponentId,
+            final OnCollectionUpdatedListener listener)
+    {
+        PlayerStatus ownStatus = new PlayerStatus(localPlayerId, opponentId, true);
+        this.add(ownStatus.getId(), ownStatus);
+        this.localStatusId = ownStatus.getId();
+        loadPlayerStatus(ownStatus, listener);
+
+        PlayerStatus opponentStatus = new PlayerStatus(opponentId, localPlayerId, false);
+        this.add(opponentStatus.getId(), opponentStatus);
+        this.opponentStatusId = opponentStatus.getId();
+        loadPlayerStatus(opponentStatus, listener);
+    }
+
+    private void loadPlayerStatus(final PlayerStatus playerStatus, final OnCollectionUpdatedListener listener) {
+        firebaseInterface.get(
+                identifier,
+                playerStatus.getId(),
+                new OnGetDataListener() {
+                    @Override
+                    public void onGetData(String documentId, Map<String, Object> data) {
+                        if(data == null) {
+                            listener.onSuccess(playerStatus);
+                            return;
+                        }
+                        for (Map.Entry<String, Object> e : data.entrySet()) {
+                            try {
+                                playerStatus.set(e.getKey(), e.getValue());
+                            } catch (FieldKeyUnknownException exception) {
+                                exception.printStackTrace();
+                            }
+                        }
+                        playerStatus.setIsLoaded(true);
+                        listener.onSuccess(playerStatus);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        listener.onFailure();
+                    }
+                }
+        );
+    }
+
+    /**
+     * Add listener to opponent status when starting game.
+     *
+     * @param localPlayerId profile ID
+     * @param opponentId profile ID
+     * @param listener {OnCollectionUpdatedListener}
+     */
     public void addListenerToOpponentStatus(
             String localPlayerId,
             String opponentId,
@@ -109,10 +160,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
                     }
                 }
                 System.out.println("PlayerStatusCollection: Opponents status updated.");
-                if(status.isDead()){
-                    System.out.println("PlayerStatusCollection: Opponent dead.");
-                    finishGame(true);
-                }
+                status.setIsLoaded(true);
                 listener.onSuccess(status);
             }
 
@@ -120,28 +168,6 @@ public class PlayerStatusCollection extends FirebaseCollection{
             public void onFailure() {
                 System.out.println("PlayerStatusCollection: Problems with listening.");
                 listener.onFailure();
-            }
-        });
-    }
-
-    /**
-     * Finish game: Save stats, remove opponent status listener, and write to server.
-     *
-     * @param isWin {boolean} if local player won
-     */
-    private void finishGame(boolean isWin) {
-        getLocalPlayerStatus().finish(isWin); // mark win
-        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
-
-        this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
-            @Override
-            public void onSuccess(FirebaseDocument document) {
-                System.out.println("PlayerStatusCollection: PlayerStatus finished on server.");
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("PlayerStatusCollection: Error while finishing game.");
             }
         });
     }
@@ -175,27 +201,44 @@ public class PlayerStatusCollection extends FirebaseCollection{
     }
 
     /**
-     * Save, that wave was completed, and send status to database.
+     * Finish game: Save stats, remove opponent status listener, and write to server.
      */
-    public void waveCompleted() {
+    public void setOpponentDeathAndFinish() {
+        getLocalPlayerStatus().addWonGame();
+        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
+
+        this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("PlayerStatusCollection: PlayerStatus finished on server.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("PlayerStatusCollection: Error while finishing game.");
+            }
+        });
+    }
+
+    public void setOwnDeathAndFinish() {
         PlayerStatus status = getLocalPlayerStatus();
-        status.increaseWave();
 
-        firebaseInterface.addOrUpdateDocument(
-                identifier,
-                status.getId(),
-                status.getData(),
-                new OnPostDataListener() {
-                    @Override
-                    public void onSuccess(String documentId) {
-                        System.out.println("PlayerStatusCollection: Wave updated.");
-                    }
+        status.setHealth(0);
+        getOpponentPlayerStatus().addWonGame(); // temporary changes
 
-                    @Override
-                    public void onFailure() {
-                        System.out.println("PlayerStatusCollection: Failed updating wave!");
-                    }
-                });
+        firebaseInterface.removeOnValueChangedListener(getOpponentPlayerStatus());
+
+        writeStatusToServer(status, new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                System.out.println("PlayerStatusCollection: Set own death.");
+            }
+
+            @Override
+            public void onFailure() {
+                System.out.println("PlayerStatusCollection: Failed setting own death!");
+            }
+        });
     }
     
     public PlayerStatus getLocalPlayerStatus() {
@@ -206,5 +249,30 @@ public class PlayerStatusCollection extends FirebaseCollection{
     public PlayerStatus getOpponentPlayerStatus() {
         if (this.opponentStatusId == null) return null;
         return (PlayerStatus) get(opponentStatusId);
+    }
+
+    public PlayerStatus getHostOrGuestPlayerStatus(boolean isHost, boolean host) {
+        return isHost == host ?
+                getLocalPlayerStatus() : getOpponentPlayerStatus();
+    }
+
+    public void resetGuest() {
+        this.opponentStatusId = null;
+    }
+
+    public void resetHealthValues () {
+        getOpponentPlayerStatus().setHealth(-1);
+        getLocalPlayerStatus().setHealth(-1);
+        writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
+            @Override
+            public void onSuccess(FirebaseDocument document) {
+                // nothing
+            }
+
+            @Override
+            public void onFailure() {
+                // nothing
+            }
+        });
     }
 }

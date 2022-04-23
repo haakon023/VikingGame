@@ -119,6 +119,11 @@ public class LobbyCollection extends FirebaseCollection{
         firebaseInterface.get(identifier, id, new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
+                if(data == null) {
+                    System.out.println("LobbyCollection: Lobby does not exist.");
+                    listener.onFailure();
+                    return;
+                }
                 Lobby lobby = new Lobby(documentId);
                 for(Map.Entry<String, Object> e : data.entrySet()) {
                     try {
@@ -153,7 +158,7 @@ public class LobbyCollection extends FirebaseCollection{
             final OnCollectionUpdatedListener listener)
     {
         lobby.setGuestId(profile.getId());
-        lobby.setState(Lobby.State.GUEST_READY);
+        lobby.setState(Lobby.State.GUEST_JOINED_AND_READY);
 
         firebaseInterface.addOrUpdateDocument(
                 identifier,
@@ -180,34 +185,17 @@ public class LobbyCollection extends FirebaseCollection{
      *
      * @param listener {OnCollectionUpdatedListener}
      */
-    public void setLobbyToStarted(final OnCollectionUpdatedListener listener) {
+    public void setLobbyToStarted(OnCollectionUpdatedListener listener) {
         final Lobby lobby = getLobby();
 
-        if(!lobby.getState().equals(Lobby.State.GUEST_READY)) {
+        if(!lobby.isGuestReady()) {
             System.out.println("LobbyCollection: Guest not ready. (Lobby state should handle this before)");
             listener.onFailure();
+            return;
         }
 
         lobby.setState(Lobby.State.RUNNING);
-
-        firebaseInterface.addOrUpdateDocument(
-                identifier,
-                lobby.getId(),
-                lobby.getData(),
-                new OnPostDataListener() {
-                    @Override
-                    public void onSuccess(String documentId) {
-                        listener.onSuccess(lobby);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        System.out.println("LobbyCollection: Set Lobby to started failed.");
-                        listener.onFailure();
-
-                    }
-                }
-        );
+        writeLobbyToServer(lobby, listener);
     }
 
     /**
@@ -215,27 +203,10 @@ public class LobbyCollection extends FirebaseCollection{
      *
      * @param listener {OnCollectionUpdatedListener}
      */
-    public void setLobbyToGameEnded(final OnCollectionUpdatedListener listener) {
+    public void setLobbyToGameEnded(OnCollectionUpdatedListener listener) {
         final Lobby lobby = getLobby();
-
-        Map<String, Object> lobbyValues = new HashMap<String, Object>(){{
-            put(Lobby.KEY_STATE, Lobby.State.GUEST_JOINED);
-        }};
-
-        firebaseInterface.addOrUpdateDocument(identifier, lobby.getId(), lobbyValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
-                lobby.setState(Lobby.State.GUEST_JOINED);
-                listener.onSuccess(lobby);
-            }
-
-            @Override
-            public void onFailure() {
-                System.out.println("LobbyCollection: Set Lobby to started failed.");
-                listener.onFailure();
-
-            }
-        });
+        lobby.setState(Lobby.State.GUEST_JOINED);
+        writeLobbyToServer(lobby, listener);
     }
 
     public void deleteLobby(final OnCollectionUpdatedListener listener) {
@@ -278,23 +249,15 @@ public class LobbyCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("Lobby Collection: Failed leaving lobby.");
                         listener.onFailure();
-
                     }
                 }
         );
     }
 
-    private String generateId() {
-        StringBuilder id = new StringBuilder();
-        int validationSum = 0;
-        Random rand = new Random();
-        for(int i = 0; i < Lobby.ID_LENGTH - 1; i++) {
-            char letter = (char) ('A' + rand.nextInt(25));
-            id.append(letter);
-            validationSum += letter;
-        }
-        char validation = (char) ('A' + validationSum % 25);
-        return id.toString() + validation;
+    public void setGuestReady(final OnCollectionUpdatedListener listener) {
+        Lobby lobby = getLobby();
+        lobby.setState(Lobby.State.GUEST_READY);
+        writeLobbyToServer(lobby, listener);
     }
 
     /**
@@ -314,5 +277,41 @@ public class LobbyCollection extends FirebaseCollection{
 
         return validationSum == id.charAt(Lobby.ID_LENGTH - 1);
     }
+
+    private String generateId() {
+        StringBuilder id = new StringBuilder();
+        int validationSum = 0;
+        Random rand = new Random();
+        for(int i = 0; i < Lobby.ID_LENGTH - 1; i++) {
+            char letter = (char) ('A' + rand.nextInt(25));
+            id.append(letter);
+            validationSum += letter;
+        }
+        char validation = (char) ('A' + validationSum % 25);
+        return id.toString() + validation;
+    }
+
+    private void writeLobbyToServer(final Lobby lobby, final OnCollectionUpdatedListener listener) {
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                lobby.getId(),
+                lobby.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        listener.onSuccess(lobby);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        System.out.println("LobbyCollection: Write Lobby to Server failed.");
+                        listener.onFailure();
+
+                    }
+                }
+        );
+    }
+
+
 }
 

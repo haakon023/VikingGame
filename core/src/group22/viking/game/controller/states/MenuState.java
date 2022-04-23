@@ -36,11 +36,8 @@ public class MenuState extends State {
         addListenersToButtons();
         initTextFieldLogic();
 
-        SoundManager.playMusic(this, getGame().getPreferences());
-        System.out.println("SET BUTTON TO: " + getGame().getPreferences().getBoolean(VikingGame.PREFERENCES_SOUND_KEY));
-        getView().getMuteButton().setChecked(
-                !getGame().getPreferences().getBoolean(VikingGame.PREFERENCES_SOUND_KEY)
-        );
+        SoundManager.playMusic(this);
+        getView().getMuteButton().setChecked(!SoundManager.isSoundOn());
 
         System.out.println("MENU STATE CREATED");
     }
@@ -51,7 +48,7 @@ public class MenuState extends State {
         refreshAvatar();
         getView().resetTextField();
 
-        SoundManager.playMusic(this, getGame().getPreferences());
+        SoundManager.playMusic(this);
     }
 
     private void refreshAvatar() {
@@ -62,7 +59,7 @@ public class MenuState extends State {
         getView().getTutorialButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 Integer popUpCounter = 1; // wrapper object for same reference
                 GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.TUTORIAL, popUpCounter));
                 GameStateManager.getInstance().push(new TutorialInterruptState(game, popUpCounter));
@@ -72,7 +69,7 @@ public class MenuState extends State {
         getView().getPracticeButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().push(new OfflinePlayState(game, AbstractPlayState.Type.PRACTICE, null));
             }
         });
@@ -80,7 +77,7 @@ public class MenuState extends State {
         getView().getHostButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 userHostsGame();
             }
         });
@@ -89,7 +86,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Profile Clicked");
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().push(new ProfileSettingsState(game));
             }
         });
@@ -98,7 +95,7 @@ public class MenuState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 System.out.println("Leaderboard Clicked");
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().push(new LeaderboardState(game));
 
             }
@@ -107,7 +104,7 @@ public class MenuState extends State {
         getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                SoundManager.buttonClickSound(getGame().getPreferences());
+                SoundManager.buttonClickSound();
                 Gdx.app.exit();
             }
         });
@@ -115,14 +112,17 @@ public class MenuState extends State {
         getView().getMuteButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if (getGame().getPreferences().getBoolean("sound_preference")){
+                if (SoundManager.isSoundOn()){
                     Assets.MENU_MUSIC.pause();
-                    getGame().getPreferences().putBoolean(VikingGame.PREFERENCES_SOUND_KEY, false);
+                    VikingGame.getPreferences()
+                            .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, false)
+                            .flush();
                 } else {
                     Assets.MENU_MUSIC.play();
-                    getGame().getPreferences().putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true);
+                    VikingGame.getPreferences()
+                            .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true)
+                            .flush();
                 }
-                getGame().getPreferences().flush();
             }
         });
     }
@@ -185,7 +185,7 @@ public class MenuState extends State {
             System.out.println("Misspelling in ID");
             getView().getJoinTextField().setText("");
             getView().makeErrorShakeOnTextField();
-            SoundManager.errorSound(getGame().getPreferences());
+            SoundManager.errorSound();
             return;
         }
         textField.getOnscreenKeyboard().show(false);

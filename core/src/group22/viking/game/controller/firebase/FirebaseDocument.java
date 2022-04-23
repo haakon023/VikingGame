@@ -21,7 +21,7 @@ public abstract class FirebaseDocument {
     }
 
     // might be of use in future (debugging server sync issues)
-    boolean isLoaded() {
+    public boolean isLoaded() {
         return isLoaded;
     }
 

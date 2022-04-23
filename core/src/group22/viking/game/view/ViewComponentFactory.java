@@ -66,7 +66,7 @@ public class ViewComponentFactory {
     }
 
     public static ErrorDialog createErrorDialog(){
-        SoundManager.errorSound(VikingGame.instance.getPreferences());
+        SoundManager.errorSound();
         return new ErrorDialog("", createSkin48());
 
     }

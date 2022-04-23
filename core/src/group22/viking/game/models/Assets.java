@@ -19,6 +19,7 @@ import group22.viking.game.view.LobbyView;
 import group22.viking.game.view.MenuView;
 import group22.viking.game.view.PlayView;
 import group22.viking.game.view.ProfileSettingsView;
+import group22.viking.game.view.InformationOverlayView;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class Assets {
@@ -36,6 +37,7 @@ public class Assets {
     public static LobbyView lobbyView;
     public static MenuView menuView;
     public static ProfileSettingsView profileSettingsView;
+    public static InformationOverlayView informationOverlayView;
 
     // language
     @SuppressWarnings("ConstantLocale")
@@ -189,6 +191,7 @@ public class Assets {
         lobbyView = new LobbyView(spriteBatch, camera);
         menuView = new MenuView(spriteBatch, camera);
         profileSettingsView = new ProfileSettingsView(spriteBatch, camera);
+        informationOverlayView = new InformationOverlayView(spriteBatch, camera);
     }
 
     public static void dispose(){ assetManager.dispose(); }
