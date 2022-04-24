@@ -122,10 +122,15 @@ public class Assets {
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
     public static final Sound SOUND_MUMBLE = Gdx.audio.newSound(Gdx.files.internal("sound/mumble.wav"));
 
+    //powerup files
+    public static final String HEALTH_POTION = "img/health_potion.png";
+    public static final String ENERGY_POTION = "img/energy_potion.png";
+
 
     //health bar
     public static final String HEALTH_BAR_WRAPPER = "img/healthBarFrame.png";
     public static final String HEALTH_BAR_FILLING = "img/HealthBarFilling.png";
+
 
     public static void load() {
 
@@ -184,6 +189,10 @@ public class Assets {
         assetManager.load(MONASTERY, Texture.class);
         assetManager.load(HEALTH_BAR_WRAPPER, Texture.class);
         assetManager.load(HEALTH_BAR_FILLING, Texture.class);
+
+        //powerups
+        assetManager.load(HEALTH_POTION, Texture.class);
+        assetManager.load(ENERGY_POTION, Texture.class);
 
         //ui files
         // assetManager.load("ui/uiskin.atlas", TextureAtlas.class);
