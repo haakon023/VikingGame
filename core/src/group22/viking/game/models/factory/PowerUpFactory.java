@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import group22.viking.game.models.ECS.systems.RenderingSystem;
 import group22.viking.game.models.powerups.IPowerUp;
 import group22.viking.game.models.ECS.components.B2dBodyComponent;
 import group22.viking.game.models.ECS.components.PowerUpComponent;
@@ -60,7 +61,7 @@ public class PowerUpFactory extends AbstractFactory {
                 1.0F,
                 Assets.getTexture(Assets.ENERGY_POTION),
                 powerUp,
-                100F
+                RenderingSystem.pixelsToMeters(100F)
         );
     }
 
@@ -70,7 +71,7 @@ public class PowerUpFactory extends AbstractFactory {
                 1.0F,
                 Assets.getTexture(Assets.HEALTH_POTION),
                 powerUp,
-                100F
+                RenderingSystem.pixelsToMeters(100F)
         );
     }
 }

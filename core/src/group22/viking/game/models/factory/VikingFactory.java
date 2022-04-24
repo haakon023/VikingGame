@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
+import group22.viking.game.models.ECS.systems.RenderingSystem;
 import group22.viking.game.models.ECS.utils.BodyFactory;
 import group22.viking.game.models.ECS.components.B2dBodyComponent;
 import group22.viking.game.models.ECS.components.CollisionComponent;
@@ -59,7 +60,7 @@ public class VikingFactory extends AbstractFactory {
                 new Vector3(x, y, 0),
                 0.5F,
                 Assets.getTexture(Assets.VIKING_SHIP),
-                150F
+                RenderingSystem.pixelsToMeters(150F)
         );
         return defaultShip;
     }

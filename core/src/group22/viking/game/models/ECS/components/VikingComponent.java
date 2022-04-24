@@ -7,10 +7,20 @@ import com.badlogic.ashley.core.Component;
 public class VikingComponent implements Component {
 
     // default
-    private float health = 100;
+    private float health = 200;
     private float damage = 50;
     private float attackRate = 2f;              //attack at a rate of once per 2 seconds
     public long scoreReward = 10;
+    public float speed = 8;
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public VikingComponent setSpeed(float speed) {
+        this.speed = speed;
+        return this;
+    }
 
     private float timeSinceLastAttack;
 

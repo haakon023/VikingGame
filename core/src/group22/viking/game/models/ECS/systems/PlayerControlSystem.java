@@ -63,8 +63,8 @@ public class PlayerControlSystem extends IteratingSystem {
 
         timeSinceFired += deltaTime;
         if(inputController.isMouse1Down) {
-            Vector2 pos = inputController.mouseLocation;
-            tComp.rotation  = calculateAngle(pos, new Vector2(tComp.position.x, tComp.position.y));
+            Vector2 pos = RenderingSystem.pixelsToMeters(new Vector2(inputController.mouseLocation));
+            tComp.rotation = calculateAngle(pos, new Vector2(tComp.position.x, tComp.position.y));
 
             if(timeSinceFired > pComp.fireRate)
                 shootBullet(tComp, getLookVector(pos, new Vector2(tComp.position.x, tComp.position.y)));
