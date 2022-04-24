@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
+import group22.viking.game.models.ECS.systems.RenderingSystem;
 import group22.viking.game.models.ECS.utils.BodyFactory;
 import group22.viking.game.models.ECS.components.B2dBodyComponent;
 import group22.viking.game.models.ECS.components.CollisionComponent;
@@ -54,7 +55,8 @@ public class ProjectileFactory extends AbstractFactory {
     public Entity createLinearProjectile(float x, float y)
     {
         Entity entity = create(
-                new Vector3(x, y, 0),
+                new Vector3(RenderingSystem.pixelsToMeters(x),
+                        RenderingSystem.pixelsToMeters(y), 0),
                 0.3F,
                 Assets.getTexture(Assets.ARROW_SPRITE)
         );
