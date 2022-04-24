@@ -1,5 +1,8 @@
 package group22.viking.game.controller;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -37,6 +40,8 @@ public class VikingGame extends Game {
 
 	private boolean isOnline;
 
+	public static Logger logger;
+
 	private static VikingGame instance;
 
 	public static VikingGame getInstance(FirebaseInterface firebaseInterface, Preferences preferences) {
@@ -57,9 +62,13 @@ public class VikingGame extends Game {
 		this.lobbyCollection = new LobbyCollection(firebaseInterface);
 
 		this.isOnline = firebaseInterface.isOnline();
-		System.out.println("VIKING GAME ONLINE: " + isOnline);
+
 
 		instance = this;
+
+		logger = Logger.getLogger(VikingGame.class.getName());
+
+		logger.log(Level.INFO, "VIKING GAME ONLINE: " + isOnline);
 	}
 
 	@Override

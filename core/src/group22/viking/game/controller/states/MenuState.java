@@ -28,7 +28,6 @@ public class MenuState extends State {
 
         this.lobbyCollection = game.getLobbyCollection();
 
-
         localPlayerProfile = game.getProfileCollection().getLocalPlayerProfile();
         refreshAvatar();
 
