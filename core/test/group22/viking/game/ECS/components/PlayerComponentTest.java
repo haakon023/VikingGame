@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import org.junit.Assert;
 
+import group22.viking.game.models.ECS.components.PlayerComponent;
+
 public class PlayerComponentTest extends TestCase {
 
     public void testAddToHealth() {
