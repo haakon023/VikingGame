@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,10 +25,28 @@ public class LeaderboardView extends View {
     // tables
     private Table leaderboardTable;
 
+    //images
+    Image wizardSurprised;
+    Image medal;
+
     public LeaderboardView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
-
         this.init();
+    }
+
+    private void createBackground(){
+        medal = new Image(Assets.getTexture(Assets.MEDAL));
+        medal.setSize(400,400);
+        medal.setPosition(VikingGame.SCREEN_WIDTH-medal.getWidth()-50,50);
+        medal.rotateBy(30f);
+
+        wizardSurprised = new Image(Assets.getTexture(Assets.WIZARD_SPRITE_SURPRISED));
+        wizardSurprised.setSize(900,900);
+        wizardSurprised.setPosition(30,-1200);
+        wizardSurprised.rotateBy(20f);
+
+        stage.addActor(medal);
+        stage.addActor(wizardSurprised);
     }
 
     @Override
@@ -35,6 +54,7 @@ public class LeaderboardView extends View {
         // stage clear to make sure there aren't any further animations
         stage.clear();
 
+        createBackground();
         createButtons();
         createLabels();
 
@@ -47,13 +67,10 @@ public class LeaderboardView extends View {
 
     private void createButtons() {
 
-        //exit button for profile and leaderboard
-        Vector2 exitButtonSize = new Vector2(150,VikingGame.SCREEN_HEIGHT-300);
-
         exitButton = ViewComponentFactory.createTextButton(
-                "<",
-                new Vector2(50, 150),
-                exitButtonSize
+                Assets.t("all_button_exit"),
+                new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
+                ViewComponentFactory.VERY_SMALL_RECT_BUTTON_SIZE
         );
 
         stage.addActor(exitButton);
@@ -61,9 +78,9 @@ public class LeaderboardView extends View {
     }
 
     private void createLabels() {
-        highscoreLabel = ViewComponentFactory.createLabel48(
-                "Highscore",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-55,VikingGame.SCREEN_HEIGHT-120)
+        highscoreLabel = ViewComponentFactory.createLabel100(
+                Assets.t("leaderboard_label_highscore"),
+                new Vector2(VikingGame.SCREEN_WIDTH/2-260,VikingGame.SCREEN_HEIGHT - 200)
         );
         highscoreLabel.setColor(Color.WHITE);
         highscoreLabel.setAlignment(Align.center);
@@ -77,13 +94,13 @@ public class LeaderboardView extends View {
 
         leaderboardTable = ViewComponentFactory.createTable();
 
-        leaderboardTable.add(new Label("Rank", ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
-        leaderboardTable.add(new Label("Name", ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft).padBottom(paddingBottom);
-        leaderboardTable.add(new Label("Score", ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
+        leaderboardTable.add(new Label(Assets.t("leaderboard_label_rank"), ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
+        leaderboardTable.add(new Label(Assets.t("leaderboard_label_name"), ViewComponentFactory.createSkin48())).width(500).padLeft(paddingLeft).padBottom(paddingBottom);
+        leaderboardTable.add(new Label(Assets.t("leaderboard_label_score"), ViewComponentFactory.createSkin48())).padBottom(paddingBottom);
 
         for(int i = 0; i < names.size; i++) {
             leaderboardTable.row();
-            leaderboardTable.add(new Label("" + (i + 1), ViewComponentFactory.createSkin48()));
+            leaderboardTable.add(new Label(String.valueOf(i + 1), ViewComponentFactory.createSkin48()));
             if(i == localPlayerPosition) {
                 Label localPlayerLabel = new Label(names.get(i), ViewComponentFactory.createSkin48());
                 localPlayerLabel.setColor(new Color(128f/255f, 170f/255f, 85f/255f, 1f));
@@ -94,7 +111,7 @@ public class LeaderboardView extends View {
             leaderboardTable.add(new Label(highscores.get(i), ViewComponentFactory.createSkin48()));
         }
 
-        leaderboardTable.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT/2);
+        leaderboardTable.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT/2-70);
 
         stage.addActor(leaderboardTable);
     }
@@ -102,16 +119,25 @@ public class LeaderboardView extends View {
     @Override
     public void runInitialAnimations() {
         exitButton.addAction(ViewComponentFactory.createFadeInAction());
+        medal.addAction(ViewComponentFactory.createFadeInAction());
+        wizardSurprised.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(0,1),
+                new Vector2(0,900)
+        ));
+
     }
 
     @Override
     void drawElements(float deltaTime) {
-        Assets.FONT48.draw(batch, "Leaderboard State", 20,80);
         stage.act(deltaTime);
         stage.draw();
     }
 
     public TextButton getExitButton() {
         return exitButton;
+    }
+
+    public Table getLeaderboardTable() {
+        return leaderboardTable;
     }
 }

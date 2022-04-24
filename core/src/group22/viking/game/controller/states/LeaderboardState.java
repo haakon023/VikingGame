@@ -16,7 +16,9 @@ import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.LobbyView;
+import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
+import group22.viking.game.view.ViewComponentFactory;
 
 
 public class LeaderboardState extends State {
@@ -36,30 +38,17 @@ public class LeaderboardState extends State {
         System.out.println("LEADERBOARD STATE CREATED");
     }
 
-    @Override
-    protected void handleInput() {
-
-    }
-
-
-    public void update(float dt) {
-
-    }
 
     private LeaderboardView getView() {
         return (LeaderboardView) view;
     }
 
-
-
-
     private void addListenersToButtons() {
-        ((LeaderboardView) view).getExitButton().addListener(new ClickListener() {
+        getView().getExitButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 dispose();
-                SoundManager.buttonClickSound(getGame().getPreferences());
-                System.out.println("EXIT BUTTON CLICKED");
+                SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
         });
@@ -79,7 +68,7 @@ public class LeaderboardState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO error message
+                        ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
                     }
                 }
         );
@@ -92,13 +81,15 @@ public class LeaderboardState extends State {
         int localPlayerPosition = -1;
         for(int i = 0; i < leaderboard.size(); i++) { //Profile profile: leaderboard) {
             names.add(leaderboard.get(i).getName());
-            highscores.add("" + leaderboard.get(i).getHighscore());
+            highscores.add(String.valueOf(leaderboard.get(i).getHighscore()));
             if(leaderboard.get(i) == profileCollection.getLocalPlayerProfile()) {
                 localPlayerPosition = i;
             }
         }
         getView().createLeaderboardTable(names, highscores, localPlayerPosition);
+        getView().getLeaderboardTable().addAction(ViewComponentFactory.createFadeInAction());
     }
+
 
 
 }

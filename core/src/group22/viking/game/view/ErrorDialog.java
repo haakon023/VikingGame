@@ -3,28 +3,14 @@ package group22.viking.game.view;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import group22.viking.game.models.Assets;
+
 public class ErrorDialog extends Dialog {
 
-    public ErrorDialog(String title, Skin skin) {
+    public ErrorDialog(String title, String content, Skin skin) {
         super(title, skin);
-    }
-
-    public ErrorDialog(String title, Skin skin, String windowStyleName) {
-        super(title, skin, windowStyleName);
-    }
-
-    public ErrorDialog(String title, WindowStyle windowStyle) {
-        super(title, windowStyle);
-    }
-
-    {
-        text("\n   Server Error.   \n   Kindly contact support under:   \n   alf.inge.wang@ntnu.no   \n");
+        text("\n  " + content + "  \n");
         button("\n    O.K.    \n");
-
-
-        //setSize(4000,4000);
-
-
     }
 
     @Override

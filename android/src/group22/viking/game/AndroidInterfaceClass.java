@@ -2,13 +2,18 @@ package group22.viking.game;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -29,12 +34,55 @@ import java.util.Map;
 public class AndroidInterfaceClass implements FirebaseInterface {
 
     private final FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     private final Map<FirebaseDocument, ListenerRegistration> serverListeners;
 
+    private boolean isOnline;
+
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        db.setFirestoreSettings(settings);
+
         serverListeners = new HashMap<>();
+
+        isOnline = reachGoogle();
+
+        mAuth.signInAnonymously()
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Log.d(TAG, "signInAnonymously:success");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "signInAnonymously:failure", e);
+                    }
+                });
+    }
+
+    /**
+     * https://codegrepr.com/question/check-for-active-internet-connection-android/
+     *
+     * @return boolean
+     */
+    public boolean reachGoogle() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            return reachable;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -164,5 +212,10 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                     Log.w(TAG, "Error deleting document", e);
                     listener.onFailure();
                 });
+    }
+
+    @Override
+    public boolean isOnline() {
+        return isOnline;
     }
 }

@@ -1,7 +1,6 @@
 package group22.viking.game.ECS.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class LinearProjectileComponent implements Component {
@@ -12,9 +11,10 @@ public class LinearProjectileComponent implements Component {
         return speed;
     }
 
-    public void setSpeed(float value)
+    public LinearProjectileComponent setSpeed(float value)
     {
         speed = value;
+        return this;
     }
 
     public void setDirection(Vector3 direction) {

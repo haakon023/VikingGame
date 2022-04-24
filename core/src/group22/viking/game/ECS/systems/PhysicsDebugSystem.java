@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import group22.viking.game.models.Assets;
+
 
 public class PhysicsDebugSystem extends IteratingSystem {
 
@@ -16,7 +18,7 @@ public class PhysicsDebugSystem extends IteratingSystem {
 
     public PhysicsDebugSystem(World world, OrthographicCamera camera){
         super(Family.all().get());
-        debugRenderer = new Box2DDebugRenderer();
+        debugRenderer = Assets.box2DDebugRenderer;
         this.world = world;
         this.camera = camera;
     }

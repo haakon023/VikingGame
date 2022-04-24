@@ -14,16 +14,12 @@ import group22.viking.game.controller.VikingGame;
  */
 public class ProfileCollection extends FirebaseCollection{
 
-    private String hostId;
-    private String guestId;
     private String localPlayerId;
-    private final Preferences preferences;
 
     private ArrayList<String> leaderboard;
 
-    public ProfileCollection(FirebaseInterface firebaseInterface, Preferences preferences) {
+    public ProfileCollection(FirebaseInterface firebaseInterface) {
         super(firebaseInterface, new Profile(null), "profile");
-        this.preferences = preferences;
     }
 
     /**
@@ -32,6 +28,7 @@ public class ProfileCollection extends FirebaseCollection{
      * @param listener for synchronization
      */
     public void init(final OnCollectionUpdatedListener listener) {
+        Preferences preferences = VikingGame.getPreferences();
         if(!preferences.contains(VikingGame.PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY) == null ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY).isEmpty()) {
@@ -99,9 +96,11 @@ public class ProfileCollection extends FirebaseCollection{
                         add(documentId, profile);
 
                         localPlayerId = documentId;
-                        preferences.putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId);
-                        preferences.putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true);
-                        preferences.flush();
+
+                        VikingGame.getPreferences()
+                                .putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId)
+                                .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true)
+                                .flush();
 
                         readProfile(documentId, listener);
                     }
@@ -109,6 +108,7 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
     }
@@ -139,41 +139,9 @@ public class ProfileCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("ProfileCollection: Saving profile failed.");
                         listener.onFailure();
+
                     }
                 });
-    }
-
-
-    /**
-     * Increases the win or lost_game-field in the database by one.
-     *
-     * @param profile {Profile}
-     * @param win {boolean}                 false if lost game
-     */
-    public void addFinishedGame(Profile profile,
-                                boolean win,
-                                long score,
-                                final OnCollectionUpdatedListener listener)
-    {
-        profile.setIsLoaded(false);
-        profile.addFinishedGame(win, score);
-
-        Map<String, Object> profileValues = new HashMap<>();
-        profileValues.put(Profile.KEY_GAMES_WON, profile.getWonGames());
-        profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
-        profileValues.put(Profile.KEY_HIGHSCORE, profile.getHighscore());
-
-        this.firebaseInterface.addOrUpdateDocument(this.identifier, profile.getId(), profileValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
-                readProfile(documentId, listener);
-            }
-
-            @Override
-            public void onFailure() {
-                listener.onFailure();
-            }
-        });
     }
 
     /**
@@ -252,6 +220,7 @@ public class ProfileCollection extends FirebaseCollection{
             @Override
             public void onFailure() {
                 listener.onFailure();
+
             }
         });
     }
@@ -270,32 +239,37 @@ public class ProfileCollection extends FirebaseCollection{
         return leaderboardProfiles;
     }
 
-    public void setHostId(String hostId) {
-        this.hostId = hostId;
-    }
-
-    public void setGuestId(String guestId) {
-        this.guestId = guestId;
-    }
-
-    public Profile getProfileById(String id) {
+    public Profile getProfile(String id) {
         if (isKeyNotExistingLocally(id)) {
             return null;
         }
         return (Profile) get(id);
     }
 
-    public Profile getHostProfile() {
-        return getProfileById(hostId);
+    public Profile getLocalPlayerProfile() {
+        return getProfile(localPlayerId);
     }
 
-    public Profile getGuestProfile() {
-        return getProfileById(guestId);
-    }
+    public void setScore(long score) {
+        Profile profile = getLocalPlayerProfile();
+        if(score < profile.getHighscore()) return;
+        profile.setHighscore(score);
 
-    public Profile getLocalPlayerProfile() {return getProfileById(localPlayerId);}
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                profile.getId(),
+                profile.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        // nothing
+                    }
 
-    public Preferences getPreferences() {
-        return preferences;
+                    @Override
+                    public void onFailure() {
+                        // do not notify here
+                    }
+                }
+        );
     }
 }

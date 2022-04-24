@@ -11,6 +11,16 @@ import group22.viking.game.controller.firebase.OnPostDataListener;
 public class DesktopInterfaceClass implements FirebaseInterface {
 
     @Override
+    public void removeDocument(String collection, FirebaseDocument document, OnPostDataListener listener) {
+
+    }
+
+    @Override
+    public boolean isOnline() {
+        return false;
+    }
+
+    @Override
     public void setOnValueChangedListener(String collection, FirebaseDocument document, OnGetDataListener listener) {
 
     }

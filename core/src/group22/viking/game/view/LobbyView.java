@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.GL20;
 
 import group22.viking.game.controller.VikingGame;
+import group22.viking.game.controller.firebase.PlayerStatus;
+import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {
@@ -73,7 +75,8 @@ public class LobbyView extends View {
 
     @Override
     public void runInitialAnimations() {
-
+        exitButton.addAction(ViewComponentFactory.createFadeInAction());
+        playButton.addAction(ViewComponentFactory.createFadeInAction());
     }
 
     @Override
@@ -97,15 +100,15 @@ public class LobbyView extends View {
     private void createButtons() {
 
         playButton = ViewComponentFactory.createTextButton(
-                "Play",
+                Assets.t("lobby_button_play"),
                 new Vector2(VikingGame.SCREEN_WIDTH / 2 - 700F / 2, VikingGame.SCREEN_HEIGHT / 2 - 150F / 2),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
         exitButton = ViewComponentFactory.createTextButton(
-                "Exit",
+                Assets.t("all_button_exit"),
                 new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
-                ViewComponentFactory.VERY_SMALL_BUTTON_SIZE
+                ViewComponentFactory.VERY_SMALL_RECT_BUTTON_SIZE
         );
 
         stage.addActor(playButton);
@@ -122,13 +125,13 @@ public class LobbyView extends View {
 
         //player 1
         nameLabelHost = ViewComponentFactory.createLabel48(
-                "Player 1",
+                "...",
                 new Vector2(50,20)
         );
         nameLabelHost.setColor(Color.WHITE);
 
         scoreLabelHost = ViewComponentFactory.createLabel100(
-                "0",
+                "-",
                 new Vector2(VikingGame.SCREEN_WIDTH/2-100-100,20)
         );
         scoreLabelHost.setColor(Color.WHITE);
@@ -137,7 +140,7 @@ public class LobbyView extends View {
 
         //player 2
         nameLabelGuest = ViewComponentFactory.createLabel48(
-                "Player 2",
+                "...",
                 new Vector2(VikingGame.SCREEN_WIDTH-400-20,20)
         );
 
@@ -145,7 +148,7 @@ public class LobbyView extends View {
         nameLabelGuest.setVisible(false);
 
         scoreLabelGuest = ViewComponentFactory.createLabel100(
-                "0",
+                "-",
                 new Vector2(VikingGame.SCREEN_WIDTH/2+100,20)
         );
         scoreLabelGuest.setColor(Color.WHITE);
@@ -175,12 +178,27 @@ public class LobbyView extends View {
         nameLabelHost.setText(name);
     }
 
+    public void updateScoreLabelGuest(PlayerStatus playerStatus) {
+        if(playerStatus == null) {
+            scoreLabelGuest.setText("-");
+            return;
+        }
+        scoreLabelGuest.setText(String.valueOf(playerStatus.getWonGames()));
+    }
+
+    public void updateScoreLabelHost(PlayerStatus playerStatus) {
+        if(playerStatus == null) {
+            scoreLabelHost.setText("-");
+            return;
+        }
+        scoreLabelHost.setText(String.valueOf(playerStatus.getWonGames()));
+    }
+
     public void updateAvatarHost(int avatarId) {
         System.out.println("host updated");
         avatarHost.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
-        avatarHost.setPosition(-1000,0);
     }
 
     public void updateAvatarGuest(int avatarId) {
@@ -188,7 +206,24 @@ public class LobbyView extends View {
         avatarGuest.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
+    }
+
+    public void runHostAnimation() {
+        avatarHost.setPosition(-1000,0);
+        avatarHost.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(1,0),
+                new Vector2(1000,0)
+        ));
+        SoundManager.avatarSwooshSound();
+    }
+
+    public void runGuestAnimation() {
         avatarGuest.setPosition(VikingGame.SCREEN_WIDTH,0);
+        avatarGuest.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
+                new Vector2(1,0),
+                new Vector2(-1000,0)
+        ));
+        SoundManager.avatarSwooshSound();
     }
 
     public void enablePlayButton() {

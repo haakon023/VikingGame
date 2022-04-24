@@ -10,7 +10,11 @@ import com.badlogic.gdx.physics.box2d.World;
 public class BodyFactory {
 
     private static BodyFactory thisInstance;
-    private World world;
+    private final World world;
+
+    public static final short BULLET_ENTITY = 0x1;
+    public static final short POWER_UP_ENTITY = 0x2;
+    public static final short VIKING_ENTITY = 0x3;
 
     private BodyFactory(World world){
         this.world = world;

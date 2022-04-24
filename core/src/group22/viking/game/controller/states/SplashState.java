@@ -36,16 +36,6 @@ public class SplashState extends State {
 
         view.init();
 
-
-    }
-
-    @Override
-    protected void handleInput() {
-
-    }
-
-    public void update(float delta){
-
     }
 
     @Override
