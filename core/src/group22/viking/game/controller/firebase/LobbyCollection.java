@@ -16,11 +16,22 @@ public class LobbyCollection extends FirebaseCollection{
         this.currentLobbyId = null;
     }
 
+    /**
+     * Get current lobby or null.
+     *
+     * @return
+     */
     public Lobby getLobby() {
         if (currentLobbyId == null) return null;
         return (Lobby) get(currentLobbyId);
     }
 
+    /**
+     * Host tries to open new lobby.
+     *
+     * @param profile {Profile}
+     * @param listener {OnCollectionUpdatedListener}
+     */
     public void createLobby(
             final Profile profile,
             final OnCollectionUpdatedListener listener)
@@ -48,6 +59,13 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
+    /**
+     * Add new lobby to server.
+     *
+     * @param lobbyId {String}
+     * @param profile {Profile}
+     * @param listener {OnCollectionUpdatedListener}
+     */
     private void addNewLobby(
             String lobbyId,
             final Profile profile,
@@ -78,6 +96,12 @@ public class LobbyCollection extends FirebaseCollection{
         );
     }
 
+    /**
+     * Set Listener on Lobby.
+     *
+     * @param lobby {Lobby}
+     * @param listener {OnCollectionUpdatedListener}
+     */
     public void addLobbyListener(Lobby lobby, final OnCollectionUpdatedListener listener) {
         firebaseInterface.setOnValueChangedListener(identifier, lobby, new OnGetDataListener() {
             @Override
@@ -129,15 +153,20 @@ public class LobbyCollection extends FirebaseCollection{
                         exception.printStackTrace();
                     }
                 }
+
                 // check if lobby open
                 if(!lobby.isJoiningPossible()) {
                     System.out.println("LobbyCollection: Lobby is not open.");
                     listener.onFailure();
                     return;
                 }
+
+                // join lobby
                 add(lobby.getId(), lobby);
                 currentLobbyId = lobby.getId();
-                joinLobby(lobby, profile, listener);
+                lobby.setGuestId(profile.getId());
+                lobby.setState(Lobby.State.GUEST_JOINED_AND_READY);
+                writeLobbyToServer(lobby, listener);
             }
 
             @Override
@@ -149,36 +178,8 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
-    private void joinLobby(
-            final Lobby lobby,
-            final Profile profile,
-            final OnCollectionUpdatedListener listener)
-    {
-        lobby.setGuestId(profile.getId());
-        lobby.setState(Lobby.State.GUEST_JOINED_AND_READY);
-
-        firebaseInterface.addOrUpdateDocument(
-                identifier,
-                lobby.getId(),
-                lobby.getData(),
-                new OnPostDataListener() {
-                    @Override
-                    public void onSuccess(String documentId) {
-                        listener.onSuccess(lobby);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        System.out.println("LobbyCollection: Joining lobby failed.");
-                        listener.onFailure();
-
-                    }
-                }
-        );
-    }
-
     /**
-     * Set lobby to started
+     * Set lobby to started.
      *
      * @param listener {OnCollectionUpdatedListener}
      */
@@ -196,7 +197,7 @@ public class LobbyCollection extends FirebaseCollection{
     }
 
     /**
-     * Update lobby after game ended
+     * Update lobby after game ended.
      *
      * @param listener {OnCollectionUpdatedListener}
      */
@@ -206,6 +207,11 @@ public class LobbyCollection extends FirebaseCollection{
         writeLobbyToServer(lobby, listener);
     }
 
+    /**
+     * Host closes lobby.
+     *
+     * @param listener {OnCollectionUpdatedListener}
+     */
     public void deleteLobby(final OnCollectionUpdatedListener listener) {
         firebaseInterface.removeOnValueChangedListener(getLobby());
         firebaseInterface.removeDocument(identifier, getLobby(), new OnPostDataListener() {
@@ -224,6 +230,11 @@ public class LobbyCollection extends FirebaseCollection{
         });
     }
 
+    /**
+     * Guest leaves Lobby.
+     *
+     * @param listener {OnCollectionUpdatedListener}
+     */
     public void leaveLobby(final OnCollectionUpdatedListener listener) {
         Lobby lobby = getLobby();
         lobby.setState(Lobby.State.GUEST_LEFT);
@@ -251,6 +262,11 @@ public class LobbyCollection extends FirebaseCollection{
         );
     }
 
+    /**
+     * Guest claims that they is ready.
+     *
+     * @param listener
+     */
     public void setGuestReady(final OnCollectionUpdatedListener listener) {
         Lobby lobby = getLobby();
         lobby.setState(Lobby.State.GUEST_READY);
@@ -275,6 +291,11 @@ public class LobbyCollection extends FirebaseCollection{
         return validationSum == id.charAt(Lobby.ID_LENGTH - 1);
     }
 
+    /**
+     * Generate random lobby ID.
+     *
+     * @return
+     */
     private String generateId() {
         StringBuilder id = new StringBuilder();
         int validationSum = 0;
@@ -288,6 +309,12 @@ public class LobbyCollection extends FirebaseCollection{
         return id.toString() + validation;
     }
 
+    /**
+     * Write lobby to server.
+     *
+     * @param lobby {Lobby}
+     * @param listener {OnCollectionUpdatedListener}
+     */
     private void writeLobbyToServer(final Lobby lobby, final OnCollectionUpdatedListener listener) {
         firebaseInterface.addOrUpdateDocument(
                 identifier,

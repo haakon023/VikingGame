@@ -54,16 +54,22 @@ public class PlayerStatusCollection extends FirebaseCollection{
         });
     }
 
-    private void writeStatusToServer(final PlayerStatus game, final OnCollectionUpdatedListener listener) {
+    /**
+     * Write PlayerStatus to server.
+     *
+     * @param playerStatus
+     * @param listener
+     */
+    private void writeStatusToServer(final PlayerStatus playerStatus, final OnCollectionUpdatedListener listener) {
         firebaseInterface.addOrUpdateDocument(
                 identifier,
-                game.getId(),
-                game.getData(),
+                playerStatus.getId(),
+                playerStatus.getData(),
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("PlayerStatusCollection: Wrote game to server: " + documentId);
-                        listener.onSuccess(game);
+                        System.out.println("PlayerStatusCollection: Wrote playerStatus to server: " + documentId);
+                        listener.onSuccess(playerStatus);
                     }
 
                     @Override
@@ -97,6 +103,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         loadPlayerStatus(opponentStatus, listener);
     }
 
+    /**
+     * Load PlayerStatus
+     *
+     * @param playerStatus {PlayerStatus}
+     * @param listener {OnCollectionUpdatedListener}
+     */
     private void loadPlayerStatus(final PlayerStatus playerStatus, final OnCollectionUpdatedListener listener) {
         firebaseInterface.get(
                 identifier,
@@ -177,13 +189,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
         PlayerStatus status = getLocalPlayerStatus();
         status.setHealth(health);
 
-        firebaseInterface.addOrUpdateDocument(
-                identifier,
-                status.getId(),
-                status.getData(),
-                new OnPostDataListener() {
+        writeStatusToServer(status, new OnCollectionUpdatedListener() {
                     @Override
-                    public void onSuccess(String documentId) {
+                    public void onSuccess(FirebaseDocument document) {
                         System.out.println("PlayerStatusCollection: Health updated.");
                     }
 
@@ -191,7 +199,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
                     public void onFailure() {
                         System.out.println("PlayerStatusCollection: Failed updating health!");
                     }
-                });
+        });
     }
 
     /**
