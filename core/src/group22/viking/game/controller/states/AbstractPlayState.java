@@ -78,7 +78,7 @@ public abstract class AbstractPlayState extends State{
         if (engine == null) {
             world = new World(new Vector2(0,0), true);
             world.setContactListener(new ColliderListener());
-            engine = new PooledEngine();
+            engine = new PooledEngine(200, 10000, 200, 10000);
             playerControlSystem = new PlayerControlSystem(this, inputController, world);
             vikingSystem = new VikingSystem(world);
             renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
@@ -243,7 +243,7 @@ public abstract class AbstractPlayState extends State{
         vikingWaveTimer += deltaTime;
         powerUpTimer += deltaTime;
 
-        if (Math.round(vikingWaveTimer) >= 10) {
+        if (Math.round(vikingWaveTimer) >= 7) {
             spawnVikingWave();
             vikingWaveTimer = 0;
         }
