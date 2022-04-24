@@ -56,16 +56,22 @@ public class PlayerStatusCollection extends FirebaseCollection{
         });
     }
 
-    private void writeStatusToServer(final PlayerStatus game, final OnCollectionUpdatedListener listener) {
+    /**
+     * Write PlayerStatus to server.
+     *
+     * @param playerStatus
+     * @param listener
+     */
+    private void writeStatusToServer(final PlayerStatus playerStatus, final OnCollectionUpdatedListener listener) {
         firebaseInterface.addOrUpdateDocument(
                 identifier,
-                game.getId(),
-                game.getData(),
+                playerStatus.getId(),
+                playerStatus.getData(),
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Wrote game to server: " + documentId);
-                        listener.onSuccess(game);
+                        VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Wrote game to server: " + documentId);                     
+                        listener.onSuccess(playerStatus);
                     }
 
                     @Override
@@ -99,6 +105,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         loadPlayerStatus(opponentStatus, listener);
     }
 
+    /**
+     * Load PlayerStatus
+     *
+     * @param playerStatus {PlayerStatus}
+     * @param listener {OnCollectionUpdatedListener}
+     */
     private void loadPlayerStatus(final PlayerStatus playerStatus, final OnCollectionUpdatedListener listener) {
         firebaseInterface.get(
                 identifier,
@@ -179,13 +191,9 @@ public class PlayerStatusCollection extends FirebaseCollection{
         PlayerStatus status = getLocalPlayerStatus();
         status.setHealth(health);
 
-        firebaseInterface.addOrUpdateDocument(
-                identifier,
-                status.getId(),
-                status.getData(),
-                new OnPostDataListener() {
+        writeStatusToServer(status, new OnCollectionUpdatedListener() {
                     @Override
-                    public void onSuccess(String documentId) {
+                    public void onSuccess(FirebaseDocument document) {
                         VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Health updated.");
                     }
 
@@ -193,7 +201,7 @@ public class PlayerStatusCollection extends FirebaseCollection{
                     public void onFailure() {
                         VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Failed updating health!");
                     }
-                });
+        });
     }
 
     /**

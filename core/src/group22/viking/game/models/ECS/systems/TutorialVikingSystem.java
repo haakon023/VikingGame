@@ -25,7 +25,7 @@ public class TutorialVikingSystem extends VikingSystem{
         if(viking.getHealth() <= 0){
             tutorialPlayState.nextInterruption();
 
-            tutorialPlayState.createTutorialPowerUp(new Vector2(VikingGame.getInstance().SCREEN_WIDTH - 500,700), new HealthPowerUp());
+            tutorialPlayState.createTutorialPowerUp(new Vector2(RenderingSystem.getMeterWidth() - 500,700), new HealthPowerUp());
 
         }
     }

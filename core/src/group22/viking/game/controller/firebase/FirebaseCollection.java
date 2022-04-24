@@ -26,6 +26,12 @@ public abstract class FirebaseCollection {
         return documents.get(key);
     }
 
+    /**
+     * Add document to local data list.
+     *
+     * @param key {String}
+     * @param document {FirebaseDocument}
+     */
     void add(String key, FirebaseDocument document) {
         if(document.getClass() != documentTypeExample.getClass()) {
             return;
@@ -33,6 +39,11 @@ public abstract class FirebaseCollection {
         documents.put(key, document);
     }
 
+    /**
+     * Remove document from local data list.
+     *
+     * @param key {String}
+     */
     void remove(String key) {
         if(!documents.containsKey(key)) return;
         documents.remove(key);

@@ -16,6 +16,16 @@ public class VikingComponent implements Component {
 
     private float damage = 50;
     public long scoreReward = 10;
+    public float speed = 8;
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public VikingComponent setSpeed(float speed) {
+        this.speed = speed;
+        return this;
+    }
 
     public float getAttackRate() {
         return attackRate;
@@ -41,7 +51,7 @@ public class VikingComponent implements Component {
         return health;
     }
 
-    private float health = 100; //set 100 as default, dunno.png
+    private float health = 200; //set 100 as default, dunno.png
 
     public void DealDamage(float amount){
         health -= amount;
