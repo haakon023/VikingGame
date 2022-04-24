@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -37,13 +36,11 @@ public class MenuView extends View {
     private Animation[] animations;
 
     private TextureRegion profileTextureRegion;
-    private TextureRegion muteTextureRegion;
-    private TextureRegion leaderboardTextureRegion;
 
     /**
      * Simple storage class for animation info.
      */
-    abstract class Animation {
+    abstract static class Animation {
         Image image;
         public float status;
         public float step;
@@ -70,7 +67,7 @@ public class MenuView extends View {
         abstract void stepChanges();
     }
 
-    class LoopAnimation extends Animation {
+    static class LoopAnimation extends Animation {
         public LoopAnimation(Image image, float x, float y, float step, float max, boolean animateX) {
             super(image, x, y, step, max, animateX);
         }
@@ -84,7 +81,7 @@ public class MenuView extends View {
         }
     }
 
-    class BouncingAnimation extends Animation {
+    static class BouncingAnimation extends Animation {
         public BouncingAnimation(Image image, float x, float y, float step, float max, boolean animateX) {
             super(image, x, y, step, max, animateX);
         }
@@ -143,7 +140,6 @@ public class MenuView extends View {
                 new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT - 200),
                 ViewComponentFactory.SMALL_RECT_BUTTON_SIZE);
 
-        //muteTextureRegion = new TextureRegion(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE));
         muteButton = ViewComponentFactory.createCheckedImageButton(
                 new TextureRegionDrawable(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE)),
                 new TextureRegionDrawable(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE)),
@@ -151,7 +147,7 @@ public class MenuView extends View {
                 new Vector2(VikingGame.getInstance().SCREEN_WIDTH - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
-        leaderboardTextureRegion = new TextureRegion(Assets.getTexture(Assets.LEADERBOARD_BUTTON_IMAGE));
+        TextureRegion leaderboardTextureRegion = new TextureRegion(Assets.getTexture(Assets.LEADERBOARD_BUTTON_IMAGE));
         leaderboardButton = ViewComponentFactory.createImageButton(
                 new TextureRegionDrawable(leaderboardTextureRegion),
                 new Vector2(VikingGame.getInstance().SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),

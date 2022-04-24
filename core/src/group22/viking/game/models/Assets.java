@@ -79,7 +79,7 @@ public class Assets {
     public static final String LEGOLAS_SPRITE = "img/legolas.png";
     public static final String LEGOLAS_SPRITE_HEAD = "img/LegolasHead.png";
 
-    public static final String QUESTIONMARK = "img/Questionmark.png";
+    public static final String QUESTION_MARK = "img/Questionmark.png";
     public static final String BOW = "img/bow.png";
 
     public static final int NUMBER_OF_AVATARS = 5;
@@ -116,7 +116,7 @@ public class Assets {
     public static final Music GAME_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/gameMusic.mp3"));
 
     //sound files
-    public static final Sound SOUND_BOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundBowFire.mp3"));
+    //public static final Sound SOUND_BOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundBowFire.mp3"));
     public static final Sound SOUND_BUTTON = Gdx.audio.newSound(Gdx.files.internal("sound/soundButton.mp3"));
     public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
@@ -163,7 +163,7 @@ public class Assets {
         assetManager.load(LEGOLAS_SPRITE_HEAD, Texture.class);
         assetManager.load(POWER_UP, Texture.class);
 
-        assetManager.load(QUESTIONMARK, Texture.class);
+        assetManager.load(QUESTION_MARK, Texture.class);
         assetManager.load(BOW, Texture.class);
 
         //button images
@@ -224,13 +224,6 @@ public class Assets {
     }
     public static TextureAtlas getTextureAtlas(String textureAtlas) {
         return assetManager.get(textureAtlas, TextureAtlas.class);
-    }
-
-    //TODO: implement as necessary
-    public static Music getMusic(String path) { return assetManager.get(path, Music.class); }
-    //TODO: implement as necessary
-    public static Sound getSound(String path) {
-        return assetManager.get(path, Sound.class);
     }
 
     public static String getAvatar(int index) {

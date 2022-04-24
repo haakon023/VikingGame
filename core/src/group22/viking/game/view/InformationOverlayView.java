@@ -104,16 +104,4 @@ public class InformationOverlayView extends View {
     public TextButton getConfirmButton() {
         return confirmButton;
     }
-
-    public Label getHeadingLabel() {
-        return headingLabel;
-    }
-
-    public Label getContent() {
-        return contentLabel;
-    }
-
-    public Image getTeacher() {
-        return teacher;
-    }
 }

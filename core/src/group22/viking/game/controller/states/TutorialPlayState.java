@@ -53,5 +53,6 @@ public class TutorialPlayState extends OfflinePlayState {
         engine.removeSystem(vikingSystem);
         vikingSystem = new VikingSystem(world);
         engine.addSystem(vikingSystem);
+        collisionSystem.addTutorialReference(null);
     }
 }

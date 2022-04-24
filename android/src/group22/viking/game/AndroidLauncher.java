@@ -9,8 +9,6 @@ import android.view.View;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
-import java.lang.annotation.Target;
-
 import group22.viking.game.controller.VikingGame;
 
 public class AndroidLauncher extends AndroidApplication {

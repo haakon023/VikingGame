@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.models.Assets;
 
 public class ErrorDialog extends Dialog {
 

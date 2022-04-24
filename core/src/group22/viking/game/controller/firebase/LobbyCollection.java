@@ -1,10 +1,7 @@
 package group22.viking.game.controller.firebase;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import group22.viking.game.view.ViewComponentFactory;
 
 /**
  * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
@@ -188,7 +185,7 @@ public class LobbyCollection extends FirebaseCollection{
     public void setLobbyToStarted(OnCollectionUpdatedListener listener) {
         final Lobby lobby = getLobby();
 
-        if(!lobby.isGuestReady()) {
+        if(lobby.isGuestNotReady()) {
             System.out.println("LobbyCollection: Guest not ready. (Lobby state should handle this before)");
             listener.onFailure();
             return;

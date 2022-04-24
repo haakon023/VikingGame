@@ -15,7 +15,7 @@ import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
 
-    private PlayerStatusCollection playerStatusCollection;
+    private final PlayerStatusCollection playerStatusCollection;
 
     private long score ;
 

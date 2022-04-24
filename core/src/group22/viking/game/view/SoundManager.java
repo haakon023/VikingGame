@@ -6,7 +6,7 @@ import group22.viking.game.models.Assets;
 
 public class SoundManager {
 
-    private static String PREFERENCE_KEY_SOUND = "sound_preference";
+    private static final String PREFERENCE_KEY_SOUND = "sound_preference";
 
     public static void buttonClickSound(){
         if(isSoundOn()){
@@ -43,28 +43,30 @@ public class SoundManager {
     public static void playMusic(State state){
         if(isSoundOn()){
             System.out.println("playing music> if passed");
-            if(state.getClass().getName().equals("group22.viking.game.controller.states.MenuState")){
-                Assets.GAME_MUSIC.stop();
-                Assets.LOBBY_MUSIC.stop();
-                Assets.MENU_MUSIC.play();
-                Assets.MENU_MUSIC.setVolume(1f);
-                Assets.MENU_MUSIC.setLooping(true);
-                System.out.println("playing music> loading passed");
-            }else if(state.getClass().getName().equals("group22.viking.game.controller.states.LobbyState")){
-                Assets.GAME_MUSIC.stop();
-                Assets.MENU_MUSIC.stop();
-                Assets.LOBBY_MUSIC.play();
-                Assets.LOBBY_MUSIC.setVolume(1f);
-                Assets.LOBBY_MUSIC.setLooping(true);
-            }else if(
-                    state.getClass().getName().equals("group22.viking.game.controller.states.OnlinePlayState") ||
-                    state.getClass().getName().equals("group22.viking.game.controller.states.OfflinePlayState")
-            ){
-                Assets.LOBBY_MUSIC.stop();
-                Assets.MENU_MUSIC.stop();
-                Assets.GAME_MUSIC.play();
-                Assets.GAME_MUSIC.setVolume(1f);
-                Assets.GAME_MUSIC.setLooping(true);
+            switch (state.getClass().getName()) {
+                case "group22.viking.game.controller.states.MenuState":
+                    Assets.GAME_MUSIC.stop();
+                    Assets.LOBBY_MUSIC.stop();
+                    Assets.MENU_MUSIC.play();
+                    Assets.MENU_MUSIC.setVolume(1f);
+                    Assets.MENU_MUSIC.setLooping(true);
+                    System.out.println("playing music> loading passed");
+                    break;
+                case "group22.viking.game.controller.states.LobbyState":
+                    Assets.GAME_MUSIC.stop();
+                    Assets.MENU_MUSIC.stop();
+                    Assets.LOBBY_MUSIC.play();
+                    Assets.LOBBY_MUSIC.setVolume(1f);
+                    Assets.LOBBY_MUSIC.setLooping(true);
+                    break;
+                case "group22.viking.game.controller.states.OnlinePlayState":
+                case "group22.viking.game.controller.states.OfflinePlayState":
+                    Assets.LOBBY_MUSIC.stop();
+                    Assets.MENU_MUSIC.stop();
+                    Assets.GAME_MUSIC.play();
+                    Assets.GAME_MUSIC.setVolume(1f);
+                    Assets.GAME_MUSIC.setLooping(true);
+                    break;
             }
         }
     }

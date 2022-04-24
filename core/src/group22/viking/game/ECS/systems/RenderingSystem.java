@@ -8,15 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Comparator;
 
 import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
-import group22.viking.game.controller.VikingGame;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
@@ -27,27 +24,27 @@ public class RenderingSystem extends SortedIteratingSystem {
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;
     static final float FRUSTUM_HEIGHT = Gdx.graphics.getHeight() / PPM;
 
-    private static Vector2 meterDimensions = new Vector2();
-    private static Vector2 pixelDimensions = new Vector2();
+    // might be of use in future:
+    private final static Vector2 meterDimensions = new Vector2();
+    //private static Vector2 pixelDimensions = new Vector2();
 
-    
     public static Vector2 getScreenSizeInMeters(){
         meterDimensions.set(Gdx.graphics.getWidth()*PIXELS_TO_METRES,
                 Gdx.graphics.getHeight()*PIXELS_TO_METRES);
         return meterDimensions;
     }
 
-    public static float PixelsToMeters(float pixelValue){
+    public static float pixelsToMeters(float pixelValue){
         return pixelValue * PIXELS_TO_METRES;
     }
     
-    private SpriteBatch spriteBatch;
-    private Comparator<com.badlogic.ashley.core.Entity> comparator;
-    private Array<com.badlogic.ashley.core.Entity> renderQueue;
-    private OrthographicCamera camera;
+    private final SpriteBatch spriteBatch;
+    private final Comparator<com.badlogic.ashley.core.Entity> comparator;
+    private final Array<com.badlogic.ashley.core.Entity> renderQueue;
+    private final OrthographicCamera camera;
 
-    private ComponentMapper<TransformComponent> cmTransformComp;
-    private ComponentMapper<TextureComponent> cmTextureComp;
+    private final ComponentMapper<TransformComponent> cmTransformComp;
+    private final ComponentMapper<TextureComponent> cmTextureComp;
 
     public RenderingSystem(SpriteBatch spriteBatch, ZComparator comparator) {
         super(Family.all(TransformComponent.class).get(), comparator);
@@ -58,7 +55,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         cmTransformComp = ComponentMapper.getFor(TransformComponent.class);
         cmTextureComp = ComponentMapper.getFor(TextureComponent.class);
 
-        renderQueue = new Array<com.badlogic.ashley.core.Entity>();
+        renderQueue = new Array<>();
         
         camera = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
         camera.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
@@ -94,7 +91,7 @@ public class RenderingSystem extends SortedIteratingSystem {
                     transComp.position.y - originY,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(transComp.scale.x), PixelsToMeters(transComp.scale.y),
+                    pixelsToMeters(transComp.scale.x), pixelsToMeters(transComp.scale.y),
                     transComp.rotation
                     );
         }

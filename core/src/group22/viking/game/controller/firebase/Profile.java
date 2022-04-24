@@ -88,15 +88,4 @@ public class Profile extends FirebaseDocument{
             put(KEY_HIGHSCORE, highscore);
         }};
     }
-
-    void addFinishedGame(boolean win, long score) {
-        if(win) {
-            wonGames++;
-        } else {
-            lostGames++;
-        }
-        if (score > highscore) {
-            highscore = score;
-        }
-    }
 }

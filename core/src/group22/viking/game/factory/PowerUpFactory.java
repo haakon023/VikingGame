@@ -30,10 +30,10 @@ public class PowerUpFactory extends AbstractFactory {
         this.world = world;
     }
 
-    Entity create(Vector3 position, float scale, Texture texture, IPowerUp powerUp, float hitboxRadius) {
+    Entity create(Vector3 position, float scale, Texture texture, IPowerUp powerUp, float hitBoxRadius) {
         Entity entity = super.createEntity(TypeComponent.EntityType.POWER_UP);
         Body body = BodyFactory.getInstance(world).makeCirclePolyBody(
-                position.x, position.y, hitboxRadius, BodyDef.BodyType.DynamicBody, false);
+                position.x, position.y, hitBoxRadius, BodyDef.BodyType.DynamicBody, false);
         Filter filter = new Filter();
         filter.categoryBits = BodyFactory.POWER_UP_ENTITY;
         filter.maskBits = BodyFactory.BULLET_ENTITY;

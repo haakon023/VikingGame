@@ -2,7 +2,6 @@ package group22.viking.game;
 
 import java.util.Map;
 
-import group22.viking.game.controller.firebase.FirebaseCollection;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.OnGetDataListener;

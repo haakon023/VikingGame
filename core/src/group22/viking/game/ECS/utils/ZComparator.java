@@ -9,10 +9,9 @@ import group22.viking.game.ECS.components.TransformComponent;
 
 public class ZComparator implements Comparator<com.badlogic.ashley.core.Entity> {
 
-    private ComponentMapper<TransformComponent> componentMapperTransform;
+    private final ComponentMapper<TransformComponent> componentMapperTransform;
 
-    public ZComparator()
-    {
+    public ZComparator() {
         componentMapperTransform = ComponentMapper.getFor(TransformComponent.class);
     }
 

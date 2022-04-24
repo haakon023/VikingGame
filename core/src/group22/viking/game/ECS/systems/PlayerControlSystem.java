@@ -19,12 +19,12 @@ import group22.viking.game.factory.ProjectileFactory;
 
 public class PlayerControlSystem extends IteratingSystem {
 
-    private static float ROTATION_OFFSET = 180;
+    private final static float ROTATION_OFFSET = 180;
 
     private final ComponentMapper<PlayerComponent> cmPlayerComponent;
     private final ComponentMapper<TransformComponent> cmTransformComponent;
 
-    private TextureFactory textureFactory;
+    private final TextureFactory textureFactory;
 
     private InputController inputController;
     private ProjectileFactory projectileFactory;
@@ -43,8 +43,9 @@ public class PlayerControlSystem extends IteratingSystem {
         this.inputController = inputController;
     }
 
-    public void updateInputController(InputController inputController) {
+    public void reinitialize(InputController inputController, AbstractPlayState state) {
         this.inputController = inputController;
+        this.state = state;
     }
 
     @Override
@@ -52,11 +53,9 @@ public class PlayerControlSystem extends IteratingSystem {
         PlayerComponent pComp = cmPlayerComponent.get(entity);
         TransformComponent tComp = cmTransformComponent.get(entity);
 
-        //if health is below or equal 0
-        if(isDead(pComp)){
-            // offline and online
+        // offline and online
+        if(pComp.isDead()){
             state.handleLocalDeath();
-            // System.out.println("PROCESS ENTITY: " + isDead(pComp));
             return;
         }
 
@@ -70,11 +69,6 @@ public class PlayerControlSystem extends IteratingSystem {
             if(timeSinceFired > pComp.fireRate)
                 shootBullet(tComp, getLookVector(pos, new Vector2(tComp.position.x, tComp.position.y)));
         }
-    }
-
-    private boolean isDead(PlayerComponent player)
-    {
-        return player.getHealth() <= 0;
     }
 
     private void shootBullet(TransformComponent playerTransform, Vector2 direction)

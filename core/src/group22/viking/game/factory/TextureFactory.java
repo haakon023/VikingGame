@@ -17,13 +17,13 @@ import group22.viking.game.models.Assets;
 
 public class TextureFactory extends AbstractFactory {
 
-    private ComponentMapper<TransformComponent> cmTransformComponent;
-    private ComponentMapper<TextureComponent> cmTextureComponent;
+    private final ComponentMapper<TransformComponent> cmTransformComponent;
+    private final ComponentMapper<TextureComponent> cmTextureComponent;
 
     public static final float HEALTH_BAR_SCALE = 0.6F;
     private static final float SCALE_AVATAR_HEAD = 0.35F;
 
-    private Vector3 screenMiddle;
+    private final Vector3 screenMiddle;
 
     public TextureFactory(PooledEngine engine) {
         super(engine);
@@ -44,7 +44,7 @@ public class TextureFactory extends AbstractFactory {
                 );
     }
 
-    public Entity createOceanback() {
+    public Entity createOceanBack() {
         return create(
                 new Vector3(0, 0, -6).add(screenMiddle),
                 1.0F,
@@ -52,7 +52,7 @@ public class TextureFactory extends AbstractFactory {
         );
     }
 
-    public Entity createOceantop() {
+    public Entity createOceanTop() {
         return create(
                 new Vector3(0, 0, -5).add(screenMiddle),
                 1.0F,
@@ -60,7 +60,7 @@ public class TextureFactory extends AbstractFactory {
         );
     }
 
-    public Entity createWavebottom() {
+    public Entity createWaveBottom() {
         return create(
                 new Vector3(0, 0, -4).add(screenMiddle),
                 0.6F,
@@ -76,7 +76,7 @@ public class TextureFactory extends AbstractFactory {
         );
     }
 
-    public Entity createWavetop() {
+    public Entity createWaveTop() {
         return create(
                 new Vector3(0, -50, -2).add(screenMiddle),
                 0.6F,
