@@ -16,6 +16,6 @@ public class HealthPowerUp implements IPowerUp{
     @Override
     public void givePowerUp(Entity entity) {
         PlayerComponent player = playerMapper.get(entity);
-        player.addToHealth(100);
+        player.addToHealth(250);
     }
 }
