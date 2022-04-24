@@ -1,11 +1,8 @@
 package group22.viking.game.tests;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.spawnlogic.Spawner;
-import group22.viking.game.controller.spawnlogic.SpawnerController;
+
 import org.junit.Assert;
 import org.junit.Test;
 

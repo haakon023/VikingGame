@@ -4,9 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 
-import group22.viking.game.controller.spawnlogic.Spawner;
-import group22.viking.game.controller.spawnlogic.SpawnerController;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -66,7 +63,8 @@ public abstract class AbstractPlayState extends State{
 
     private float time;
 
-    private SpawnerController spawnerController;
+    private int cycle = 1;
+
 
     protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
@@ -87,7 +85,6 @@ public abstract class AbstractPlayState extends State{
         this.homingProjectileSystem = new HomingProjectileSystem();
 
         this.time = 0;
-        this.spawnerController = new SpawnerController(4);
 
         this.collisionSystem = new CollisionSystem(world);
         this.physicsSystem = new PhysicsSystem(world);
@@ -150,19 +147,17 @@ public abstract class AbstractPlayState extends State{
 
     private void spawnVikings()
     {
-        int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
         VikingFactory vikingFactory = new VikingFactory(engine, world);
-        System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
-        for (int i=0; i < spawnerController.getSpawners().size(); i++)
+        for (int i=0; i < Math.round(cycle*2); i++)
         {
-            Spawner spawner = spawnerController.getSpawners().get(i);
-            for (int j=0; j < amountToSpawnPerSpawner; j++)
-            {
-                System.out.println(spawner.getPosition() + " | position of ship");
-                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
-            }
+            double randomX = Math.random();
+            double randomY = Math.random();
+            engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+            engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+            engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
         }
-        time = 0;
+        cycle++;
     }
 
     protected PlayView getView() {
@@ -190,7 +185,7 @@ public abstract class AbstractPlayState extends State{
     public void render(float deltaTime) {
         if (!isRendering) return;
         time += deltaTime;
-        if (Math.round(time) == 30) {
+        if (Math.round(time) >= 10) {
             spawnVikings();
             time = 0;
         }
