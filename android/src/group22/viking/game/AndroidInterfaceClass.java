@@ -90,7 +90,9 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                                           FirebaseDocument document,
                                           OnGetDataListener listener) {
         // Remove old listener if existing
-        Objects.requireNonNull(serverListeners.get(document)).remove();
+        if(serverListeners.containsKey(document)) {
+            serverListeners.get(document).remove();
+        }
 
         DocumentReference documentReference = db.collection(collection).document(document.getId());
         ListenerRegistration serverListener = documentReference.addSnapshotListener(
@@ -118,7 +120,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     
     public void removeOnValueChangedListener(FirebaseDocument document) {
         if(!serverListeners.containsKey(document)) return;
-        Objects.requireNonNull(serverListeners.get(document)).remove();
+        serverListeners.get(document).remove();
         serverListeners.remove(document);
     }
 

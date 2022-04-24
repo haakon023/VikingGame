@@ -24,8 +24,8 @@ public class VikingSystem extends IteratingSystem {
     private final ComponentMapper<B2dBodyComponent> cmBody;
     protected final ComponentMapper<VikingComponent> cmViking;
 
-    private final ProjectileFactory projectileFactory;
-    
+    private ProjectileFactory projectileFactory;
+
     public VikingSystem(World world) {
         super(Family.all(VikingComponent.class, TransformComponent.class, TextureComponent.class).get());
         this.world = world;
@@ -33,7 +33,6 @@ public class VikingSystem extends IteratingSystem {
         this.cmViking = ComponentMapper.getFor(VikingComponent.class);
         this.cmTexture = ComponentMapper.getFor(TextureComponent.class);
         this.cmBody = ComponentMapper.getFor(B2dBodyComponent.class);
-        this.projectileFactory = new ProjectileFactory((PooledEngine) getEngine(), world);
     }
 
     @Override
@@ -89,6 +88,9 @@ public class VikingSystem extends IteratingSystem {
 
     private void SpawnProjectile(TransformComponent vikingTransform, com.badlogic.ashley.core.Entity target)
     {
+        if(projectileFactory == null)
+            projectileFactory = new ProjectileFactory((PooledEngine) getEngine(), world);
+
         com.badlogic.ashley.core.Entity projectile = projectileFactory.createProjectile(vikingTransform.position.x, vikingTransform.position.y);
         projectile.getComponent(HomingProjectileComponent.class).setTarget(target);
         getEngine().addEntity(projectile);
