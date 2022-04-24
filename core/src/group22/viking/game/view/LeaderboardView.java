@@ -37,7 +37,7 @@ public class LeaderboardView extends View {
     private void createBackground(){
         medal = new Image(Assets.getTexture(Assets.MEDAL));
         medal.setSize(400,400);
-        medal.setPosition(VikingGame.SCREEN_WIDTH-medal.getWidth()-50,50);
+        medal.setPosition(VikingGame.getInstance().SCREEN_WIDTH-medal.getWidth()-50,50);
         medal.rotateBy(30f);
 
         wizardSurprised = new Image(Assets.getTexture(Assets.WIZARD_SPRITE_SURPRISED));
@@ -69,7 +69,7 @@ public class LeaderboardView extends View {
 
         exitButton = ViewComponentFactory.createTextButton(
                 Assets.t("all_button_exit"),
-                new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
+                new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT - 200),
                 ViewComponentFactory.VERY_SMALL_RECT_BUTTON_SIZE
         );
 
@@ -80,7 +80,7 @@ public class LeaderboardView extends View {
     private void createLabels() {
         highscoreLabel = ViewComponentFactory.createLabel100(
                 Assets.t("leaderboard_label_highscore"),
-                new Vector2(VikingGame.SCREEN_WIDTH/2-260,VikingGame.SCREEN_HEIGHT - 200)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-260,VikingGame.getInstance().SCREEN_HEIGHT - 200)
         );
         highscoreLabel.setColor(Color.WHITE);
         highscoreLabel.setAlignment(Align.center);
@@ -111,7 +111,7 @@ public class LeaderboardView extends View {
             leaderboardTable.add(new Label(highscores.get(i), ViewComponentFactory.createSkin48()));
         }
 
-        leaderboardTable.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT/2-70);
+        leaderboardTable.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2,VikingGame.getInstance().SCREEN_HEIGHT/2-70);
 
         stage.addActor(leaderboardTable);
     }

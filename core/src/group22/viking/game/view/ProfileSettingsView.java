@@ -53,8 +53,8 @@ public class ProfileSettingsView extends View {
         profileImage = new Image(Assets.getTexture(Assets.getAvatarHead(0)));
         profileImage.setWidth(400);
         profileImage.setHeight(400);
-        profileImage.setPosition(VikingGame.SCREEN_WIDTH/4,
-                VikingGame.SCREEN_HEIGHT-profileImage.getHeight()-250);
+        profileImage.setPosition(VikingGame.getInstance().SCREEN_WIDTH/4,
+                VikingGame.getInstance().SCREEN_HEIGHT-profileImage.getHeight()-250);
         profileImage.addAction(sequence(alpha(0),parallel(fadeIn(0.5f),moveBy(0,-20,.5f, Interpolation.pow5Out))));
         stage.addActor(profileImage);
 
@@ -77,7 +77,7 @@ public class ProfileSettingsView extends View {
         leftButton = ViewComponentFactory.createTextButton(
                 "<",
                 new Vector2(profileImage.getX() - carouselButtonSize.x,
-                        VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 250),
+                        VikingGame.getInstance().SCREEN_HEIGHT - profileImage.getHeight() - 250),
                 carouselButtonSize
         );
 
@@ -85,14 +85,14 @@ public class ProfileSettingsView extends View {
         rightButton = ViewComponentFactory.createTextButton(
                 ">",
                 new Vector2(profileImage.getX() + profileImage.getWidth(),
-                        VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 250),
+                        VikingGame.getInstance().SCREEN_HEIGHT - profileImage.getHeight() - 250),
                 carouselButtonSize
         );
 
         submitChangesButton = ViewComponentFactory.createTextButton(
                 Assets.t("profile_button_saveAndExit"),
                 new Vector2(leftButton.getX(),
-                        VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 500),
+                        VikingGame.getInstance().SCREEN_HEIGHT - profileImage.getHeight() - 500),
                 new Vector2(2*leftButton.getWidth()+profileImage.getWidth()+100+600, 150)
         );
 
@@ -107,7 +107,7 @@ public class ProfileSettingsView extends View {
         nameTextField = ViewComponentFactory.createTextField(
                 "",
                 new Vector2(profileImage.getX() + profileImage.getWidth() + rightButton.getWidth() + 100,
-                        VikingGame.SCREEN_HEIGHT - profileImage.getHeight() - 250),
+                        VikingGame.getInstance().SCREEN_HEIGHT - profileImage.getHeight() - 250),
                 new Vector2(600, 150)
         );
         stage.addActor(nameTextField);
@@ -116,7 +116,7 @@ public class ProfileSettingsView extends View {
     private void createLabels() {
         profileLabel = ViewComponentFactory.createLabel100(
                 Assets.t("profile_label_profile"),
-                new Vector2(VikingGame.SCREEN_WIDTH/2-150,VikingGame.SCREEN_HEIGHT - 200)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-150,VikingGame.getInstance().SCREEN_HEIGHT - 200)
         );
         profileLabel.setColor(Color.WHITE);
         profileLabel.setAlignment(Align.center);

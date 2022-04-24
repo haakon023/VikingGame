@@ -10,6 +10,9 @@ import group22.viking.game.controller.firebase.OnPostDataListener;
 
 public class DesktopInterfaceClass implements FirebaseInterface {
 
+    public DesktopInterfaceClass() {
+    }
+
     @Override
     public void removeDocument(String collection, FirebaseDocument document, OnPostDataListener listener) {
 

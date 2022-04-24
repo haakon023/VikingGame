@@ -54,13 +54,13 @@ public class LobbyView extends View {
 
         avatarHost = new Image(Assets.getTexture(Assets.QUESTIONMARK));
         avatarHost.setPosition(0, 120);
-        avatarHost.setWidth(VikingGame.SCREEN_WIDTH / 2);
-        avatarHost.setHeight(VikingGame.SCREEN_HEIGHT-120);
+        avatarHost.setWidth(VikingGame.getInstance().SCREEN_WIDTH / 2);
+        avatarHost.setHeight(VikingGame.getInstance().SCREEN_HEIGHT-120);
 
         avatarGuest = new Image(Assets.getTexture(Assets.QUESTIONMARK));
-        avatarGuest.setPosition(VikingGame.SCREEN_WIDTH / 2, 120);
-        avatarGuest.setWidth(VikingGame.SCREEN_WIDTH / 2);
-        avatarGuest.setHeight(VikingGame.SCREEN_HEIGHT-120);
+        avatarGuest.setPosition(VikingGame.getInstance().SCREEN_WIDTH / 2, 120);
+        avatarGuest.setWidth(VikingGame.getInstance().SCREEN_WIDTH / 2);
+        avatarGuest.setHeight(VikingGame.getInstance().SCREEN_HEIGHT-120);
 
         stage.addActor(avatarHost);
         stage.addActor(avatarGuest);
@@ -84,11 +84,11 @@ public class LobbyView extends View {
 
         //shapeRenderer (use it like a batch)
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.rect(VikingGame.SCREEN_WIDTH / 2 - 30, 0,
-                30, VikingGame.SCREEN_HEIGHT);
+        shapeRenderer.rect(VikingGame.getInstance().SCREEN_WIDTH / 2 - 30, 0,
+                30, VikingGame.getInstance().SCREEN_HEIGHT);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         shapeRenderer.setColor(new Color(1,1,1,1f));
-        shapeRenderer.rect(VikingGame.SCREEN_WIDTH/2-125,VikingGame.SCREEN_HEIGHT-250,220,100);
+        shapeRenderer.rect(VikingGame.getInstance().SCREEN_WIDTH/2-125,VikingGame.getInstance().SCREEN_HEIGHT-250,220,100);
 
         shapeRenderer.end();
 
@@ -101,13 +101,13 @@ public class LobbyView extends View {
 
         playButton = ViewComponentFactory.createTextButton(
                 Assets.t("lobby_button_play"),
-                new Vector2(VikingGame.SCREEN_WIDTH / 2 - 700F / 2, VikingGame.SCREEN_HEIGHT / 2 - 150F / 2),
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH / 2 - 700F / 2, VikingGame.getInstance().SCREEN_HEIGHT / 2 - 150F / 2),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
         exitButton = ViewComponentFactory.createTextButton(
                 Assets.t("all_button_exit"),
-                new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
+                new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT - 200),
                 ViewComponentFactory.VERY_SMALL_RECT_BUTTON_SIZE
         );
 
@@ -118,7 +118,7 @@ public class LobbyView extends View {
     private void createLabel(){
         idLabel = ViewComponentFactory.createLabel48(
                 ". . .",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-55,VikingGame.SCREEN_HEIGHT-220)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-55,VikingGame.getInstance().SCREEN_HEIGHT-220)
         );
         idLabel.setColor(Color.BLACK);
         idLabel.setAlignment(Align.center);
@@ -132,7 +132,7 @@ public class LobbyView extends View {
 
         scoreLabelHost = ViewComponentFactory.createLabel100(
                 "-",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-100-100,20)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-100-100,20)
         );
         scoreLabelHost.setColor(Color.WHITE);
 
@@ -141,7 +141,7 @@ public class LobbyView extends View {
         //player 2
         nameLabelGuest = ViewComponentFactory.createLabel48(
                 "...",
-                new Vector2(VikingGame.SCREEN_WIDTH-400-20,20)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH-400-20,20)
         );
 
         nameLabelGuest.setColor(Color.WHITE);
@@ -149,7 +149,7 @@ public class LobbyView extends View {
 
         scoreLabelGuest = ViewComponentFactory.createLabel100(
                 "-",
-                new Vector2(VikingGame.SCREEN_WIDTH/2+100,20)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2+100,20)
         );
         scoreLabelGuest.setColor(Color.WHITE);
         scoreLabelGuest.setVisible(false);
@@ -218,7 +218,7 @@ public class LobbyView extends View {
     }
 
     public void runGuestAnimation() {
-        avatarGuest.setPosition(VikingGame.SCREEN_WIDTH,0);
+        avatarGuest.setPosition(VikingGame.getInstance().SCREEN_WIDTH,0);
         avatarGuest.addAction(ViewComponentFactory.createAvatarSwooshAnimation(
                 new Vector2(1,0),
                 new Vector2(-1000,0)

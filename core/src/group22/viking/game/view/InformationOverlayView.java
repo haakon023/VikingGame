@@ -47,7 +47,7 @@ public class InformationOverlayView extends View {
     private void createButtons() {
         confirmButton = ViewComponentFactory.createTextButton(
                 Assets.t("overlay_button_okay"),
-                new Vector2(VikingGame.SCREEN_WIDTH/2-100, 100),
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-100, 100),
                 new Vector2(500,150)
         );
 
@@ -59,7 +59,7 @@ public class InformationOverlayView extends View {
     private void createLabels() {
         headingLabel = ViewComponentFactory.createLabel100(
                 "",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-100,VikingGame.SCREEN_HEIGHT-200)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-100,VikingGame.getInstance().SCREEN_HEIGHT-200)
         );
         headingLabel.setColor(Color.WHITE);
         headingLabel.setAlignment(Align.topLeft);
@@ -68,10 +68,10 @@ public class InformationOverlayView extends View {
 
         contentLabel = ViewComponentFactory.createLabel48(
                 "",
-                new Vector2(VikingGame.SCREEN_WIDTH/2-100,300)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-100,300)
         );
         contentLabel.setColor(Color.WHITE);
-        contentLabel.setSize(VikingGame.SCREEN_WIDTH/2, VikingGame.SCREEN_HEIGHT-650);
+        contentLabel.setSize(VikingGame.getInstance().SCREEN_WIDTH/2, VikingGame.getInstance().SCREEN_HEIGHT-650);
         contentLabel.setAlignment(Align.topLeft);
         contentLabel.setWrap(true);
 

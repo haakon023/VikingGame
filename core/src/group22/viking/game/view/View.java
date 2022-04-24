@@ -17,7 +17,7 @@ public abstract class View {
 
     public View(SpriteBatch batch, Camera camera) {
         this.batch = batch;
-        this.stage = new Stage(new FitViewport(VikingGame.SCREEN_WIDTH, VikingGame.SCREEN_HEIGHT, camera));
+        this.stage = new Stage(new FitViewport(VikingGame.getInstance().SCREEN_WIDTH, VikingGame.getInstance().SCREEN_HEIGHT, camera));
     }
 
     /**

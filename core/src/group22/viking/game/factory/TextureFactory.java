@@ -27,7 +27,7 @@ public class TextureFactory extends AbstractFactory {
 
     public TextureFactory(PooledEngine engine) {
         super(engine);
-        screenMiddle = new Vector3(VikingGame.SCREEN_WIDTH / 2, VikingGame.SCREEN_HEIGHT / 2, 0);
+        screenMiddle = new Vector3(VikingGame.getInstance().SCREEN_WIDTH / 2, VikingGame.getInstance().SCREEN_HEIGHT / 2, 0);
 
         this.cmTransformComponent = ComponentMapper.getFor(TransformComponent.class);
         this.cmTextureComponent = ComponentMapper.getFor(TextureComponent.class);
@@ -126,7 +126,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createHealthBarRight() {
         return create(
-                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 50),
+                new Vector3(VikingGame.getInstance().SCREEN_WIDTH - 70, screenMiddle.y, 50),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_WRAPPER)
         );
@@ -134,7 +134,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createHealthFillingRight() {
         return create(
-                new Vector3(VikingGame.SCREEN_WIDTH - 70, screenMiddle.y, 49),
+                new Vector3(VikingGame.getInstance().SCREEN_WIDTH - 70, screenMiddle.y, 49),
                 HEALTH_BAR_SCALE,
                 Assets.getTexture(Assets.HEALTH_BAR_FILLING)
         );
@@ -142,7 +142,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createAvatarHeadRight(int avatarId) {
         return create(
-                new Vector3(VikingGame.SCREEN_WIDTH - 70, 70, 50),
+                new Vector3(VikingGame.getInstance().SCREEN_WIDTH - 70, 70, 50),
                 SCALE_AVATAR_HEAD,
                 Assets.getTexture(Assets.getAvatarHead(avatarId))
         );
@@ -156,7 +156,7 @@ public class TextureFactory extends AbstractFactory {
         transformComponent.scale.y = health / PlayerComponent.MAX_HEALTH *
                 HEALTH_BAR_SCALE;
 
-        transformComponent.position.y = (VikingGame.SCREEN_HEIGHT / 2) - //screen middle
+        transformComponent.position.y = (VikingGame.getInstance().SCREEN_HEIGHT / 2) - //screen middle
                 ((1 - (health / PlayerComponent.MAX_HEALTH)) * // inverted health
                         (textureComponent.textureRegion.getRegionHeight() *
                                 TextureComponent.RENDER_SCALE *

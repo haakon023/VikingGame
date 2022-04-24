@@ -122,25 +122,25 @@ public class MenuView extends View {
         //todo set the texture to the user specific profile image
         tutorialButton = ViewComponentFactory.createTextButton(
                 Assets.t("menu_button_tutorial"),
-                new Vector2(150, VikingGame.SCREEN_HEIGHT/2+80-50),
+                new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT/2+80-50),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
         practiceButton = ViewComponentFactory.createTextButton(
                 Assets.t("menu_button_practice"),
-                new Vector2(150, VikingGame.SCREEN_HEIGHT / 2 - 80 - 150 - 50),
+                new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT / 2 - 80 - 150 - 50),
                 ViewComponentFactory.BIG_BUTTON_SIZE);
 
 
         hostButton = ViewComponentFactory.createTextButton(
                 Assets.t("menu_button_host"),
-                new Vector2(VikingGame.SCREEN_WIDTH/2+(VikingGame.SCREEN_WIDTH/2-700-150),VikingGame.SCREEN_HEIGHT/2-80-150-50),
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2+(VikingGame.getInstance().SCREEN_WIDTH/2-700-150),VikingGame.getInstance().SCREEN_HEIGHT/2-80-150-50),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
         exitButton = ViewComponentFactory.createTextButton(
                 Assets.t("menu_button_exit"),
-                new Vector2(150, VikingGame.SCREEN_HEIGHT - 200),
+                new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT - 200),
                 ViewComponentFactory.SMALL_RECT_BUTTON_SIZE);
 
         //muteTextureRegion = new TextureRegion(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE));
@@ -148,22 +148,22 @@ public class MenuView extends View {
                 new TextureRegionDrawable(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE)),
                 new TextureRegionDrawable(Assets.getTexture(Assets.UNMUTED_BUTTON_IMAGE)),
                 new TextureRegionDrawable(Assets.getTexture(Assets.MUTED_BUTTON_IMAGE)),
-                new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60, 50),
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
         leaderboardTextureRegion = new TextureRegion(Assets.getTexture(Assets.LEADERBOARD_BUTTON_IMAGE));
         leaderboardButton = ViewComponentFactory.createImageButton(
                 new TextureRegionDrawable(leaderboardTextureRegion),
-                new Vector2(VikingGame.SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH - 120 - 60 - 120 - 60, 50),
                 ViewComponentFactory.VERY_SMALL_BUTTON_SIZE);
 
         profileTextureRegion = new TextureRegion(Assets.getTexture(Assets.getAvatarHead(1)));
         profileButton = ViewComponentFactory.createImageButton(
                 new TextureRegionDrawable(profileTextureRegion),
                 // new Vector2(VikingGame.SCREEN_WIDTH/2-profileButton.getWidth()/2,
-                new Vector2(VikingGame.SCREEN_WIDTH/2-500F/2,
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-500F/2,
                         //VikingGame.SCREEN_HEIGHT/2-profileButton.getHeight()/2-80),
-                        VikingGame.SCREEN_HEIGHT/2-500F/2-80),
+                        VikingGame.getInstance().SCREEN_HEIGHT/2-500F/2-80),
                 ViewComponentFactory.PROFILE_IMAGE_SIZE);
 
 
@@ -184,8 +184,8 @@ public class MenuView extends View {
 
         joinTextField = ViewComponentFactory.createTextField(
                 Assets.t("menu_text_field_join"),
-                new Vector2(VikingGame.SCREEN_WIDTH / 2 + (VikingGame.SCREEN_WIDTH / 2 - 700 - 150),
-                        VikingGame.SCREEN_HEIGHT / 2 + 80 - 50),
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH / 2 + (VikingGame.getInstance().SCREEN_WIDTH / 2 - 700 - 150),
+                        VikingGame.getInstance().SCREEN_HEIGHT / 2 + 80 - 50),
                 ViewComponentFactory.BIG_BUTTON_SIZE
         );
 
@@ -233,11 +233,11 @@ public class MenuView extends View {
     private void createHeader() {
         //header
         Image vikingHeader = new Image(Assets.getTexture(Assets.VIKING_HEADER));
-        vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250);
+        vikingHeader.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2-430,VikingGame.getInstance().SCREEN_HEIGHT -250);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
         Image stopHeader = new Image(Assets.getTexture(Assets.STOP_HEADER));
-        stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380);
+        stopHeader.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2,VikingGame.getInstance().SCREEN_HEIGHT -380);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);
         stage.addActor(vikingHeader);

@@ -70,7 +70,7 @@ public class SoundManager {
     }
 
     public static boolean isSoundOn() {
-        return VikingGame.getPreferences().getBoolean(PREFERENCE_KEY_SOUND);
+        return VikingGame.getInstance().getPreferences().getBoolean(PREFERENCE_KEY_SOUND);
     }
 
 }
