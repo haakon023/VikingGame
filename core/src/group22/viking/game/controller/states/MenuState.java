@@ -33,7 +33,6 @@ public class MenuState extends State {
         localPlayerProfile = game.getProfileCollection().getLocalPlayerProfile();
         refreshAvatar();
 
-        Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
         initTextFieldLogic();
 
@@ -50,6 +49,11 @@ public class MenuState extends State {
         getView().resetTextField();
 
         SoundManager.playMusic(this);
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     private void refreshAvatar() {

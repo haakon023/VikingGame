@@ -44,8 +44,6 @@ public class LobbyState extends State {
         lobbyCollection = game.getLobbyCollection();
         playerStatusCollection = game.getPlayerStatusCollection();
 
-        Gdx.input.setInputProcessor(view.getStage());
-
         createLobbyOnServer();
 
         updateHost(profileCollection.getLocalPlayerProfile());
@@ -74,8 +72,6 @@ public class LobbyState extends State {
         lobbyCollection = game.getLobbyCollection();
 
         playerStatusCollection = game.getPlayerStatusCollection();
-
-        Gdx.input.setInputProcessor(view.getStage());
 
         tryJoinLobby(joinLobbyId);
 
@@ -116,6 +112,16 @@ public class LobbyState extends State {
 
         getView().runHostAnimation();
         getView().runGuestAnimation();
+    }
+
+    @Override
+    public void dispose() {
+        getView().getPlayButton().removeListener(
+                getView().getPlayButton().getClickListener()
+        );
+        getView().getExitButton().removeListener(
+                getView().getExitButton().getClickListener()
+        );
     }
 
     private void setLobbyGameEnded() {
