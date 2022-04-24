@@ -159,20 +159,20 @@ public abstract class AbstractPlayState extends State{
             double randomY = Math.random();
             if (cycle %2 == 0 && cycle < 10)
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
-                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), VikingGame.getInstance().SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createShip((VikingGame.getInstance().SCREEN_WIDTH), (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
             }
             else if (cycle < 4)
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
-                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
             }
             else
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
-                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
-                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), VikingGame.getInstance().SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createShip((VikingGame.getInstance().SCREEN_WIDTH), (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
             }
 
         }
@@ -182,15 +182,15 @@ public abstract class AbstractPlayState extends State{
     private void spawnPowerUp()
     {
         if(type == Type.TUTORIAL) return;
-        double x = Math.random() * VikingGame.SCREEN_WIDTH;
-        double y = Math.random() * VikingGame.SCREEN_HEIGHT;
+        double x = Math.random() * VikingGame.getInstance().SCREEN_WIDTH;
+        double y = Math.random() * VikingGame.getInstance().SCREEN_HEIGHT;
 
-        double distanceToMiddle = Math.sqrt(Math.pow(x - VikingGame.SCREEN_WIDTH/2, 2) +
-                Math.pow(y - VikingGame.SCREEN_HEIGHT/2, 2));
+        double distanceToMiddle = Math.sqrt(Math.pow(x - VikingGame.getInstance().SCREEN_WIDTH/2, 2) +
+                Math.pow(y - VikingGame.getInstance().SCREEN_HEIGHT/2, 2));
 
         // don't spawn in screen middle
-        if (distanceToMiddle < VikingGame.SCREEN_HEIGHT/4 ||
-                distanceToMiddle > VikingGame.SCREEN_HEIGHT/2){
+        if (distanceToMiddle < VikingGame.getInstance().SCREEN_HEIGHT/4 ||
+                distanceToMiddle > VikingGame.getInstance().SCREEN_HEIGHT/2){
             spawnPowerUp();
             return;
         }

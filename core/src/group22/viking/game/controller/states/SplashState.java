@@ -31,7 +31,7 @@ public class SplashState extends State {
         ((SplashView) view).getGoatIcon().addAction(sequence(alpha(0),scaleTo(.1f,.1f),
                 parallel(fadeIn(2f, Interpolation.pow2),
                         scaleTo(2f,2f,2.5f,Interpolation.pow5),
-                        moveTo(VikingGame.SCREEN_WIDTH/2-100, VikingGame.SCREEN_HEIGHT/2-100,2f,Interpolation.swing)),
+                        moveTo(VikingGame.getInstance().SCREEN_WIDTH/2-100, VikingGame.getInstance().SCREEN_HEIGHT/2-100,2f,Interpolation.swing)),
                 delay(1.5f), fadeOut(1.25f), run(createTransitionRunnable())));
 
         view.init();

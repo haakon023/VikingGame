@@ -35,11 +35,11 @@ public class LoadingView extends View {
         System.out.println("LOADING");
 
         vikingHeader = new Image(new Texture(Assets.VIKING_HEADER));
-        vikingHeader.setPosition(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT/2);
+        vikingHeader.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2-430,VikingGame.getInstance().SCREEN_HEIGHT/2);
         vikingHeader.setWidth(660);
         vikingHeader.setHeight(200);
         stopHeader = new Image(new Texture(Assets.STOP_HEADER));
-        stopHeader.setPosition(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT/2-130);
+        stopHeader.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2,VikingGame.getInstance().SCREEN_HEIGHT/2-130);
         stopHeader.setWidth(430);
         stopHeader.setHeight(300);
         stage.addActor(vikingHeader);
@@ -65,18 +65,18 @@ public class LoadingView extends View {
         //shapeRenderer (use it like a batch)
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.GRAY);
-        shapeRenderer.rect(32,VikingGame.SCREEN_HEIGHT/4,
-                VikingGame.SCREEN_WIDTH-64,16);
+        shapeRenderer.rect(32,VikingGame.getInstance().SCREEN_HEIGHT/4,
+                VikingGame.getInstance().SCREEN_WIDTH-64,16);
 
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(32,VikingGame.SCREEN_HEIGHT/4,
-                progress*(VikingGame.SCREEN_WIDTH-64),16);
+        shapeRenderer.rect(32,VikingGame.getInstance().SCREEN_HEIGHT/4,
+                progress*(VikingGame.getInstance().SCREEN_WIDTH-64),16);
 
         shapeRenderer.end();
 
         //animate upwards motion of logo to match main menu position
-        vikingHeader.addAction(moveTo(VikingGame.SCREEN_WIDTH/2-430,VikingGame.SCREEN_HEIGHT -250,.3f));
-        stopHeader.addAction(moveTo(VikingGame.SCREEN_WIDTH/2,VikingGame.SCREEN_HEIGHT -380,.3f));
+        vikingHeader.addAction(moveTo(VikingGame.getInstance().SCREEN_WIDTH/2-430,VikingGame.getInstance().SCREEN_HEIGHT -250,.3f));
+        stopHeader.addAction(moveTo(VikingGame.getInstance().SCREEN_WIDTH/2,VikingGame.getInstance().SCREEN_HEIGHT -380,.3f));
 
         stage.act(deltaTime);
         stage.draw();

@@ -28,7 +28,7 @@ public class ProfileCollection extends FirebaseCollection{
      * @param listener for synchronization
      */
     public void init(final OnCollectionUpdatedListener listener) {
-        Preferences preferences = VikingGame.getPreferences();
+        Preferences preferences = VikingGame.getInstance().getPreferences();
         if(!preferences.contains(VikingGame.PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY) == null ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY).isEmpty()) {
@@ -97,7 +97,7 @@ public class ProfileCollection extends FirebaseCollection{
 
                         localPlayerId = documentId;
 
-                        VikingGame.getPreferences()
+                        VikingGame.getInstance().getPreferences()
                                 .putString(VikingGame.PREFERENCES_PROFILE_KEY, documentId)
                                 .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true)
                                 .flush();

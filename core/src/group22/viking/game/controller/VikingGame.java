@@ -22,11 +22,11 @@ public class VikingGame extends Game {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
-	private static Preferences preferences;
+	private Preferences preferences;
 
 
-	public static float SCREEN_WIDTH;
-	public static float SCREEN_HEIGHT;
+	public float SCREEN_WIDTH;
+	public float SCREEN_HEIGHT;
 
 	public GameStateManager gsm;			//TODO: or private?
 
@@ -37,9 +37,20 @@ public class VikingGame extends Game {
 
 	private boolean isOnline;
 
-	public static VikingGame instance;
+	private static VikingGame instance;
+
+	public static VikingGame getInstance(FirebaseInterface firebaseInterface, Preferences preferences) {
+		if(instance == null) {
+			instance = new VikingGame(firebaseInterface, preferences);
+		}
+		return instance;
+	}
+
+	public static VikingGame getInstance() {
+		return instance;
+	}
 	
-	public VikingGame(FirebaseInterface firebaseInterface, Preferences preferences) {
+	private VikingGame(FirebaseInterface firebaseInterface, Preferences preferences) {
 		this.preferences = preferences;
 		this.playerStatusCollection = new PlayerStatusCollection(firebaseInterface);
 		this.profileCollection = new ProfileCollection(firebaseInterface);
@@ -56,7 +67,7 @@ public class VikingGame extends Game {
 		SCREEN_WIDTH = Gdx.graphics.getWidth();
 		SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false,VikingGame.SCREEN_WIDTH,VikingGame.SCREEN_HEIGHT);
+		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 		batch = new SpriteBatch();
 
 		gsm = GameStateManager.getInstance();
@@ -96,7 +107,9 @@ public class VikingGame extends Game {
 		return profileCollection;
 	}
 
-	public static Preferences getPreferences() {
+	public Preferences getPreferences() {
 		return preferences;
 	}
+
+
 }

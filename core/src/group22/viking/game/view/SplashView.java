@@ -32,7 +32,7 @@ public class SplashView extends View {
         goatIcon.setHeight(200);
         goatIcon.setOrigin(goatIcon.getWidth()/2,goatIcon.getHeight()/2);
 
-        goatIcon.setPosition(VikingGame.SCREEN_WIDTH/2-100,VikingGame.SCREEN_HEIGHT+100);
+        goatIcon.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2-100,VikingGame.getInstance().SCREEN_HEIGHT+100);
 
         stage.addActor(goatIcon);
         stage.act(0);

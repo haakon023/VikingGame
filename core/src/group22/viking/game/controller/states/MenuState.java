@@ -115,12 +115,12 @@ public class MenuState extends State {
             public void clicked(InputEvent event, float x, float y){
                 if (SoundManager.isSoundOn()){
                     Assets.MENU_MUSIC.pause();
-                    VikingGame.getPreferences()
+                    VikingGame.getInstance().getPreferences()
                             .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, false)
                             .flush();
                 } else {
                     Assets.MENU_MUSIC.play();
-                    VikingGame.getPreferences()
+                    VikingGame.getInstance().getPreferences()
                             .putBoolean(VikingGame.PREFERENCES_SOUND_KEY, true)
                             .flush();
                 }

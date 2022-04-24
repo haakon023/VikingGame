@@ -23,7 +23,7 @@ public class AndroidLauncher extends AndroidApplication {
 			hideActionBar();
 		}
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new VikingGame(new AndroidInterfaceClass(), this.getPreferences("my-config")), config);
+		initialize(VikingGame.getInstance(new AndroidInterfaceClass(), this.getPreferences("my-config")), config);
 	}
 
 	@TargetApi(19)
