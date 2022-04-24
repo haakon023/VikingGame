@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class LinearProjectileComponent implements Component {
     private Vector3 direction;
-    private float speed = 500;
+    private float speed = 50;
 
     public float getSpeed() {
         return speed;
