@@ -72,7 +72,7 @@ public class ProjectileFactory extends AbstractFactory {
                         .setBody(body, entity)
                 )
                 .add(engine.createComponent(LinearProjectileComponent.class)
-                        .setSpeed(700)
+                        .setSpeed(100)
                 )
                 .add(engine.createComponent(CollisionComponent.class));
     }
