@@ -70,6 +70,10 @@ public class ViewComponentFactory {
         return new ErrorDialog("", content, createSkin48());
     }
 
+    public static ErrorDialog createErrorDialogWithStatePop(String content) {
+        return createErrorDialog(content).popState();
+    }
+
     public static TextButton createTextButton(String text, Vector2 position, Vector2 size) {
         TextButton textButton = new TextButton(text, createSkin48(), "default");
         textButton.setSize(size.x, size.y);

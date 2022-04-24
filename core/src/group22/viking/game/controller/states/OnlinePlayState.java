@@ -93,4 +93,10 @@ public class OnlinePlayState extends AbstractPlayState{
         this.score += reward;
         System.out.println(score);
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        collisionSystem.addOnlineReference(null);
+    }
 }

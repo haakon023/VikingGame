@@ -58,7 +58,7 @@ public class PowerUpFactory extends AbstractFactory {
         return create(
                 new Vector3(x, y, 0),
                 1.0F,
-                Assets.getTexture(Assets.GOAT_ICON), // TODO
+                Assets.getTexture(Assets.ENERGY_POTION),
                 powerUp
         );
     }
@@ -67,7 +67,7 @@ public class PowerUpFactory extends AbstractFactory {
         return create(
                 new Vector3(x, y, 0),
                 1.0F,
-                Assets.getTexture(Assets.POWER_UP), // TODO
+                Assets.getTexture(Assets.HEALTH_POTION),
                 powerUp
         );
     }

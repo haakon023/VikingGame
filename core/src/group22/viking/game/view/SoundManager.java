@@ -56,7 +56,10 @@ public class SoundManager {
                 Assets.LOBBY_MUSIC.play();
                 Assets.LOBBY_MUSIC.setVolume(1f);
                 Assets.LOBBY_MUSIC.setLooping(true);
-            }else if(state.getClass().getName().equals("group22.viking.game.controller.states.PlayState")){
+            }else if(
+                    state.getClass().getName().equals("group22.viking.game.controller.states.OnlinePlayState") ||
+                    state.getClass().getName().equals("group22.viking.game.controller.states.OfflinePlayState")
+            ){
                 Assets.LOBBY_MUSIC.stop();
                 Assets.MENU_MUSIC.stop();
                 Assets.GAME_MUSIC.play();
