@@ -33,7 +33,7 @@ public class TutorialPlayState extends OfflinePlayState {
 
     private void createTutorialBoat(Vector2 position){
         VikingFactory vikingFactory = new VikingFactory(engine, world);
-        engine.addEntity(vikingFactory.createShip(position.x, position.y));
+        engine.addEntity(vikingFactory.createDefaultShip(position.x, position.y));
     }
 
     public void createTutorialPowerUp(Vector2 position, IPowerUp iPowerUp){

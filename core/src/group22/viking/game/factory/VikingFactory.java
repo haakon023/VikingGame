@@ -29,10 +29,10 @@ public class VikingFactory extends AbstractFactory {
         this.world = world;
     }
 
-    Entity create(Vector3 position, float scale, Texture texture) {
+    Entity create(Vector3 position, float scale, Texture texture, float hitboxRadius) {
         Entity entity = super.createEntity(TypeComponent.EntityType.VIKING);
         Body body = BodyFactory.getInstance(world).makeCirclePolyBody(
-                position.x, position.y, 250, BodyDef.BodyType.DynamicBody, false);
+                position.x, position.y, hitboxRadius, BodyDef.BodyType.DynamicBody, false);
         Filter filter = new Filter();
         filter.categoryBits = BodyFactory.VIKING_ENTITY;
         filter.maskBits = BodyFactory.BULLET_ENTITY;
@@ -55,11 +55,12 @@ public class VikingFactory extends AbstractFactory {
                 .add(engine.createComponent(CollisionComponent.class));
     }
 
-    public Entity createShip(float x, float y) {
+    public Entity createDefaultShip(float x, float y) {
         return create(
                 new Vector3(x, y, 0),
                 0.5F,
-                Assets.getTexture(Assets.VIKING_SHIP)
+                Assets.getTexture(Assets.VIKING_SHIP),
+                150F
         );
     }
 }
