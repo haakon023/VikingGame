@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.Vector3;
 
 public class LinearProjectileComponent implements Component {
     private Vector3 direction;
-    private float speed = 50;
+    private float speed = 100;
+
+    public static final float MAX_TIME_ALIVE = 2F; // in seconds
+    public float timeAlive;
 
     public float getSpeed() {
         return speed;
@@ -24,8 +27,4 @@ public class LinearProjectileComponent implements Component {
     public Vector3 getDirection() {
         return direction;
     }
-
-    public float timeAlive;
-
-    public float maxTimeAlive = 8; //6 secounds
 }

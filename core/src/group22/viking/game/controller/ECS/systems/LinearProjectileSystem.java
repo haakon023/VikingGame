@@ -50,7 +50,7 @@ public class LinearProjectileSystem extends IteratingSystem {
 
         transformComponent.rotation = calculateAngle(linearProjectileComponent.getDirection());
 
-        if(linearProjectileComponent.timeAlive > linearProjectileComponent.maxTimeAlive){
+        if(linearProjectileComponent.timeAlive > LinearProjectileComponent.MAX_TIME_ALIVE){
             linearProjectileComponent.timeAlive = 0;
             world.destroyBody(b2dBodyComponent.body);
             getEngine().removeEntity(entity);
