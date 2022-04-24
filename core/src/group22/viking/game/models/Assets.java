@@ -55,6 +55,7 @@ public class Assets {
     public static final String STOP_HEADER = "img/stopHeader.png";
     public static final String VIKING_HEADER = "img/vikingHeader.png";
     public static final String VIKING_SHIP = "img/vikingShip.png";
+    public static final String VIKING_SHIP_SPECIAL ="img/vikingShipSpecial.png";
     public static final String WAVE_DARK = "img/waveDark.png";
     public static final String WAVE_MEDIUM = "img/waveMedium.png";
     public static final String WAVE_LIGHT = "img/waveLight.png";
@@ -143,6 +144,7 @@ public class Assets {
         assetManager.load(STOP_HEADER, Texture.class);
         assetManager.load(VIKING_HEADER, Texture.class);
         assetManager.load(VIKING_SHIP, Texture.class);
+        assetManager.load(VIKING_SHIP_SPECIAL, Texture.class);
         assetManager.load(WAVE_DARK, Texture.class);
         assetManager.load(WAVE_MEDIUM, Texture.class);
         assetManager.load(WAVE_LIGHT, Texture.class);

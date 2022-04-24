@@ -51,16 +51,21 @@ public class VikingFactory extends AbstractFactory {
 
 
                 )
-
                 .add(engine.createComponent(CollisionComponent.class));
     }
 
     public Entity createDefaultShip(float x, float y) {
-        return create(
+        Entity defaultShip = create(
                 new Vector3(x, y, 0),
                 0.5F,
                 Assets.getTexture(Assets.VIKING_SHIP),
                 150F
         );
+        return defaultShip;
     }
+
+
+
+
+
 }

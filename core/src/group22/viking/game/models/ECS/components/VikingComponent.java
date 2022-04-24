@@ -6,16 +6,18 @@ import com.badlogic.ashley.core.Component;
 //In other words do we need setters?
 public class VikingComponent implements Component {
 
-    public float getDamage() {
-        return damage;
-    }
-
-    public void setDamage(float damage) {
-        this.damage = damage;
-    }
-
+    // default
+    private float health = 100;
     private float damage = 50;
+    private float attackRate = 2f;              //attack at a rate of once per 2 seconds
     public long scoreReward = 10;
+
+    private float timeSinceLastAttack;
+
+
+    public void DealDamage(float amount){
+        health -= amount;
+    }
 
     public float getAttackRate() {
         return attackRate;
@@ -33,17 +35,27 @@ public class VikingComponent implements Component {
         this.timeSinceLastAttack = timeSinceLastAttack;
     }
 
-    //attack at a rate of once per 2 secounds
-    private float attackRate = 2f;
-    private float timeSinceLastAttack;
-
     public float getHealth() {
         return health;
     }
 
-    private float health = 100; //set 100 as default, dunno.png
+    public void setHealth(float health) {
+        this.health = health;
+    }
 
-    public void DealDamage(float amount){
-        health -= amount;
+    public long getScoreReward() {
+        return scoreReward;
+    }
+
+    public void setScoreReward(long scoreReward) {
+        this.scoreReward = scoreReward;
+    }
+
+    public float getDamage() {
+        return damage;
+    }
+
+    public void setDamage(float damage) {
+        this.damage = damage;
     }
 }
