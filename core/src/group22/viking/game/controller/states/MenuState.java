@@ -11,9 +11,9 @@ import java.util.logging.Level;
 import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.firebase.Lobby;
-import group22.viking.game.controller.firebase.LobbyCollection;
-import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.firebase.documents.Lobby;
+import group22.viking.game.firebase.collections.LobbyCollection;
+import group22.viking.game.models.firebase.documents.Profile;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;

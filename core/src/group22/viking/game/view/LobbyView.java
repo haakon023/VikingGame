@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.GL20;
 
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.PlayerStatus;
+import group22.viking.game.models.firebase.documents.PlayerStatus;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {

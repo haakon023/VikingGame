@@ -9,10 +9,10 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import group22.viking.game.controller.firebase.PlayerStatusCollection;
-import group22.viking.game.controller.firebase.FirebaseInterface;
-import group22.viking.game.controller.firebase.LobbyCollection;
-import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.firebase.collections.PlayerStatusCollection;
+import group22.viking.game.firebase.FirebaseInterface;
+import group22.viking.game.firebase.collections.LobbyCollection;
+import group22.viking.game.firebase.collections.ProfileCollection;
 import group22.viking.game.controller.states.SplashState;
 import group22.viking.game.models.Assets;
 
