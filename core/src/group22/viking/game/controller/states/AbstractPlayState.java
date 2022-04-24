@@ -25,10 +25,12 @@ import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.factory.PlayerFactory;
+import group22.viking.game.factory.PowerUpFactory;
 import group22.viking.game.factory.TextureFactory;
 import group22.viking.game.factory.VikingFactory;
 import group22.viking.game.input.InputController;
 import group22.viking.game.models.Assets;
+import group22.viking.game.powerups.HealthPowerUp;
 import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
 
@@ -62,6 +64,7 @@ public abstract class AbstractPlayState extends State{
     protected boolean isRendering;
 
     private float time;
+    private float powerupTimer;
 
     private final SpawnerController spawnerController;
 
@@ -165,6 +168,31 @@ public abstract class AbstractPlayState extends State{
         }
     }
 
+    private void spawnPowerUp()
+    {
+        if(type == Type.TUTORIAL) return;
+        float randomX = (float) Math.random();
+        float randomY = (float) Math.random();
+        if (randomX*100 > 40 && randomX*100 < 60)
+        {
+            if (randomY*100 > 40 && randomY*100 < 60)
+            {
+                spawnPowerUp();
+
+            }
+            else
+            {
+                PowerUpFactory powerUpFactory = new PowerUpFactory(engine,world);
+                engine.addEntity(powerUpFactory.createHealthPowerUp( VikingGame.SCREEN_WIDTH * randomX, VikingGame.SCREEN_HEIGHT*randomY, new HealthPowerUp()));
+            }
+        }
+        else
+        {
+            PowerUpFactory powerUpFactory = new PowerUpFactory(engine,world);
+            engine.addEntity(powerUpFactory.createHealthPowerUp( VikingGame.SCREEN_WIDTH * randomX, VikingGame.SCREEN_HEIGHT*randomY, new HealthPowerUp()));
+        }
+    }
+
     protected PlayView getView() {
         return (PlayView) view;
     }
@@ -190,9 +218,15 @@ public abstract class AbstractPlayState extends State{
     public void render(float deltaTime) {
         if (!isRendering) return;
         time += deltaTime;
+        powerupTimer += deltaTime;
         if (Math.round(time) >= 30) {
             spawnVikingWave();
             time = 0;
+        }
+        if (Math.round(powerupTimer) == 45)
+        {
+            spawnPowerUp();
+            powerupTimer = 0;
         }
         engine.update(deltaTime);
         //do here NOT use the stage-view render system
