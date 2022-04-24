@@ -7,9 +7,7 @@ import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.LoadingView;
-import group22.viking.game.view.SoundManager;
 import group22.viking.game.view.ViewComponentFactory;
 
 
@@ -39,7 +37,7 @@ public class LoadingState extends State {
     }
 
     public void render(float deltaTime) {
-        //TODO Needs to make progressbar smooth (lerp function does NOT work somehow)
+        //TODO Needs to make progressbar smooth (leap function does NOT work somehow)
         progress = MathUtils.lerp(progress, Assets.getProgress(), 0.1f);
 
         //once done loading all assets, go to menu screen
@@ -56,11 +54,6 @@ public class LoadingState extends State {
     public void dispose() {
 
     }
-
-    public float updateProgressBar() {
-        return Assets.getProgress();
-    }
-
 
     private LoadingView getView() {
         return (LoadingView) view;

@@ -5,13 +5,13 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import group22.viking.game.ECS.components.VikingComponent;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.states.OfflinePlayState;
 import group22.viking.game.controller.states.TutorialPlayState;
 import group22.viking.game.powerups.HealthPowerUp;
 
 public class TutorialVikingSystem extends VikingSystem{
 
-    private TutorialPlayState tutorialPlayState;
+    private final TutorialPlayState tutorialPlayState;
+
     public TutorialVikingSystem(World world, TutorialPlayState tutorialPlayState) {
         super(world);
         this.tutorialPlayState = tutorialPlayState;

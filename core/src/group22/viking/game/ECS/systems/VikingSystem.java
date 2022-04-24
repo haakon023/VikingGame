@@ -19,20 +19,21 @@ import group22.viking.game.factory.ProjectileFactory;
 public class VikingSystem extends IteratingSystem {
 
     private final World world;
-    private ComponentMapper<TransformComponent> cmTransform;
-    protected ComponentMapper<VikingComponent> cmViking;
-    private ComponentMapper<TextureComponent> cmTexture;
-    private ComponentMapper<B2dBodyComponent> cmBody;
+    private final ComponentMapper<TransformComponent> cmTransform;
+    private final ComponentMapper<TextureComponent> cmTexture;
+    private final ComponentMapper<B2dBodyComponent> cmBody;
+    protected final ComponentMapper<VikingComponent> cmViking;
 
-    private ProjectileFactory projectileFactory;
+    private final ProjectileFactory projectileFactory;
     
     public VikingSystem(World world) {
         super(Family.all(VikingComponent.class, TransformComponent.class, TextureComponent.class).get());
         this.world = world;
-        cmTransform = ComponentMapper.getFor(TransformComponent.class);
-        cmViking = ComponentMapper.getFor(VikingComponent.class);
-        cmTexture = ComponentMapper.getFor(TextureComponent.class);
-        cmBody = ComponentMapper.getFor(B2dBodyComponent.class);
+        this.cmTransform = ComponentMapper.getFor(TransformComponent.class);
+        this.cmViking = ComponentMapper.getFor(VikingComponent.class);
+        this.cmTexture = ComponentMapper.getFor(TextureComponent.class);
+        this.cmBody = ComponentMapper.getFor(B2dBodyComponent.class);
+        this.projectileFactory = new ProjectileFactory((PooledEngine) getEngine(), world);
     }
 
     @Override
@@ -88,9 +89,6 @@ public class VikingSystem extends IteratingSystem {
 
     private void SpawnProjectile(TransformComponent vikingTransform, com.badlogic.ashley.core.Entity target)
     {
-        if(projectileFactory == null)
-            projectileFactory = new ProjectileFactory((PooledEngine) getEngine(), world);
-
         com.badlogic.ashley.core.Entity projectile = projectileFactory.createProjectile(vikingTransform.position.x, vikingTransform.position.y);
         projectile.getComponent(HomingProjectileComponent.class).setTarget(target);
         getEngine().addEntity(projectile);

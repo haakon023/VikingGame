@@ -1,14 +1,11 @@
 package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector3;
 
-import group22.viking.game.input.InputController;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.View;
 
 public abstract class State {
-    //protected OrthographicCamera cam; Do we want this?
     protected VikingGame game;
     protected View view;
 

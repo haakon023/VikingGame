@@ -11,7 +11,7 @@ import group22.viking.game.models.Assets;
 
 public class SplashView extends View {
 
-    private Image goatIcon;
+    private final Image goatIcon;
 
     public SplashView(SpriteBatch batch, Camera camera) {
         super(batch, camera);

@@ -30,15 +30,16 @@ import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AndroidInterfaceClass implements FirebaseInterface {
 
     private final FirebaseFirestore db;
-    private FirebaseAuth mAuth;
+    private final FirebaseAuth mAuth;
 
     private final Map<FirebaseDocument, ListenerRegistration> serverListeners;
 
-    private boolean isOnline;
+    private final boolean isOnline;
 
     public AndroidInterfaceClass() {
         db = FirebaseFirestore.getInstance();
@@ -76,8 +77,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
         try {
             Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
             int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
-            return reachable;
+            return returnVal == 0;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -90,9 +90,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                                           FirebaseDocument document,
                                           OnGetDataListener listener) {
         // Remove old listener if existing
-        if(serverListeners.containsKey(document)) {
-            serverListeners.get(document).remove();
-        }
+        Objects.requireNonNull(serverListeners.get(document)).remove();
 
         DocumentReference documentReference = db.collection(collection).document(document.getId());
         ListenerRegistration serverListener = documentReference.addSnapshotListener(
@@ -120,7 +118,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
     
     public void removeOnValueChangedListener(FirebaseDocument document) {
         if(!serverListeners.containsKey(document)) return;
-        serverListeners.get(document).remove();
+        Objects.requireNonNull(serverListeners.get(document)).remove();
         serverListeners.remove(document);
     }
 

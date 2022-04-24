@@ -1,6 +1,5 @@
 package group22.viking.game.controller.states;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -15,16 +14,14 @@ import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
-import group22.viking.game.view.LobbyView;
-import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
 import group22.viking.game.view.ViewComponentFactory;
 
 
 public class LeaderboardState extends State {
 
+    private static final int NUMBER_PLACES = 10;
     private final ProfileCollection profileCollection;
-    private ArrayList<Profile> leaderboard;
 
     public LeaderboardState(VikingGame game) {
         super(Assets.leaderboardView, game);
@@ -33,7 +30,7 @@ public class LeaderboardState extends State {
 
         this.profileCollection = game.getProfileCollection();
 
-        loadLeaderboard(10);
+        loadLeaderboard();
         System.out.println("LEADERBOARD STATE CREATED");
     }
 
@@ -56,9 +53,9 @@ public class LeaderboardState extends State {
     }
 
 
-    private void loadLeaderboard(int topPlaces) {
+    private void loadLeaderboard() {
         profileCollection.loadLeaderboard(
-                topPlaces,
+                NUMBER_PLACES,
                 new OnCollectionUpdatedListener(){
                     @Override
                     public void onSuccess(FirebaseDocument document) {
@@ -74,11 +71,11 @@ public class LeaderboardState extends State {
     }
 
     private void displayLeaderboard(){
-        leaderboard = profileCollection.getLeaderboard();
+        ArrayList<Profile> leaderboard = profileCollection.getLeaderboard();
         Array<String> names = new Array<>();
         Array<String> highscores = new Array<>();
         int localPlayerPosition = -1;
-        for(int i = 0; i < leaderboard.size(); i++) { //Profile profile: leaderboard) {
+        for(int i = 0; i < leaderboard.size(); i++) {
             names.add(leaderboard.get(i).getName());
             highscores.add(String.valueOf(leaderboard.get(i).getHighscore()));
             if(leaderboard.get(i) == profileCollection.getLocalPlayerProfile()) {

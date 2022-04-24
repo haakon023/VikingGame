@@ -16,12 +16,12 @@ import group22.viking.game.ECS.components.TransformComponent;
 public class LinearProjectileSystem extends IteratingSystem {
 
     // rotation offset depends on rotation in resource image
-    private static float ROTATION_OFFSET = 180;
+    private static final float ROTATION_OFFSET = 180;
 
-    private ComponentMapper<LinearProjectileComponent> linearProjectileComponentMapper;
-    private ComponentMapper<B2dBodyComponent> bodyComponentComponentMapper;
-    private ComponentMapper<TransformComponent> transformComponentMapper;
-    private World world;
+    private final ComponentMapper<LinearProjectileComponent> linearProjectileComponentMapper;
+    private final ComponentMapper<B2dBodyComponent> bodyComponentComponentMapper;
+    private final ComponentMapper<TransformComponent> transformComponentMapper;
+    private final World world;
 
 
     public LinearProjectileSystem(World world) {
@@ -40,11 +40,14 @@ public class LinearProjectileSystem extends IteratingSystem {
 
 
         linearProjectileComponent.timeAlive += deltaTime;
-        //i have no clue why the projectile is moving so fucking sloooow
-        b2dBodyComponent.body.applyLinearImpulse(
-                new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor().scl(-10000*4),
-                new Vector2(linearProjectileComponent.getDirection().x, linearProjectileComponent.getDirection().y).nor(),
-                true);
+        //i have no clue why the projectile is moving so fucking slow
+        b2dBodyComponent.body.setLinearVelocity(
+                new Vector2(linearProjectileComponent.getDirection().x,
+                        linearProjectileComponent.getDirection().y)
+                        .nor()
+                        .scl(-1 * linearProjectileComponent.getSpeed())
+        );
+
         transformComponent.rotation = calculateAngle(linearProjectileComponent.getDirection());
 
         if(linearProjectileComponent.timeAlive > linearProjectileComponent.maxTimeAlive){

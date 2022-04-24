@@ -49,12 +49,6 @@ public class PlayerStatusCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                /*System.out.println("PlayerStatusCollection: PlayerStatus does not exist yet.");
-                status.setWonGames(0);
-                status.setIsLoaded(true);
-
-                // 3b) Save to database
-                writeStatusToServer(status, listener);*/
                 listener.onFailure();
             }
         });

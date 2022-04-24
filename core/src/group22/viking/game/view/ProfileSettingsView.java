@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -32,9 +31,6 @@ public class ProfileSettingsView extends View {
     private TextButton leftButton;
     private TextButton rightButton;
     private TextButton submitChangesButton;
-
-    //labels
-    private Label profileLabel;
 
     //Text Fields
     private TextField nameTextField;
@@ -114,9 +110,10 @@ public class ProfileSettingsView extends View {
     }
 
     private void createLabels() {
-        profileLabel = ViewComponentFactory.createLabel100(
+        //labels
+        Label profileLabel = ViewComponentFactory.createLabel100(
                 Assets.t("profile_label_profile"),
-                new Vector2(VikingGame.getInstance().SCREEN_WIDTH/2-150,VikingGame.getInstance().SCREEN_HEIGHT - 200)
+                new Vector2(VikingGame.getInstance().SCREEN_WIDTH / 2 - 150, VikingGame.getInstance().SCREEN_HEIGHT - 200)
         );
         profileLabel.setColor(Color.WHITE);
         profileLabel.setAlignment(Align.center);

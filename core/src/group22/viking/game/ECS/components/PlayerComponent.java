@@ -56,4 +56,8 @@ public class PlayerComponent implements Component{
         this.playerStatusCollection = playerStatusCollection;
         return this;
     }
+
+    public boolean isDead() {
+        return health == 0;
+    }
 }

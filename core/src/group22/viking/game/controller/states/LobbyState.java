@@ -1,8 +1,6 @@
 package group22.viking.game.controller.states;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -12,7 +10,6 @@ import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.Lobby;
 import group22.viking.game.controller.firebase.LobbyCollection;
 import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
-import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.controller.firebase.ProfileCollection;
@@ -196,7 +193,6 @@ public class LobbyState extends State {
                     case RUNNING:
                         if(IS_HOST) return; // self started, nothing to do
                         GameStateManager.getInstance().push(new OnlinePlayState(game, lobby));
-                        return;
                 }
             }
 
@@ -376,8 +372,8 @@ public class LobbyState extends State {
 
     private void hostConfirmsStart() {
         if(!IS_HOST) return;
-        if(!lobbyCollection.getLobby().isFull()) return;
-        if(!lobbyCollection.getLobby().isGuestReady()) return;
+        if(lobbyCollection.getLobby().isNoGuest()) return;
+        if(lobbyCollection.getLobby().isGuestNotReady()) return;
 
         lobbyCollection.setLobbyToStarted(new OnCollectionUpdatedListener() {
             @Override
@@ -394,7 +390,7 @@ public class LobbyState extends State {
 
     private void guestConfirmsReady() {
         if(IS_HOST) return;
-        if(!lobbyCollection.getLobby().isFull()) return;
+        if(lobbyCollection.getLobby().isNoGuest()) return;
 
         playerStatusCollection.resetHealthValues();
         lobbyCollection.setGuestReady(new OnCollectionUpdatedListener() {

@@ -108,8 +108,8 @@ public class Lobby extends FirebaseDocument{
         }};
     }
 
-    public boolean isFull() {
-        return !guestId.equals(GUEST_FIELD_DUMMY);
+    public boolean isNoGuest() {
+        return guestId.equals(GUEST_FIELD_DUMMY);
     }
 
     public boolean isJoiningPossible() {
@@ -117,8 +117,8 @@ public class Lobby extends FirebaseDocument{
                 (state.equals(State.OPEN) || state.equals(State.GUEST_LEFT));
     }
 
-    public boolean isGuestReady() {
-        return state == State.GUEST_READY || state == State.GUEST_JOINED_AND_READY;
+    public boolean isGuestNotReady() {
+        return state != State.GUEST_READY && state != State.GUEST_JOINED_AND_READY;
     }
 
     public State getState() {

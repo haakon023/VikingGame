@@ -45,19 +45,16 @@ public abstract class AbstractPlayState extends State{
 
     private static PlayerControlSystem playerControlSystem;
     private static RenderingSystem renderingSystem;
-    private static HomingProjectileSystem homingProjectileSystem;
     protected static CollisionSystem collisionSystem;
-    private static PhysicsSystem physicsSystem;
-    private static LinearProjectileSystem linearProjectileSystem;
     protected static VikingSystem vikingSystem;
 
     protected static World world;
 
-    private InputController inputController;
+    private final InputController inputController;
 
     protected static PooledEngine engine;
     protected TextureFactory textureFactory;
-    private PowerUpFactory powerUpFactory;
+    private final PowerUpFactory powerUpFactory;
 
     protected boolean isRendering;
 
@@ -85,20 +82,17 @@ public abstract class AbstractPlayState extends State{
             playerControlSystem = new PlayerControlSystem(this, inputController, world);
             vikingSystem = new VikingSystem(world);
             renderingSystem = new RenderingSystem(game.getBatch(), new ZComparator());
-            homingProjectileSystem = new HomingProjectileSystem();
             collisionSystem = new CollisionSystem(world);
-            physicsSystem = new PhysicsSystem(world);
-            linearProjectileSystem = new LinearProjectileSystem(world);
             engine.addSystem(playerControlSystem);
-            engine.addSystem(physicsSystem);
+            engine.addSystem(new PhysicsSystem(world));
             engine.addSystem(vikingSystem);
             engine.addSystem(renderingSystem);
             engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
-            engine.addSystem(homingProjectileSystem);
+            engine.addSystem(new HomingProjectileSystem());
             engine.addSystem(collisionSystem);
-            engine.addSystem(linearProjectileSystem);
+            engine.addSystem(new LinearProjectileSystem(world));
         } else {
-            engine.getSystem(PlayerControlSystem.class).updateInputController(inputController);
+            engine.getSystem(PlayerControlSystem.class).reinitialize(inputController, this);
         }
         this.vikingWaveTimer = 0;
 
@@ -116,15 +110,15 @@ public abstract class AbstractPlayState extends State{
     /**
      * Build background and Defender
      *
-     * @param engine
+     * @param engine {Pooled Engine}
      */
     private void buildInitialEntities(PooledEngine engine) {
         // background
-        engine.addEntity(textureFactory.createOceanback());
-        engine.addEntity(textureFactory.createOceantop());
-        engine.addEntity(textureFactory.createWavebottom());
+        engine.addEntity(textureFactory.createOceanBack());
+        engine.addEntity(textureFactory.createOceanTop());
+        engine.addEntity(textureFactory.createWaveBottom());
         engine.addEntity(textureFactory.createIsland());
-        engine.addEntity(textureFactory.createWavetop());
+        engine.addEntity(textureFactory.createWaveTop());
         engine.addEntity(textureFactory.createMonastery());
 
         // health bars

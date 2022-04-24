@@ -3,8 +3,6 @@ package group22.viking.game.controller.firebase;
 import java.util.HashMap;
 import java.util.Map;
 
-import group22.viking.game.ECS.components.PlayerComponent;
-
 public class PlayerStatus extends FirebaseDocument{
 
     private static final String ID_SEPARATOR = "-";

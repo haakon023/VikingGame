@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.GL20;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.PlayerStatus;
-import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {
@@ -28,7 +27,6 @@ public class LobbyView extends View {
     private TextButton exitButton;
 
     private final ShapeRenderer shapeRenderer;
-    private final ShapeRenderer shapePlayerName;
 
     private Label idLabel;
 
@@ -42,7 +40,6 @@ public class LobbyView extends View {
     public LobbyView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
         this.shapeRenderer = new ShapeRenderer();
-        this.shapePlayerName = new ShapeRenderer();
         this.init();
     }
 
@@ -52,12 +49,12 @@ public class LobbyView extends View {
         //stage clear to make sure there aren't any further animations
         stage.clear();
 
-        avatarHost = new Image(Assets.getTexture(Assets.QUESTIONMARK));
+        avatarHost = new Image(Assets.getTexture(Assets.QUESTION_MARK));
         avatarHost.setPosition(0, 120);
         avatarHost.setWidth(VikingGame.getInstance().SCREEN_WIDTH / 2);
         avatarHost.setHeight(VikingGame.getInstance().SCREEN_HEIGHT-120);
 
-        avatarGuest = new Image(Assets.getTexture(Assets.QUESTIONMARK));
+        avatarGuest = new Image(Assets.getTexture(Assets.QUESTION_MARK));
         avatarGuest.setPosition(VikingGame.getInstance().SCREEN_WIDTH / 2, 120);
         avatarGuest.setWidth(VikingGame.getInstance().SCREEN_WIDTH / 2);
         avatarGuest.setHeight(VikingGame.getInstance().SCREEN_HEIGHT-120);
@@ -256,16 +253,8 @@ public class LobbyView extends View {
     }
 
     public void resetGuest() {
-        this.avatarGuest.setDrawable(new TextureRegionDrawable(Assets.getTexture(Assets.QUESTIONMARK)));
+        this.avatarGuest.setDrawable(new TextureRegionDrawable(Assets.getTexture(Assets.QUESTION_MARK)));
         nameLabelGuest.setVisible(false);
         scoreLabelGuest.setVisible(false);
-    }
-
-    public Image getAvatarHost() {
-        return avatarHost;
-    }
-
-    public Image getAvatarGuest() {
-        return avatarGuest;
     }
 }

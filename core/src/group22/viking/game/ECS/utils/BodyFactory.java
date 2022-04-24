@@ -28,12 +28,12 @@ public class BodyFactory {
     }
 
 
-    public Body makeCirclePolyBody(float posx, float posy, float radius, BodyDef.BodyType bodyType, boolean fixedRotation){
+    public Body makeCirclePolyBody(float posX, float posY, float radius, BodyDef.BodyType bodyType, boolean fixedRotation){
         // create a definition
         BodyDef boxBodyDef = new BodyDef();
         boxBodyDef.type = bodyType;
-        boxBodyDef.position.x = posx;
-        boxBodyDef.position.y = posy;
+        boxBodyDef.position.x = posX;
+        boxBodyDef.position.y = posY;
         boxBodyDef.fixedRotation = fixedRotation;
 
         //create the body to attach said definition

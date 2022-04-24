@@ -12,9 +12,9 @@ import group22.viking.game.models.Assets;
 
 public class PhysicsDebugSystem extends IteratingSystem {
 
-    private Box2DDebugRenderer debugRenderer;
-    private World world;
-    private OrthographicCamera camera;
+    private final Box2DDebugRenderer debugRenderer;
+    private final World world;
+    private final OrthographicCamera camera;
 
     public PhysicsDebugSystem(World world, OrthographicCamera camera){
         super(Family.all().get());
