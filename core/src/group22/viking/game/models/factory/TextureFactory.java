@@ -39,6 +39,7 @@ public class TextureFactory extends AbstractFactory {
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
                         .setScale(new Vector2(scale, scale))
+                        .deactivateRotation()
                 )
                 .add(engine.createComponent(TextureComponent.class)
                     .setTextureRegion(new TextureRegion(texture))
@@ -63,7 +64,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createWaveBottom() {
         return create(
-                new Vector3(0, 0, -4).add(screenMiddle),
+                new Vector3(0, RenderingSystem.pixelsToMeters(-70), -4).add(screenMiddle),
                 0.6F,
                 Assets.getTexture(Assets.WAVE_BOTTOM)
         );
@@ -71,7 +72,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createIsland() {
         return create(
-                new Vector3(0, 0, -3).add(screenMiddle),
+                new Vector3(0, RenderingSystem.pixelsToMeters(-70), -3).add(screenMiddle),
                 0.6F,
                 Assets.getTexture(Assets.ISLAND)
         );
@@ -79,7 +80,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createWaveTop() {
         return create(
-                new Vector3(0, RenderingSystem.pixelsToMeters(-50), -2).add(screenMiddle),
+                new Vector3(0, RenderingSystem.pixelsToMeters(-120), -2).add(screenMiddle),
                 0.6F,
                 Assets.getTexture(Assets.WAVE_TOP)
         );
@@ -87,7 +88,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createMonastery() {
         return create(
-                new Vector3(0, RenderingSystem.pixelsToMeters(170), -1).add(screenMiddle),
+                new Vector3(0, RenderingSystem.pixelsToMeters(100), -1).add(screenMiddle),
                 0.6F,
                 Assets.getTexture(Assets.MONASTERY)
         );
@@ -95,7 +96,7 @@ public class TextureFactory extends AbstractFactory {
 
     public Entity createDefender(int avatarId) {
         return create(
-                new Vector3(0, RenderingSystem.pixelsToMeters(110), 0).add(screenMiddle),
+                new Vector3(0, RenderingSystem.pixelsToMeters(40), 0).add(screenMiddle),
                 0.7F,
                 Assets.getTexture(Assets.getAvatar(avatarId))
         );

@@ -29,6 +29,7 @@ public class PlayerFactory extends AbstractFactory {
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
                         .setScale(new Vector2(scale, scale))
+                        .activateRotation()
                 )
                 .add(engine.createComponent(TextureComponent.class)
                         .setTextureRegion(new TextureRegion(texture))
@@ -46,7 +47,7 @@ public class PlayerFactory extends AbstractFactory {
     public Entity createRotatingWeapon(Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return create(
                 new Vector3(RenderingSystem.getMeterWidth() / 2,
-                        RenderingSystem.getMeterHeight() / 2 + RenderingSystem.pixelsToMeters(70),
+                        RenderingSystem.getMeterHeight() / 2,
                         0),
                 1.0F,
                 Assets.getTexture(Assets.BOW),

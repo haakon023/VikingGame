@@ -99,7 +99,7 @@ public class RenderingSystem extends SortedIteratingSystem {
                     originX, originY,
                     width, height,
                     pixelsToMeters(transComp.scale.x), pixelsToMeters(transComp.scale.y),
-                    transComp.rotation
+                    transComp.isRotating ? transComp.rotation : 0.0F
                     );
         }
         

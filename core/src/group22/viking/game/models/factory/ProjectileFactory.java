@@ -37,6 +37,7 @@ public class ProjectileFactory extends AbstractFactory {
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
                         .setScale(new Vector2(scale, scale))
+                        .activateRotation()
                 )
                 .add(engine.createComponent(TextureComponent.class)
                         .setTextureRegion(new TextureRegion(texture))
@@ -72,7 +73,7 @@ public class ProjectileFactory extends AbstractFactory {
                         .setBody(body, entity)
                 )
                 .add(engine.createComponent(LinearProjectileComponent.class)
-                        .setSpeed(700)
+                        .setSpeed(100)
                 )
                 .add(engine.createComponent(CollisionComponent.class));
     }
