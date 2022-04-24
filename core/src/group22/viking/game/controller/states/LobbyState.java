@@ -280,7 +280,7 @@ public class LobbyState extends State {
 
                     @Override
                     public void onFailure() {
-                        ViewComponentFactory.createErrorDialog(Assets.t("lobby_cannot_be_joined_error")).show(getView().getStage());
+                        ViewComponentFactory.createErrorDialogWithStatePop(Assets.t("lobby_cannot_be_joined_error")).show(getView().getStage());
                     }
                 });
     }
