@@ -39,6 +39,7 @@ public class TextureFactory extends AbstractFactory {
                 .add(engine.createComponent(TransformComponent.class)
                         .setPosition(position)
                         .setScale(new Vector2(scale, scale))
+                        .deactivateRotation()
                 )
                 .add(engine.createComponent(TextureComponent.class)
                     .setTextureRegion(new TextureRegion(texture))

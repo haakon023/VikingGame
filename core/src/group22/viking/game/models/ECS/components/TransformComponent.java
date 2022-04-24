@@ -8,6 +8,7 @@ public class TransformComponent implements Component {
     public final Vector3 position = new Vector3();
     public final Vector2 scale = new Vector2(1.0f, 1.0f);
     public float rotation = 0.0f;
+    public boolean isRotating = false;
     public boolean isHidden = false;
 
     public TransformComponent setPosition(Vector3 position) {
@@ -17,6 +18,16 @@ public class TransformComponent implements Component {
 
     public TransformComponent setScale(Vector2 scale) {
         this.scale.set(scale);
+        return this;
+    }
+
+    public TransformComponent activateRotation() {
+        this.isRotating = true;
+        return this;
+    }
+
+    public TransformComponent deactivateRotation() {
+        this.isRotating = false;
         return this;
     }
 }
