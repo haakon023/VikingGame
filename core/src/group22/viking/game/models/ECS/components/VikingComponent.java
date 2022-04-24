@@ -16,6 +16,16 @@ public class VikingComponent implements Component {
 
     private float damage = 50;
     public long scoreReward = 10;
+    public float speed = 50;
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public VikingComponent setSpeed(float speed) {
+        this.speed = speed;
+        return this;
+    }
 
     public float getAttackRate() {
         return attackRate;

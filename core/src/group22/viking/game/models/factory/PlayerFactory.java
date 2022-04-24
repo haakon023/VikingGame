@@ -2,7 +2,6 @@ package group22.viking.game.models.factory;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -47,7 +46,7 @@ public class PlayerFactory extends AbstractFactory {
     public Entity createRotatingWeapon(Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return create(
                 new Vector3(RenderingSystem.getMeterWidth() / 2,
-                        RenderingSystem.getMeterHeight() / 2, //+ RenderingSystem.pixelsToMeters(70),
+                        RenderingSystem.getMeterHeight() / 2 + RenderingSystem.pixelsToMeters(70),
                         0),
                 1.0F,
                 Assets.getTexture(Assets.BOW),

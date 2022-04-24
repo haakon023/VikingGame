@@ -19,7 +19,7 @@ import group22.viking.game.models.ECS.components.TransformComponent;
 public class RenderingSystem extends SortedIteratingSystem {
 
     //Pixels per meter
-    public static final float PPM = 2F;
+    public static final float PPM = 10F;
     public static final float PIXELS_TO_METRES = 1F / PPM;
     
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;
@@ -39,6 +39,10 @@ public class RenderingSystem extends SortedIteratingSystem {
 
     public static float pixelsToMeters(float pixelValue){
         return pixelValue * PIXELS_TO_METRES;
+    }
+
+    public static Vector2 pixelsToMeters(Vector2 vector2) {
+        return vector2.scl(PIXELS_TO_METRES);
     }
     
     private final SpriteBatch spriteBatch;
