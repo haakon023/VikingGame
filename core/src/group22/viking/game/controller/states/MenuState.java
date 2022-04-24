@@ -38,7 +38,7 @@ public class MenuState extends State {
         SoundManager.playMusic(this);
         getView().getMuteButton().setChecked(!SoundManager.isSoundOn());
 
-        VikingGame.logger.log(Level.INFO, "MENU STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "MENU STATE CREATED");
 
     }
 
@@ -185,7 +185,7 @@ public class MenuState extends State {
         String id = getView().getJoinTextField().getText();
         if (!lobbyCollection.validateId(id)) {
             // id is wrong
-            VikingGame.logger.log(Level.WARNING, "Misspelling in ID");
+            VikingGame.LOG.log(Level.WARNING, "Misspelling in ID");
             getView().getJoinTextField().setText("");
             getView().makeErrorShakeOnTextField();
             SoundManager.errorSound();

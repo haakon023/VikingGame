@@ -13,7 +13,6 @@ import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
 import group22.viking.game.models.Assets;
-import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
 
@@ -45,7 +44,7 @@ public class OnlinePlayState extends AbstractPlayState{
                         PlayerStatus opponent = (PlayerStatus) document;
                         if(!opponent.isLoaded()) return;
                         if(opponent.isDead()) {
-                            VikingGame.logger.log(Level.INFO, "OPPONENT DEAD: " + opponent.isDead());
+                            VikingGame.LOG.log(Level.INFO, "OPPONENT DEAD: " + opponent.isDead());
                             handleOpponentDeath();
                             return;
                         }
@@ -54,7 +53,7 @@ public class OnlinePlayState extends AbstractPlayState{
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, Assets.t("server_error"));
+                        VikingGame.LOG.log(Level.SEVERE, Assets.t("server_error"));
                     }
                 }
         );

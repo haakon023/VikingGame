@@ -32,7 +32,7 @@ public class LeaderboardState extends State {
         this.profileCollection = game.getProfileCollection();
 
         loadLeaderboard();
-        VikingGame.logger.log(Level.INFO, "LEADERBOARD STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "LEADERBOARD STATE CREATED");
 
     }
 

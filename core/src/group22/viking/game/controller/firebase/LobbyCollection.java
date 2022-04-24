@@ -43,7 +43,7 @@ public class LobbyCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                VikingGame.logger.log(Level.SEVERE, "Lobby Collection: error when reading.");
+                VikingGame.LOG.log(Level.SEVERE, "Lobby Collection: error when reading.");
                 listener.onFailure();
 
             }
@@ -71,7 +71,7 @@ public class LobbyCollection extends FirebaseCollection{
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "LobbyCollection: new lobby not added to server.");
+                        VikingGame.LOG.log(Level.SEVERE, "LobbyCollection: new lobby not added to server.");
                         listener.onFailure();
                     }
                 }
@@ -117,7 +117,7 @@ public class LobbyCollection extends FirebaseCollection{
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
                 if(data == null) {
-                    VikingGame.logger.log(Level.INFO, "LobbyCollection: Lobby does not exist.");
+                    VikingGame.LOG.log(Level.INFO, "LobbyCollection: Lobby does not exist.");
                     listener.onFailure();
                     return;
                 }
@@ -131,7 +131,7 @@ public class LobbyCollection extends FirebaseCollection{
                 }
                 // check if lobby open
                 if(!lobby.isJoiningPossible()) {
-                    VikingGame.logger.log(Level.INFO, "LobbyCollection: Lobby is not open.");
+                    VikingGame.LOG.log(Level.INFO, "LobbyCollection: Lobby is not open.");
                     listener.onFailure();
                     return;
                 }
@@ -142,7 +142,7 @@ public class LobbyCollection extends FirebaseCollection{
 
             @Override
             public void onFailure() {
-                VikingGame.logger.log(Level.WARNING, "LobbyCollection: No lobby found.");
+                VikingGame.LOG.log(Level.WARNING, "LobbyCollection: No lobby found.");
                 listener.onFailure();
 
             }
@@ -169,7 +169,7 @@ public class LobbyCollection extends FirebaseCollection{
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "LobbyCollection: Joining lobby failed.");
+                        VikingGame.LOG.log(Level.SEVERE, "LobbyCollection: Joining lobby failed.");
                         listener.onFailure();
 
                     }
@@ -186,7 +186,7 @@ public class LobbyCollection extends FirebaseCollection{
         final Lobby lobby = getLobby();
 
         if(lobby.isGuestNotReady()) {
-            VikingGame.logger.log(Level.INFO, "LobbyCollection: Guest not ready. (Lobby state should handle this before)");
+            VikingGame.LOG.log(Level.INFO, "LobbyCollection: Guest not ready. (Lobby state should handle this before)");
             listener.onFailure();
             return;
         }
@@ -244,7 +244,7 @@ public class LobbyCollection extends FirebaseCollection{
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "Lobby Collection: Failed leaving lobby.");
+                        VikingGame.LOG.log(Level.SEVERE, "Lobby Collection: Failed leaving lobby.");
                         listener.onFailure();
                     }
                 }
@@ -301,7 +301,7 @@ public class LobbyCollection extends FirebaseCollection{
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "Lobby Collection: Write Lobby to Server failed.");
+                        VikingGame.LOG.log(Level.SEVERE, "Lobby Collection: Write Lobby to Server failed.");
                         listener.onFailure();
 
                     }

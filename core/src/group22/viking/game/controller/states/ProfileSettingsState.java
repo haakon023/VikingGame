@@ -38,7 +38,7 @@ public class ProfileSettingsState extends State {
 
         ((ProfileSettingsView) view).getNameTextField().setText(profile.getName());
 
-        VikingGame.logger.log(Level.INFO, "PROFILE STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "PROFILE STATE CREATED");
     }
 
     private void addListenersToButtons() {

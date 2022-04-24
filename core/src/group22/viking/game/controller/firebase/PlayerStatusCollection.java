@@ -64,13 +64,13 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        VikingGame.logger.log(Level.INFO, "PlayerStatusCollection: Wrote game to server: " + documentId);
+                        VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Wrote game to server: " + documentId);
                         listener.onSuccess(game);
                     }
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "PlayerStatusCollection: Error while writing game to server.");
+                        VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Error while writing game to server.");
                         listener.onFailure();
                     }
                 });
@@ -155,14 +155,14 @@ public class PlayerStatusCollection extends FirebaseCollection{
                         exception.printStackTrace();
                     }
                 }
-                VikingGame.logger.log(Level.INFO, "PlayerStatusCollection: Opponents status updated.");
+                VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Opponents status updated.");
                 status.setIsLoaded(true);
                 listener.onSuccess(status);
             }
 
             @Override
             public void onFailure() {
-                VikingGame.logger.log(Level.SEVERE, "PlayerStatusCollection: Problems with listening.");
+                VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Problems with listening.");
                 listener.onFailure();
             }
         });
@@ -186,12 +186,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        VikingGame.logger.log(Level.INFO, "PlayerStatusCollection: Health updated.");
+                        VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Health updated.");
                     }
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "PlayerStatusCollection: Failed updating health!");
+                        VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Failed updating health!");
                     }
                 });
     }
@@ -206,12 +206,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                VikingGame.logger.log(Level.INFO, "PlayerStatusCollection: PlayerStatus finished on server.");
+                VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: PlayerStatus finished on server.");
             }
 
             @Override
             public void onFailure() {
-                VikingGame.logger.log(Level.SEVERE, "PlayerStatusCollection: Error while finishing game.");
+                VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Error while finishing game.");
             }
         });
     }
@@ -227,12 +227,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         writeStatusToServer(status, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                VikingGame.logger.log(Level.INFO, "PlayerStatusCollection: Set own death.");
+                VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Set own death.");
             }
 
             @Override
             public void onFailure() {
-                VikingGame.logger.log(Level.SEVERE, "PlayerStatusCollection: Failed setting own death!");
+                VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Failed setting own death!");
             }
         });
     }

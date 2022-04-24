@@ -31,7 +31,6 @@ import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 
 public class AndroidInterfaceClass implements FirebaseInterface {
@@ -170,7 +169,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                     .addOnSuccessListener((DocumentSnapshot documentSnapshot) ->
                             listener.onGetData(documentId, documentSnapshot.getData()));
         } catch (NullPointerException e) {
-            VikingGame.logger.log(Level.WARNING, "No document with id " + documentId);
+            VikingGame.LOG.log(Level.WARNING, "No document with id " + documentId);
             listener.onFailure();
         }
     }

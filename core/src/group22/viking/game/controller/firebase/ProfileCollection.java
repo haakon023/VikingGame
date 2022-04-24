@@ -33,7 +33,7 @@ public class ProfileCollection extends FirebaseCollection{
         if(!preferences.contains(VikingGame.PREFERENCES_PROFILE_KEY) ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY) == null ||
                 preferences.getString(VikingGame.PREFERENCES_PROFILE_KEY).isEmpty()) {
-            VikingGame.logger.log(Level.INFO, "NO LOCAL PROFILE FOUND");
+            VikingGame.LOG.log(Level.INFO, "NO LOCAL PROFILE FOUND");
             createDefaultProfile(listener);
             return;
         }
@@ -41,13 +41,13 @@ public class ProfileCollection extends FirebaseCollection{
         this.readProfile(localPlayerId, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                VikingGame.logger.log(Level.INFO, "PROFILE SUCCESSFULLY LOADED FROM DB");
+                VikingGame.LOG.log(Level.INFO, "PROFILE SUCCESSFULLY LOADED FROM DB");
                 listener.onSuccess(document);
             }
 
             @Override
             public void onFailure() {
-                VikingGame.logger.log(Level.INFO, "PROFILE DOESN'T EXIST");
+                VikingGame.LOG.log(Level.INFO, "PROFILE DOESN'T EXIST");
                 listener.onFailure();
             }
         });
@@ -91,7 +91,7 @@ public class ProfileCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        VikingGame.logger.log(Level.INFO, "ProfileCollection: Host is: " + documentId);
+                        VikingGame.LOG.log(Level.INFO, "ProfileCollection: Host is: " + documentId);
 
                         Profile profile = new Profile(documentId);
                         add(documentId, profile);
@@ -107,7 +107,7 @@ public class ProfileCollection extends FirebaseCollection{
                     }
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "ProfileCollection: Saving profile failed.");
+                        VikingGame.LOG.log(Level.SEVERE, "ProfileCollection: Saving profile failed.");
                         listener.onFailure();
 
                     }
@@ -133,12 +133,12 @@ public class ProfileCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        VikingGame.logger.log(Level.INFO, "ProfileCollection: Host is: " + documentId);
+                        VikingGame.LOG.log(Level.INFO, "ProfileCollection: Host is: " + documentId);
                         readProfile(documentId, listener);
                     }
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "ProfileCollection: Saving profile failed.");
+                        VikingGame.LOG.log(Level.SEVERE, "ProfileCollection: Saving profile failed.");
                         listener.onFailure();
 
                     }
@@ -182,7 +182,7 @@ public class ProfileCollection extends FirebaseCollection{
 
                     @Override
                     public void onFailure() {
-                        VikingGame.logger.log(Level.SEVERE, "ProfileCollection: Loading profile failed.");
+                        VikingGame.LOG.log(Level.SEVERE, "ProfileCollection: Loading profile failed.");
                         listener.onFailure();
                     }
                 }

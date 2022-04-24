@@ -44,7 +44,7 @@ public class SoundManager {
 
     public static void playMusic(State state){
         if(isSoundOn()){
-            VikingGame.logger.log(Level.INFO, "playing music");
+            VikingGame.LOG.log(Level.INFO, "playing music");
             switch (state.getClass().getName()) {
                 case "group22.viking.game.controller.states.MenuState":
                     Assets.GAME_MUSIC.stop();

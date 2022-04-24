@@ -40,7 +40,7 @@ public class VikingGame extends Game {
 
 	private boolean isOnline;
 
-	public static Logger logger;
+	public static final Logger LOG = Logger.getLogger(VikingGame.class.getName());
 
 	private static VikingGame instance;
 
@@ -65,9 +65,7 @@ public class VikingGame extends Game {
 
 		instance = this;
 
-		logger = Logger.getLogger(VikingGame.class.getName());
-
-		logger.log(Level.INFO, "online: " + isOnline);
+		LOG.log(Level.INFO, "online: " + isOnline);
 	}
 
 	@Override
