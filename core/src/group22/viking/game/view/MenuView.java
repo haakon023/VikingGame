@@ -312,7 +312,12 @@ public class MenuView extends View {
 
     public void resetTextField() {
         joinTextField.setMaxLength(1000);
+        TextField.TextFieldFilter textFieldFilter = joinTextField.getTextFieldFilter();
+        joinTextField.setTextFieldFilter(null);
+
         joinTextField.setText(Assets.t("menu_text_field_join"));
+
+        joinTextField.setTextFieldFilter(textFieldFilter);
         joinTextField.setMaxLength(Lobby.ID_LENGTH);
     }
 }

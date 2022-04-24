@@ -28,7 +28,6 @@ public class LeaderboardState extends State {
 
     public LeaderboardState(VikingGame game) {
         super(Assets.leaderboardView, game);
-        Gdx.input.setInputProcessor(view.getStage());
         addListenersToButtons();
 
 
@@ -91,5 +90,10 @@ public class LeaderboardState extends State {
     }
 
 
-
+    @Override
+    public void dispose() {
+        getView().getExitButton().removeListener(
+                getView().getExitButton().getClickListener()
+        );
+    }
 }

@@ -25,7 +25,6 @@ public class ProfileSettingsState extends State {
 
     public ProfileSettingsState(final VikingGame game) {
         super(Assets.profileSettingsView, game);
-        Gdx.input.setInputProcessor(view.getStage());
 
         addListenersToButtons();
         initTextFieldLogic();
@@ -42,9 +41,7 @@ public class ProfileSettingsState extends State {
     }
 
     private void addListenersToButtons() {
-        final ProfileSettingsView view = (ProfileSettingsView) this.view;
-
-        view.getLeftButton().addListener(new ClickListener(){
+        getView().getLeftButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.buttonClickSound();
@@ -52,7 +49,7 @@ public class ProfileSettingsState extends State {
                 updateShownAvatar();
             }
         });
-        view.getRightButton().addListener(new ClickListener(){
+        getView().getRightButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.buttonClickSound();
@@ -60,12 +57,11 @@ public class ProfileSettingsState extends State {
                 updateShownAvatar();
             }
         });
-        view.getSubmitChangesButton().addListener(new ClickListener(){
+        getView().getSubmitChangesButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.buttonClickSound();
-                userSubmitsChanges(view);
-                goBackToMenu();
+                userSubmitsChanges(getView());
             }
         });
     }
@@ -123,11 +119,23 @@ public class ProfileSettingsState extends State {
     }
 
     private void goBackToMenu() {
-        dispose();
         GameStateManager.getInstance().pop();
     }
 
     private ProfileSettingsView getView() {
         return (ProfileSettingsView) view;
+    }
+
+    @Override
+    public void dispose() {
+        getView().getLeftButton().removeListener(
+                getView().getLeftButton().getClickListener()
+        );
+        getView().getRightButton().removeListener(
+                getView().getRightButton().getClickListener()
+        );
+        getView().getSubmitChangesButton().removeListener(
+                getView().getSubmitChangesButton().getClickListener()
+        );
     }
 }

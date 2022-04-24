@@ -34,32 +34,28 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
     }
 
     protected void addListenerPopOneState() {
-        confirmButtonClickListener = new ClickListener() {
+        getView().getConfirmButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
-        };
-        getView().getConfirmButton().addListener(confirmButtonClickListener);
-
+        });
     }
 
     protected void addListenerPopTwoStates() {
-        confirmButtonClickListener = new ClickListener() {
+        getView().getConfirmButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
                 GameStateManager.getInstance().pop();
-
             }
-        };
-        getView().getConfirmButton().addListener(confirmButtonClickListener);
+        });
     }
 
     protected void addListenerPopAndNextTutorialInterruption() {
-        confirmButtonClickListener = new ClickListener() {
+        getView().getConfirmButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
@@ -67,12 +63,11 @@ public class TutorialInterruptState extends AbstractInformationOverlayState {
                 tutorialPlayState.nextInterruption();
                 //tutorialPlayState.popUpCount++;
             }
-        };
-        getView().getConfirmButton().addListener(confirmButtonClickListener);
-
+        });
     }
 
     private void setViewTexts(int popUpCount) {
+        if (popUpCount >= 5) return;
         getView().setTexts(
                 Assets.t("tutorial_header" + popUpCount),
                 Assets.t("tutorial_content" + popUpCount)

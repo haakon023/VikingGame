@@ -159,20 +159,44 @@ public abstract class AbstractPlayState extends State{
             double randomY = Math.random();
             if (cycle %2 == 0 && cycle < 10)
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), VikingGame.getInstance().SCREEN_HEIGHT));
-                engine.addEntity(vikingFactory.createShip((VikingGame.getInstance().SCREEN_WIDTH), (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        (float) (VikingGame.getInstance().SCREEN_WIDTH * randomX),
+                        VikingGame.getInstance().SCREEN_HEIGHT
+                ));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        (VikingGame.getInstance().SCREEN_WIDTH),
+                        (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)
+                ));
             }
             else if (cycle < 4)
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), 0));
-                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        (float) (VikingGame.getInstance().SCREEN_WIDTH * randomX),
+                        0
+                ));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        0,
+                        (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)
+                ));
             }
             else
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), VikingGame.getInstance().SCREEN_HEIGHT));
-                engine.addEntity(vikingFactory.createShip((VikingGame.getInstance().SCREEN_WIDTH), (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.getInstance().SCREEN_WIDTH * randomX), 0));
-                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        (float) (VikingGame.getInstance().SCREEN_WIDTH * randomX),
+                        VikingGame.getInstance().SCREEN_HEIGHT
+                ));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        (VikingGame.getInstance().SCREEN_WIDTH),
+                        (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)
+                ));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        (float) (VikingGame.getInstance().SCREEN_WIDTH * randomX),
+                        0
+                ));
+                engine.addEntity(vikingFactory.createDefaultShip(
+                        0,
+                        (float) (VikingGame.getInstance().SCREEN_HEIGHT * randomY)
+                ));
             }
 
         }
@@ -204,7 +228,7 @@ public abstract class AbstractPlayState extends State{
 
     @Override
     public void reinitialize() {
-        view.runInitialAnimations();
+        // no super call here
         Gdx.input.setInputProcessor(inputController);
 
         engine.addSystem(playerControlSystem);

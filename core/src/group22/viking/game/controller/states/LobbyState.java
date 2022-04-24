@@ -44,8 +44,6 @@ public class LobbyState extends State {
         lobbyCollection = game.getLobbyCollection();
         playerStatusCollection = game.getPlayerStatusCollection();
 
-        Gdx.input.setInputProcessor(view.getStage());
-
         createLobbyOnServer();
 
         updateHost(profileCollection.getLocalPlayerProfile());
@@ -74,8 +72,6 @@ public class LobbyState extends State {
         lobbyCollection = game.getLobbyCollection();
 
         playerStatusCollection = game.getPlayerStatusCollection();
-
-        Gdx.input.setInputProcessor(view.getStage());
 
         tryJoinLobby(joinLobbyId);
 
@@ -116,6 +112,16 @@ public class LobbyState extends State {
 
         getView().runHostAnimation();
         getView().runGuestAnimation();
+    }
+
+    @Override
+    public void dispose() {
+        getView().getPlayButton().removeListener(
+                getView().getPlayButton().getClickListener()
+        );
+        getView().getExitButton().removeListener(
+                getView().getExitButton().getClickListener()
+        );
     }
 
     private void setLobbyGameEnded() {
@@ -348,7 +354,6 @@ public class LobbyState extends State {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 GameStateManager.getInstance().pop();
-                dispose();
             }
 
             @Override
@@ -367,7 +372,6 @@ public class LobbyState extends State {
     private void handleHostClosedLobby() {
         if(IS_HOST) return; // host has to call exit method by button
         GameStateManager.getInstance().pop();
-        dispose();
     }
 
     private void hostConfirmsStart() {

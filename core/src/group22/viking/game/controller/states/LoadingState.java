@@ -45,7 +45,7 @@ public class LoadingState extends State {
         //once done loading all assets, go to menu screen
         if(Assets.update() && progress <= Assets.getProgress()-.001f && profileLoaded){
             Assets.createViews(game.getBatch(), game.getCamera());
-            GameStateManager.getInstance().push(new MenuState(game));
+            GameStateManager.getInstance().set(new MenuState(game));
         }
 
         view.render(deltaTime);
