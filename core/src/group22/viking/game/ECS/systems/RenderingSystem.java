@@ -14,24 +14,27 @@ import java.util.Comparator;
 import group22.viking.game.ECS.utils.ZComparator;
 import group22.viking.game.ECS.components.TextureComponent;
 import group22.viking.game.ECS.components.TransformComponent;
+import group22.viking.game.controller.VikingGame;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
     //Pixels per meter
-    static final float PPM = 1f;
-    public static final float PIXELS_TO_METRES = 1.0f / PPM;
+    public static final float PPM = 2F;
+    public static final float PIXELS_TO_METRES = 1F / PPM;
     
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;
     static final float FRUSTUM_HEIGHT = Gdx.graphics.getHeight() / PPM;
 
     // might be of use in future:
     private final static Vector2 meterDimensions = new Vector2();
-    //private static Vector2 pixelDimensions = new Vector2();
 
-    public static Vector2 getScreenSizeInMeters(){
-        meterDimensions.set(Gdx.graphics.getWidth()*PIXELS_TO_METRES,
-                Gdx.graphics.getHeight()*PIXELS_TO_METRES);
-        return meterDimensions;
+    //private static Vector2 pixelDimensions = new Vector2();
+    public static float getMeterWidth() {
+        return VikingGame.getInstance().SCREEN_WIDTH * PIXELS_TO_METRES;
+    }
+
+    public static float getMeterHeight() {
+        return VikingGame.getInstance().SCREEN_HEIGHT * PIXELS_TO_METRES;
     }
 
     public static float pixelsToMeters(float pixelValue){
