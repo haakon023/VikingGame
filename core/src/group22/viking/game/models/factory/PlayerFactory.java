@@ -15,6 +15,7 @@ import group22.viking.game.models.ECS.components.TransformComponent;
 import group22.viking.game.models.ECS.components.TypeComponent;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.models.Assets;
+import group22.viking.game.models.ECS.systems.RenderingSystem;
 
 public class PlayerFactory extends AbstractFactory {
 
@@ -45,7 +46,9 @@ public class PlayerFactory extends AbstractFactory {
 
     public Entity createRotatingWeapon(Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return create(
-                new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 70, 0),
+                new Vector3(RenderingSystem.getMeterWidth() / 2,
+                        RenderingSystem.getMeterHeight() / 2, //+ RenderingSystem.pixelsToMeters(70),
+                        0),
                 1.0F,
                 Assets.getTexture(Assets.BOW),
                 relatedHealthBar,
