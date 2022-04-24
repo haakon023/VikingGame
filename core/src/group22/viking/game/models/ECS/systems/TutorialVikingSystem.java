@@ -23,8 +23,6 @@ public class TutorialVikingSystem extends VikingSystem{
         VikingComponent viking = cmViking.get(entity);
 
         if(viking.getHealth() <= 0){
-            System.out.println("SUNK!");
-
             tutorialPlayState.nextInterruption();
 
             tutorialPlayState.createTutorialPowerUp(new Vector2(RenderingSystem.getMeterWidth() - 500,700), new HealthPowerUp());

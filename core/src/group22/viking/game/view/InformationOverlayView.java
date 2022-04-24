@@ -21,7 +21,6 @@ public class InformationOverlayView extends View {
 
     public InformationOverlayView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
-        System.out.println("CONSTRUCTOR Tutorial View");
         this.init();
     }
 

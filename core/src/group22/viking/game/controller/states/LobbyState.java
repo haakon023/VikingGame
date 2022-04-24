@@ -4,6 +4,8 @@ package group22.viking.game.controller.states;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.logging.Level;
+
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
@@ -52,7 +54,7 @@ public class LobbyState extends State {
 
         SoundManager.playMusic(this);
 
-        System.out.println("HOST LOBBY STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "HOST LOBBY STATE CREATED" );
     }
 
     /**
@@ -84,7 +86,7 @@ public class LobbyState extends State {
 
         SoundManager.playMusic(this);
 
-        System.out.println("GUEST LOBBY STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "GUEST LOBBY STATE CREATED");
     }
 
 
@@ -164,7 +166,6 @@ public class LobbyState extends State {
             public void onSuccess(FirebaseDocument document) {
                 Lobby lobby = (Lobby) document;
 
-                System.out.println(lobby.getState());
                 switch (lobby.getState()) {
                     case OPEN:
                     case GUEST_JOINED:

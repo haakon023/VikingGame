@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
@@ -31,7 +32,8 @@ public class LeaderboardState extends State {
         this.profileCollection = game.getProfileCollection();
 
         loadLeaderboard();
-        System.out.println("LEADERBOARD STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "LEADERBOARD STATE CREATED");
+
     }
 
 

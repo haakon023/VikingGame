@@ -19,6 +19,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
 import group22.viking.game.controller.firebase.FirebaseInterface;
 import group22.viking.game.controller.firebase.OnGetDataListener;
@@ -30,7 +31,7 @@ import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.logging.Level;
 
 public class AndroidInterfaceClass implements FirebaseInterface {
 
@@ -168,7 +169,7 @@ public class AndroidInterfaceClass implements FirebaseInterface {
                     .addOnSuccessListener((DocumentSnapshot documentSnapshot) ->
                             listener.onGetData(documentId, documentSnapshot.getData()));
         } catch (NullPointerException e) {
-            System.out.println("No document with id " + documentId);
+            VikingGame.LOG.log(Level.WARNING, "No document with id " + documentId);
             listener.onFailure();
         }
     }

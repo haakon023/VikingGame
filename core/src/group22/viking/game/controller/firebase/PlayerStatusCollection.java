@@ -1,6 +1,9 @@
 package group22.viking.game.controller.firebase;
 
 import java.util.Map;
+import java.util.logging.Level;
+
+import group22.viking.game.controller.VikingGame;
 
 /**
  * The PlayerStatusCollection follows the concept: First update the collection locally, and THEN send it
@@ -39,7 +42,6 @@ public class PlayerStatusCollection extends FirebaseCollection{
         firebaseInterface.get(identifier, status.getId(), new OnGetDataListener() {
             @Override
             public void onGetData(String documentId, Map<String, Object> data) {
-                System.out.println("PlayerStatusCollection: PlayerStatus exists!");
                 if(data != null) status.setWonGames((Long) data.get(PlayerStatus.KEY_WON));
                 status.setIsLoaded(true);
 
@@ -68,13 +70,13 @@ public class PlayerStatusCollection extends FirebaseCollection{
                 new OnPostDataListener() {
                     @Override
                     public void onSuccess(String documentId) {
-                        System.out.println("PlayerStatusCollection: Wrote playerStatus to server: " + documentId);
+                        VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Wrote game to server: " + documentId);                     
                         listener.onSuccess(playerStatus);
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("PlayerStatusCollection: Error while writing game to server.");
+                        VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Error while writing game to server.");
                         listener.onFailure();
                     }
                 });
@@ -165,14 +167,14 @@ public class PlayerStatusCollection extends FirebaseCollection{
                         exception.printStackTrace();
                     }
                 }
-                System.out.println("PlayerStatusCollection: Opponents status updated.");
+                VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Opponents status updated.");
                 status.setIsLoaded(true);
                 listener.onSuccess(status);
             }
 
             @Override
             public void onFailure() {
-                System.out.println("PlayerStatusCollection: Problems with listening.");
+                VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Problems with listening.");
                 listener.onFailure();
             }
         });
@@ -192,12 +194,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         writeStatusToServer(status, new OnCollectionUpdatedListener() {
                     @Override
                     public void onSuccess(FirebaseDocument document) {
-                        System.out.println("PlayerStatusCollection: Health updated.");
+                        VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Health updated.");
                     }
 
                     @Override
                     public void onFailure() {
-                        System.out.println("PlayerStatusCollection: Failed updating health!");
+                        VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Failed updating health!");
                     }
         });
     }
@@ -212,12 +214,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         this.writeStatusToServer(getLocalPlayerStatus(), new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                System.out.println("PlayerStatusCollection: PlayerStatus finished on server.");
+                VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: PlayerStatus finished on server.");
             }
 
             @Override
             public void onFailure() {
-                System.out.println("PlayerStatusCollection: Error while finishing game.");
+                VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Error while finishing game.");
             }
         });
     }
@@ -233,12 +235,12 @@ public class PlayerStatusCollection extends FirebaseCollection{
         writeStatusToServer(status, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
-                System.out.println("PlayerStatusCollection: Set own death.");
+                VikingGame.LOG.log(Level.INFO, "PlayerStatusCollection: Set own death.");
             }
 
             @Override
             public void onFailure() {
-                System.out.println("PlayerStatusCollection: Failed setting own death!");
+                VikingGame.LOG.log(Level.SEVERE, "PlayerStatusCollection: Failed setting own death!");
             }
         });
     }
