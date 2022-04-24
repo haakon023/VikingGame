@@ -49,7 +49,7 @@ public class SplashState extends State {
             @Override
             public void run() {
                 System.out.println("transitioning");
-                GameStateManager.getInstance().push(new LoadingState(game));
+                GameStateManager.getInstance().set(new LoadingState(game));
             }
         };
     }

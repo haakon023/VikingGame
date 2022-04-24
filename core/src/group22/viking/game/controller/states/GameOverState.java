@@ -17,14 +17,13 @@ public class GameOverState extends AbstractInformationOverlayState{
     }
 
     private void addListenersToButtons() {
-        confirmButtonClickListener = new ClickListener() {
+        getView().getConfirmButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 SoundManager.buttonClickSound();
                 GameStateManager.getInstance().pop();
             }
-        };
-        getView().getConfirmButton().addListener(confirmButtonClickListener);
+        });
     }
 
     private void setViewTexts(boolean win) {

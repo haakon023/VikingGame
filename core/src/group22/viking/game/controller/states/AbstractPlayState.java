@@ -204,7 +204,7 @@ public abstract class AbstractPlayState extends State{
 
     @Override
     public void reinitialize() {
-        view.runInitialAnimations();
+        // no super call here
         Gdx.input.setInputProcessor(inputController);
 
         engine.addSystem(playerControlSystem);
