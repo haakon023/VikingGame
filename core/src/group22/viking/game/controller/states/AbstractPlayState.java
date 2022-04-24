@@ -149,21 +149,32 @@ public abstract class AbstractPlayState extends State{
 
     private void spawnVikingWave()
     {
-
         if(type == Type.TUTORIAL) return;
-        int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
         VikingFactory vikingFactory = new VikingFactory(engine, world);
-        for (int i=0; i < Math.round(cycle*2); i++)
+        for (int i=0; i < Math.round(cycle); i++)
         {
             double randomX = Math.random();
             double randomY = Math.random();
-            engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
-            engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
-            engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
-            engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            if (cycle %2 == 0 && cycle < 10)
+            {
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            }
+            else if (cycle < 4)
+            {
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            }
+            else
+            {
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            }
+
         }
         cycle++;
-
     }
 
     protected PlayView getView() {
@@ -193,7 +204,7 @@ public abstract class AbstractPlayState extends State{
         time += deltaTime;
 
         if (Math.round(time) >= 10) {
-            spawnVikings();
+            spawnVikingWave();
 
             time = 0;
         }
