@@ -173,6 +173,13 @@ public abstract class AbstractPlayState extends State{
                         (float) (RenderingSystem.getMeterHeight() * randomY)
                 ));
             }
+            // Testing to add a new viking type:
+            else if (cycle %6 == 0) {
+                engine.addEntity(vikingFactory.createSpecialShip(
+                        (float) (RenderingSystem.getMeterWidth() * randomX),
+                        (float) (RenderingSystem.getMeterHeight() * randomY)
+                ));
+            }
             else
             {
                 engine.addEntity(vikingFactory.createDefaultShip(
@@ -248,7 +255,7 @@ public abstract class AbstractPlayState extends State{
             vikingWaveTimer = 0;
         }
 
-        if (Math.round(powerUpTimer) >= 45)
+        if (Math.round(powerUpTimer) >= 30)
         {
             spawnPowerUp();
             powerUpTimer = 0;
