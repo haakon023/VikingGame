@@ -4,9 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 
-import group22.viking.game.controller.spawnlogic.Spawner;
-import group22.viking.game.controller.spawnlogic.SpawnerController;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -64,10 +61,13 @@ public abstract class AbstractPlayState extends State{
 
     protected boolean isRendering;
 
-    private float time;
+    private float vikingWaveTimer;
     private float powerUpTimer;
 
-    private final SpawnerController spawnerController;
+
+    private int cycle = 1;
+
+
 
     protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
@@ -100,8 +100,7 @@ public abstract class AbstractPlayState extends State{
         } else {
             engine.getSystem(PlayerControlSystem.class).updateInputController(inputController);
         }
-        this.time = 0;
-        this.spawnerController = new SpawnerController(4);
+        this.vikingWaveTimer = 0;
 
         Gdx.input.setInputProcessor(inputController);
 
@@ -153,34 +152,50 @@ public abstract class AbstractPlayState extends State{
     private void spawnVikingWave()
     {
         if(type == Type.TUTORIAL) return;
-        int amountToSpawnPerSpawner = spawnerController.amountOfAttackersToSpawnForEachSpawner(Math.round(time));
         VikingFactory vikingFactory = new VikingFactory(engine, world);
-        System.out.println("amount: "+ amountToSpawnPerSpawner*spawnerController.getSpawners().size()); //For testing
-        for (int i=0; i < spawnerController.getSpawners().size(); i++)
+        for (int i=0; i < Math.round(cycle); i++)
         {
-            Spawner spawner = spawnerController.getSpawners().get(i);
-            for (int j=0; j < amountToSpawnPerSpawner; j++)
+            double randomX = Math.random();
+            double randomY = Math.random();
+            if (cycle %2 == 0 && cycle < 10)
             {
-                System.out.println(spawner.getPosition() + " | position of ship");
-                engine.addEntity(vikingFactory.createShip(spawner.getPosition().x, spawner.getPosition().y));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
             }
+            else if (cycle < 4)
+            {
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            }
+            else
+            {
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+            }
+
         }
+        cycle++;
     }
 
     private void spawnPowerUp()
     {
         if(type == Type.TUTORIAL) return;
-        float randomX = (float) Math.random();
-        float randomY = (float) Math.random();
+        double x = Math.random() * VikingGame.SCREEN_WIDTH;
+        double y = Math.random() * VikingGame.SCREEN_HEIGHT;
+
+        double distanceToMiddle = Math.sqrt(Math.pow(x - VikingGame.SCREEN_WIDTH/2, 2) +
+                Math.pow(y - VikingGame.SCREEN_HEIGHT/2, 2));
 
         // don't spawn in screen middle
-        if (randomX > 0.4 && randomX < 0.6 &&
-                randomY > 0.4 && randomY < 0.6){
+        if (distanceToMiddle < VikingGame.SCREEN_HEIGHT/4 ||
+                distanceToMiddle > VikingGame.SCREEN_HEIGHT/2){
             spawnPowerUp();
             return;
         }
 
-        engine.addEntity(powerUpFactory.createHealthPowerUp( VikingGame.SCREEN_WIDTH * randomX, VikingGame.SCREEN_HEIGHT*randomY, new HealthPowerUp()));
+        engine.addEntity(powerUpFactory.createHealthPowerUp( (float) x, (float) y, new HealthPowerUp()));
     }
 
     protected PlayView getView() {
@@ -207,17 +222,20 @@ public abstract class AbstractPlayState extends State{
     @Override
     public void render(float deltaTime) {
         if (!isRendering) return;
-        time += deltaTime;
+        vikingWaveTimer += deltaTime;
         powerUpTimer += deltaTime;
-        if (Math.round(time) >= 30) {
+
+        if (Math.round(vikingWaveTimer) >= 10) {
             spawnVikingWave();
-            time = 0;
+            vikingWaveTimer = 0;
         }
+
         if (Math.round(powerUpTimer) >= 45)
         {
             spawnPowerUp();
             powerUpTimer = 0;
         }
+
         engine.update(deltaTime);
         //do here NOT use the stage-view render system
     }
