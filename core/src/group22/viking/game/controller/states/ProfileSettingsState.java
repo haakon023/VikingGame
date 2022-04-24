@@ -64,8 +64,7 @@ public class ProfileSettingsState extends State {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.buttonClickSound();
-                userSubmitsChanges(view);
-                goBackToMenu();
+                userSubmitsChanges(getView());
             }
         });
     }

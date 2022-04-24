@@ -27,8 +27,11 @@ public class GameStateManager {
     }
 
     public void pop(){
-        states.pop().dispose();
+        System.out.println("POP");
+        if(states.size() <= 1) return;
+        State popped = states.pop();
         states.peek().reinitialize();
+        popped.dispose();
     }
 
     public State get(){

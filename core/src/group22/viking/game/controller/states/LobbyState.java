@@ -348,7 +348,6 @@ public class LobbyState extends State {
             @Override
             public void onSuccess(FirebaseDocument document) {
                 GameStateManager.getInstance().pop();
-                dispose();
             }
 
             @Override
@@ -367,7 +366,6 @@ public class LobbyState extends State {
     private void handleHostClosedLobby() {
         if(IS_HOST) return; // host has to call exit method by button
         GameStateManager.getInstance().pop();
-        dispose();
     }
 
     private void hostConfirmsStart() {
