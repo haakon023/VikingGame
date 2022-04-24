@@ -79,7 +79,7 @@ public class ProfileCollectionTest {
             }
         });
     }*/
-/*
+
     public void setHostIdTest() {
         profileCollection.readProfile(profileIdHost, new OnCollectionUpdatedListener() {
             @Override
@@ -93,9 +93,9 @@ public class ProfileCollectionTest {
                 Assert.assertTrue(false);
             }
         });
-    }*/
+    }
 
-   /* public void setGuestIdTest() {
+    public void setGuestIdTest() {
         profileCollection.readProfile(profileIdGuest, new OnCollectionUpdatedListener() {
             @Override
             public void onSuccess(FirebaseDocument document) {
@@ -108,6 +108,6 @@ public class ProfileCollectionTest {
                 Assert.assertTrue(false);
             }
         });
-    }*/
+    }
 
 }
