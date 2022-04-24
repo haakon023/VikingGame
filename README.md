@@ -1,7 +1,7 @@
 # VikingGame
 
 ## Project Description
-A simple survival game where you defend yourself from angry vikings trying to steal all your gold.  
+A simple survival game where you defend yourself from angry vikings trying to steal all your gold. Created for desktop and android users with the libGDX game engine.
 
 This game was developed by students at NTNU in Trondheim, while taking the course TDT4240 - Software Architecture.
 
