@@ -13,7 +13,7 @@ import group22.viking.game.ECS.components.TransformComponent;
 public class HomingProjectileSystem extends IteratingSystem {
 
     // rotation offset depends on rotation in resource image
-    private static float ROTATION_OFFSET = -80;
+    private static float ROTATION_OFFSET = -90;
 
     private ComponentMapper<HomingProjectileComponent> cmProjectile;
     private ComponentMapper<TransformComponent> cmTransform;

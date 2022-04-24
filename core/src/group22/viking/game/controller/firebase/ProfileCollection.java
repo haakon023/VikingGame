@@ -144,40 +144,6 @@ public class ProfileCollection extends FirebaseCollection{
                 });
     }
 
-
-    /**
-     * Increases the win or lost_game-field in the database by one.
-     *
-     * @param profile {Profile}
-     * @param win {boolean}                 false if lost game
-     */
-    public void addFinishedGame(Profile profile,
-                                boolean win,
-                                long score,
-                                final OnCollectionUpdatedListener listener)
-    {
-        profile.setIsLoaded(false);
-        profile.addFinishedGame(win, score);
-
-        Map<String, Object> profileValues = new HashMap<>();
-        profileValues.put(Profile.KEY_GAMES_WON, profile.getWonGames());
-        profileValues.put(Profile.KEY_GAMES_LOST, profile.getLostGames());
-        profileValues.put(Profile.KEY_HIGHSCORE, profile.getHighscore());
-
-        this.firebaseInterface.addOrUpdateDocument(this.identifier, profile.getId(), profileValues, new OnPostDataListener() {
-            @Override
-            public void onSuccess(String documentId) {
-                readProfile(documentId, listener);
-            }
-
-            @Override
-            public void onFailure() {
-                listener.onFailure();
-
-            }
-        });
-    }
-
     /**
      * Read profile values from Database.
      *
@@ -282,5 +248,28 @@ public class ProfileCollection extends FirebaseCollection{
 
     public Profile getLocalPlayerProfile() {
         return getProfile(localPlayerId);
+    }
+
+    public void setScore(long score) {
+        Profile profile = getLocalPlayerProfile();
+        if(score < profile.getHighscore()) return;
+        profile.setHighscore(score);
+
+        firebaseInterface.addOrUpdateDocument(
+                identifier,
+                profile.getId(),
+                profile.getData(),
+                new OnPostDataListener() {
+                    @Override
+                    public void onSuccess(String documentId) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        // do not notify here
+                    }
+                }
+        );
     }
 }

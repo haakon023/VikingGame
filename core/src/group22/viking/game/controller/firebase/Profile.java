@@ -51,6 +51,10 @@ public class Profile extends FirebaseDocument{
         return highscore;
     }
 
+    public void setHighscore(long highscore) {
+        this.highscore = highscore;
+    }
+
     @Override
     void set(String key, Object value) throws FieldKeyUnknownException {
         switch (key) {

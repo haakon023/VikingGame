@@ -31,7 +31,7 @@ public class LoadingState extends State {
 
             @Override
             public void onFailure() {
-                ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
             }
         });
 

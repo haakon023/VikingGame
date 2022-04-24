@@ -16,7 +16,7 @@ import group22.viking.game.ECS.components.TransformComponent;
 public class LinearProjectileSystem extends IteratingSystem {
 
     // rotation offset depends on rotation in resource image
-    private static float ROTATION_OFFSET = -130;
+    private static float ROTATION_OFFSET = 180;
 
     private ComponentMapper<LinearProjectileComponent> linearProjectileComponentMapper;
     private ComponentMapper<B2dBodyComponent> bodyComponentComponentMapper;

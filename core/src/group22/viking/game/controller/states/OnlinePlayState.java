@@ -10,11 +10,14 @@ import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
 import group22.viking.game.controller.firebase.PlayerStatus;
 import group22.viking.game.controller.firebase.PlayerStatusCollection;
 import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.Assets;
 import group22.viking.game.view.ViewComponentFactory;
 
 public class OnlinePlayState extends AbstractPlayState{
 
     private PlayerStatusCollection playerStatusCollection;
+
+    private long score ;
 
     // opponent health bar
     private Entity opponentHealthBar;
@@ -23,11 +26,10 @@ public class OnlinePlayState extends AbstractPlayState{
 
         this.playerStatusCollection = game.getPlayerStatusCollection();
         this.profileCollection = game.getProfileCollection();
+        this.score = 0;
 
-        onlineInit(lobby);
-    }
+        collisionSystem.addOnlineReference(this);
 
-    private void onlineInit(final Lobby lobby) {
         initOpponent(lobby.isHost() ?
                 game.getProfileCollection().getProfile(lobby.getGuestId()) :
                 game.getProfileCollection().getProfile(lobby.getHostId()));
@@ -50,7 +52,7 @@ public class OnlinePlayState extends AbstractPlayState{
 
                     @Override
                     public void onFailure() {
-                        ViewComponentFactory.createErrorDialog().show(getView().getStage());
+                        ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
                     }
                 }
         );
@@ -77,11 +79,18 @@ public class OnlinePlayState extends AbstractPlayState{
     @Override
     public void handleLocalDeath() {
         playerStatusCollection.setOwnDeathAndFinish();
+        profileCollection.setScore(score);
         GameStateManager.getInstance().pop();
     }
 
     public void handleOpponentDeath() {
         playerStatusCollection.setOpponentDeathAndFinish();
+        profileCollection.setScore(score);
         GameStateManager.getInstance().pop();
+    }
+
+    public void addScore(long reward) {
+        this.score += reward;
+        System.out.println(score);
     }
 }
