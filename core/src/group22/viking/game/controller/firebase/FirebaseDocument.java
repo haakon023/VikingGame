@@ -29,6 +29,13 @@ public abstract class FirebaseDocument {
         this.isLoaded = isLoaded;
     }
 
+    /**
+     * Set value of document.
+     *
+     * @param key {String} document key
+     * @param value {Object} String or Wrapper class e.g. Integer
+     * @throws FieldKeyUnknownException
+     */
     abstract void set(String key, Object value) throws FieldKeyUnknownException;
 
     abstract Map<String, Object> getData();
