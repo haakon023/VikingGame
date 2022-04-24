@@ -60,11 +60,12 @@ public abstract class AbstractPlayState extends State{
 
     protected static PooledEngine engine;
     protected TextureFactory textureFactory;
+    private PowerUpFactory powerUpFactory;
 
     protected boolean isRendering;
 
     private float time;
-    private float powerupTimer;
+    private float powerUpTimer;
 
     private final SpawnerController spawnerController;
 
@@ -105,6 +106,7 @@ public abstract class AbstractPlayState extends State{
         Gdx.input.setInputProcessor(inputController);
 
         textureFactory = new TextureFactory(engine);
+        powerUpFactory = new PowerUpFactory(engine, world);
         buildInitialEntities(engine);
 
         SoundManager.playMusic(this);
@@ -125,9 +127,6 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(textureFactory.createIsland());
         engine.addEntity(textureFactory.createWavetop());
         engine.addEntity(textureFactory.createMonastery());
-
-        //PowerUpFactory powerUpFactory = new PowerUpFactory(engine, world);
-        //engine.addEntity(powerUpFactory.createHealthPowerUp(VikingGame.SCREEN_WIDTH - 600,VikingGame.SCREEN_HEIGHT - 100, new HealthPowerUp()));
 
         // health bars
 
@@ -173,24 +172,15 @@ public abstract class AbstractPlayState extends State{
         if(type == Type.TUTORIAL) return;
         float randomX = (float) Math.random();
         float randomY = (float) Math.random();
-        if (randomX*100 > 40 && randomX*100 < 60)
-        {
-            if (randomY*100 > 40 && randomY*100 < 60)
-            {
-                spawnPowerUp();
 
-            }
-            else
-            {
-                PowerUpFactory powerUpFactory = new PowerUpFactory(engine,world);
-                engine.addEntity(powerUpFactory.createHealthPowerUp( VikingGame.SCREEN_WIDTH * randomX, VikingGame.SCREEN_HEIGHT*randomY, new HealthPowerUp()));
-            }
+        // don't spawn in screen middle
+        if (randomX > 0.4 && randomX < 0.6 &&
+                randomY > 0.4 && randomY < 0.6){
+            spawnPowerUp();
+            return;
         }
-        else
-        {
-            PowerUpFactory powerUpFactory = new PowerUpFactory(engine,world);
-            engine.addEntity(powerUpFactory.createHealthPowerUp( VikingGame.SCREEN_WIDTH * randomX, VikingGame.SCREEN_HEIGHT*randomY, new HealthPowerUp()));
-        }
+
+        engine.addEntity(powerUpFactory.createHealthPowerUp( VikingGame.SCREEN_WIDTH * randomX, VikingGame.SCREEN_HEIGHT*randomY, new HealthPowerUp()));
     }
 
     protected PlayView getView() {
@@ -218,15 +208,15 @@ public abstract class AbstractPlayState extends State{
     public void render(float deltaTime) {
         if (!isRendering) return;
         time += deltaTime;
-        powerupTimer += deltaTime;
+        powerUpTimer += deltaTime;
         if (Math.round(time) >= 30) {
             spawnVikingWave();
             time = 0;
         }
-        if (Math.round(powerupTimer) == 45)
+        if (Math.round(powerUpTimer) >= 45)
         {
             spawnPowerUp();
-            powerupTimer = 0;
+            powerUpTimer = 0;
         }
         engine.update(deltaTime);
         //do here NOT use the stage-view render system
