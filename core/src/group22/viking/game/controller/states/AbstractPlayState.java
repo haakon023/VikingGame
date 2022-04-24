@@ -159,20 +159,20 @@ public abstract class AbstractPlayState extends State{
             double randomY = Math.random();
             if (cycle %2 == 0 && cycle < 10)
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
-                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createDefaultShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
             }
             else if (cycle < 4)
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
-                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createDefaultShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
             }
             else
             {
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
-                engine.addEntity(vikingFactory.createShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
-                engine.addEntity(vikingFactory.createShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
-                engine.addEntity(vikingFactory.createShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip((float) (VikingGame.SCREEN_WIDTH * randomX), VikingGame.SCREEN_HEIGHT));
+                engine.addEntity(vikingFactory.createDefaultShip((VikingGame.SCREEN_WIDTH), (float) (VikingGame.SCREEN_HEIGHT * randomY)));
+                engine.addEntity(vikingFactory.createDefaultShip((float) (VikingGame.SCREEN_WIDTH * randomX), 0));
+                engine.addEntity(vikingFactory.createDefaultShip(0, (float) (VikingGame.SCREEN_HEIGHT * randomY)));
             }
 
         }
