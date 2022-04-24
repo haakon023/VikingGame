@@ -269,7 +269,6 @@ public abstract class AbstractPlayState extends State{
         Array<Body> bodies = new Array<>();
         world.getBodies(bodies);
         for(Body body : bodies){
-            System.out.println("DELETE BODY");
             world.destroyBody(body);
         }
     }

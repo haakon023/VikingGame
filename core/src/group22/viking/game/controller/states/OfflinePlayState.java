@@ -13,7 +13,6 @@ public class OfflinePlayState extends AbstractPlayState{
 
     @Override
     public void handleLocalDeath() {
-        System.out.println("dead");
         GameStateManager.getInstance().set(new GameOverState(game, false));
     }
 }

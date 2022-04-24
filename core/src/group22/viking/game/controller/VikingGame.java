@@ -63,12 +63,11 @@ public class VikingGame extends Game {
 
 		this.isOnline = firebaseInterface.isOnline();
 
-
 		instance = this;
 
 		logger = Logger.getLogger(VikingGame.class.getName());
 
-		logger.log(Level.INFO, "VIKING GAME ONLINE: " + isOnline);
+		logger.log(Level.INFO, "online: " + isOnline);
 	}
 
 	@Override

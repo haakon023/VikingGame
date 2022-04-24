@@ -192,14 +192,12 @@ public class LobbyView extends View {
     }
 
     public void updateAvatarHost(int avatarId) {
-        System.out.println("host updated");
         avatarHost.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
     }
 
     public void updateAvatarGuest(int avatarId) {
-        System.out.println("guest updated: " + avatarId);
         avatarGuest.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));

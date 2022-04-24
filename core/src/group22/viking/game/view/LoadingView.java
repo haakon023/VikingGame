@@ -32,8 +32,6 @@ public class LoadingView extends View {
 
     @Override
     public void init() {
-        System.out.println("LOADING");
-
         vikingHeader = new Image(new Texture(Assets.VIKING_HEADER));
         vikingHeader.setPosition(VikingGame.getInstance().SCREEN_WIDTH/2-430,VikingGame.getInstance().SCREEN_HEIGHT/2);
         vikingHeader.setWidth(660);

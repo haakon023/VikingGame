@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.logging.Level;
+
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.firebase.FirebaseDocument;
@@ -36,7 +38,7 @@ public class ProfileSettingsState extends State {
 
         ((ProfileSettingsView) view).getNameTextField().setText(profile.getName());
 
-        System.out.println("PROFILE STATE CREATED");
+        VikingGame.logger.log(Level.INFO, "PROFILE STATE CREATED");
     }
 
     private void addListenersToButtons() {
