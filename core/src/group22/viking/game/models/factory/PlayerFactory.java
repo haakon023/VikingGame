@@ -46,7 +46,7 @@ public class PlayerFactory extends AbstractFactory {
     public Entity createRotatingWeapon(Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return create(
                 new Vector3(RenderingSystem.getMeterWidth() / 2,
-                        RenderingSystem.getMeterHeight() / 2 + RenderingSystem.pixelsToMeters(70),
+                        RenderingSystem.getMeterHeight() / 2,
                         0),
                 1.0F,
                 Assets.getTexture(Assets.BOW),
