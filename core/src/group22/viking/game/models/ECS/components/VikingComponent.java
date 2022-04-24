@@ -13,6 +13,8 @@ public class VikingComponent implements Component {
     public long scoreReward = 10;
     public float speed = 8;
 
+    private float timeSinceLastAttack;
+
     public float getSpeed() {
         return speed;
     }
@@ -22,9 +24,6 @@ public class VikingComponent implements Component {
         return this;
     }
 
-    private float timeSinceLastAttack;
-
-
     public void DealDamage(float amount){
         health -= amount;
     }
@@ -33,8 +32,9 @@ public class VikingComponent implements Component {
         return attackRate;
     }
 
-    public void setAttackRate(float attackRate) {
+    public VikingComponent setAttackRate(float attackRate) {
         this.attackRate = attackRate;
+        return this;
     }
 
     public float getTimeSinceLastAttack() {
@@ -49,23 +49,26 @@ public class VikingComponent implements Component {
         return health;
     }
 
-    public void setHealth(float health) {
+    public VikingComponent setHealth(float health) {
         this.health = health;
+        return this;
     }
 
     public long getScoreReward() {
         return scoreReward;
     }
 
-    public void setScoreReward(long scoreReward) {
+    public VikingComponent setScoreReward(long scoreReward) {
         this.scoreReward = scoreReward;
+        return this;
     }
 
     public float getDamage() {
         return damage;
     }
 
-    public void setDamage(float damage) {
+    public VikingComponent setDamage(float damage) {
         this.damage = damage;
+        return this;
     }
 }
