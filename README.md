@@ -22,8 +22,9 @@ This game was developed by students at NTNU in Trondheim, while taking the cours
     4. [Practice Mode](#PracticeMode)
     5. [Multiplayer](#Multiplayer)
     6. [Leaderboard](#Leaderboard)
-5. [Credits](#Credits)
-6. [Licence](#Licence)
+5. [Developed by](#Credits) 
+<!--
+6. [Licence](#Licence)-->
 
 ## 1 Game Description <a name="GameDescription"></a>
 The game is a ”who can survive the longest” online multiplayer game. The game is based on the
@@ -133,5 +134,7 @@ Cornelius Emil Rebmann
 Signe B. Thrane-Nielsen  
 Caio Wiebers
 
+<!--
 ## 6 Licence <a name="Licence"></a>
 [MIT Licence](https://choosealicense.com/licenses/mit/)
+-->
