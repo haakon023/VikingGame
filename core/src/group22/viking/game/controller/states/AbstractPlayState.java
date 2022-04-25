@@ -178,6 +178,9 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(powerUpFactory.createHealthPowerUp( (float) x, (float) y, new HealthPowerUp()));
     }
 
+    /**
+     * created method for testing M4
+     */
     private void spawnDamagePowerUp()
     {
         if(type == Type.TUTORIAL) return;
