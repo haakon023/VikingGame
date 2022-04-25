@@ -47,6 +47,12 @@ public class PlayerComponent implements Component{
         return health;
     }
 
+    public void addAttackDamage(float additionalAttackDamage) {
+        if (attackDamage < 150) {
+            this.attackDamage += additionalAttackDamage;
+        }
+    }
+
     public PlayerComponent setHealthBar(Entity healthBar) {
         this.healthBar = healthBar;
         return this;

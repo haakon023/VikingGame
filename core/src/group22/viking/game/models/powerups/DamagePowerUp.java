@@ -5,17 +5,17 @@ import com.badlogic.ashley.core.Entity;
 
 import group22.viking.game.models.ECS.components.PlayerComponent;
 
-public class HealthPowerUp implements IPowerUp {
+public class DamagePowerUp implements IPowerUp {
 
     private final ComponentMapper<PlayerComponent> playerMapper;
-    
-    public HealthPowerUp() {
+
+    public DamagePowerUp() {
         playerMapper = ComponentMapper.getFor(PlayerComponent.class);
     }
 
     @Override
     public void givePowerUp(Entity entity) {
         PlayerComponent player = playerMapper.get(entity);
-        player.addToHealth(250);
+        player.addAttackDamage(25);
     }
 }

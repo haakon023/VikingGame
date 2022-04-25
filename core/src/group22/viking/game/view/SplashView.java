@@ -43,7 +43,7 @@ public class SplashView extends View {
 
     @Override
     void drawElements(float deltaTime) {
-        Assets.FONT48.draw(batch, "Version: alpha 0.0.2", 20,80);
+        Assets.FONT48.draw(batch, "Version 0.1", 20,80);
         stage.act(deltaTime);
         stage.draw();
     }

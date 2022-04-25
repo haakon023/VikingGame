@@ -74,4 +74,15 @@ public class PowerUpFactory extends AbstractFactory {
                 RenderingSystem.pixelsToMeters(100F)
         );
     }
+
+    public Entity createDamagePowerUp(float x, float y, IPowerUp powerUp) {
+        return create(
+                new Vector3(x, y, 0),
+                1.0F,
+                Assets.getTexture(Assets.GREEN_POTION),
+                powerUp,
+                RenderingSystem.pixelsToMeters(100F)
+        );
+    }
+
 }
