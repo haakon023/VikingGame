@@ -37,7 +37,6 @@ public class LoadingState extends State {
     }
 
     public void render(float deltaTime) {
-        //TODO Needs to make progressbar smooth (leap function does NOT work somehow)
         progress = MathUtils.lerp(progress, Assets.getProgress(), 0.1f);
 
         //once done loading all assets, go to menu screen

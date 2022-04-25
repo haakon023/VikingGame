@@ -132,7 +132,7 @@ public class LobbyState extends State {
 
             @Override
             public void onFailure() {
-                // TODO error message
+                ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
             }
         });
     }
@@ -246,7 +246,7 @@ public class LobbyState extends State {
 
                     @Override
                     public void onFailure() {
-                        // TODO server issues
+                        ViewComponentFactory.createErrorDialog(Assets.t("server_error")).show(getView().getStage());
                     }
                 }
         );
