@@ -27,6 +27,7 @@ import group22.viking.game.controller.ECS.factory.TextureFactory;
 import group22.viking.game.controller.ECS.factory.VikingFactory;
 import group22.viking.game.controller.ECS.input.InputController;
 import group22.viking.game.models.Assets;
+import group22.viking.game.models.powerups.DamagePowerUp;
 import group22.viking.game.models.powerups.HealthPowerUp;
 import group22.viking.game.view.PlayView;
 import group22.viking.game.view.SoundManager;
@@ -60,6 +61,7 @@ public abstract class AbstractPlayState extends State{
 
     private float vikingWaveTimer;
     private float powerUpTimer;
+    private float damagePowerUpTimer;
 
 
     private int cycle = 1;
@@ -204,7 +206,7 @@ public abstract class AbstractPlayState extends State{
         cycle++;
     }
 
-    private void spawnPowerUp()
+    private void spawnHealthPowerUp()
     {
         if(type == Type.TUTORIAL) return;
         double x = Math.random() * RenderingSystem.getMeterWidth();
@@ -216,11 +218,30 @@ public abstract class AbstractPlayState extends State{
         // don't spawn in screen middle
         if (distanceToMiddle < RenderingSystem.getMeterHeight()/4 ||
                 distanceToMiddle > RenderingSystem.getMeterHeight()/2){
-            spawnPowerUp();
+            spawnHealthPowerUp();
             return;
         }
 
         engine.addEntity(powerUpFactory.createHealthPowerUp( (float) x, (float) y, new HealthPowerUp()));
+    }
+
+    private void spawnDamagePowerUp()
+    {
+        if(type == Type.TUTORIAL) return;
+        double x = Math.random() * RenderingSystem.getMeterWidth();
+        double y = Math.random() * RenderingSystem.getMeterHeight();
+
+        double distanceToMiddle = Math.sqrt(Math.pow(x - RenderingSystem.getMeterWidth()/2, 2) +
+                Math.pow(y - RenderingSystem.getMeterHeight()/2, 2));
+
+        // don't spawn in screen middle
+        if (distanceToMiddle < RenderingSystem.getMeterHeight()/4 ||
+                distanceToMiddle > RenderingSystem.getMeterHeight()/2){
+            spawnDamagePowerUp();
+            return;
+        }
+
+        engine.addEntity(powerUpFactory.createDamagePowerUp( (float) x, (float) y, new DamagePowerUp()));
     }
 
     protected PlayView getView() {
@@ -249,16 +270,21 @@ public abstract class AbstractPlayState extends State{
         if (!isRendering) return;
         vikingWaveTimer += deltaTime;
         powerUpTimer += deltaTime;
+        damagePowerUpTimer += deltaTime;
 
         if (Math.round(vikingWaveTimer) >= 7) {
             spawnVikingWave();
             vikingWaveTimer = 0;
         }
-
         if (Math.round(powerUpTimer) >= 30)
         {
-            spawnPowerUp();
+            spawnHealthPowerUp();
             powerUpTimer = 0;
+        }
+        if (Math.round(damagePowerUpTimer) >= 40)
+        {
+            spawnDamagePowerUp();
+            damagePowerUpTimer = 0;
         }
 
         engine.update(deltaTime);

@@ -74,6 +74,9 @@ public class Assets {
     public static final String WIZARD_SPRITE_HEAD = "img/WizardSpriteHead.png";
     public static final String WIZARD_SPRITE_SURPRISED = "img/WizardSpriteSurprised.png";
 
+    public static final String WIZARD_SPRITE_BLUE = "img/WizardSpriteBlue.png";
+    public static final String WIZARD_SPRITE_HEAD_BLUE = "img/WizardSpriteHeadBlue.png";
+
     public static final String ROBIN_HOOD_SPRITE = "img/RobinHoodSprite.png";
     public static final String ROBIN_HOOD_SPRITE_HEAD = "img/RobinHoodSpriteHead.png";
 
@@ -83,7 +86,7 @@ public class Assets {
     public static final String QUESTION_MARK = "img/Questionmark.png";
     public static final String BOW = "img/bow.png";
 
-    public static final int NUMBER_OF_AVATARS = 5;
+    public static final int NUMBER_OF_AVATARS = 6;
 
     public static final String MUTED_BUTTON_IMAGE = "img/mutedButton.png";
     public static final String UNMUTED_BUTTON_IMAGE = "img/unmutedButton.png";
@@ -126,6 +129,7 @@ public class Assets {
     //powerup files
     public static final String HEALTH_POTION = "img/health_potion.png";
     public static final String ENERGY_POTION = "img/energy_potion.png";
+    public static final String GREEN_POTION = "img/green_potion.png";
 
 
     //health bar
@@ -164,6 +168,11 @@ public class Assets {
         assetManager.load(LEGOLAS_SPRITE, Texture.class);
         assetManager.load(LEGOLAS_SPRITE_HEAD, Texture.class);
         assetManager.load(POWER_UP, Texture.class);
+
+        assetManager.load(GREEN_POTION, Texture.class);
+
+        assetManager.load(WIZARD_SPRITE_BLUE, Texture.class);
+        assetManager.load(WIZARD_SPRITE_HEAD_BLUE, Texture.class);
 
         assetManager.load(QUESTION_MARK, Texture.class);
         assetManager.load(BOW, Texture.class);
@@ -234,7 +243,8 @@ public class Assets {
                 Assets.WIZARD_SPRITE,
                 Assets.WARRIOR_WOMAN_SPRITE,
                 Assets.ROBIN_HOOD_SPRITE,
-                Assets.LEGOLAS_SPRITE
+                Assets.LEGOLAS_SPRITE,
+                Assets.WIZARD_SPRITE_BLUE,
         }[index];
     }
 
@@ -244,7 +254,8 @@ public class Assets {
                 Assets.WIZARD_SPRITE_HEAD,
                 Assets.WARRIOR_WOMAN_SPRITE_HEAD,
                 Assets.ROBIN_HOOD_SPRITE_HEAD,
-                Assets.LEGOLAS_SPRITE_HEAD
+                Assets.LEGOLAS_SPRITE_HEAD,
+                Assets.WIZARD_SPRITE_HEAD_BLUE,
         }[index];
     }
 
