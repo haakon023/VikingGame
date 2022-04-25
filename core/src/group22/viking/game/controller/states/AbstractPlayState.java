@@ -144,6 +144,7 @@ public abstract class AbstractPlayState extends State{
     private void spawnVikingWave()
     {
         if(type == Type.TUTORIAL) return;
+        SoundManager.playWaveBeginSound();
         VikingFactory vikingFactory = new VikingFactory(engine, world);
         cycle++;
         if (cycle % 6 == 5) {

@@ -120,11 +120,13 @@ public class Assets {
     public static final Music GAME_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("sound/gameMusic.mp3"));
 
     //sound files
-    //public static final Sound SOUND_BOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundBowFire.mp3"));
+    public static final Sound SOUND_BOWFIRE = Gdx.audio.newSound(Gdx.files.internal("sound/soundArrowShot.mp3"));
     public static final Sound SOUND_BUTTON = Gdx.audio.newSound(Gdx.files.internal("sound/soundButton.mp3"));
     public static final Sound SOUND_SHWOOSH = Gdx.audio.newSound(Gdx.files.internal("sound/soundSwish.wav"));
     public static final Sound SOUND_ERROR = Gdx.audio.newSound(Gdx.files.internal("sound/soundError.mp3"));
     public static final Sound SOUND_MUMBLE = Gdx.audio.newSound(Gdx.files.internal("sound/mumble.wav"));
+    public static final Sound SOUND_GOT_DAMAGE = Gdx.audio.newSound(Gdx.files.internal("sound/soundDamageMetal.mp3"));
+    public static final Sound SOUND_DANGER = Gdx.audio.newSound(Gdx.files.internal("sound/soundDangerOrchestra.mp3"));
 
     //powerup files
     public static final String HEALTH_POTION = "img/health_potion.png";

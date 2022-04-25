@@ -16,6 +16,7 @@ import group22.viking.game.models.ECS.components.LinearProjectileComponent;
 import group22.viking.game.models.ECS.components.PlayerComponent;
 import group22.viking.game.models.ECS.components.TransformComponent;
 import group22.viking.game.controller.ECS.factory.ProjectileFactory;
+import group22.viking.game.view.SoundManager;
 
 public class PlayerControlSystem extends IteratingSystem {
 
@@ -83,6 +84,8 @@ public class PlayerControlSystem extends IteratingSystem {
         getEngine().addEntity(projectile);
 
         timeSinceFired = 0;
+
+        SoundManager.playArrowShotSound();
     }
 
     private float calculateAngle(Vector2 mousePos, Vector2 playerPos)
