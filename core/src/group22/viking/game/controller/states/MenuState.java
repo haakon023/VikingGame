@@ -6,13 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.Locale;
+import java.util.logging.Level;
 
 import group22.viking.game.controller.VikingGame;
 
 import group22.viking.game.controller.GameStateManager;
-import group22.viking.game.controller.firebase.Lobby;
-import group22.viking.game.controller.firebase.LobbyCollection;
-import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.firebase.documents.Lobby;
+import group22.viking.game.firebase.collections.LobbyCollection;
+import group22.viking.game.models.firebase.documents.Profile;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.MenuView;
 import group22.viking.game.view.SoundManager;
@@ -28,7 +29,6 @@ public class MenuState extends State {
 
         this.lobbyCollection = game.getLobbyCollection();
 
-
         localPlayerProfile = game.getProfileCollection().getLocalPlayerProfile();
         refreshAvatar();
 
@@ -38,7 +38,8 @@ public class MenuState extends State {
         SoundManager.playMusic(this);
         getView().getMuteButton().setChecked(!SoundManager.isSoundOn());
 
-        System.out.println("MENU STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "MENU STATE CREATED");
+
     }
 
     @Override
@@ -52,7 +53,7 @@ public class MenuState extends State {
 
     @Override
     public void dispose() {
-
+        // gets never disposed
     }
 
     private void refreshAvatar() {
@@ -89,7 +90,6 @@ public class MenuState extends State {
         getView().getProfileButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                System.out.println("Profile Clicked");
                 SoundManager.buttonClickSound();
                 GameStateManager.getInstance().push(new ProfileSettingsState(game));
             }
@@ -98,7 +98,6 @@ public class MenuState extends State {
         getView().getLeaderboardButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                System.out.println("Leaderboard Clicked");
                 SoundManager.buttonClickSound();
                 GameStateManager.getInstance().push(new LeaderboardState(game));
 
@@ -186,7 +185,7 @@ public class MenuState extends State {
         String id = getView().getJoinTextField().getText();
         if (!lobbyCollection.validateId(id)) {
             // id is wrong
-            System.out.println("Misspelling in ID");
+            VikingGame.LOG.log(Level.WARNING, "Misspelling in ID");
             getView().getJoinTextField().setText("");
             getView().makeErrorShakeOnTextField();
             SoundManager.errorSound();

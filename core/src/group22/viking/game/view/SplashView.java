@@ -15,15 +15,11 @@ public class SplashView extends View {
 
     public SplashView(SpriteBatch batch, Camera camera) {
         super(batch, camera);
-        System.out.println("CONSTRUCTOR SPLASHVIEW");
         goatIcon = new Image(new Texture(Assets.GOAT_ICON));
     }
 
     @Override
     public void init() {
-
-        System.out.println("SPLASH");
-
         //delegate input Events to all Actors
         Gdx.input.setInputProcessor(stage);
 

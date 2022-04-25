@@ -1,15 +1,18 @@
 package group22.viking.game.controller;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import group22.viking.game.controller.firebase.PlayerStatusCollection;
-import group22.viking.game.controller.firebase.FirebaseInterface;
-import group22.viking.game.controller.firebase.LobbyCollection;
-import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.firebase.collections.PlayerStatusCollection;
+import group22.viking.game.firebase.FirebaseInterface;
+import group22.viking.game.firebase.collections.LobbyCollection;
+import group22.viking.game.firebase.collections.ProfileCollection;
 import group22.viking.game.controller.states.SplashState;
 import group22.viking.game.models.Assets;
 
@@ -37,6 +40,8 @@ public class VikingGame extends Game {
 
 	private boolean isOnline;
 
+	public static final Logger LOG = Logger.getLogger(VikingGame.class.getName());
+
 	private static VikingGame instance;
 
 	public static VikingGame getInstance(FirebaseInterface firebaseInterface, Preferences preferences) {
@@ -57,9 +62,10 @@ public class VikingGame extends Game {
 		this.lobbyCollection = new LobbyCollection(firebaseInterface);
 
 		this.isOnline = firebaseInterface.isOnline();
-		System.out.println("VIKING GAME ONLINE: " + isOnline);
 
 		instance = this;
+
+		LOG.log(Level.INFO, "online: " + isOnline);
 	}
 
 	@Override

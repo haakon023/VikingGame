@@ -9,23 +9,23 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import group22.viking.game.models.ECS.systems.CollisionSystem;
-import group22.viking.game.models.ECS.systems.HomingProjectileSystem;
-import group22.viking.game.models.ECS.systems.LinearProjectileSystem;
-import group22.viking.game.models.ECS.systems.PhysicsDebugSystem;
-import group22.viking.game.models.ECS.systems.PhysicsSystem;
-import group22.viking.game.models.ECS.systems.PlayerControlSystem;
-import group22.viking.game.models.ECS.systems.RenderingSystem;
-import group22.viking.game.models.ECS.systems.VikingSystem;
-import group22.viking.game.models.ECS.utils.ColliderListener;
-import group22.viking.game.models.ECS.utils.ZComparator;
+import group22.viking.game.controller.ECS.systems.CollisionSystem;
+import group22.viking.game.controller.ECS.systems.HomingProjectileSystem;
+import group22.viking.game.controller.ECS.systems.LinearProjectileSystem;
+import group22.viking.game.controller.ECS.systems.PhysicsDebugSystem;
+import group22.viking.game.controller.ECS.systems.PhysicsSystem;
+import group22.viking.game.controller.ECS.systems.PlayerControlSystem;
+import group22.viking.game.controller.ECS.systems.RenderingSystem;
+import group22.viking.game.controller.ECS.systems.VikingSystem;
+import group22.viking.game.controller.ECS.utils.ColliderListener;
+import group22.viking.game.controller.ECS.utils.ZComparator;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.ProfileCollection;
-import group22.viking.game.models.factory.PlayerFactory;
-import group22.viking.game.models.factory.PowerUpFactory;
-import group22.viking.game.models.factory.TextureFactory;
-import group22.viking.game.models.factory.VikingFactory;
-import group22.viking.game.models.input.InputController;
+import group22.viking.game.firebase.collections.ProfileCollection;
+import group22.viking.game.controller.ECS.factory.PlayerFactory;
+import group22.viking.game.controller.ECS.factory.PowerUpFactory;
+import group22.viking.game.controller.ECS.factory.TextureFactory;
+import group22.viking.game.controller.ECS.factory.VikingFactory;
+import group22.viking.game.controller.ECS.input.InputController;
 import group22.viking.game.models.Assets;
 import group22.viking.game.models.powerups.HealthPowerUp;
 import group22.viking.game.view.PlayView;
@@ -87,7 +87,7 @@ public abstract class AbstractPlayState extends State{
             engine.addSystem(new PhysicsSystem(world));
             engine.addSystem(vikingSystem);
             engine.addSystem(renderingSystem);
-            engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+            //engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
             engine.addSystem(new HomingProjectileSystem());
             engine.addSystem(collisionSystem);
             engine.addSystem(new LinearProjectileSystem(world));
@@ -173,6 +173,13 @@ public abstract class AbstractPlayState extends State{
                         (float) (RenderingSystem.getMeterHeight() * randomY)
                 ));
             }
+            // Testing to add a new viking type:
+            else if (cycle %6 == 0) {
+                engine.addEntity(vikingFactory.createSpecialShip(
+                        (float) (RenderingSystem.getMeterWidth() * randomX),
+                        (float) (RenderingSystem.getMeterHeight() * randomY)
+                ));
+            }
             else
             {
                 engine.addEntity(vikingFactory.createDefaultShip(
@@ -248,7 +255,7 @@ public abstract class AbstractPlayState extends State{
             vikingWaveTimer = 0;
         }
 
-        if (Math.round(powerUpTimer) >= 45)
+        if (Math.round(powerUpTimer) >= 30)
         {
             spawnPowerUp();
             powerUpTimer = 0;
@@ -269,7 +276,6 @@ public abstract class AbstractPlayState extends State{
         Array<Body> bodies = new Array<>();
         world.getBodies(bodies);
         for(Body body : bodies){
-            System.out.println("DELETE BODY");
             world.destroyBody(body);
         }
     }

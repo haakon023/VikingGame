@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.GL20;
 
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.PlayerStatus;
+import group22.viking.game.models.firebase.documents.PlayerStatus;
 import group22.viking.game.models.Assets;
 
 public class LobbyView extends View {
@@ -192,14 +192,12 @@ public class LobbyView extends View {
     }
 
     public void updateAvatarHost(int avatarId) {
-        System.out.println("host updated");
         avatarHost.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));
     }
 
     public void updateAvatarGuest(int avatarId) {
-        System.out.println("guest updated: " + avatarId);
         avatarGuest.setDrawable(new TextureRegionDrawable(
                 Assets.getTexture(Assets.getAvatar(avatarId))
         ));

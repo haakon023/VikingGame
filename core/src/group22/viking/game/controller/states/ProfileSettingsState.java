@@ -4,12 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.logging.Level;
+
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
-import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.firebase.FirebaseDocument;
+import group22.viking.game.firebase.listeners.OnCollectionUpdatedListener;
+import group22.viking.game.models.firebase.documents.Profile;
+import group22.viking.game.firebase.collections.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.ProfileSettingsView;
 import group22.viking.game.view.SoundManager;
@@ -36,7 +38,7 @@ public class ProfileSettingsState extends State {
 
         ((ProfileSettingsView) view).getNameTextField().setText(profile.getName());
 
-        System.out.println("PROFILE STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "PROFILE STATE CREATED");
     }
 
     private void addListenersToButtons() {
@@ -127,14 +129,8 @@ public class ProfileSettingsState extends State {
 
     @Override
     public void dispose() {
-        getView().getLeftButton().removeListener(
-                getView().getLeftButton().getClickListener()
-        );
-        getView().getRightButton().removeListener(
-                getView().getRightButton().getClickListener()
-        );
-        getView().getSubmitChangesButton().removeListener(
-                getView().getSubmitChangesButton().getClickListener()
-        );
+        removeAllNonDefaultListeners(getView().getLeftButton());
+        removeAllNonDefaultListeners(getView().getRightButton());
+        removeAllNonDefaultListeners(getView().getSubmitChangesButton());
     }
 }

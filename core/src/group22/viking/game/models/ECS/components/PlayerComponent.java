@@ -3,7 +3,7 @@ package group22.viking.game.models.ECS.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 
-import group22.viking.game.controller.firebase.PlayerStatusCollection;
+import group22.viking.game.firebase.collections.PlayerStatusCollection;
 
 public class PlayerComponent implements Component{
 

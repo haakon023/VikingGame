@@ -1,6 +1,9 @@
 package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.view.View;
@@ -31,5 +34,12 @@ public abstract class State {
 
     public VikingGame getGame() {
         return game;
+    }
+
+    protected void removeAllNonDefaultListeners(Actor actor) {
+        DelayedRemovalArray<EventListener> listeners = actor.getListeners();
+        while (listeners.size > 1) {
+            actor.removeListener(listeners.pop());
+        }
     }
 }

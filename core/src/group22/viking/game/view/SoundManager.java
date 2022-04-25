@@ -1,5 +1,7 @@
 package group22.viking.game.view;
 
+import java.util.logging.Level;
+
 import group22.viking.game.controller.VikingGame;
 import group22.viking.game.controller.states.State;
 import group22.viking.game.models.Assets;
@@ -42,7 +44,7 @@ public class SoundManager {
 
     public static void playMusic(State state){
         if(isSoundOn()){
-            System.out.println("playing music> if passed");
+            VikingGame.LOG.log(Level.INFO, "playing music");
             switch (state.getClass().getName()) {
                 case "group22.viking.game.controller.states.MenuState":
                     Assets.GAME_MUSIC.stop();
@@ -50,7 +52,6 @@ public class SoundManager {
                     Assets.MENU_MUSIC.play();
                     Assets.MENU_MUSIC.setVolume(1f);
                     Assets.MENU_MUSIC.setLooping(true);
-                    System.out.println("playing music> loading passed");
                     break;
                 case "group22.viking.game.controller.states.LobbyState":
                     Assets.GAME_MUSIC.stop();

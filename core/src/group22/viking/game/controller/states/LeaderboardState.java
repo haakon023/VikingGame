@@ -5,13 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
-import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.firebase.FirebaseDocument;
+import group22.viking.game.firebase.listeners.OnCollectionUpdatedListener;
+import group22.viking.game.models.firebase.documents.Profile;
+import group22.viking.game.firebase.collections.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.SoundManager;
@@ -31,7 +32,8 @@ public class LeaderboardState extends State {
         this.profileCollection = game.getProfileCollection();
 
         loadLeaderboard();
-        System.out.println("LEADERBOARD STATE CREATED");
+        VikingGame.LOG.log(Level.INFO, "LEADERBOARD STATE CREATED");
+
     }
 
 
@@ -89,8 +91,6 @@ public class LeaderboardState extends State {
 
     @Override
     public void dispose() {
-        getView().getExitButton().removeListener(
-                getView().getExitButton().getClickListener()
-        );
+        removeAllNonDefaultListeners(getView().getExitButton());
     }
 }

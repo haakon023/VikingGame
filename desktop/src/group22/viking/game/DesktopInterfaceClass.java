@@ -2,10 +2,10 @@ package group22.viking.game;
 
 import java.util.Map;
 
-import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.FirebaseInterface;
-import group22.viking.game.controller.firebase.OnGetDataListener;
-import group22.viking.game.controller.firebase.OnPostDataListener;
+import group22.viking.game.models.firebase.FirebaseDocument;
+import group22.viking.game.firebase.FirebaseInterface;
+import group22.viking.game.firebase.listeners.OnGetDataListener;
+import group22.viking.game.firebase.listeners.OnPostDataListener;
 
 public class DesktopInterfaceClass implements FirebaseInterface {
 

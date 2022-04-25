@@ -6,17 +6,14 @@ import com.badlogic.ashley.core.Component;
 //In other words do we need setters?
 public class VikingComponent implements Component {
 
-    public float getDamage() {
-        return damage;
-    }
-
-    public void setDamage(float damage) {
-        this.damage = damage;
-    }
-
+    // default
+    private float health = 200;
     private float damage = 50;
+    private float attackRate = 2f;              //attack at a rate of once per 2 seconds
     public long scoreReward = 10;
     public float speed = 8;
+
+    private float timeSinceLastAttack;
 
     public float getSpeed() {
         return speed;
@@ -27,12 +24,17 @@ public class VikingComponent implements Component {
         return this;
     }
 
+    public void DealDamage(float amount){
+        health -= amount;
+    }
+
     public float getAttackRate() {
         return attackRate;
     }
 
-    public void setAttackRate(float attackRate) {
+    public VikingComponent setAttackRate(float attackRate) {
         this.attackRate = attackRate;
+        return this;
     }
 
     public float getTimeSinceLastAttack() {
@@ -43,17 +45,30 @@ public class VikingComponent implements Component {
         this.timeSinceLastAttack = timeSinceLastAttack;
     }
 
-    //attack at a rate of once per 2 secounds
-    private float attackRate = 2f;
-    private float timeSinceLastAttack;
-
     public float getHealth() {
         return health;
     }
 
-    private float health = 200; //set 100 as default, dunno.png
+    public VikingComponent setHealth(float health) {
+        this.health = health;
+        return this;
+    }
 
-    public void DealDamage(float amount){
-        health -= amount;
+    public long getScoreReward() {
+        return scoreReward;
+    }
+
+    public VikingComponent setScoreReward(long scoreReward) {
+        this.scoreReward = scoreReward;
+        return this;
+    }
+
+    public float getDamage() {
+        return damage;
+    }
+
+    public VikingComponent setDamage(float damage) {
+        this.damage = damage;
+        return this;
     }
 }
