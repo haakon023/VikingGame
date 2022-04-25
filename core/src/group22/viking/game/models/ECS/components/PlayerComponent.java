@@ -15,7 +15,7 @@ public class PlayerComponent implements Component{
     public Entity healthBar = null;
 
     public float fireRate = 0.2f; // shoot every half second
-    public float attackDamage = 50;
+    public float attackDamage = 100;
 
     public PlayerComponent init() {
         this.health = MAX_HEALTH;
