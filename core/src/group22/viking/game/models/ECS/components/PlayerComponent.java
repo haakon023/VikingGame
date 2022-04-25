@@ -57,7 +57,7 @@ public class PlayerComponent implements Component{
             this.attackDamage += additionalAttackDamage;
         }
     }
-    
+
     public boolean isDead() {
         return health == 0;
     }

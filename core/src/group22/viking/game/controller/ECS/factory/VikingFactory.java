@@ -20,8 +20,28 @@ import group22.viking.game.models.ECS.components.TransformComponent;
 import group22.viking.game.models.ECS.components.TypeComponent;
 import group22.viking.game.models.ECS.components.VikingComponent;
 import group22.viking.game.models.Assets;
+import group22.viking.game.models.firebase.documents.Lobby;
 
 public class VikingFactory extends AbstractFactory {
+
+    public enum Edge {
+        LEFT(0), RIGHT(1), TOP(2), BOTTOM(3);
+
+        private final int value;
+
+        Edge(int value) {
+            this.value = value;
+        }
+
+        public static Edge get(int i) {
+            for (Edge edge : Edge.values()) {
+                if (edge.value == i % 4) {
+                    return edge;
+                }
+            }
+            return null;
+        }
+    };
 
     private final World world;
 
@@ -103,6 +123,11 @@ public class VikingFactory extends AbstractFactory {
         );
     }
 
+    public Entity createDefaultShipAtEdge(Edge edge) {
+        Vector2 position = getRandomPositionOnEdge(edge);
+        return createDefaultShip(position.x, position.y);
+    }
+
     public Entity createSpecialShip(float x, float y) {
         return createCustom(
                 new Vector3(x, y, 0),
@@ -116,6 +141,30 @@ public class VikingFactory extends AbstractFactory {
         );
     }
 
+    public Entity createSpecialShipAtEdge(Edge edge) {
+        Vector2 position = getRandomPositionOnEdge(edge);
+        return createSpecialShip(position.x, position.y);
+    }
 
+    private Vector2 getRandomPositionOnEdge(Edge edge) {
+        float x = (float) Math.random();
+        float y = (float) Math.random();
+        switch (edge) {
+            case TOP:
+                y = 0;
+                break;
+            case LEFT:
+                x = 0;
+                break;
+            case RIGHT:
+                x = 1;
+                break;
+            case BOTTOM:
+                y = 1;
+                break;
+        }
+        return new Vector2(x * RenderingSystem.getMeterWidth(),
+                y * RenderingSystem.getMeterHeight());
+    }
 
 }
