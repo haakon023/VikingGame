@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Array;
 import group22.viking.game.controller.ECS.systems.CollisionSystem;
 import group22.viking.game.controller.ECS.systems.HomingProjectileSystem;
 import group22.viking.game.controller.ECS.systems.LinearProjectileSystem;
-import group22.viking.game.controller.ECS.systems.PhysicsDebugSystem;
 import group22.viking.game.controller.ECS.systems.PhysicsSystem;
 import group22.viking.game.controller.ECS.systems.PlayerControlSystem;
 import group22.viking.game.controller.ECS.systems.RenderingSystem;
@@ -63,10 +62,7 @@ public abstract class AbstractPlayState extends State{
     private float powerUpTimer;
     private float damagePowerUpTimer;
 
-
     private int cycle = 0;
-
-
 
     protected AbstractPlayState(VikingGame game, Type type) {
         super(Assets.playView, game);
@@ -238,7 +234,7 @@ public abstract class AbstractPlayState extends State{
             spawnHealthPowerUp();
             powerUpTimer = 0;
         }
-        if (Math.round(damagePowerUpTimer) >= 40)
+        if (Math.round(damagePowerUpTimer) >= 20)
         {
             spawnDamagePowerUp();
             damagePowerUpTimer = 0;
