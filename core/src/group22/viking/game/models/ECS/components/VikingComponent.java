@@ -10,7 +10,7 @@ public class VikingComponent implements Component {
     public static final float DEFAULT_SPEED = 8F;
     public static final float DEFAULT_DAMAGE = 50;
     public static final float DEFAULT_HEALTH = 200;
-    public static final long DEFAULT_SCORE_REWARD = 200;
+    public static final long DEFAULT_SCORE_REWARD = 10;
     // default
     private float health = DEFAULT_HEALTH;
     private float damage = DEFAULT_DAMAGE;

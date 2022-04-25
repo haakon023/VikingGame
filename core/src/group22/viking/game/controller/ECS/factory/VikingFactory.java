@@ -134,10 +134,10 @@ public class VikingFactory extends AbstractFactory {
                 0.5F,
                 Assets.getTexture(Assets.VIKING_SHIP_SPECIAL),
                 RenderingSystem.pixelsToMeters(150F),
-                300,
-                20,
-                6,
-                75
+                2 * VikingComponent.DEFAULT_HEALTH,
+                2 * VikingComponent.DEFAULT_SCORE_REWARD,
+                0.5F * VikingComponent.DEFAULT_SPEED,
+                1.5F * VikingComponent.DEFAULT_DAMAGE
         );
     }
 
