@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.Lobby;
+import group22.viking.game.models.firebase.documents.Lobby;
 import group22.viking.game.models.Assets;
 
 public class MenuView extends View {

@@ -6,12 +6,12 @@ import java.util.logging.Level;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.Lobby;
-import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
-import group22.viking.game.controller.firebase.PlayerStatus;
-import group22.viking.game.controller.firebase.PlayerStatusCollection;
-import group22.viking.game.controller.firebase.Profile;
+import group22.viking.game.models.firebase.FirebaseDocument;
+import group22.viking.game.models.firebase.documents.Lobby;
+import group22.viking.game.firebase.listeners.OnCollectionUpdatedListener;
+import group22.viking.game.models.firebase.documents.PlayerStatus;
+import group22.viking.game.firebase.collections.PlayerStatusCollection;
+import group22.viking.game.models.firebase.documents.Profile;
 import group22.viking.game.models.Assets;
 
 public class OnlinePlayState extends AbstractPlayState{

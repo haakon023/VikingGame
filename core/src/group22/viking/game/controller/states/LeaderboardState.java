@@ -9,10 +9,10 @@ import java.util.logging.Level;
 
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.controller.firebase.FirebaseDocument;
-import group22.viking.game.controller.firebase.OnCollectionUpdatedListener;
-import group22.viking.game.controller.firebase.Profile;
-import group22.viking.game.controller.firebase.ProfileCollection;
+import group22.viking.game.models.firebase.FirebaseDocument;
+import group22.viking.game.firebase.listeners.OnCollectionUpdatedListener;
+import group22.viking.game.models.firebase.documents.Profile;
+import group22.viking.game.firebase.collections.ProfileCollection;
 import group22.viking.game.models.Assets;
 import group22.viking.game.view.LeaderboardView;
 import group22.viking.game.view.SoundManager;
@@ -91,8 +91,6 @@ public class LeaderboardState extends State {
 
     @Override
     public void dispose() {
-        getView().getExitButton().removeListener(
-                getView().getExitButton().getClickListener()
-        );
+        removeAllNonDefaultListeners(getView().getExitButton());
     }
 }

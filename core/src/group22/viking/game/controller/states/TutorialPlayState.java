@@ -2,12 +2,12 @@ package group22.viking.game.controller.states;
 
 import com.badlogic.gdx.math.Vector2;
 
-import group22.viking.game.models.ECS.systems.TutorialVikingSystem;
-import group22.viking.game.models.ECS.systems.VikingSystem;
+import group22.viking.game.controller.ECS.systems.TutorialVikingSystem;
+import group22.viking.game.controller.ECS.systems.VikingSystem;
 import group22.viking.game.controller.GameStateManager;
 import group22.viking.game.controller.VikingGame;
-import group22.viking.game.models.factory.PowerUpFactory;
-import group22.viking.game.models.factory.VikingFactory;
+import group22.viking.game.controller.ECS.factory.PowerUpFactory;
+import group22.viking.game.controller.ECS.factory.VikingFactory;
 import group22.viking.game.models.powerups.IPowerUp;
 
 public class TutorialPlayState extends OfflinePlayState {
