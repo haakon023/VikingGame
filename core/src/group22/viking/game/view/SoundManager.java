@@ -13,7 +13,7 @@ public class SoundManager {
     public static void buttonClickSound(){
         if(isSoundOn()){
             long soundButtonId = Assets.SOUND_BUTTON.play(1f);
-            Assets.SOUND_BUTTON.setPitch(soundButtonId,1f);
+            Assets.SOUND_BUTTON.setPitch(soundButtonId,0.6f);
             Assets.SOUND_BUTTON.setLooping(soundButtonId,false);
         }
     }
@@ -74,6 +74,30 @@ public class SoundManager {
 
     public static boolean isSoundOn() {
         return VikingGame.getInstance().getPreferences().getBoolean(PREFERENCE_KEY_SOUND);
+    }
+
+    public static void playWaveBeginSound(){
+        if(isSoundOn()){
+            long soundButtonId = Assets.SOUND_DANGER.play(0.9f);
+            Assets.SOUND_DANGER.setPitch(soundButtonId,0.9f);
+            Assets.SOUND_DANGER.setLooping(soundButtonId,false);
+        }
+    }
+
+    public static void playArrowShotSound(){
+        if(isSoundOn()){
+            long soundButtonId = Assets.SOUND_BOWFIRE.play(0.7f);
+            Assets.SOUND_BOWFIRE.setPitch(soundButtonId,0.7f);
+            Assets.SOUND_BOWFIRE.setLooping(soundButtonId,false);
+        }
+    }
+
+    public static void playGotDamageSound(){
+        if(isSoundOn()){
+            long soundButtonId = Assets.SOUND_GOT_DAMAGE.play(0.5f);
+            Assets.SOUND_GOT_DAMAGE.setPitch(soundButtonId,0.5f);
+            Assets.SOUND_GOT_DAMAGE.setLooping(soundButtonId,false);
+        }
     }
 
 }

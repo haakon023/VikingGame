@@ -15,6 +15,7 @@ import group22.viking.game.models.ECS.components.TextureComponent;
 import group22.viking.game.models.ECS.components.TransformComponent;
 import group22.viking.game.models.ECS.components.VikingComponent;
 import group22.viking.game.controller.ECS.factory.ProjectileFactory;
+import group22.viking.game.view.SoundManager;
 
 public class VikingSystem extends IteratingSystem {
 
@@ -82,6 +83,7 @@ public class VikingSystem extends IteratingSystem {
             return false;
         }
         player.addToHealth(-viking.getDamage());
+        SoundManager.playGotDamageSound();
         viking.setTimeSinceLastAttack(0);
         return true;
     }
