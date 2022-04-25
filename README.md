@@ -334,4 +334,3 @@ Caio Wiebers
     |   |-- wrapper
     |       |-- gradle-wrapper.jar
     |       |-- gradle-wrapper.properties
-    ```
