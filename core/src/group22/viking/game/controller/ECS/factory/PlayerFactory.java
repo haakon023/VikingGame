@@ -27,20 +27,16 @@ public class PlayerFactory extends AbstractFactory {
                   Entity relatedHealthBar, PlayerStatusCollection playerStatusCollection) {
         return super.createEntity(TypeComponent.EntityType.PLAYER)
                 .add(engine.createComponent(TransformComponent.class)
-                        .setPosition(position)
-                        .setScale(new Vector2(scale, scale))
-                        .activateRotation()
+                        .init(position, new Vector2(scale, scale), true)
                 )
                 .add(engine.createComponent(TextureComponent.class)
-                        .setTextureRegion(new TextureRegion(texture))
+                        .init(new TextureRegion(texture))
                 )
                 .add(engine.createComponent(StateComponent.class)
-                        .set(StateComponent.STATE_NORMAL)
+                        .init(StateComponent.STATE_NORMAL)
                 )
                 .add(engine.createComponent(PlayerComponent.class)
-                        .init()
-                        .setHealthBar(relatedHealthBar)
-                        .setPlayerStatusCollection(playerStatusCollection)
+                        .init(relatedHealthBar, playerStatusCollection)
                 );
     }
 

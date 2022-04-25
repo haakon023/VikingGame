@@ -12,7 +12,7 @@ public class PowerUpComponent implements Component {
         return powerUp;
     }
 
-    public PowerUpComponent setPowerUp(IPowerUp powerUp) {
+    public PowerUpComponent init(IPowerUp powerUp) {
         this.powerUp = powerUp;
         return this;
     }

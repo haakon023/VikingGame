@@ -15,7 +15,7 @@ public class TypeComponent implements Component {
         TEXTURE
     }
 
-    public TypeComponent set(EntityType entityType) {
+    public TypeComponent init(EntityType entityType) {
         this.entityType = entityType;
         return this;
     }

@@ -6,35 +6,50 @@ import com.badlogic.ashley.core.Component;
 //In other words do we need setters?
 public class VikingComponent implements Component {
 
+    public static final float DEFAULT_ATTACK_RATE = 2F;  //attack at a rate of once per 2 seconds
+    public static final float DEFAULT_SPEED = 8F;
+    public static final float DEFAULT_DAMAGE = 50;
+    public static final float DEFAULT_HEALTH = 200;
+    public static final long DEFAULT_SCORE_REWARD = 200;
     // default
-    private float health = 200;
-    private float damage = 50;
-    private float attackRate = 2f;              //attack at a rate of once per 2 seconds
-    public long scoreReward = 10;
-    public float speed = 8;
+    private float health = DEFAULT_HEALTH;
+    private float damage = DEFAULT_DAMAGE;
+    private float attackRate = DEFAULT_ATTACK_RATE;
+    private long scoreReward = DEFAULT_SCORE_REWARD;
+    public float speed = DEFAULT_SPEED;
 
-    private float timeSinceLastAttack;
+    private float timeSinceLastAttack = 0;
 
     public float getSpeed() {
         return speed;
     }
 
-    public VikingComponent setSpeed(float speed) {
-        this.speed = speed;
+    public VikingComponent init() {
+        this.health = DEFAULT_HEALTH;
+        this.damage = DEFAULT_DAMAGE;
+        this.attackRate = DEFAULT_ATTACK_RATE;
+        this.scoreReward = DEFAULT_SCORE_REWARD;
+        this.speed = DEFAULT_SPEED;
+        this.timeSinceLastAttack = 0;
         return this;
     }
 
-    public void DealDamage(float amount){
+    public VikingComponent init(float health, float damage, float attackRate, float speed, long scoreReward) {
+        this.health = health;
+        this.damage = damage;
+        this.attackRate = attackRate;
+        this.scoreReward = scoreReward;
+        this.speed = speed;
+        this.timeSinceLastAttack = 0;
+        return this;
+    }
+
+    public void dealDamage(float amount){
         health -= amount;
     }
 
     public float getAttackRate() {
         return attackRate;
-    }
-
-    public VikingComponent setAttackRate(float attackRate) {
-        this.attackRate = attackRate;
-        return this;
     }
 
     public float getTimeSinceLastAttack() {
@@ -49,26 +64,11 @@ public class VikingComponent implements Component {
         return health;
     }
 
-    public VikingComponent setHealth(float health) {
-        this.health = health;
-        return this;
-    }
-
     public long getScoreReward() {
         return scoreReward;
     }
 
-    public VikingComponent setScoreReward(long scoreReward) {
-        this.scoreReward = scoreReward;
-        return this;
-    }
-
     public float getDamage() {
         return damage;
-    }
-
-    public VikingComponent setDamage(float damage) {
-        this.damage = damage;
-        return this;
     }
 }

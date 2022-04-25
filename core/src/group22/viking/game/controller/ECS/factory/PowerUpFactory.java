@@ -41,17 +41,16 @@ public class PowerUpFactory extends AbstractFactory {
         body.getFixtureList().first().setFilterData(filter);
         return entity
                 .add(engine.createComponent(TransformComponent.class)
-                        .setPosition(position)
-                        .setScale(new Vector2(scale, scale))
+                        .init(position, new Vector2(scale, scale), false)
                 )
                 .add(engine.createComponent(TextureComponent.class)
-                        .setTextureRegion(new TextureRegion(texture))
+                        .init(new TextureRegion(texture))
                 )
                 .add(engine.createComponent(PowerUpComponent.class)
-                    .setPowerUp(powerUp) // TODO
+                        .init(powerUp) // TODO
                 )
                 .add(engine.createComponent(B2dBodyComponent.class)
-                    .setBody(body, entity)
+                        .init(body, entity)
                 );
     }
 

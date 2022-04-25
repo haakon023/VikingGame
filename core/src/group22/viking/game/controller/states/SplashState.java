@@ -24,7 +24,7 @@ public class SplashState extends State {
     public SplashState(VikingGame game) {
         super(new SplashView(game.getBatch(), game.getCamera()), game);
 
-        // set transition to change from SplashState to LoadingState
+        // init transition to change from SplashState to LoadingState
         ((SplashView) view).getGoatIcon().addAction(sequence(alpha(0),scaleTo(.1f,.1f),
                 parallel(fadeIn(2f, Interpolation.pow2),
                         scaleTo(2f,2f,2.5f,Interpolation.pow5),

@@ -1,7 +1,5 @@
 package group22.viking.game.controller.ECS.factory;
 
-import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
@@ -42,16 +40,16 @@ public class VikingFactory extends AbstractFactory {
         body.getFixtureList().first().setFilterData(filter);
         return entity
                 .add(engine.createComponent(TransformComponent.class)
-                        .setPosition(position)
-                        .setScale(new Vector2(scale, scale))
-                        .deactivateRotation()
+                        .init(position, new Vector2(scale, scale),false)
                 )
                 .add(engine.createComponent(TextureComponent.class)
-                        .setTextureRegion(new TextureRegion(texture))
+                        .init(new TextureRegion(texture))
                 )
-                .add(engine.createComponent(VikingComponent.class))
+                .add(engine.createComponent(VikingComponent.class)
+                        .init()
+                )
                 .add(engine.createComponent(B2dBodyComponent.class)
-                        .setBody(body, entity)
+                        .init(body, entity)
                 )
                 .add(engine.createComponent(CollisionComponent.class));
     }
@@ -75,20 +73,20 @@ public class VikingFactory extends AbstractFactory {
         body.getFixtureList().first().setFilterData(filter);
         return entity
                 .add(engine.createComponent(TransformComponent.class)
-                        .setPosition(position)
-                        .setScale(new Vector2(scale, scale))
+                        .init(position, new Vector2(scale, scale), false)
                 )
                 .add(engine.createComponent(TextureComponent.class)
-                        .setTextureRegion(new TextureRegion(texture))
+                        .init(new TextureRegion(texture))
                 )
                 .add(engine.createComponent(VikingComponent.class)
-                        .setHealth(health)
-                        .setScoreReward(reward)
-                        .setSpeed(speed)
-                        .setDamage(damage)
+                        .init(health,
+                                damage,
+                                VikingComponent.DEFAULT_ATTACK_RATE,
+                                speed,
+                                reward)
                 )
                 .add(engine.createComponent(B2dBodyComponent.class)
-                        .setBody(body, entity)
+                        .init(body, entity)
                 )
                 .add(engine.createComponent(CollisionComponent.class));
     }

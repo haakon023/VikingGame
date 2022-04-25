@@ -35,12 +35,10 @@ public class ProjectileFactory extends AbstractFactory {
     Entity create(Vector3 position, float scale, Texture texture) {
         return super.createEntity(TypeComponent.EntityType.BULLET)
                 .add(engine.createComponent(TransformComponent.class)
-                        .setPosition(position)
-                        .setScale(new Vector2(scale, scale))
-                        .activateRotation()
+                        .init(position, new Vector2(scale, scale), true)
                 )
                 .add(engine.createComponent(TextureComponent.class)
-                        .setTextureRegion(new TextureRegion(texture))
+                        .init(new TextureRegion(texture))
                 );
     }
 
@@ -50,7 +48,7 @@ public class ProjectileFactory extends AbstractFactory {
                 0.3F,
                 Assets.getTexture(Assets.ARROW_SPRITE)
         );
-        return entity.add(engine.createComponent(HomingProjectileComponent.class).setSpeed(200));
+        return entity.add(engine.createComponent(HomingProjectileComponent.class).init(200));
     }
 
     public Entity createLinearProjectile(float x, float y)
@@ -70,10 +68,10 @@ public class ProjectileFactory extends AbstractFactory {
 
         return entity
                 .add(engine.createComponent(B2dBodyComponent.class)
-                        .setBody(body, entity)
+                        .init(body, entity)
                 )
                 .add(engine.createComponent(LinearProjectileComponent.class)
-                        .setSpeed(100)
+                        .init(100)
                 )
                 .add(engine.createComponent(CollisionComponent.class));
     }

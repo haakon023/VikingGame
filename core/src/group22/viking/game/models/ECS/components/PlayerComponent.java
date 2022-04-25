@@ -14,11 +14,16 @@ public class PlayerComponent implements Component{
 
     public Entity healthBar = null;
 
-    public float fireRate = 0.2f; // shoot every half second
+    public static final float INITIAL_FIRE_RATE = 0.2F;
+    public float fireRate = INITIAL_FIRE_RATE;
     public float attackDamage = 100;
 
-    public PlayerComponent init() {
+    public PlayerComponent init(Entity healthBar, PlayerStatusCollection playerStatusCollection) {
         this.health = MAX_HEALTH;
+        this.healthBar = healthBar;
+        this.fireRate = INITIAL_FIRE_RATE;
+        this.playerStatusCollection = playerStatusCollection;
+        this.attackDamage = 100;
         return this;
     }
 
@@ -45,16 +50,6 @@ public class PlayerComponent implements Component{
     }
     public long getHealth() {
         return health;
-    }
-
-    public PlayerComponent setHealthBar(Entity healthBar) {
-        this.healthBar = healthBar;
-        return this;
-    }
-
-    public PlayerComponent setPlayerStatusCollection(PlayerStatusCollection playerStatusCollection) {
-        this.playerStatusCollection = playerStatusCollection;
-        return this;
     }
 
     public boolean isDead() {
