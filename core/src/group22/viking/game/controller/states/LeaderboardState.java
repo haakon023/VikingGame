@@ -91,8 +91,6 @@ public class LeaderboardState extends State {
 
     @Override
     public void dispose() {
-        getView().getExitButton().removeListener(
-                getView().getExitButton().getClickListener()
-        );
+        removeAllNonDefaultListeners(getView().getExitButton());
     }
 }

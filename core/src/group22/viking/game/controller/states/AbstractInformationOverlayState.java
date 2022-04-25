@@ -21,9 +21,6 @@ public abstract class AbstractInformationOverlayState extends State{
 
     @Override
     public void dispose() {
-        DelayedRemovalArray<EventListener> listeners = getView().getConfirmButton().getListeners();
-        getView().getConfirmButton().removeListener(
-                listeners.pop()
-        );
+        removeAllNonDefaultListeners(getView().getConfirmButton());
     }
 }

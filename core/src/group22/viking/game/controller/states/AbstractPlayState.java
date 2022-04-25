@@ -87,7 +87,7 @@ public abstract class AbstractPlayState extends State{
             engine.addSystem(new PhysicsSystem(world));
             engine.addSystem(vikingSystem);
             engine.addSystem(renderingSystem);
-            engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+            //engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
             engine.addSystem(new HomingProjectileSystem());
             engine.addSystem(collisionSystem);
             engine.addSystem(new LinearProjectileSystem(world));

@@ -53,7 +53,7 @@ public class MenuState extends State {
 
     @Override
     public void dispose() {
-
+        // gets never disposed
     }
 
     private void refreshAvatar() {

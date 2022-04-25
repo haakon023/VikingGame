@@ -129,14 +129,8 @@ public class ProfileSettingsState extends State {
 
     @Override
     public void dispose() {
-        getView().getLeftButton().removeListener(
-                getView().getLeftButton().getClickListener()
-        );
-        getView().getRightButton().removeListener(
-                getView().getRightButton().getClickListener()
-        );
-        getView().getSubmitChangesButton().removeListener(
-                getView().getSubmitChangesButton().getClickListener()
-        );
+        removeAllNonDefaultListeners(getView().getLeftButton());
+        removeAllNonDefaultListeners(getView().getRightButton());
+        removeAllNonDefaultListeners(getView().getSubmitChangesButton());
     }
 }
