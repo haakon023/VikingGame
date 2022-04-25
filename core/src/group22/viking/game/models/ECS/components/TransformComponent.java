@@ -11,23 +11,16 @@ public class TransformComponent implements Component {
     public boolean isRotating = false;
     public boolean isHidden = false;
 
-    public TransformComponent setPosition(Vector3 position) {
+    public TransformComponent init(
+            Vector3 position,
+            Vector2 scale,
+            boolean isRotating
+    ) {
         this.position.set(position);
-        return this;
-    }
-
-    public TransformComponent setScale(Vector2 scale) {
         this.scale.set(scale);
-        return this;
-    }
-
-    public TransformComponent activateRotation() {
-        this.isRotating = true;
-        return this;
-    }
-
-    public TransformComponent deactivateRotation() {
-        this.isRotating = false;
+        this.rotation = 0F;
+        this.isRotating = isRotating;
+        this.isHidden = false;
         return this;
     }
 }

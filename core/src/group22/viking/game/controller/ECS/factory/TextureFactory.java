@@ -37,12 +37,10 @@ public class TextureFactory extends AbstractFactory {
     Entity create(Vector3 position, float scale, Texture texture) {
         return super.createEntity(TypeComponent.EntityType.TEXTURE)
                 .add(engine.createComponent(TransformComponent.class)
-                        .setPosition(position)
-                        .setScale(new Vector2(scale, scale))
-                        .deactivateRotation()
+                        .init(position, new Vector2(scale, scale), false)
                 )
                 .add(engine.createComponent(TextureComponent.class)
-                    .setTextureRegion(new TextureRegion(texture))
+                        .init(new TextureRegion(texture))
                 );
     }
 

@@ -15,7 +15,7 @@ public abstract class AbstractFactory {
     }
 
     Entity createEntity(TypeComponent.EntityType type) {
-        TypeComponent tyc = engine.createComponent(TypeComponent.class).set(type);
+        TypeComponent tyc = engine.createComponent(TypeComponent.class).init(type);
         return engine.createEntity().add(tyc);
     }
 }

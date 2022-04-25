@@ -116,7 +116,7 @@ public class MenuView extends View {
     }
 
     private void createButtons() {
-        //todo set the texture to the user specific profile image
+        //todo init the texture to the user specific profile image
         tutorialButton = ViewComponentFactory.createTextButton(
                 Assets.t("menu_button_tutorial"),
                 new Vector2(150, VikingGame.getInstance().SCREEN_HEIGHT/2+80-50),

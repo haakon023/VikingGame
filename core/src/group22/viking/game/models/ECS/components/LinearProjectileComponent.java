@@ -10,14 +10,13 @@ public class LinearProjectileComponent implements Component {
     public static final float MAX_TIME_ALIVE = 2F; // in seconds
     public float timeAlive;
 
-    public float getSpeed() {
-        return speed;
+    public LinearProjectileComponent init(float speed) {
+        this.speed = speed;
+        return this;
     }
 
-    public LinearProjectileComponent setSpeed(float value)
-    {
-        speed = value;
-        return this;
+    public float getSpeed() {
+        return speed;
     }
 
     public void setDirection(Vector3 direction) {

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class B2dBodyComponent implements Component {
     public Body body;
 
-    public B2dBodyComponent setBody(Body body, Entity entity) {
+    public B2dBodyComponent init(Body body, Entity entity) {
         this.body = body;
         this.body.setUserData(entity);
         return this;

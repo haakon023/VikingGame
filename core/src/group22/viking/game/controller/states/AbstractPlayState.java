@@ -64,7 +64,7 @@ public abstract class AbstractPlayState extends State{
     private float damagePowerUpTimer;
 
 
-    private int cycle = 1;
+    private int cycle = 0;
 
 
 
@@ -149,61 +149,18 @@ public abstract class AbstractPlayState extends State{
     {
         if(type == Type.TUTORIAL) return;
         VikingFactory vikingFactory = new VikingFactory(engine, world);
-        for (int i=0; i < Math.round(cycle); i++)
-        {
-            double randomX = Math.random();
-            double randomY = Math.random();
-            if (cycle %2 == 0 && cycle < 10)
-            {
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        (float) (RenderingSystem.getMeterWidth() * randomX),
-                        RenderingSystem.getMeterHeight()
-                ));
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        (RenderingSystem.getMeterWidth()),
-                        (float) (RenderingSystem.getMeterHeight() * randomY)
-                ));
-            }
-            else if (cycle < 4)
-            {
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        (float) (RenderingSystem.getMeterWidth() * randomX),
-                        0
-                ));
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        0,
-                        (float) (RenderingSystem.getMeterHeight() * randomY)
-                ));
-            }
-            // Testing to add a new viking type:
-            else if (cycle %6 == 0) {
-                engine.addEntity(vikingFactory.createSpecialShip(
-                        (float) (RenderingSystem.getMeterWidth() * randomX),
-                        (float) (RenderingSystem.getMeterHeight() * randomY)
-                ));
-            }
-            else
-            {
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        (float) (RenderingSystem.getMeterWidth() * randomX),
-                        RenderingSystem.getMeterHeight()
-                ));
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        (RenderingSystem.getMeterWidth()),
-                        (float) (RenderingSystem.getMeterHeight() * randomY)
-                ));
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        (float) (RenderingSystem.getMeterWidth() * randomX),
-                        0
-                ));
-                engine.addEntity(vikingFactory.createDefaultShip(
-                        0,
-                        (float) (RenderingSystem.getMeterHeight() * randomY)
-                ));
-            }
-
-        }
         cycle++;
+        if (cycle % 6 == 5) {
+            // special wave
+            for (int i=0; i <= cycle / 2; i++) {
+                engine.addEntity(vikingFactory.createSpecialShipAtEdge(VikingFactory.Edge.get(i)));
+            }
+            return;
+        }
+        // default wave
+        for (int i=0; i <= cycle; i++) {
+            engine.addEntity(vikingFactory.createDefaultShipAtEdge(VikingFactory.Edge.get(i)));
+        }
     }
 
     private void spawnHealthPowerUp()
@@ -225,6 +182,9 @@ public abstract class AbstractPlayState extends State{
         engine.addEntity(powerUpFactory.createHealthPowerUp( (float) x, (float) y, new HealthPowerUp()));
     }
 
+    /**
+     * created method for testing M4
+     */
     private void spawnDamagePowerUp()
     {
         if(type == Type.TUTORIAL) return;
